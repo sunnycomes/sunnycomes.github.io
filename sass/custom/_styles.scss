@@ -1,2 +1,19 @@
 // This File is imported last, and will override other styles in the cascade
 // Add styles here to make changes without digging in too much
+#content>div>b>section
+{
+	padding-left: 55px;
+	padding-right: 55px;
+}
+
+.entry-content>p
+{
+	text-indent:1em;
+	margin-bottom:10px;
+}
+
+.entry-content>ul,.entry-content>ol
+{
+	margin-left:40px;
+	margin-bottom:18px;
+}

@@ -3,7 +3,7 @@ layout: post
 title: "Markdown Syntax Guide"
 date: 2013-11-30 21:35:48 +0800
 comments: true
-categories: 
+categories: stuff
 ---
 This post is from [here](http://sourceforge.net/p/forge/documentation/markdown_syntax/#md_ex_links "thanks to the origin author."). Thanks to the origin author.
 Markdown was created to be easy to read, easy to write, and still readable in plain text format.

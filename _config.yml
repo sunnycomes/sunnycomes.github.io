@@ -2,10 +2,10 @@
 #      Main Configs       #
 # ----------------------- #
 
-url: http://sunnycomes.github.io
-title: My Octopress Blog
-subtitle: A blogging framework for hackers.
-author: Your Name
+url: http://www.iovi.com
+title: I/O View
+subtitle: Do one thing at a time, and do well.
+author: Sunny
 simple_search: http://google.com/search
 description:
 
@@ -69,25 +69,25 @@ github_show_profile_link: true
 github_skip_forks: true
 
 # Twitter
-twitter_user:
-twitter_tweet_button: true
+#twitter_user:
+#twitter_tweet_button: true
 
 # Google +1
-google_plus_one: false
-google_plus_one_size: medium
+#google_plus_one: false
+#google_plus_one_size: medium
 
 # Google Plus Profile
 # Hidden: No visible button, just add author information to search results
-googleplus_user:
-googleplus_hidden: false
+#googleplus_user:
+#googleplus_hidden: false
 
 # Pinboard
-pinboard_user:
-pinboard_count: 3
+#pinboard_user:
+#pinboard_count: 3
 
 # Delicious
-delicious_user:
-delicious_count: 3
+#delicious_user:
+#delicious_count: 3
 
 # Disqus Comments
 disqus_short_name: sunnycomes
@@ -97,4 +97,6 @@ disqus_show_comment_count: true
 google_analytics_tracking_id: UA-43860851-1
 
 # Facebook Like
-facebook_like: false
+#facebook_like: false
+
+#default_asides: [asides/about.html, asides/recent_posts.html, asides/categories_tag.html] 
