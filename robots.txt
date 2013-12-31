@@ -1,4 +1,4 @@
 User-agent: *
 Disallow: 
 
-Sitemap: http://sunnycomes.github.io/sitemap.xml 
+Sitemap: http://www.iovi.com/sitemap.xml 

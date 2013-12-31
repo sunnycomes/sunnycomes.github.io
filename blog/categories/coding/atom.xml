@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
 
-  <title><![CDATA[Category: Java | My Octopress Blog]]></title>
-  <link href="http://sunnycomes.github.io/blog/categories/java/atom.xml" rel="self"/>
-  <link href="http://sunnycomes.github.io/"/>
-  <updated>2013-12-31T17:14:32+08:00</updated>
-  <id>http://sunnycomes.github.io/</id>
+  <title><![CDATA[Category: Coding | I/O View]]></title>
+  <link href="http://www.iovi.com/blog/categories/coding/atom.xml" rel="self"/>
+  <link href="http://www.iovi.com/"/>
+  <updated>2013-12-31T20:48:54+08:00</updated>
+  <id>http://www.iovi.com/</id>
   <author>
-    <name><![CDATA[Your Name]]></name>
+    <name><![CDATA[Sunny]]></name>
     
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[Basic Practical Usage of JDBC API]]></title>
-    <link href="http://sunnycomes.github.io/blog/2013/12/31/basic-practical-usage-of-jdbc-api/"/>
-    <updated>2013-12-31T14:54:53+08:00</updated>
-    <id>http://sunnycomes.github.io/blog/2013/12/31/basic-practical-usage-of-jdbc-api</id>
+    <link href="http://www.iovi.com/blog/2013/10/31/basic-practical-usage-of-jdbc-api/"/>
+    <updated>2013-10-31T14:54:53+08:00</updated>
+    <id>http://www.iovi.com/blog/2013/10/31/basic-practical-usage-of-jdbc-api</id>
     <content type="html"><![CDATA[<p>The first version is completed on 2013.12.22 20:38, the main content is from <strong><em><a href="http://alumnus.caltech.edu/~chamness/JDBC_Tuning.pdf">here</a></em></strong>, thanks to the origin author Mark Chamness.This post is dedicated to illustrate techniques for optimizing JDBC API-based calls from the Java platform. As a result of this presentation, you will:</p>
 
 <ul>

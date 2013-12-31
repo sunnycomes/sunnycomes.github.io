@@ -1,181 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
 
-  <title><![CDATA[My Octopress Blog]]></title>
-  <link href="http://sunnycomes.github.io/atom.xml" rel="self"/>
-  <link href="http://sunnycomes.github.io/"/>
-  <updated>2013-12-31T17:14:32+08:00</updated>
-  <id>http://sunnycomes.github.io/</id>
+  <title><![CDATA[I/O View]]></title>
+  <link href="http://www.iovi.com/atom.xml" rel="self"/>
+  <link href="http://www.iovi.com/"/>
+  <updated>2013-12-31T20:48:54+08:00</updated>
+  <id>http://www.iovi.com/</id>
   <author>
-    <name><![CDATA[Your Name]]></name>
+    <name><![CDATA[Sunny]]></name>
     
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
   
   <entry>
-    <title type="html"><![CDATA[Basic Practical Usage of JDBC API]]></title>
-    <link href="http://sunnycomes.github.io/blog/2013/12/31/basic-practical-usage-of-jdbc-api/"/>
-    <updated>2013-12-31T14:54:53+08:00</updated>
-    <id>http://sunnycomes.github.io/blog/2013/12/31/basic-practical-usage-of-jdbc-api</id>
-    <content type="html"><![CDATA[<p>The first version is completed on 2013.12.22 20:38, the main content is from <strong><em><a href="http://alumnus.caltech.edu/~chamness/JDBC_Tuning.pdf">here</a></em></strong>, thanks to the origin author Mark Chamness.This post is dedicated to illustrate techniques for optimizing JDBC API-based calls from the Java platform. As a result of this presentation, you will:</p>
-
-<ul>
-<li>Design better JDBC implementations</li>
-<li>Recognize potential performance bottlenecks</li>
-<li>Make more money</li>
-</ul>
-
-
-<h1>Agenda</h1>
-
-<ol>
-<li>Why optimize?</li>
-<li>Basic API techniques.</li>
-<li>Design Strategies.</li>
-</ol>
-
-
-<h2>Why Optimize?</h2>
-
-<ul>
-<li>On average, a web request performs 4 database queries.</li>
-<li>Experience has shown that database calls are typical performance bottleneck.</li>
-<li>Bad JDBC can overwhelm the database.</li>
-</ul>
-
-
-<h3>SQL Statements</h3>
-
-<p>Most flexible
-Least reliable
-Must be recompiled in database for each use</p>
-
-<h4>PreparedStatement</h4>
-
-<p>Represents a precompiled SQL statement
-Can be used to efficiently execute statement multiple times
-Somewhat flexible 每can create new ones as needed</p>
-
-<h3>CallableStatement</h3>
-
-<p>Used to execute SQL stored procedures.
-Same syntax as PreparedStatement.
-Least flexible.
-Most optimized DB call.</p>
-
-<h2>Cache</h2>
-
-<p>Keep data within client to reduce the number of round-trips to the database.
-Lesson: The less JDBC the better.</p>
-
-<h2>Use Database Connection Pool</h2>
-
-<p>Don＊t use DriverManager.getConnection() often. JDBC connections can take 0.5 to 2 seconds to create.
-Create Pool of Connections and reuse them.
-Necessity for any production system.</p>
-
-<!-- more -->
-
-
-<h2>Use multi-threading with Connection Pooling to address network latency</h2>
-
-<p>Threads can issue queries over separate database connections.
-This improves performance to a point.</p>
-
-<pre><code>Single-batch Transactions
-    BEGIN TRANSACTION
-        UPDATE TABLE1... 
-        INSERT INTO TABLE2＃
-        DELETE TABLE3
-    COMMIT
-</code></pre>
-
-<h3>Single-batch Transactions</h3>
-
-<p>DB obtains necessary locks on rows and tables, uses and releases them in one step
-Depending on transaction type, separate statements and commits can result in more DB calls and hold DB locks longer</p>
-
-<h3>Single-batch Transaction Types&mdash;-Significantly different effects!</h3>
-
-<h4>java.sql.Connection</h4>
-
-<pre><code>TRANSACTION_READ_COMMITTED 
-TRANSACTION_READ_UNCOMMITTED 
-TRANSACTION_REPEATABLE_READ 
-TRANSACTION_SERIALIZABLE
-</code></pre>
-
-<h3>Don＊t have transaction span user input</h3>
-
-<p>Application sends BEGIN TRAN and SQL, locking rows or tables for update
-Application waits for user to press key before committing transaction</p>
-
-<h4>Solution: Optimistic locking</h4>
-
-<p>Optimistic locking employs timestamps and triggers in queries and updates
-Queries select data with timestamp values
-Prepare a transaction based on that data, without locking data in a transaction</p>
-
-<h2>Smart Queries</h2>
-
-<ul>
-<li>Make queries as specific as possible</li>
-<li>Put more logic into SQL statements</li>
-<li>DB are designed to use SQL efficiently</li>
-<li>Proper use of SQL can avoid performance problems</li>
-</ul>
-
-
-<p>Smart Query Ex: get employees in ENG dept   , Instead of:</p>
-
-<pre><code>SELECT * FROM employees; 
-SELECT * FROM dept;
-</code></pre>
-
-<p>(and joining on Java application side), <strong>use database join:</strong></p>
-
-<pre><code>SELECT employees.* FROM employees E, dept D 
-WHERE E.DEPTNO = D.DEPTNO AND D.DEPTTYPE = ＆ENG＊;
-</code></pre>
-
-<p>Minimize ResultSet before crossing network
-Many performance problems come from moving raw data around needlessly</p>
-
-<h3>Smart Query Guidelines</h3>
-
-<ul>
-<li>Use DB for filtering</li>
-<li>Use Java for business logic</li>
-<li>DB does filtering very well</li>
-<li>DB business logic is poor(At least very inconsistent between database vendors.)</li>
-</ul>
-
-
-<h3>Keep operational data set small as possible</h3>
-
-<ul>
-<li>Move non-current data to other tables and do joins for rarer historical queries</li>
-<li>Otherwise, index and cluster so frequently used data is logically and physically localized</li>
-</ul>
-
-
-<h1>Optimization Stages</h1>
-
-<ol>
-<li>Leverage the strengths of the DB</li>
-<li>Use the full range of java.sql API</li>
-<li>Design for Performance 每Connection Pools, Multi-Threading, etc.</li>
-</ol>
-
-]]></content>
-  </entry>
-  
-  <entry>
     <title type="html"><![CDATA[Markdown Syntax Guide]]></title>
-    <link href="http://sunnycomes.github.io/blog/2013/11/30/simple-guide-for-markdown/"/>
+    <link href="http://www.iovi.com/blog/2013/11/30/simple-guide-for-markdown/"/>
     <updated>2013-11-30T21:35:48+08:00</updated>
-    <id>http://sunnycomes.github.io/blog/2013/11/30/simple-guide-for-markdown</id>
+    <id>http://www.iovi.com/blog/2013/11/30/simple-guide-for-markdown</id>
     <content type="html"><![CDATA[<p>This post is from <a href="http://sourceforge.net/p/forge/documentation/markdown_syntax/#md_ex_links" title="thanks to the origin author.">here</a>. Thanks to the origin author.
 Markdown was created to be easy to read, easy to write, and still readable in plain text format.</p>
 
@@ -218,7 +60,7 @@ Markdown was created to be easy to read, easy to write, and still readable in pl
 
 
 <blockquote><p><a href="http://someurl">http://someurl</a><br/>
-<a href="&#x6d;&#97;&#105;&#x6c;&#x74;&#111;&#58;&#x73;&#x6f;&#109;&#x65;&#x62;&#98;&#x6f;&#98;&#x40;&#101;&#x78;&#x61;&#109;&#112;&#108;&#x65;&#46;&#99;&#111;&#x6d;">&#x73;&#x6f;&#109;&#101;&#x62;&#98;&#x6f;&#x62;&#64;&#x65;&#120;&#x61;&#x6d;&#112;&#108;&#x65;&#46;&#x63;&#x6f;&#109;</a></p></blockquote>
+<a href="&#109;&#x61;&#105;&#x6c;&#x74;&#x6f;&#58;&#115;&#x6f;&#109;&#x65;&#x62;&#x62;&#x6f;&#x62;&#64;&#101;&#x78;&#97;&#x6d;&#x70;&#x6c;&#101;&#x2e;&#99;&#111;&#x6d;">&#x73;&#111;&#x6d;&#101;&#98;&#98;&#x6f;&#x62;&#64;&#101;&#x78;&#97;&#109;&#112;&#108;&#101;&#x2e;&#99;&#x6f;&#x6d;</a></p></blockquote>
 
 <p>To use text for the link, write it:</p>
 
@@ -638,10 +480,168 @@ you should escape <unknown> tags</p></blockquote>
   </entry>
   
   <entry>
+    <title type="html"><![CDATA[Basic Practical Usage of JDBC API]]></title>
+    <link href="http://www.iovi.com/blog/2013/10/31/basic-practical-usage-of-jdbc-api/"/>
+    <updated>2013-10-31T14:54:53+08:00</updated>
+    <id>http://www.iovi.com/blog/2013/10/31/basic-practical-usage-of-jdbc-api</id>
+    <content type="html"><![CDATA[<p>The first version is completed on 2013.12.22 20:38, the main content is from <strong><em><a href="http://alumnus.caltech.edu/~chamness/JDBC_Tuning.pdf">here</a></em></strong>, thanks to the origin author Mark Chamness.This post is dedicated to illustrate techniques for optimizing JDBC API-based calls from the Java platform. As a result of this presentation, you will:</p>
+
+<ul>
+<li>Design better JDBC implementations</li>
+<li>Recognize potential performance bottlenecks</li>
+<li>Make more money</li>
+</ul>
+
+
+<h1>Agenda</h1>
+
+<ol>
+<li>Why optimize?</li>
+<li>Basic API techniques.</li>
+<li>Design Strategies.</li>
+</ol>
+
+
+<h2>Why Optimize?</h2>
+
+<ul>
+<li>On average, a web request performs 4 database queries.</li>
+<li>Experience has shown that database calls are typical performance bottleneck.</li>
+<li>Bad JDBC can overwhelm the database.</li>
+</ul>
+
+
+<h3>SQL Statements</h3>
+
+<p>Most flexible
+Least reliable
+Must be recompiled in database for each use</p>
+
+<h4>PreparedStatement</h4>
+
+<p>Represents a precompiled SQL statement
+Can be used to efficiently execute statement multiple times
+Somewhat flexible 每can create new ones as needed</p>
+
+<h3>CallableStatement</h3>
+
+<p>Used to execute SQL stored procedures.
+Same syntax as PreparedStatement.
+Least flexible.
+Most optimized DB call.</p>
+
+<h2>Cache</h2>
+
+<p>Keep data within client to reduce the number of round-trips to the database.
+Lesson: The less JDBC the better.</p>
+
+<h2>Use Database Connection Pool</h2>
+
+<p>Don＊t use DriverManager.getConnection() often. JDBC connections can take 0.5 to 2 seconds to create.
+Create Pool of Connections and reuse them.
+Necessity for any production system.</p>
+
+<!-- more -->
+
+
+<h2>Use multi-threading with Connection Pooling to address network latency</h2>
+
+<p>Threads can issue queries over separate database connections.
+This improves performance to a point.</p>
+
+<pre><code>Single-batch Transactions
+    BEGIN TRANSACTION
+        UPDATE TABLE1... 
+        INSERT INTO TABLE2＃
+        DELETE TABLE3
+    COMMIT
+</code></pre>
+
+<h3>Single-batch Transactions</h3>
+
+<p>DB obtains necessary locks on rows and tables, uses and releases them in one step
+Depending on transaction type, separate statements and commits can result in more DB calls and hold DB locks longer</p>
+
+<h3>Single-batch Transaction Types&mdash;-Significantly different effects!</h3>
+
+<h4>java.sql.Connection</h4>
+
+<pre><code>TRANSACTION_READ_COMMITTED 
+TRANSACTION_READ_UNCOMMITTED 
+TRANSACTION_REPEATABLE_READ 
+TRANSACTION_SERIALIZABLE
+</code></pre>
+
+<h3>Don＊t have transaction span user input</h3>
+
+<p>Application sends BEGIN TRAN and SQL, locking rows or tables for update
+Application waits for user to press key before committing transaction</p>
+
+<h4>Solution: Optimistic locking</h4>
+
+<p>Optimistic locking employs timestamps and triggers in queries and updates
+Queries select data with timestamp values
+Prepare a transaction based on that data, without locking data in a transaction</p>
+
+<h2>Smart Queries</h2>
+
+<ul>
+<li>Make queries as specific as possible</li>
+<li>Put more logic into SQL statements</li>
+<li>DB are designed to use SQL efficiently</li>
+<li>Proper use of SQL can avoid performance problems</li>
+</ul>
+
+
+<p>Smart Query Ex: get employees in ENG dept   , Instead of:</p>
+
+<pre><code>SELECT * FROM employees; 
+SELECT * FROM dept;
+</code></pre>
+
+<p>(and joining on Java application side), <strong>use database join:</strong></p>
+
+<pre><code>SELECT employees.* FROM employees E, dept D 
+WHERE E.DEPTNO = D.DEPTNO AND D.DEPTTYPE = ＆ENG＊;
+</code></pre>
+
+<p>Minimize ResultSet before crossing network
+Many performance problems come from moving raw data around needlessly</p>
+
+<h3>Smart Query Guidelines</h3>
+
+<ul>
+<li>Use DB for filtering</li>
+<li>Use Java for business logic</li>
+<li>DB does filtering very well</li>
+<li>DB business logic is poor(At least very inconsistent between database vendors.)</li>
+</ul>
+
+
+<h3>Keep operational data set small as possible</h3>
+
+<ul>
+<li>Move non-current data to other tables and do joins for rarer historical queries</li>
+<li>Otherwise, index and cluster so frequently used data is logically and physically localized</li>
+</ul>
+
+
+<h1>Optimization Stages</h1>
+
+<ol>
+<li>Leverage the strengths of the DB</li>
+<li>Use the full range of java.sql API</li>
+<li>Design for Performance 每Connection Pools, Multi-Threading, etc.</li>
+</ol>
+
+]]></content>
+  </entry>
+  
+  <entry>
     <title type="html"><![CDATA[Short List of MySQL Commands]]></title>
-    <link href="http://sunnycomes.github.io/blog/2013/09/06/short-list-of-mysql-commands/"/>
+    <link href="http://www.iovi.com/blog/2013/09/06/short-list-of-mysql-commands/"/>
     <updated>2013-09-06T14:50:01+08:00</updated>
-    <id>http://sunnycomes.github.io/blog/2013/09/06/short-list-of-mysql-commands</id>
+    <id>http://www.iovi.com/blog/2013/09/06/short-list-of-mysql-commands</id>
     <content type="html"><![CDATA[<ul>
 <li><p>The first version is completed on 2013.12.22 21:38, the main content is from <strong><em><a href="http://www.bios.niu.edu/johns/bioinform/mysql_commands.htm">here</a></em></strong>, thanks to the origin author.</p></li>
 <li><p>The second version is updated on 2013.12.27 8:59, Backup tool is added, the complementary part is mainly from <strong><em><a href="http://webcheatsheet.com/sql/mysql_backup_restore.php">here</a></em></strong>, thanks to the origin author.</p></li>

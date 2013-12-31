@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
 
-  <title><![CDATA[Category: Database | My Octopress Blog]]></title>
-  <link href="http://sunnycomes.github.io/blog/categories/database/atom.xml" rel="self"/>
-  <link href="http://sunnycomes.github.io/"/>
-  <updated>2013-12-31T17:14:32+08:00</updated>
-  <id>http://sunnycomes.github.io/</id>
+  <title><![CDATA[Category: Web-server | I/O View]]></title>
+  <link href="http://www.iovi.com/blog/categories/web-server/atom.xml" rel="self"/>
+  <link href="http://www.iovi.com/"/>
+  <updated>2013-12-31T20:48:54+08:00</updated>
+  <id>http://www.iovi.com/</id>
   <author>
-    <name><![CDATA[Your Name]]></name>
+    <name><![CDATA[Sunny]]></name>
     
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[Short List of MySQL Commands]]></title>
-    <link href="http://sunnycomes.github.io/blog/2013/09/06/short-list-of-mysql-commands/"/>
+    <link href="http://www.iovi.com/blog/2013/09/06/short-list-of-mysql-commands/"/>
     <updated>2013-09-06T14:50:01+08:00</updated>
-    <id>http://sunnycomes.github.io/blog/2013/09/06/short-list-of-mysql-commands</id>
+    <id>http://www.iovi.com/blog/2013/09/06/short-list-of-mysql-commands</id>
     <content type="html"><![CDATA[<ul>
 <li><p>The first version is completed on 2013.12.22 21:38, the main content is from <strong><em><a href="http://www.bios.niu.edu/johns/bioinform/mysql_commands.htm">here</a></em></strong>, thanks to the origin author.</p></li>
 <li><p>The second version is updated on 2013.12.27 8:59, Backup tool is added, the complementary part is mainly from <strong><em><a href="http://webcheatsheet.com/sql/mysql_backup_restore.php">here</a></em></strong>, thanks to the origin author.</p></li>
