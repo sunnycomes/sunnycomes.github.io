@@ -5,11 +5,12 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>My Octopress Blog</title>
+  <title>Short List of MySQL Commands - My Octopress Blog</title>
   <meta name="author" content="Your Name">
 
   
-  <meta name="description" content="The first version is completed on 2013.12.22 20:38, the main content is from here, thanks to the origin author Mark Chamness.This post is dedicated &hellip;">
+  <meta name="description" content="The first version is completed on 2013.12.22 21:38, the main content is from here, thanks to the origin author.
+The second version is updated on &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -18,7 +19,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://sunnycomes.github.io">
+  <link rel="canonical" href="http://sunnycomes.github.io/blog/2013/09/06/short-list-of-mysql-commands">
   <link href="/favicon.png" rel="icon">
   <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
   <link href="/atom.xml" rel="alternate" title="My Octopress Blog" type="application/atom+xml">
@@ -90,194 +91,12 @@
 </nav>
   <div id="main">
     <div id="content">
-      <div class="blog-index">
+      <div>
+<article class="hentry" role="article">
   
-  
-  
-    <article>
-      
   <header>
     
-      <h1 class="entry-title"><a href="/blog/2013/12/31/basic-practical-usage-of-jdbc-api/">Basic Practical Usage of JDBC API</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2013-12-31T14:54:53+08:00" pubdate data-updated="true">Dec 31<span>st</span>, 2013</time>
-        
-           | <a href="/blog/2013/12/31/basic-practical-usage-of-jdbc-api/#disqus_thread"
-             data-disqus-identifier="http://sunnycomes.github.io/blog/2013/12/31/basic-practical-usage-of-jdbc-api/">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>The first version is completed on 2013.12.22 20:38, the main content is from <strong><em><a href="http://alumnus.caltech.edu/~chamness/JDBC_Tuning.pdf">here</a></em></strong>, thanks to the origin author Mark Chamness.This post is dedicated to illustrate techniques for optimizing JDBC API-based calls from the Java platform. As a result of this presentation, you will:</p>
-
-<ul>
-<li>Design better JDBC implementations</li>
-<li>Recognize potential performance bottlenecks</li>
-<li>Make more money</li>
-</ul>
-
-
-<h1>Agenda</h1>
-
-<ol>
-<li>Why optimize?</li>
-<li>Basic API techniques.</li>
-<li>Design Strategies.</li>
-</ol>
-
-
-<h2>Why Optimize?</h2>
-
-<ul>
-<li>On average, a web request performs 4 database queries.</li>
-<li>Experience has shown that database calls are typical performance bottleneck.</li>
-<li>Bad JDBC can overwhelm the database.</li>
-</ul>
-
-
-<h3>SQL Statements</h3>
-
-<p>Most flexible
-Least reliable
-Must be recompiled in database for each use</p>
-
-<h4>PreparedStatement</h4>
-
-<p>Represents a precompiled SQL statement
-Can be used to efficiently execute statement multiple times
-Somewhat flexible ¨Ccan create new ones as needed</p>
-
-<h3>CallableStatement</h3>
-
-<p>Used to execute SQL stored procedures.
-Same syntax as PreparedStatement.
-Least flexible.
-Most optimized DB call.</p>
-
-<h2>Cache</h2>
-
-<p>Keep data within client to reduce the number of round-trips to the database.
-Lesson: The less JDBC the better.</p>
-
-<h2>Use Database Connection Pool</h2>
-
-<p>Don¡¯t use DriverManager.getConnection() often. JDBC connections can take 0.5 to 2 seconds to create.
-Create Pool of Connections and reuse them.
-Necessity for any production system.</p>
-
-</div>
-  
-  
-    <footer>
-      <a rel="full-article" href="/blog/2013/12/31/basic-practical-usage-of-jdbc-api/">Read on &rarr;</a>
-    </footer>
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2013/11/30/simple-guide-for-markdown/">Markdown Syntax Guide</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2013-11-30T21:35:48+08:00" pubdate data-updated="true">Nov 30<span>th</span>, 2013</time>
-        
-           | <a href="/blog/2013/11/30/simple-guide-for-markdown/#disqus_thread"
-             data-disqus-identifier="http://sunnycomes.github.io/blog/2013/11/30/simple-guide-for-markdown/">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>This post is from <a href="http://sourceforge.net/p/forge/documentation/markdown_syntax/#md_ex_links" title="thanks to the origin author.">here</a>. Thanks to the origin author.
-Markdown was created to be easy to read, easy to write, and still readable in plain text format.</p>
-
-<ol>
-<li><a href="#links">Links</a></li>
-<li><a href="#reference_links">Reference Links</a></li>
-<li><a href="#artifact_links">Artifact Links</a></li>
-<li><a href="#basic_text_formatting">Basic Text Formatting</a></li>
-<li><a href="#blockquotes">Blockquotes</a></li>
-<li><a href="#preformatted_text">Preformatted Text</a></li>
-<li><a href="#lists">Lists</a></li>
-<li><a href="#tables">Tables</a>(We will talk about this feature)</li>
-<li>Headers(Removed)</li>
-<li><a href="#more_headers">More Headers</a></li>
-<li><a href="#horizontal_rules">Horizontal Rules</a></li>
-<li><a href="#images">Images</a></li>
-<li>Videos(Removed)</li>
-<li><a href="#escapes_and_html">Escapes and HTML</a></li>
-<li>Table of Contents(Removed)</li>
-<li><a href="#code_highlighting">Code Highlighting</a></li>
-<li>Includes(Removed)</li>
-<li>Neighborhood Notifications(Removed)</li>
-<li>Project Info Macros(Removed)</li>
-</ol>
-
-
-<hr />
-
-<h2><a name='links'></a>Links</h2>
-
-<p>Most URLs will automatically be turned into links. To be explicit, just write it like this:</p>
-
-<pre><code>&lt;http://someurl&gt;  
-&lt;somebbob@example.com&gt;
-</code></pre>
-
-<p>Output:</p>
-
-</div>
-  
-  
-    <footer>
-      <a rel="full-article" href="/blog/2013/11/30/simple-guide-for-markdown/">Read on &rarr;</a>
-    </footer>
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2013/09/06/short-list-of-mysql-commands/">Short List of MySQL Commands</a></h1>
+      <h1 class="entry-title">Short List of MySQL Commands</h1>
     
     
       <p class="meta">
@@ -295,15 +114,15 @@ Markdown was created to be easy to read, easy to write, and still readable in pl
 
 <time datetime="2013-09-06T14:50:01+08:00" pubdate data-updated="true">Sep 6<span>th</span>, 2013</time>
         
-           | <a href="/blog/2013/09/06/short-list-of-mysql-commands/#disqus_thread"
-             data-disqus-identifier="http://sunnycomes.github.io/blog/2013/09/06/short-list-of-mysql-commands/">Comments</a>
+           | <a href="#disqus_thread"
+             data-disqus-identifier="http://sunnycomes.github.io">Comments</a>
         
       </p>
     
   </header>
 
 
-  <div class="entry-content"><ul>
+<div class="entry-content"><ul>
 <li><p>The first version is completed on 2013.12.22 21:38, the main content is from <strong><em><a href="http://www.bios.niu.edu/johns/bioinform/mysql_commands.htm">here</a></em></strong>, thanks to the origin author.</p></li>
 <li><p>The second version is updated on 2013.12.27 8:59, Backup tool is added, the complementary part is mainly from <strong><em><a href="http://webcheatsheet.com/sql/mysql_backup_restore.php">here</a></em></strong>, thanks to the origin author.</p></li>
 </ul>
@@ -646,18 +465,63 @@ Click the SQL link. This should bring up a new screen where you can either type 
 Use the browse button to find the database file.
 Click Go button. This will upload the backup, execute the SQL commands and re-create your database.</p>
 </div>
+
+
+  <footer>
+    <p class="meta">
+      
   
+
+<span class="byline author vcard">Posted by <span class="fn">Your Name</span></span>
+
+      
+
+
+
+
+
+
+
+
   
 
 
-    </article>
+<time datetime="2013-09-06T14:50:01+08:00" pubdate data-updated="true">Sep 6<span>th</span>, 2013</time>
+      
+
+<span class="categories">
   
-  <div class="pagination">
+    <a class='category' href='/blog/categories/database/'>database</a>
+  
+</span>
+
+
+    </p>
     
-    <a href="/blog/archives">Blog Archives</a>
-    
-  </div>
+      <div class="sharing">
+  
+  
+  
 </div>
+
+    
+    <p class="meta">
+      
+      
+        <a class="basic-alignment right" href="/blog/2013/11/30/simple-guide-for-markdown/" title="Next Post: Markdown Syntax Guide">Markdown Syntax Guide &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+  <section>
+    <h1>Comments</h1>
+    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+  </section>
+
+</div>
+
 <aside class="sidebar">
   
     <section>
@@ -686,6 +550,7 @@ Click Go button. This will upload the backup, execute the SQL commands and re-cr
   
 </aside>
 
+
     </div>
   </div>
   <footer role="contentinfo"><p>
@@ -700,7 +565,10 @@ Click Go button. This will upload the backup, execute the SQL commands and re-cr
       var disqus_shortname = 'sunnycomes';
       
         
-        var disqus_script = 'count.js';
+        // var disqus_developer = 1;
+        var disqus_identifier = 'http://sunnycomes.github.io/blog/2013/09/06/short-list-of-mysql-commands/';
+        var disqus_url = 'http://sunnycomes.github.io/blog/2013/09/06/short-list-of-mysql-commands/';
+        var disqus_script = 'embed.js';
       
     (function () {
       var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
