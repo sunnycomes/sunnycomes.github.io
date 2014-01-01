@@ -9,7 +9,7 @@
   <meta name="author" content="Sunny">
 
   
-  <meta name="description" content="The first version is completed on 2013.12.22 21:55, the main content is from here, thanks to the origin author. Ever since the first version of Java &hellip;">
+  <meta name="description" content="The first version is completed on 2013.12.10 21:55, the main content is from here, thanks to the origin author. Ever since the first version of Java &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -106,7 +106,7 @@
       
   <header>
     
-      <h1 class="entry-title"><a href="/blog/2013/12/11/java-performance-tunning-tips/">Java Performance Tunning Tips</a></h1>
+      <h1 class="entry-title"><a href="/blog/2013/12/11/java-performance-tunning-tips/">Java Performance Tuning Tips</a></h1>
     
     
       <p class="meta">
@@ -132,7 +132,7 @@
   </header>
 
 
-  <div class="entry-content"><p>The first version is completed on 2013.12.22 21:55, the main content is from <a href="http://www.exforsys.com/tutorials/j2ee/performance-tuning-of-java-applications.html">here</a>, thanks to the origin author.</p>
+  <div class="entry-content"><p>The first version is completed on 2013.12.10 21:55, the main content is from <a href="http://www.exforsys.com/tutorials/j2ee/performance-tuning-of-java-applications.html">here</a>, thanks to the origin author.</p>
 
 <p>Ever since the first version of Java Technology hit the streets, performance has been an important issue for Java developers. Java has improved dramatically and continually but, performance tuning is very essential to get the best results, especially when we think of J2EE applications.</p>
 
@@ -258,25 +258,28 @@ Markdown was created to be easy to read, easy to write, and still readable in pl
   </header>
 
 
-  <div class="entry-content"><p>The first version is completed on 2013.12.22 20:38, the main content is from <strong><em><a href="http://alumnus.caltech.edu/~chamness/JDBC_Tuning.pdf">here</a></em></strong>, thanks to the origin author Mark Chamness.This post is dedicated to illustrate techniques for optimizing JDBC API-based calls from the Java platform. As a result of this presentation, you will:</p>
+  <div class="entry-content"><p>The first version is completed on 2013.10.22 20:38, the main content is from <strong><em><a href="http://alumnus.caltech.edu/~chamness/JDBC_Tuning.pdf">here</a></em></strong>, thanks to the origin author Mark Chamness.</p>
+
+<p>This post is dedicated to illustrate techniques for optimizing JDBC API-based calls from the Java platform. As a result of this presentation, you will:</p>
 
 <ul>
 <li>Design better JDBC implementations</li>
 <li>Recognize potential performance bottlenecks</li>
-<li>Make more money</li>
+<li>Reduce cost during development</li>
 </ul>
 
 
-<h1>Agenda</h1>
+<h2>Agenda</h2>
 
 <ol>
-<li>Why optimize?</li>
-<li>Basic API techniques.</li>
-<li>Design Strategies.</li>
+<li><a href="#why">Why optimize?</a></li>
+<li><a href="api_tech">Basic API techniques.</a></li>
+<li><a href="design_tech">Basic Design Techniques.</a></li>
+<li><a href="strategies">Design Strategies.</a></li>
 </ol>
 
 
-<h2>Why Optimize?</h2>
+<h2><a name='why'></a>Why Optimize?</h2>
 
 <ul>
 <li>On average, a web request performs 4 database queries.</li>
@@ -284,36 +287,6 @@ Markdown was created to be easy to read, easy to write, and still readable in pl
 <li>Bad JDBC can overwhelm the database.</li>
 </ul>
 
-
-<h3>SQL Statements</h3>
-
-<p>Most flexible
-Least reliable
-Must be recompiled in database for each use</p>
-
-<h4>PreparedStatement</h4>
-
-<p>Represents a precompiled SQL statement
-Can be used to efficiently execute statement multiple times
-Somewhat flexible ¨Ccan create new ones as needed</p>
-
-<h3>CallableStatement</h3>
-
-<p>Used to execute SQL stored procedures.
-Same syntax as PreparedStatement.
-Least flexible.
-Most optimized DB call.</p>
-
-<h2>Cache</h2>
-
-<p>Keep data within client to reduce the number of round-trips to the database.
-Lesson: The less JDBC the better.</p>
-
-<h2>Use Database Connection Pool</h2>
-
-<p>Don¡¯t use DriverManager.getConnection() often. JDBC connections can take 0.5 to 2 seconds to create.
-Create Pool of Connections and reuse them.
-Necessity for any production system.</p>
 
 </div>
   
@@ -719,7 +692,7 @@ Click Go button. This will upload the backup, execute the SQL commands and re-cr
   <ul id="recent_posts">
     
       <li class="post">
-        <a href="/blog/2013/12/11/java-performance-tunning-tips/">Java Performance Tunning Tips</a>
+        <a href="/blog/2013/12/11/java-performance-tunning-tips/">Java Performance Tuning Tips</a>
       </li>
     
       <li class="post">
@@ -747,7 +720,7 @@ Click Go button. This will upload the backup, execute the SQL commands and re-cr
     </div>
   </div>
   <footer role="contentinfo"><p>
-  Copyright &copy; 2013 - Sunny -
+  Copyright &copy; 2014 - Sunny -
   <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
 </p>
 

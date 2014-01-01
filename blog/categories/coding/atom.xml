@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Coding | I/O View]]></title>
   <link href="http://www.iovi.com/blog/categories/coding/atom.xml" rel="self"/>
   <link href="http://www.iovi.com/"/>
-  <updated>2013-12-31T22:15:58+08:00</updated>
+  <updated>2014-01-01T10:32:44+08:00</updated>
   <id>http://www.iovi.com/</id>
   <author>
     <name><![CDATA[Sunny]]></name>
@@ -18,25 +18,28 @@
     <link href="http://www.iovi.com/blog/2013/10/31/basic-practical-usage-of-jdbc-api/"/>
     <updated>2013-10-31T14:54:53+08:00</updated>
     <id>http://www.iovi.com/blog/2013/10/31/basic-practical-usage-of-jdbc-api</id>
-    <content type="html"><![CDATA[<p>The first version is completed on 2013.12.22 20:38, the main content is from <strong><em><a href="http://alumnus.caltech.edu/~chamness/JDBC_Tuning.pdf">here</a></em></strong>, thanks to the origin author Mark Chamness.This post is dedicated to illustrate techniques for optimizing JDBC API-based calls from the Java platform. As a result of this presentation, you will:</p>
+    <content type="html"><![CDATA[<p>The first version is completed on 2013.10.22 20:38, the main content is from <strong><em><a href="http://alumnus.caltech.edu/~chamness/JDBC_Tuning.pdf">here</a></em></strong>, thanks to the origin author Mark Chamness.</p>
+
+<p>This post is dedicated to illustrate techniques for optimizing JDBC API-based calls from the Java platform. As a result of this presentation, you will:</p>
 
 <ul>
 <li>Design better JDBC implementations</li>
 <li>Recognize potential performance bottlenecks</li>
-<li>Make more money</li>
+<li>Reduce cost during development</li>
 </ul>
 
 
-<h1>Agenda</h1>
+<h2>Agenda</h2>
 
 <ol>
-<li>Why optimize?</li>
-<li>Basic API techniques.</li>
-<li>Design Strategies.</li>
+<li><a href="#why">Why optimize?</a></li>
+<li><a href="api_tech">Basic API techniques.</a></li>
+<li><a href="design_tech">Basic Design Techniques.</a></li>
+<li><a href="strategies">Design Strategies.</a></li>
 </ol>
 
 
-<h2>Why Optimize?</h2>
+<h2><a name='why'></a>Why Optimize?</h2>
 
 <ul>
 <li>On average, a web request performs 4 database queries.</li>
@@ -45,79 +48,93 @@
 </ul>
 
 
-<h3>SQL Statements</h3>
-
-<p>Most flexible
-Least reliable
-Must be recompiled in database for each use</p>
-
-<h4>PreparedStatement</h4>
-
-<p>Represents a precompiled SQL statement
-Can be used to efficiently execute statement multiple times
-Somewhat flexible ¨Ccan create new ones as needed</p>
-
-<h3>CallableStatement</h3>
-
-<p>Used to execute SQL stored procedures.
-Same syntax as PreparedStatement.
-Least flexible.
-Most optimized DB call.</p>
-
-<h2>Cache</h2>
-
-<p>Keep data within client to reduce the number of round-trips to the database.
-Lesson: The less JDBC the better.</p>
-
-<h2>Use Database Connection Pool</h2>
-
-<p>Don¡¯t use DriverManager.getConnection() often. JDBC connections can take 0.5 to 2 seconds to create.
-Create Pool of Connections and reuse them.
-Necessity for any production system.</p>
-
 <!-- more -->
 
 
-<h2>Use multi-threading with Connection Pooling to address network latency</h2>
+<p><a name='api_tech'></a>##Basic API techniques</p>
 
-<p>Threads can issue queries over separate database connections.
-This improves performance to a point.</p>
+<p><img src="/images/upload/most_versatile_most_optimized.png" alt="most_versatile_most_optimized" /></p>
+
+<h3>SQL Statements</h3>
+
+<ul>
+<li>Most flexible</li>
+<li>Least reliable</li>
+<li>Must be recompiled in database for each use</li>
+</ul>
+
+
+<h4>PreparedStatement</h4>
+
+<ul>
+<li>Represents a precompiled SQL statement</li>
+<li>Can be used to efficiently execute statement multiple times</li>
+<li>Somewhat flexible - can create new ones as needed</li>
+</ul>
+
+
+<h3>CallableStatement</h3>
+
+<ul>
+<li>Used to execute SQL stored procedures.</li>
+<li>Same syntax as PreparedStatement.</li>
+<li>Least flexible.</li>
+<li>Most optimized DB call.</li>
+</ul>
+
+
+<h3>Cache</h3>
+
+<p>Keep data within client to reduce the number of round-trips to the database.<br/>
+Lesson: The less JDBC the better.</p>
+
+<h2><a name='design_tech'></a>Basic Design Techniques</h2>
+
+<h3>Use Database Connection Pool</h3>
+
+<ul>
+<li>Necessity for any production system.</li>
+<li>Don&rsquo;t use DriverManager.getConnection() often. JDBC connections can take 0.5 to 2 seconds to create.</li>
+<li>Create Pool of Connections and reuse them.</li>
+</ul>
+
+
+<h3>Use multi-threading with Connection Pooling to address network latency</h3>
+
+<p>Threads can issue queries over separate database connections. This improves performance to a point.</p>
 
 <pre><code>Single-batch Transactions
     BEGIN TRANSACTION
         UPDATE TABLE1... 
-        INSERT INTO TABLE2¡­
+        INSERT INTO TABLE2...
         DELETE TABLE3
     COMMIT
 </code></pre>
 
-<h3>Single-batch Transactions</h3>
+<h3>Single-batch Transactions&mdash;-Significantly different effects!</h3>
 
-<p>DB obtains necessary locks on rows and tables, uses and releases them in one step
-Depending on transaction type, separate statements and commits can result in more DB calls and hold DB locks longer</p>
+<ul>
+<li>DB obtains necessary locks on rows and tables, uses and releases them in one step</li>
+<li>Depending on transaction type, separate statements and commits can result in more DB calls and hold DB locks longer</li>
+</ul>
 
-<h3>Single-batch Transaction Types&mdash;-Significantly different effects!</h3>
 
-<h4>java.sql.Connection</h4>
-
-<pre><code>TRANSACTION_READ_COMMITTED 
-TRANSACTION_READ_UNCOMMITTED 
-TRANSACTION_REPEATABLE_READ 
-TRANSACTION_SERIALIZABLE
-</code></pre>
-
-<h3>Don¡¯t have transaction span user input</h3>
+<h3>Don&rsquo;t have transaction span user input</h3>
 
 <p>Application sends BEGIN TRAN and SQL, locking rows or tables for update
 Application waits for user to press key before committing transaction</p>
 
 <h4>Solution: Optimistic locking</h4>
 
-<p>Optimistic locking employs timestamps and triggers in queries and updates
-Queries select data with timestamp values
-Prepare a transaction based on that data, without locking data in a transaction</p>
+<ol>
+<li>Optimistic locking employs timestamps and triggers in queries and updates</li>
+<li>Queries select data with timestamp value</li>
+<li>Prepare a transaction based on that value, without locking data in a transaction</li>
+<li>If that value changed, this update is invalid and you should query again</li>
+</ol>
 
-<h2>Smart Queries</h2>
+
+<h3>Smart Queries</h3>
 
 <ul>
 <li>Make queries as specific as possible</li>
@@ -127,7 +144,7 @@ Prepare a transaction based on that data, without locking data in a transaction<
 </ul>
 
 
-<p>Smart Query Ex: get employees in ENG dept   , Instead of:</p>
+<p>Smart Query Ex: get employees in ENG dept, Instead of:</p>
 
 <pre><code>SELECT * FROM employees; 
 SELECT * FROM dept;
@@ -136,7 +153,7 @@ SELECT * FROM dept;
 <p>(and joining on Java application side), <strong>use database join:</strong></p>
 
 <pre><code>SELECT employees.* FROM employees E, dept D 
-WHERE E.DEPTNO = D.DEPTNO AND D.DEPTTYPE = ¡®ENG¡¯;
+WHERE E.DEPTNO = D.DEPTNO AND D.DEPTTYPE = 'ENG';
 </code></pre>
 
 <p>Minimize ResultSet before crossing network
@@ -160,13 +177,22 @@ Many performance problems come from moving raw data around needlessly</p>
 </ul>
 
 
-<h1>Optimization Stages</h1>
+<h2><a name='strategies'></a>Optimization Stategies</h2>
 
 <ol>
 <li>Leverage the strengths of the DB</li>
 <li>Use the full range of java.sql API</li>
-<li>Design for Performance ¨CConnection Pools, Multi-Threading, etc.</li>
+<li>Design for Performance - Connection Pools, Multi-Threading, etc.</li>
 </ol>
+
+
+<h2>References:</h2>
+
+<ul>
+<li><a href="http://www.tutorialspoint.com/jdbc/jdbc-driver-types.htm">jdbc driver types</a></li>
+<li><a href="https://access.redhat.com/site/documentation/en-US/JBoss_Enterprise_Data_Services/5/html/Data_Services_Client_Developer_Guide/chap-JDBC_Transactions.html">JDBC Transactions</a></li>
+<li><a href="http://www-01.ibm.com/software/webservers/appserv/ws_bestpractices.pdf">WebSphere Application Server Development Best Practices for Performance and Scalability</a></li>
+</ul>
 
 ]]></content>
   </entry>
