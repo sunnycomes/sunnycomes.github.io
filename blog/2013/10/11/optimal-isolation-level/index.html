@@ -224,7 +224,7 @@ Step 7:    T2 commits transaction
 Step 8:    T1 rollbacks the transaction because of some problem
 </code></pre>
 
-<p>The problem is that T2 gets wrong PRICE=20 for PRODUCT = A001 instead of 10 because of uncommitted read. Obviously it is very dangerous in critical transactions if you read inconsistent data. If you  are sure about not accessing data concurrently  then you can allow this problem by setting TRANSACTION_READ_UNCOMMITED or TRANSACTION_NONE that in turn improves performance otherwise you have to use TRANSACTION_READ_COMMITED to avoid this problem.</p>
+<p>The problem is that T2 gets wrong PRICE=20 for PRODUCT = A001 instead of 10 because of uncommitted read.Obviously it is very dangerous in critical transactions if you read inconsistent data. If you  are sure about not accessing data concurrently  then you can allow this problem by setting TRANSACTION_READ_UNCOMMITED or TRANSACTION_NONE that in turn improves performance otherwise you have to use TRANSACTION_READ_COMMITED to avoid this problem.</p>
 
 <h3>Unrepeatable read problem :</h3>
 
