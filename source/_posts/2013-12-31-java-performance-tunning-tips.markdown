@@ -1,11 +1,11 @@
 ---
 layout: post
-title: "Java Performance Tunning Tips"
-date: 2013-12-11 20:59:44 +0800
+title: "Java Performance Tuning Tips"
+date: 2013-11-11 20:59:44 +0800
 comments: true
-categories: 
+categories: coding
 ---
-The first version is completed on 2013.12.22 21:55, the main content is from [here](http://www.exforsys.com/tutorials/j2ee/performance-tuning-of-java-applications.html), thanks to the origin author.
+The first version is completed on 2013.11.10 21:55, the main content is from [here](http://www.exforsys.com/tutorials/j2ee/performance-tuning-of-java-applications.html), thanks to the origin author.
 
 Ever since the first version of Java Technology hit the streets, performance has been an important issue for Java developers. Java has improved dramatically and continually but, performance tuning is very essential to get the best results, especially when we think of J2EE applications.
 
@@ -33,7 +33,7 @@ Object Creation is one of the most basic and essential thing while developing a 
 
 ##Performance Tuning in JDBC:
 
-Java Database Connectivity (JDBC) is mainly used in most of the Java application. To keep trace on performance tuning in JDBC becomes very crucial and prime issue when Java developer realizes that most of the processing time should not be wasted behind data processing over the network.
+Java Database Connectivity (JDBC) is mainly used in most of the Java application. To keep trace on performance tuning in JDBC becomes very crucial and prime issue when Java developer realizes that most of the processing time should not be wasted behind data processing over the network. For more details, check out  [here](/blog/2013/10/31/basic-practical-usage-of-jdbc-api/)
 
 Here are few of the tuning tips for JDBC that can improve the over all performance in Java application.
 
@@ -86,8 +86,8 @@ Here few of the important tuning tips for J2EE in points.
 
 * Entity beans from session beans should always be accessed.
 * When you no longer need to use session call HttpSession.invalidate() to clean up a session.
-* Save resources by turning off automatic session creation using < % @page session="false" % > for web pages that don't require session tracking.
-* Use compile time directive < % @include file="copyleft.html" % > where possible.
+* Save resources by turning off automatic session creation using `< % @page session="false" % >` for web pages that don't require session tracking.
+* Use compile time directive `< % @include file="copyleft.html" % >` where possible.
 * Whenever beans are co-located in the same JVM, use local entity beans.
 * Proprietary stubs can be used for caching and batching data.
 * To generate unique primary keys dedicated remote object should be used.

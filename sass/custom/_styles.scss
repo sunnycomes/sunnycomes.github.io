@@ -10,10 +10,43 @@
 {
 	text-indent:1em;
 	margin-bottom:10px;
+	font-family:Courier New;
 }
 
 .entry-content>ul,.entry-content>ol
 {
 	margin-left:40px;
 	margin-bottom:18px;
+}
+
+* + table {
+  border-style:solid;
+  border-width:1px;
+  border-color:#e7e3e7;
+}
+
+* + table th, * + table td {
+  border-style:dashed;
+  border-width:1px;
+  border-color:#e7e3e7;
+  padding-left: 3px;
+  padding-right: 3px;
+}
+
+* + table th {
+  border-style:solid;
+  font-weight:bold;
+  background: url("/images/noise.png?1330434582") repeat scroll left top #F7F3F7;
+}
+
+* + table th[align="left"], * + table td[align="left"] {
+  text-align:left;
+}
+
+* + table th[align="right"], * + table td[align="right"] {
+  text-align:right;
+}
+
+* + table th[align="center"], * + table td[align="center"] {
+  text-align:center;
 }

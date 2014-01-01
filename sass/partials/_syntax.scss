@@ -91,6 +91,7 @@ pre {
   padding: .8em 1em;
   color: $pre-color;
   overflow: auto;
+  margin-bottom: 10px;
 }
 h3.filename {
   @extend .code-title;
