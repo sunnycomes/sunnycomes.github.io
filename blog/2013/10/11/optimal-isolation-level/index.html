@@ -5,7 +5,7 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>Optimal JDBC Transaction Isolation Level - I/O View</title>
+  <title>Optimal JDBC Transaction Isolation Level - I/O Vision</title>
   <meta name="author" content="Sunny">
 
   
@@ -21,7 +21,7 @@
   <link rel="canonical" href="http://www.iovi.com/blog/2013/10/11/optimal-isolation-level">
   <link href="/favicon.png" rel="icon">
   <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
-  <link href="/atom.xml" rel="alternate" title="I/O View" type="application/atom+xml">
+  <link href="/atom.xml" rel="alternate" title="I/O Vision" type="application/atom+xml">
   <script src="/javascripts/modernizr-2.0.js"></script>
   <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
   <script>!window.jQuery && document.write(unescape('%3Cscript src="./javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
@@ -48,7 +48,7 @@
 
 <body   >
   <header role="banner"><hgroup>
-  <h1><a href="/">I/O View</a></h1>
+  <h1><a href="/">I/O Vision</a></h1>
   
     <h2>Do one thing at a time, and do well.</h2>
   
@@ -243,7 +243,7 @@ Step 8:    T1 reads PRICE = 20 for PRODUCT = A001
 Step 9:    T1 commits transaction
 </code></pre>
 
-<p>Here the problem is that Transaction1 reads 10 first time and reads 20 second time but it is supposed to be 10 always whenever it reads a record in that transaction. You can control this problem by setting isolation level as TRANSACTION_REPEATABLE_READ(setting for which one? Of course connection1).</p>
+<p>Here the problem is that Transaction1 reads 10 first time and reads 20 second time but it is supposed to be 10 always whenever it reads a record in that transaction. You can control this problem by setting isolation level as TRANSACTION_REPEATABLE_READ(setting for which one? Of course both).</p>
 
 <h3>Phantom read problem :</h3>
 
@@ -264,17 +264,15 @@ Step 9:    T1 commits transaction
 
 <p>Here the problem is that T1 gets 2 rows instead of 1 row up on selecting the same condition second time. You can control this problem by setting isolation level as <code>TRANSACTION_SERIALIZABLE</code></p>
 
-<h2>Mechanism to Avoid</h2>
-
-<h2>At Last</h2>
-
-<p>Choosing a right isolation level for your program:</p>
+<h2>Choosing a right isolation level for your program:</h2>
 
 <p>Choosing a right isolation level for your program depends upon your application&rsquo;s requirement. In single application itself the requirement generally changes, suppose if you write a program for searching a product catalog from your database then you can easily choose <code>TRANSACTION_READ_UNCOMMITED</code> because you need not worry about the problems that are mentioned above, some other program can insert records at the same time, you don&rsquo;t have to bother much about that insertion. Obviously this improves performance significantly.
 If you write a critical program like bank or stocks analysis program where you want to control all of the above mentioned problems, you can choose TRANSACTION_SERIALIZABLE for maximum safety. Here it is the tradeoff between the safety and performance. Ultimately we need safety here.
 If you don&rsquo;t have to deal with concurrent transactions your application, then the best choice is <code>TRANSACTION_NONE</code> to improve performance.
 Other two isolation levels need good understanding of your requirement. If your application needs only committed records, then <code>TRANSACTION_READ_COMMITED</code> isolation is the good choice. If your application needs to read a row exclusively till you  finish your work, then <code>TRANSACTION_REPEATABLE_READ</code> is the best choice.
 Note: Be aware of your database server&rsquo;s support for these isolation levels. Database servers may not support all of these isolation levels. Oracle server supports only two isolation levels, <code>TRANSACTION_READ_COMMITED</code> and <code>TRANSACTION_SERIALIZABLE</code> isolation level, default isolation level is <code>TRANSACTION_READ_COMMITED</code>.</p>
+
+<h2>Something Besides the Isolation Level of Data Conflict</h2>
 </div>
 
 
