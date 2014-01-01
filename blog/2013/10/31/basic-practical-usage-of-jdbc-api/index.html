@@ -9,7 +9,7 @@
   <meta name="author" content="Sunny">
 
   
-  <meta name="description" content="The first version is completed on 2013.10.22 20:38, the main content is from here, thanks to the origin author Mark Chamness. This post is dedicated &hellip;">
+  <meta name="description" content="The 1st version is completed on 2013.10.22 20:38, the main content is from here. The 2nd version is completed on 2013.11.22 21:18, the main content &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -129,7 +129,9 @@
   </header>
 
 
-<div class="entry-content"><p>The first version is completed on 2013.10.22 20:38, the main content is from <strong><em><a href="http://alumnus.caltech.edu/~chamness/JDBC_Tuning.pdf">here</a></em></strong>, thanks to the origin author Mark Chamness.</p>
+<div class="entry-content"><p>The 1st version is completed on 2013.10.22 20:38, the main content is from <strong><em><a href="http://alumnus.caltech.edu/~chamness/JDBC_Tuning.pdf">here</a></em></strong>.</p>
+
+<p>The 2nd version is completed on 2013.11.22 21:18, the main content is from <strong><em><a href="http://www.precisejava.com/javaperf/j2ee/JDBC.htm">Best practices to improve performance in JDBC</a></em></strong>, this is a great article about JDBC tuning.</p>
 
 <p>This post is dedicated to illustrate techniques for optimizing JDBC API-based calls from the Java platform. As a result of this presentation, you will:</p>
 
@@ -187,7 +189,7 @@
 <h3>CallableStatement</h3>
 
 <ul>
-<li>Used to execute SQL stored procedures.</li>
+<li>Used to execute SQL stored procedures. Use stored procedures when they can be created in a standard manner. Do watch out for DB specific SP definitions that can cause migration headaches.</li>
 <li>Same syntax as PreparedStatement.</li>
 <li>Least flexible.</li>
 <li>Most optimized DB call.</li>
@@ -248,7 +250,7 @@ Application waits for user to press key before committing transaction</p>
 <h3>Smart Queries</h3>
 
 <ul>
-<li>Make queries as specific as possible</li>
+<li>Make queries as specific as possible,Select only required columns rather than using select * from Tablexyz.</li>
 <li>Put more logic into SQL statements</li>
 <li>DB are designed to use SQL efficiently</li>
 <li>Proper use of SQL can avoid performance problems</li>
@@ -294,15 +296,25 @@ Many performance problems come from moving raw data around needlessly</p>
 <li>Leverage the strengths of the DB</li>
 <li>Use the full range of java.sql API</li>
 <li>Design for Performance - Connection Pools, Multi-Threading, etc.</li>
+<li>Always close Statement and ResultSet objects as soon as possible.</li>
+<li>Write modular classes to handle database interaction specifics.</li>
+<li>Work with DatabaseMetaData to get information about database functionality.(Not quite understand.)</li>
+<li>Softcode database specific parameters with, for example, properties files.</li>
+<li>Always catch AND handle database warnings and exceptions. Be sure to check for additional pending exceptions.</li>
+<li>Test your code with debug statements to determine the time it takes to execute your query and so on to help in tuning your code. Also use query plan functionality if available.</li>
+<li>Use proper ( and a single standard if possible ) formats, especially for dates.</li>
+<li>Use proper data types for specific kind of data. For example, store birthdate as a date type rather than, say, varchar.</li>
 </ol>
 
 
 <h2>References:</h2>
 
 <ul>
-<li><a href="http://www.tutorialspoint.com/jdbc/jdbc-driver-types.htm">jdbc driver types</a></li>
+<li><a href="http://www.precisejava.com/javaperf/j2ee/JDBC.htm">Best practices to improve performance in JDBC</a>(I love this most.)</li>
+<li><a href="http://www.tutorialspoint.com/jdbc/jdbc-driver-types.htm">Jdbc Driver Types</a></li>
 <li><a href="https://access.redhat.com/site/documentation/en-US/JBoss_Enterprise_Data_Services/5/html/Data_Services_Client_Developer_Guide/chap-JDBC_Transactions.html">JDBC Transactions</a></li>
 <li><a href="http://www-01.ibm.com/software/webservers/appserv/ws_bestpractices.pdf">WebSphere Application Server Development Best Practices for Performance and Scalability</a></li>
+<li><a href="http://www.jguru.com/faq/view.jsp?EID=131579">What areas should I focus on for the best performance in a JDBC application?</a></li>
 </ul>
 
 </div>
