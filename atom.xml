@@ -4,7 +4,7 @@
   <title><![CDATA[I/O View]]></title>
   <link href="http://www.iovi.com/atom.xml" rel="self"/>
   <link href="http://www.iovi.com/"/>
-  <updated>2014-01-01T11:49:09+08:00</updated>
+  <updated>2014-01-01T17:07:32+08:00</updated>
   <id>http://www.iovi.com/</id>
   <author>
     <name><![CDATA[Sunny]]></name>
@@ -60,7 +60,7 @@ Markdown was created to be easy to read, easy to write, and still readable in pl
 
 
 <blockquote><p><a href="http://someurl">http://someurl</a><br/>
-<a href="&#109;&#97;&#x69;&#108;&#x74;&#111;&#58;&#x73;&#111;&#109;&#101;&#x62;&#98;&#111;&#98;&#64;&#101;&#120;&#97;&#x6d;&#112;&#108;&#x65;&#46;&#x63;&#x6f;&#109;">&#x73;&#x6f;&#109;&#101;&#x62;&#x62;&#111;&#98;&#64;&#101;&#120;&#97;&#x6d;&#x70;&#x6c;&#101;&#x2e;&#99;&#x6f;&#109;</a></p></blockquote>
+<a href="&#109;&#97;&#105;&#108;&#x74;&#x6f;&#x3a;&#115;&#x6f;&#109;&#x65;&#x62;&#x62;&#x6f;&#x62;&#64;&#101;&#x78;&#x61;&#109;&#112;&#x6c;&#101;&#46;&#99;&#111;&#x6d;">&#x73;&#111;&#x6d;&#x65;&#98;&#x62;&#111;&#x62;&#x40;&#101;&#x78;&#97;&#109;&#112;&#108;&#101;&#x2e;&#99;&#111;&#109;</a></p></blockquote>
 
 <p>To use text for the link, write it:</p>
 
@@ -603,13 +603,13 @@ you should escape <unknown> tags</p></blockquote>
   </entry>
   
   <entry>
-    <title type="html"><![CDATA[Basic Practical Usage of JDBC API]]></title>
-    <link href="http://www.iovi.com/blog/2013/10/31/basic-practical-usage-of-jdbc-api/"/>
+    <title type="html"><![CDATA[Best Practices to Improve Performance in JDBC]]></title>
+    <link href="http://www.iovi.com/blog/2013/10/31/best-practices-to-improve-performance-in-JDBC/"/>
     <updated>2013-10-31T14:54:53+08:00</updated>
-    <id>http://www.iovi.com/blog/2013/10/31/basic-practical-usage-of-jdbc-api</id>
-    <content type="html"><![CDATA[<p>The 1st version is completed on 2013.10.22 20:38, the main content is from <strong><em><a href="http://alumnus.caltech.edu/~chamness/JDBC_Tuning.pdf">here</a></em></strong>.</p>
+    <id>http://www.iovi.com/blog/2013/10/31/best-practices-to-improve-performance-in-JDBC</id>
+    <content type="html"><![CDATA[<p>The 1st version is completed on 2013.10.22 20:38, the main content is from <strong><em><a href="http://alumnus.caltech.edu/~chamness/JDBC_Tuning.pdf">Performance Tuning for the JDBC API</a></em></strong>.</p>
 
-<p>The 2nd version is completed on 2013.11.22 21:18, the main content is from <strong><em><a href="http://www.precisejava.com/javaperf/j2ee/JDBC.htm">Best practices to improve performance in JDBC</a></em></strong>, this is a great article about JDBC tuning.</p>
+<p>The 2nd version is completed on 2013.11.22 21:18, which modified completely, the main content is from <strong><em><a href="http://www.precisejava.com/javaperf/j2ee/JDBC.htm">Best practices to improve performance in JDBC</a></em></strong>, this is a great article about JDBC tuning.</p>
 
 <p>This post is dedicated to illustrate techniques for optimizing JDBC API-based calls from the Java platform. As a result of this presentation, you will:</p>
 
@@ -624,9 +624,18 @@ you should escape <unknown> tags</p></blockquote>
 
 <ol>
 <li><a href="#why">Why optimize?</a></li>
-<li><a href="api_tech">Basic API techniques.</a></li>
-<li><a href="design_tech">Basic Design Techniques.</a></li>
-<li><a href="strategies">Design Strategies.</a></li>
+<li><a href="#steps">Basic Steps to Write a JDBC Program.</a>
+
+<ol>
+<li><a href="#driver">Choosing the right Driver</a></li>
+<li><a href="#connection">Optimization with Connection</a></li>
+<li><a href="#statement">Optimization with Statement</a></li>
+<li><a href="#result_set">Optimization with ResultSet</a></li>
+<li><a href="#sql_query">Optimization with SQL Query</a></li>
+</ol>
+</li>
+<li><a href="#other_means">Other Means of Optimization.</a></li>
+<li><a href="#key_points">Key Points</a></li>
 </ol>
 
 
@@ -641,6 +650,142 @@ you should escape <unknown> tags</p></blockquote>
 
 <!-- more -->
 
+
+<h2><a name="steps"></a>Basic Steps to Write a JDBC Program</h2>
+
+<p>The following are the basic steps to write a JDBC program</p>
+
+<ol>
+<li>Import java.sql and javax.sql packages</li>
+<li>Load JDBC driver</li>
+<li>Establish connection to the database using Connection interface</li>
+<li>Create a Statement by passing SQL query</li>
+<li>Execute the Statement</li>
+<li>Retrieve results by using ResultSet interface</li>
+<li>Close Statement and Connection</li>
+</ol>
+
+
+<p>We will look at these areas one by one, what type of driver you need to load, how to use Connection interface in the best manner, how to use different Statement interfaces, how to process results using ResultSet and finally how to optimize SQL queries to improve JDBC performance.</p>
+
+<h3><a name="driver"></a>Choosing the right Driver</h3>
+
+<table>
+<thead>
+<tr>
+<th align="left"><em>Type</em> </th>
+<th align="center"> <em>Tier</em> </th>
+<th align="right"> <em>Driver mechanism</em> </th>
+<th> <em>Description</em></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">1 </td>
+<td align="center">2  </td>
+<td align="right">JDBC-ODBC    </td>
+<td>This driver converts JDBC calls to ODBC calls through JDBC-ODBC Bridge driver which in turn converts to database calls. Client requires ODBC libraries.</td>
+</tr>
+<tr>
+<td align="left">2 </td>
+<td align="center">2  </td>
+<td align="right">Native API &ndash; Partly &ndash; Java driver</td>
+<td>This driver converts JDBC calls to database specific native calls. Client requires database specific libraries.</td>
+</tr>
+<tr>
+<td align="left">3 </td>
+<td align="center">3  </td>
+<td align="right">JDBC &ndash; Net -All Java driver</td>
+<td>This driver passes calls to proxy server through network protocol which in turn converts to database calls and passes through database specific protocol. Client doesn&rsquo;t require any driver.</td>
+</tr>
+<tr>
+<td align="left">4 </td>
+<td align="center">2  </td>
+<td align="right">Native protocol &ndash; All &ndash; Java driver</td>
+<td>This driver directly calls database. Client doesn&rsquo;t require any driver.</td>
+</tr>
+</tbody>
+</table>
+
+
+<p>Type 3 &amp; 4 drivers are faster than other drivers because Type 3 gives facility for optimization techniques provided by application server such as connection pooling, caching, load balancing etc and Type 4 driver need not translate database calls to ODBC or native connectivity interface. Type 1 drivers are slow because they have to convert JDBC calls to ODBC through JDBC-ODBC Bridge driver initially and then ODBC Driver converts them into database specific calls. Type 2 drivers give average performance when compared to Type 3 &amp; 4 drivers because the database calls have to be converted into database specific calls. Type 2 drivers give better performance than Type 1 drivers.</p>
+
+<h3><a name="connection"></a>Optimization with Connection</h3>
+
+<p>We have different approaches to establish a connection with the database, the first type of approach is :</p>
+
+<ol>
+<li>DriverManager.getConnection(String url)</li>
+<li>DriverManager.getConnection(String url, Properties props)</li>
+<li>DriverManager.getConnection(String url, String user, String password)</li>
+<li>Driver.connect(String url, Properties props)</li>
+</ol>
+
+
+<p>When you use this approach, you can pass database specific information to the database by passing properties using Properties object to improve performance. For example, when you use oracle database you can pass default number of rows that must be pre-fetched from the database server and the default batch value that triggers an execution request. Oracle has default value as 10 for both properties. By increasing the value of these properties, you can reduce the number of database calls which in turn improves performance. The following code snippet illustrates this approach.</p>
+
+<pre><code>    java.util.Properties props = new java.util.Properties();
+    props.put("user","scott");
+    props.put("password","tiger");
+    props.put("defaultRowPrefetch","30");
+    props.put("defaultBatchValue","5");
+    Connection con = DriverManger.getConnection("jdbc:oracle:thin:@hoststring", props);
+</code></pre>
+
+<p>You need to figure out appropriate values for above properties for better performance depending on application&rsquo;s requirement. Suppose, you want to set these properties for search facility, you can increase defaultRowPrefetch so that you can increase performance significantly.
+The second type of approach is to get connection from DataSource.
+You can get the connection using javax.sql.DataSource interface. The advantage of getting connection from this approach is that the DataSource works with JNDI. The implementation of DataSource is done by vendor, for example you can find this feature in weblogic, websphere etc. The vendor simply creates DataSource implementation class and binds it to the JNDI tree. The following code shows how a vendor creates implementation class and binds it to JNDI tree.</p>
+
+<pre><code>    DataSourceImpl dsi = new DataSourceImpl();
+    dsi.setServerName("oracle8i");
+    dsi.setDatabaseName("Demo");
+    Context ctx = new InitialContext();
+    ctx.bind("jdbc/demoDB", dsi);
+</code></pre>
+
+<p>This code registers the DataSourceImpl object to the JNDI tree, then the programmer can get the DataSource reference from JNDI tree without knowledge of the underlying technology.</p>
+
+<pre><code>    Context ctx = new InitialContext();
+    DataSource ds = (DataSource)ctx.lookup("jdbc/demoDB");
+    Connection con = ds.getConnection();
+</code></pre>
+
+<p>By using this approach we can improve performance. Nearly all major vendor application servers like weblogic, webshpere implement the DataSource by taking connection from connection pool rather than a single connection every time. The application server creates connection pool by default. We will discuss the advantage of connection pool to improve performance in the next section.</p>
+
+<h3>Use Connection Pool</h3>
+
+<p>Creating a connection to the database server is expensive. It is even more expensive if the server is located on another machine. Connection pool contains a number of open database connections with minimum and maximum connections, that means the connection pool has open connections between minimum and maximum number that you specify. The pool expands and shrinks between minimum and maximum size depending on incremental capacity. You need to give minimum, maximum and incremental sizes as properties to the pool in order to maintain that functionality. You get the connection from the pool rather directly .For example, if you give properties like min, max and incremental sizes as 3, 10 and 1 then pool is created with size 3 initially and if it reaches it&rsquo;s capacity 3 and if a client requests a connection concurrently, it increments its capacity by 1 till it reaches 10 and later on it puts all its clients in a queue.</p>
+
+<p>In general, transaction represents one unit of work or bunch of code in the program that executes in it&rsquo;s entirety or none at all. To be precise, it is all or no work. In JDBC, transaction is a set of one or more Statements that execute as a single unit.
+java.sql.Connection interface provides some methods to control transaction they are</p>
+
+<pre><code>    public interface Connection {
+        boolean getAutoCommit();
+        void        setAutoCommit(boolean autocommit);
+        void        commit();
+        void        rollback();
+    }
+</code></pre>
+
+<h4>JDBC&rsquo;s default mechanism for transactions:</h4>
+
+<p>By default in JDBC transaction starts and commits after each statement&rsquo;s  execution on a connection. That is the AutoCommit mode is true. Programmer need not write a commit() method explicitly after each statement.Obviously this default mechanism gives good facility for programmers if they want to execute a single statement. But it gives poor performance when multiple statements on a connection are to be executed because commit is issued after each statement by default, that in turn reduces performance by issuing unnecessary commits. The remedy is to flip it back to AutoCommit mode as false and issue commit() method after a set of statements execute, this is called as batch transaction. Use rollback() in catch block to rollback the transaction whenever an exception occurs in your program. The following code illustrates the batch transaction approach.This batch transaction gives good performance by reducing commit calls after each statement&rsquo;s execution.</p>
+
+<h3>Choose optimal isolation level</h3>
+
+<p>Isolation level represent how a database maintains data integrity against the problems like dirty reads, phantom reads and non-repeatable reads which can occur due to concurrent transactions. java.sql.Connection interface provides  methods and constants to avoid the above mentioned problems by setting different isolation levels.
+public interface Connection {</p>
+
+<pre><code>    public static final int  TRANSACTION_NONE                             = 0
+    public static final int  TRANSACTION_READ_COMMITTED         = 2
+    public static final int  TRANSACTION_READ_UNCOMMITTED     = 1
+    public static final int  TRANSACTION_REPEATABLE_READ       = 4
+    public static final int  TRANSACTION_SERIALIZABLE                 = 8
+    int          getTransactionIsolation();
+    void        setTransactionIsolation(int isolationlevelconstant);
+</code></pre>
+
+<p>}</p>
 
 <p><a name='api_tech'></a>##Basic API techniques</p>
 
@@ -775,10 +920,6 @@ Many performance problems come from moving raw data around needlessly</p>
 <li>Use the full range of java.sql API</li>
 <li>Design for Performance - Connection Pools, Multi-Threading, etc.</li>
 <li>Always close Statement and ResultSet objects as soon as possible.</li>
-<li>Write modular classes to handle database interaction specifics.</li>
-<li>Work with DatabaseMetaData to get information about database functionality.(Not quite understand.)</li>
-<li>Softcode database specific parameters with, for example, properties files.</li>
-<li>Always catch AND handle database warnings and exceptions. Be sure to check for additional pending exceptions.</li>
 <li>Test your code with debug statements to determine the time it takes to execute your query and so on to help in tuning your code. Also use query plan functionality if available.</li>
 <li>Use proper ( and a single standard if possible ) formats, especially for dates.</li>
 <li>Use proper data types for specific kind of data. For example, store birthdate as a date type rather than, say, varchar.</li>
@@ -795,6 +936,160 @@ Many performance problems come from moving raw data around needlessly</p>
 <li><a href="http://www.jguru.com/faq/view.jsp?EID=131579">What areas should I focus on for the best performance in a JDBC application?</a></li>
 </ul>
 
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Optimal JDBC Transaction Isolation Level]]></title>
+    <link href="http://www.iovi.com/blog/2013/10/11/optimal-isolation-level/"/>
+    <updated>2013-10-11T16:09:47+08:00</updated>
+    <id>http://www.iovi.com/blog/2013/10/11/optimal-isolation-level</id>
+    <content type="html"><![CDATA[<h2>Choose optimal isolation level</h2>
+
+<p>Isolation level represent how a database maintains data integrity against the problems like dirty reads, phantom reads and non-repeatable reads which can occur due to concurrent transactions. java.sql.Connection interface provides  methods and constants to avoid the above mentioned problems by setting different isolation levels.</p>
+
+<pre><code>public interface Connection {
+    public static final int  TRANSACTION_NONE                 = 0
+    public static final int  TRANSACTION_READ_COMMITTED       = 2
+    public static final int  TRANSACTION_READ_UNCOMMITTED     = 1
+    public static final int  TRANSACTION_REPEATABLE_READ      = 4
+    public static final int  TRANSACTION_SERIALIZABLE         = 8
+    int    getTransactionIsolation();
+    void   setTransactionIsolation(int isolationlevelconstant);
+}
+</code></pre>
+
+<p>You can get the existing isolation level with getTransactionIsolation() method and set the isolation level with setTransactionIsolation(int isolationlevelconstant) by passing above constants to this method.
+The following table describes isolation level against the problem that it prevents :</p>
+
+<table>
+<thead>
+<tr>
+<th align="center">Transaction Level       </th>
+<th align="center"> Dirty reads   </th>
+<th align="center">Non  Repeatable reads  </th>
+<th align="center"> Phantom reads </th>
+<th align="center">Performance impact</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="center">TRANSACTION_NONE        </td>
+<td align="center"> N/A       </td>
+<td align="center"> N/A           </td>
+<td align="center"> N/A       </td>
+<td align="center"> FASTEST</td>
+</tr>
+<tr>
+<td align="center">TRANSACTION_READ_UNCOMMITED </td>
+<td align="center"> YES       </td>
+<td align="center"> YES           </td>
+<td align="center"> YES       </td>
+<td align="center"> FASTEST</td>
+</tr>
+<tr>
+<td align="center">TRANSACTION_READ_COMMITED   </td>
+<td align="center"> NO        </td>
+<td align="center"> YES           </td>
+<td align="center"> YES       </td>
+<td align="center"> FAST</td>
+</tr>
+<tr>
+<td align="center">TRANSACTION_REPEATABLE_READ </td>
+<td align="center"> NO        </td>
+<td align="center"> NO            </td>
+<td align="center"> YES       </td>
+<td align="center"> MEDIUM</td>
+</tr>
+<tr>
+<td align="center">TRANSACTION_SERIALIZABLE    </td>
+<td align="center"> NO        </td>
+<td align="center"> NO            </td>
+<td align="center"> NO        </td>
+<td align="center"> SLOW</td>
+</tr>
+</tbody>
+</table>
+
+
+<br/>
+
+
+<ul>
+<li>YES means that the Isolation level does not prevent the problem</li>
+<li>NO means that the Isolation level prevents the problem</li>
+</ul>
+
+
+<p>By setting isolation levels, you are having an impact on the performance as mentioned in the above table. Database use read and write locks to control above isolation levels. Let us have a look at each of these problems and then look at the impact on the performance.</p>
+
+<h3>Dirty read problem :</h3>
+
+<p>The following figure illustrates Dirty read problem  :</p>
+
+<p> <img src="http://www.iovi.com/images/upload/dirty_read.gif" alt="dirty_read" /></p>
+
+<pre><code>Step 1:    Database row has PRODUCT = A001 and PRICE = 10
+Step 2:    Connection1 starts  Transaction1 (T1) .
+Step 3:    Connection2 starts  Transaction2 (T2) .
+Step 4:    T1 updates PRICE =20 for PRODUCT = A001
+Step 5:    Database has now PRICE = 20 for PRODUCT = A001
+Step 6:    T2 reads PRICE = 20 for PRODUCT = A001
+Step 7:    T2 commits transaction
+Step 8:    T1 rollbacks the transaction because of some problem
+</code></pre>
+
+<p>The problem is that T2 gets wrong PRICE=20 for PRODUCT = A001 instead of 10 because of uncommitted read. Obviously it is very dangerous in critical transactions if you read inconsistent data. If you  are sure about not accessing data concurrently  then you can allow this problem by setting TRANSACTION_READ_UNCOMMITED or TRANSACTION_NONE that in turn improves performance otherwise you have to use TRANSACTION_READ_COMMITED to avoid this problem.</p>
+
+<h3>Unrepeatable read problem :</h3>
+
+<p>The following figure illustrates Unrepeatable read problem  :</p>
+
+<p><img src="http://www.iovi.com/images/upload/unrepeatable_read.gif" alt="unrepeatable_read" /></p>
+
+<pre><code>Step 1:    Database row has PRODUCT = A001 and PRICE = 10
+Step 2:    Connection1 starts  Transaction1 (T1) .
+Step 3:    Connection2 starts  Transaction2 (T2) .
+Step 4:    T1 reads PRICE =10 for PRODUCT = A001
+Step 5:    T2 updates PRICE = 20 for PRODUCT = A001
+Step 6:    T2 commits transaction
+Step 7:    Database row has PRODUCT = A001 and PRICE = 20
+Step 8:    T1 reads PRICE = 20 for PRODUCT = A001
+Step 9:    T1 commits transaction
+</code></pre>
+
+<p>Here the problem is that Transaction1 reads 10 first time and reads 20 second time but it is supposed to be 10 always whenever it reads a record in that transaction. You can control this problem by setting isolation level as TRANSACTION_REPEATABLE_READ(setting for which one? Of course connection1).</p>
+
+<h3>Phantom read problem :</h3>
+
+<p>The following figure illustrates Phantom read problem  :</p>
+
+<p><img src="http://www.iovi.com/images/upload/phantom_read.gif" alt="phantom_read" /></p>
+
+<pre><code>Step 1:    Database has a row PRODUCT = A001 and COMPANY_ID = 10
+Step 2:    Connection1 starts  Transaction1 (T1) .
+Step 3:    Connection2 starts  Transaction2 (T2) .
+Step 4:    T1 selects a row with a condition SELECT PRODUCT WHERE COMPANY_ID = 10
+Step 5:    T2 inserts a row with a condition INSERT PRODUCT=A002  WHERE COMPANY_ID= 10
+Step 6:    T2 commits transaction
+Step 7:    Database has 2 rows with that condition
+Step 8:    T1 select again with a condition SELECT PRODUCT WHERE COMPANY_ID=10 and gets 2 rows instead of 1 row
+Step 9:    T1 commits transaction
+</code></pre>
+
+<p>Here the problem is that T1 gets 2 rows instead of 1 row up on selecting the same condition second time. You can control this problem by setting isolation level as <code>TRANSACTION_SERIALIZABLE</code></p>
+
+<h2>Mechanism to Avoid</h2>
+
+<h2>At Last</h2>
+
+<p>Choosing a right isolation level for your program:</p>
+
+<p>Choosing a right isolation level for your program depends upon your application&rsquo;s requirement. In single application itself the requirement generally changes, suppose if you write a program for searching a product catalog from your database then you can easily choose <code>TRANSACTION_READ_UNCOMMITED</code> because you need not worry about the problems that are mentioned above, some other program can insert records at the same time, you don&rsquo;t have to bother much about that insertion. Obviously this improves performance significantly.
+If you write a critical program like bank or stocks analysis program where you want to control all of the above mentioned problems, you can choose TRANSACTION_SERIALIZABLE for maximum safety. Here it is the tradeoff between the safety and performance. Ultimately we need safety here.
+If you don&rsquo;t have to deal with concurrent transactions your application, then the best choice is <code>TRANSACTION_NONE</code> to improve performance.
+Other two isolation levels need good understanding of your requirement. If your application needs only committed records, then <code>TRANSACTION_READ_COMMITED</code> isolation is the good choice. If your application needs to read a row exclusively till you  finish your work, then <code>TRANSACTION_REPEATABLE_READ</code> is the best choice.
+Note: Be aware of your database server&rsquo;s support for these isolation levels. Database servers may not support all of these isolation levels. Oracle server supports only two isolation levels, <code>TRANSACTION_READ_COMMITED</code> and <code>TRANSACTION_SERIALIZABLE</code> isolation level, default isolation level is <code>TRANSACTION_READ_COMMITED</code>.</p>
 ]]></content>
   </entry>
   
