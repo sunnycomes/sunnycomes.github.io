@@ -266,13 +266,20 @@ Step 9:    T1 commits transaction
 
 <h2>Choosing a right isolation level for your program:</h2>
 
-<p>Choosing a right isolation level for your program depends upon your application&rsquo;s requirement. In single application itself the requirement generally changes, suppose if you write a program for searching a product catalog from your database then you can easily choose <code>TRANSACTION_READ_UNCOMMITED</code> because you need not worry about the problems that are mentioned above, some other program can insert records at the same time, you don&rsquo;t have to bother much about that insertion. Obviously this improves performance significantly.
-If you write a critical program like bank or stocks analysis program where you want to control all of the above mentioned problems, you can choose TRANSACTION_SERIALIZABLE for maximum safety. Here it is the tradeoff between the safety and performance. Ultimately we need safety here.
+<p>Choosing a right isolation level for your program depends upon your application&rsquo;s requirement. In single application itself the requirement generally changes, suppose if you write a program for searching a product catalog from your database then you can easily choose <code>TRANSACTION_READ_UNCOMMITED</code> because you need not worry about the problems that are mentioned above, some other program can insert records at the same time, you don&rsquo;t have to bother much about that insertion. Obviously this improves performance significantly.</p>
+
+<p>If you write a critical program like bank or stocks analysis program where you want to control all of the above mentioned problems, you can choose TRANSACTION_SERIALIZABLE for maximum safety. Here it is the tradeoff between the safety and performance. Ultimately we need safety here.
 If you don&rsquo;t have to deal with concurrent transactions your application, then the best choice is <code>TRANSACTION_NONE</code> to improve performance.
 Other two isolation levels need good understanding of your requirement. If your application needs only committed records, then <code>TRANSACTION_READ_COMMITED</code> isolation is the good choice. If your application needs to read a row exclusively till you  finish your work, then <code>TRANSACTION_REPEATABLE_READ</code> is the best choice.
 Note: Be aware of your database server&rsquo;s support for these isolation levels. Database servers may not support all of these isolation levels. Oracle server supports only two isolation levels, <code>TRANSACTION_READ_COMMITED</code> and <code>TRANSACTION_SERIALIZABLE</code> isolation level, default isolation level is <code>TRANSACTION_READ_COMMITED</code>.</p>
 
-<h2>Something Besides the Isolation Level of Data Conflict</h2>
+<h2>References</h2>
+
+<ul>
+<li><a href="http://www.precisejava.com/javaperf/j2ee/JDBC.htm#JDBC102">Best practices to improve performance in JDBC</a></li>
+<li><a href="http://www.codeproject.com/Articles/114262/6-ways-of-doing-locking-in-NET-Pessimistic-and-opt#Solution%20number%202:-%20Use%20timestamp%20data%20type">6 ways of doing locking in .NET (Pessimistic and optimistic)</a></li>
+</ul>
+
 </div>
 
 
@@ -319,7 +326,7 @@ Note: Be aware of your database server&rsquo;s support for these isolation level
         <a class="basic-alignment left" href="/blog/2013/09/06/short-list-of-mysql-commands/" title="Previous Post: Short List of MySQL Commands">&laquo; Short List of MySQL Commands</a>
       
       
-        <a class="basic-alignment right" href="/blog/2013/10/31/best-practices-to-improve-performance-in-JDBC/" title="Next Post: Best practices to improve performance in JDBC">Best practices to improve performance in JDBC &raquo;</a>
+        <a class="basic-alignment right" href="/blog/2013/10/21/optimistic-and-pessimistic-locking/" title="Next Post: Optimistic and Pessimistic Locking">Optimistic and Pessimistic Locking &raquo;</a>
       
     </p>
   </footer>
@@ -352,11 +359,11 @@ Note: Be aware of your database server&rsquo;s support for these isolation level
       </li>
     
       <li class="post">
-        <a href="/blog/2013/10/11/optimal-isolation-level/">Optimal JDBC Transaction Isolation Level</a>
+        <a href="/blog/2013/10/21/optimistic-and-pessimistic-locking/">Optimistic and Pessimistic Locking</a>
       </li>
     
       <li class="post">
-        <a href="/blog/2013/09/06/short-list-of-mysql-commands/">Short List of MySQL Commands</a>
+        <a href="/blog/2013/10/11/optimal-isolation-level/">Optimal JDBC Transaction Isolation Level</a>
       </li>
     
   </ul>

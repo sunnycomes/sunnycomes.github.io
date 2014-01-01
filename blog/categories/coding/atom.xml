@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Coding | I/O Vision]]></title>
   <link href="http://www.iovi.com/blog/categories/coding/atom.xml" rel="self"/>
   <link href="http://www.iovi.com/"/>
-  <updated>2014-01-01T21:06:13+08:00</updated>
+  <updated>2014-01-01T23:01:46+08:00</updated>
   <id>http://www.iovi.com/</id>
   <author>
     <name><![CDATA[Sunny]]></name>
@@ -207,36 +207,36 @@
 <table>
 <thead>
 <tr>
-<th align="left"><em>Type</em> </th>
+<th align="center"><em>Type</em> </th>
 <th align="center"> <em>Tier</em> </th>
-<th align="right"> <em>Driver mechanism</em> </th>
-<th> <em>Description</em></th>
+<th align="center"> <em>Driver mechanism</em> </th>
+<th align="center"> <em>Description</em></th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td align="left">1 </td>
+<td align="center">1 </td>
 <td align="center">2  </td>
-<td align="right">JDBC-ODBC    </td>
-<td>This driver converts JDBC calls to ODBC calls through JDBC-ODBC Bridge driver which in turn converts to database calls. Client requires ODBC libraries.</td>
+<td align="center">JDBC-ODBC    </td>
+<td align="center">This driver converts JDBC calls to ODBC calls through JDBC-ODBC Bridge driver which in turn converts to database calls. Client requires ODBC libraries.</td>
 </tr>
 <tr>
-<td align="left">2 </td>
+<td align="center">2 </td>
 <td align="center">2  </td>
-<td align="right">Native API &ndash; Partly &ndash; Java driver</td>
-<td>This driver converts JDBC calls to database specific native calls. Client requires database specific libraries.</td>
+<td align="center">Native API &ndash; Partly &ndash; Java driver</td>
+<td align="center">This driver converts JDBC calls to database specific native calls. Client requires database specific libraries.</td>
 </tr>
 <tr>
-<td align="left">3 </td>
+<td align="center">3 </td>
 <td align="center">3  </td>
-<td align="right">JDBC &ndash; Net -All Java driver</td>
-<td>This driver passes calls to proxy server through network protocol which in turn converts to database calls and passes through database specific protocol. Client doesn&rsquo;t require any driver.</td>
+<td align="center">JDBC &ndash; Net -All Java driver</td>
+<td align="center">This driver passes calls to proxy server through network protocol which in turn converts to database calls and passes through database specific protocol. Client doesn&rsquo;t require any driver.</td>
 </tr>
 <tr>
-<td align="left">4 </td>
+<td align="center">4 </td>
 <td align="center">2  </td>
-<td align="right">Native protocol &ndash; All &ndash; Java driver</td>
-<td>This driver directly calls database. Client doesn&rsquo;t require any driver.</td>
+<td align="center">Native protocol &ndash; All &ndash; Java driver</td>
+<td align="center">This driver directly calls database. Client doesn&rsquo;t require any driver.</td>
 </tr>
 </tbody>
 </table>
@@ -246,7 +246,7 @@
 
 <h3><a name="connection"></a>Optimization with Connection</h3>
 
-<p>We have different approaches to establish a connection with the database, the first type of approach is :</p>
+<p>We have different approaches to establish a connection with the database, the <strong>first</strong> type of approach is :</p>
 
 <ol>
 <li>DriverManager.getConnection(String url)</li>
@@ -266,9 +266,9 @@
     Connection con = DriverManger.getConnection("jdbc:oracle:thin:@hoststring", props);
 </code></pre>
 
-<p>You need to figure out appropriate values for above properties for better performance depending on application&rsquo;s requirement. Suppose, you want to set these properties for search facility, you can increase defaultRowPrefetch so that you can increase performance significantly.
-The second type of approach is to get connection from DataSource.
-You can get the connection using javax.sql.DataSource interface. The advantage of getting connection from this approach is that the DataSource works with JNDI. The implementation of DataSource is done by vendor, for example you can find this feature in weblogic, websphere etc. The vendor simply creates DataSource implementation class and binds it to the JNDI tree. The following code shows how a vendor creates implementation class and binds it to JNDI tree.</p>
+<p>You need to figure out appropriate values for above properties for better performance depending on application&rsquo;s requirement. Suppose, you want to set these properties for search facility, you can increase defaultRowPrefetch so that you can increase performance significantly.</p>
+
+<p>The <strong>second</strong> type of approach is to get connection from DataSource. You can get the connection using javax.sql.DataSource interface. The advantage of getting connection from this approach is that the DataSource works with JNDI. The implementation of DataSource is done by vendor, for example you can find this feature in weblogic, websphere etc. The vendor simply creates DataSource implementation class and binds it to the JNDI tree. The following code shows how a vendor creates implementation class and binds it to JNDI tree.</p>
 
 <pre><code>    DataSourceImpl dsi = new DataSourceImpl();
     dsi.setServerName("oracle8i");
@@ -286,7 +286,7 @@ You can get the connection using javax.sql.DataSource interface. The advantage o
 
 <p>By using this approach we can improve performance. Nearly all major vendor application servers like weblogic, webshpere implement the DataSource by taking connection from connection pool rather than a single connection every time. The application server creates connection pool by default. We will discuss the advantage of connection pool to improve performance in the next section.</p>
 
-<h3>Use Connection Pool</h3>
+<h4>Use Connection Pool</h4>
 
 <p>Creating a connection to the database server is expensive. It is even more expensive if the server is located on another machine. Connection pool contains a number of open database connections with minimum and maximum connections, that means the connection pool has open connections between minimum and maximum number that you specify. The pool expands and shrinks between minimum and maximum size depending on incremental capacity. You need to give minimum, maximum and incremental sizes as properties to the pool in order to maintain that functionality. You get the connection from the pool rather directly .For example, if you give properties like min, max and incremental sizes as 3, 10 and 1 then pool is created with size 3 initially and if it reaches it&rsquo;s capacity 3 and if a client requests a connection concurrently, it increments its capacity by 1 till it reaches 10 and later on it puts all its clients in a queue.</p>
 
@@ -310,154 +310,141 @@ java.sql.Connection interface provides some methods to control transaction they 
 <p>Isolation level represent how a database maintains data integrity against the problems like dirty reads, phantom reads and non-repeatable reads which can occur due to concurrent transactions. java.sql.Connection interface provides  methods and constants to avoid the above mentioned problems by setting different isolation levels.
 public interface Connection {</p>
 
-<pre><code>    public static final int  TRANSACTION_NONE                             = 0
-    public static final int  TRANSACTION_READ_COMMITTED         = 2
-    public static final int  TRANSACTION_READ_UNCOMMITTED     = 1
-    public static final int  TRANSACTION_REPEATABLE_READ       = 4
-    public static final int  TRANSACTION_SERIALIZABLE                 = 8
+<pre><code>    public static final int  TRANSACTION_NONE                               = 0
+    public static final int  TRANSACTION_READ_COMMITTED                 = 2
+    public static final int  TRANSACTION_READ_UNCOMMITTED           = 1
+    public static final int  TRANSACTION_REPEATABLE_READ            = 4
+    public static final int  TRANSACTION_SERIALIZABLE                   = 8
     int          getTransactionIsolation();
     void        setTransactionIsolation(int isolationlevelconstant);
 </code></pre>
 
 <p>}</p>
 
-<p><a name='api_tech'></a>##Basic API techniques</p>
+<p>More details are covered in <a href="/blog/2013/10/11/optimal-isolation-level/">Optimal JDBC Transaction Isolation Level</a> and <a href="/blog/2013/10/21/optimistic-and-pessimistic-locking/">Optimistic and Pessimistic Locking</a></p>
 
-<p><img src="/images/upload/most_versatile_most_optimized.png" alt="most_versatile_most_optimized" /></p>
+<h3>Optimization with Statement</h3>
 
-<h3>SQL Statements</h3>
-
-<ul>
-<li>Most flexible</li>
-<li>Least reliable</li>
-<li>Must be recompiled in database for each use</li>
-</ul>
-
-
-<h4>PreparedStatement</h4>
-
-<ul>
-<li>Represents a precompiled SQL statement</li>
-<li>Can be used to efficiently execute statement multiple times</li>
-<li>Somewhat flexible - can create new ones as needed</li>
-</ul>
-
-
-<h3>CallableStatement</h3>
-
-<ul>
-<li>Used to execute SQL stored procedures. Use stored procedures when they can be created in a standard manner. Do watch out for DB specific SP definitions that can cause migration headaches.</li>
-<li>Same syntax as PreparedStatement.</li>
-<li>Least flexible.</li>
-<li>Most optimized DB call.</li>
-</ul>
-
-
-<h3>Cache</h3>
-
-<p>Keep data within client to reduce the number of round-trips to the database.<br/>
-Lesson: The less JDBC the better.</p>
-
-<h2><a name='design_tech'></a>Basic Design Techniques</h2>
-
-<h3>Use Database Connection Pool</h3>
-
-<ul>
-<li>Necessity for any production system.</li>
-<li>Don&rsquo;t use DriverManager.getConnection() often. JDBC connections can take 0.5 to 2 seconds to create.</li>
-<li>Create Pool of Connections and reuse them.</li>
-</ul>
-
-
-<h3>Use multi-threading with Connection Pooling to address network latency</h3>
-
-<p>Threads can issue queries over separate database connections. This improves performance to a point.</p>
-
-<pre><code>Single-batch Transactions
-    BEGIN TRANSACTION
-        UPDATE TABLE1... 
-        INSERT INTO TABLE2...
-        DELETE TABLE3
-    COMMIT
-</code></pre>
-
-<h3>Single-batch Transactions&mdash;-Significantly different effects!</h3>
-
-<ul>
-<li>DB obtains necessary locks on rows and tables, uses and releases them in one step</li>
-<li>Depending on transaction type, separate statements and commits can result in more DB calls and hold DB locks longer</li>
-</ul>
-
-
-<h3>Don&rsquo;t have transaction span user input</h3>
-
-<p>Application sends BEGIN TRAN and SQL, locking rows or tables for update
-Application waits for user to press key before committing transaction</p>
-
-<h4>Solution: Optimistic locking</h4>
+<p>Statement interface represents SQL query and execution and they provide number of methods and constants to work with queries. They also provide some methods to fine tune performance. Programmer may overlook these fine tuning methods that result in poor performance. The following are the tips to improve performance by using statement interfaces</p>
 
 <ol>
-<li>Optimistic locking employs timestamps and triggers in queries and updates</li>
-<li>Queries select data with timestamp value</li>
-<li>Prepare a transaction based on that value, without locking data in a transaction</li>
-<li>If that value changed, this update is invalid and you should query again</li>
+<li>Choose the right Statement interface</li>
+<li>Do batch update</li>
+<li>Do batch retrieval using Statement</li>
+<li>Close Statement when finished</li>
 </ol>
 
 
-<h3>Smart Queries</h3>
+<h4>1. Choose right Statement interface</h4>
 
-<ul>
-<li>Make queries as specific as possible,Select only required columns rather than using select * from Tablexyz.</li>
-<li>Put more logic into SQL statements</li>
-<li>DB are designed to use SQL efficiently</li>
-<li>Proper use of SQL can avoid performance problems</li>
-</ul>
+<p>There are three types of Statement interfaces in JDBC to represent the SQL query and execute that query, they are Statement, PreparedStatement and CallableStatement.
+Statement is used for static SQL statement with no input and output parameters, PreparedStatement is used for dynamic SQL statement with input parameters and CallableStatement is used for dynamic SQL satement with both input and output parameters, but PreparedStatement and CallableStatement can be used for static SQL statements as well. CallableStatement is mainly meant for stored procedures.</p>
 
+<p>PreparedStatement gives better performance when compared to Statement because it is pre-parsed and pre-compiled by the database once for the first time and then onwards it reuses the parsed and compiled statement. Because of this feature, it significantly improves performance when a statement executes repeatedly, It reduces the overload incurred by parsing and compiling.</p>
 
-<p>Smart Query Ex: get employees in ENG dept, Instead of:</p>
+<p>CallableStatement gives better performance when compared to PreparedStatement and Statement when there is a requirement for single request to process multiple complex statements. It parses and stores the stored procedures in the database and does all the work at database itself that in turn improves performance. But we loose java portability and we have to depend up on database specific stored procedures.</p>
 
-<pre><code>SELECT * FROM employees; 
-SELECT * FROM dept;
+<h4>2. Do batch update</h4>
+
+<p>You can send multiple queries to the database at a time using batch update feature of statement objects this reduces the number of JDBC calls and improves performance. Here is an example of how you can do batch update,</p>
+
+<pre><code>statement.addBatch( "sql query1");
+statement.addBatch(" sql query2");
+statement.addBatch(" sql query3");
+statement.executeBatch();
 </code></pre>
 
-<p>(and joining on Java application side), <strong>use database join:</strong></p>
+<p><strong>All</strong> three types of statements have these methods to do batch update.</p>
 
-<pre><code>SELECT employees.* FROM employees E, dept D 
-WHERE E.DEPTNO = D.DEPTNO AND D.DEPTTYPE = 'ENG';
+<h4>3. Do batch retrieval using Statement</h4>
+
+<p>You can get the default number of rows that is provided by the driver. You can improve performance by increasing number of rows to be fetched at a time from database using <code>setFetchSize()</code> method of the statement object.Initially find the default size by using <code>Statement.getFetchSize();</code>   and then set the size as per your requirement <code>Statement.setFetchSize(30);</code>Here it retrieves 30 rows at a time for all result sets of this statement.</p>
+
+<h4>4. Close Statement when finished</h4>
+
+<p>Close statement object as soon as you finish working with that, it explicitly gives a chance to garbage collector to recollect memory as early as possible which in turn effects performance. Statement.close();</p>
+
+<h3>Optimization with ResultSet</h3>
+
+<p>ResultSet interface represents data that contains the results of executing an SQL Query and it provides a number of methods and constants to work with that data. It also provides methods to fine tune retrieval of data to improve performance. The following are the fine tuning tips to improve performance by using ResultSet interface.
+1. Do batch retrieval using ResultSet
+2. Set up proper direction for processing the rows
+3. Use proper get methods
+4. Close ResultSet when finished</p>
+
+<h4>1. Do batch retrieval using ResultSet</h4>
+
+<p>ResultSet interface also provides batch retrieval facility like Statement as mentioned above. It overrides the Statement behaviour. Initially find the default size by using
+<code>ResultSet.getFetchSize();</code> and then set the size as per requirement <code>ResultSet.setFetchSize(50);</code> This feature significantly improves performance when you are dealing with retrieval of large number of rows like search functionality.</p>
+
+<h4>2. Setup proper direction of processing rows</h4>
+
+<p>ResultSet has the capability of setting the direction in which you want to process the results, it has three constants for this purpose, they are <code>FETCH_FORWARD</code>, <code>FETCH_REVERSE</code>, <code>FETCH_UNKNOWN</code>. Initially find the direction by using <code>ResultSet.getFetchDirection();</code> and then set the direction accordingly <code>ResultSet.setFetchDirection(FETCH_REVERSE);</code></p>
+
+<h4>3. Use proper <code>getxxx()</code> methods</h4>
+
+<p>ResultSet interface provides lot of getxxx() methods to get and convert database data types to java data types and is flexibile in converting non feasible data types. For example, <code>getString(String columnName)</code> returns java String object. <code>columnName</code> is recommended to be a <code>VARCHAR</code> or <code>CHAR</code> type of database but it can also be a <code>NUMERIC</code>, <code>DATE</code> etc.If you give non recommended parameters, it needs to cast it to proper java data type that is  expensive. For example consider that  you select  a product&rsquo;s id from huge database which returns millions of records from search functionality, it needs to convert all these records that is very expensive.
+So always use proper getxxx() methods according to JDBC recommendations.</p>
+
+<h4>4. Close ResultSet when finished</h4>
+
+<p>Close ResultSet object as soon as you finish working with ResultSet object even though Statement object closes the ResultSet object implicitly when it closes, closing ResultSet explicitly gives chance to garbage collector to recollect memory as early as possible because ResultSet object may occupy lot of memory depending on query.
+<code>ResultSet.close();</code></p>
+
+<h3>Optimization with SQL Query</h3>
+
+<p>This is one of the area where programmers generally make a mistake. If you give a query like</p>
+
+<pre><code>Statement stmt = connection.createStatement();
+ResultSet rs = stmt.executeQuery("select * from employee where name=RR");
 </code></pre>
 
-<p>Minimize ResultSet before crossing network
-Many performance problems come from moving raw data around needlessly</p>
+<p>The returned result set contains all the columns data. you may not need all the column data and want only salary for RR.
+The better query is <code>"select salary from employee where name=RR"</code>
+It returns the required data  and reduces unnecessary data retrieval. Make your query specific.</p>
 
-<h3>Smart Query Guidelines</h3>
+<h3>Cache the read-only and read-mostly data</h3>
 
-<ul>
-<li>Use DB for filtering</li>
-<li>Use Java for business logic</li>
-<li>DB does filtering very well</li>
-<li>DB business logic is poor(At least very inconsistent between database vendors.)</li>
-</ul>
+<p>Every database schema generally has read-only and read-mostly tables. These tables are called as lookup tables. Read-only tables contain static data that never changes in its life time. Read-mostly tables contain semi dynamic data that changes often. There will not be any sort of writing operations in these tables.
+If an application reads data from these tables for every client request, then it is redundant, unnecessary and expensive. The solution for this problem is to cache the read-only table data by reading the data from that table once and caching the read-mostly table data by reading and refreshing with time limit. This solution improves performance significantly. See the following link for source code of such <a href="http://www.javaworld.com/javaworld/jw-07-2001/jw-0720-cache.html">caching mechanism</a>.</p>
 
+<p>You can tweak this code as per application requirement. For read-only data, you need not refresh data in its life time. For read-mostly data, you need to refresh the data with time limit. It is better to set this refreshing time limit in properties file so that it can be changed at any time.</p>
 
-<h3>Keep operational data set small as possible</h3>
+<h4>Fetch small amount of data iteratively instead of fetching whole data at once</h4>
 
-<ul>
-<li>Move non-current data to other tables and do joins for rarer historical queries</li>
-<li>Otherwise, index and cluster so frequently used data is logically and physically localized</li>
-</ul>
-
-
-<h2><a name='strategies'></a>Optimization Stategies</h2>
+<p>Applications generally require to retrieve huge data from the database using JDBC in operations  like searching data. If the client request for a search, the application might return the whole result set at once. This process takes lot of time and has an impact on performance. The solution for the problem is</p>
 
 <ol>
-<li>Leverage the strengths of the DB</li>
-<li>Use the full range of java.sql API</li>
-<li>Design for Performance - Connection Pools, Multi-Threading, etc.</li>
-<li>Always close Statement and ResultSet objects as soon as possible.</li>
-<li>Test your code with debug statements to determine the time it takes to execute your query and so on to help in tuning your code. Also use query plan functionality if available.</li>
-<li>Use proper ( and a single standard if possible ) formats, especially for dates.</li>
-<li>Use proper data types for specific kind of data. For example, store birthdate as a date type rather than, say, varchar.</li>
+<li>Cache the search data at the server-side and return the data iteratively to the client. For example, the search returns 1000 records, return data to the client in 10 iterations where each iteration has 100 records.</li>
+<li>Use Stored procedures to return data iteratively. This does not use server-side caching rather server-side application uses Stored procedures to return small amount of data iteratively.</li>
 </ol>
+
+
+<p>Out of these solutions the second solution gives better performance because it need not keep the data in the cache (in-memory). The first procedure is useful when the total amount of data to be returned is not huge.</p>
+
+<h2>Key Points</h2>
+
+<ul>
+<li>Use Type two driver for two tiered applications to communicate from java client to database that gives better performance than Type1 driver.</li>
+<li>Use Type four driver for applet to database communication that is two tiered applications and three tiered applications when compared to other drivers.</li>
+<li>Use Type one driver if you don&rsquo;t have a driver for your database. This is a rare situation because all major databases support drivers or you will get a driver from third party vendors.</li>
+<li>Use Type three driver to communicate between client and proxy server ( weblogic, websphere etc) for three tiered applications that gives better performance when compared to Type 1&amp;2 drivers.</li>
+<li>Pass database specific properties like defaultPrefetch if your database supports any of them.</li>
+<li>Get database connection from connection pool rather than getting it directly</li>
+<li>Use batch transactions.</li>
+<li>Choose right isolation level as per your requirement. TRANSACTION_READ_UNCOMMITED gives best performance for concurrent transaction based applications. TRANSACTION_NONE gives best performance for non-concurrent transaction based applications.
+*Your database server may not support all isolation levels, be aware of your database server features.</li>
+<li>Use PreparedStatement when you execute the same statement more than once.</li>
+<li>Use CallableStatement when you want result from multiple and complex statements for a single request.</li>
+<li>Use batch update facility available in Statements.</li>
+<li>Use batch retrieval facility available in Statements or ResultSet.</li>
+<li>Set up proper direction for processing rows.</li>
+<li>Use proper getXXX() methods.</li>
+<li>Close ResultSet, Statement and Connection whenever you finish your work with them.</li>
+<li>Write precise SQL queries.</li>
+<li>Cache read-only and read-mostly tables data.</li>
+<li>Fetch small amount of data iteratively rather than whole data at once when retrieving large amount of data like searching database etc.</li>
+</ul>
 
 
 <h2>References:</h2>
@@ -470,6 +457,105 @@ Many performance problems come from moving raw data around needlessly</p>
 <li><a href="http://www.jguru.com/faq/view.jsp?EID=131579">What areas should I focus on for the best performance in a JDBC application?</a></li>
 </ul>
 
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Optimistic and Pessimistic Locking]]></title>
+    <link href="http://www.iovi.com/blog/2013/10/21/optimistic-and-pessimistic-locking/"/>
+    <updated>2013-10-21T21:40:48+08:00</updated>
+    <id>http://www.iovi.com/blog/2013/10/21/optimistic-and-pessimistic-locking</id>
+    <content type="html"><![CDATA[<h2>Locking Introduction</h2>
+
+<p>This article talks about serveral ways of doing locking. It starts with concurrency problems and then discusses about 2 ways of doing optimistic locking. As optimistic locking does not solve the concurrency issues from roots, it introduces pessimistic locking. It then moves ahead to explain how isolation levels can help us implement pessimistic locking. Each isolation level is explained with sample demonstration to make concepts clearer.</p>
+
+<h2>Why do we need locking?</h2>
+
+<p>In multi-user environment it&rsquo;s possible that multiple users can update the same record at the same time causing confusion between users. This issue is termed as concurrency.</p>
+
+<h2>How can we solve concurrency problems?</h2>
+
+<p>Concurrency problems can be solved by implementing proper &ldquo;Locking strategy&rdquo;. Locks prevent action on a resource to be performed when some other resource is already performing some action on it.</p>
+
+<h2>Optimistic Locking</h2>
+
+<p>As the name suggests &ldquo;optimistic&rdquo; it assumes that multiple transaction will work without affecting each other. In other words no locks are enforced while doing optimistic locking. The transaction just verifies that no other transaction has modified the data. In case of modification the transaction is rolled back.</p>
+
+<h3>How does optimistic lock work?</h3>
+
+<p>You can implement optimistic locking by numerous ways but the fundamental to implement optimistic locking remains same. It&rsquo;s a 4 step process as shown below:</p>
+
+<ol>
+<li>Record the current timestamp.</li>
+<li>Start changing the values.</li>
+<li>Before updating check whether anyone else has changed the values by checking the old time stamp and new time stamp or the old value and the current value in database.</li>
+<li>If it&rsquo;s not equal rollbacks or else commit.</li>
+</ol>
+
+
+<p><img src="/images/upload/optimistic_locking.jpg" alt="optimistic_locking" /></p>
+
+<pre><code>update tbl_items set itemname='itemname' where CurrentTimestamp='OldTimeStamp'
+
+update tbl_items set itemname=@itemname where itemname=@OldItemNameValue
+</code></pre>
+
+<h2>Pessimistic Locking</h2>
+
+<p>But it looks like by using optimistic locking concurrency problems are not really solved?Yes, you said right. By using optimistic locking you only detect the concurrency problem. To solve concurrency issues from the roots itself we need to use pessimistic locking. Optimistic is like prevention while pessimistic locking is actually the cure.
+Pessimistic locking assumes that concurrency/collision issues will happen so a lock is placed on the records and then data is updated.</p>
+
+<h3>How can we do pessimistic locking?</h3>
+
+<p>We can do pessimistic locking by specifying &ldquo;IsolationLevel&rdquo; in SQL Server stored procedures, ADO.NET level or by using transaction scope object, in java the JDBC Connection.</p>
+
+<h3>What kind of locks can be acquired by using pessimistic locking?</h3>
+
+<p>There are 4 kinds of locks you can acquire Shared, Exclusive, Update and intent. The first two are actual locks while the other two are hybrid locks and marker. Correspondingly, in SQL there are 4 kinds of transaction isolation level, below is a simple table which shows when to use them and what locks they put.</p>
+
+<table>
+<thead>
+<tr>
+<th align="center">Isolation Level      </th>
+<th align="center">  Read                    </th>
+<th align="center">Update     </th>
+<th align="center">Insert</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="center">Read Uncommitted     </td>
+<td align="center">  Reads data which is yet not committed.  </td>
+<td align="center">Allowed    </td>
+<td align="center">Allowed</td>
+</tr>
+<tr>
+<td align="center">Read Committed ( Default)</td>
+<td align="center">  Reads data which is committed.      </td>
+<td align="center">Allowed    </td>
+<td align="center">Allowed</td>
+</tr>
+<tr>
+<td align="center">Repeatable Read      </td>
+<td align="center">  Reads data which is committed.      </td>
+<td align="center">Not Allowed    </td>
+<td align="center">Allowed</td>
+</tr>
+<tr>
+<td align="center">Serializable         </td>
+<td align="center">  Reads data which is committed.      </td>
+<td align="center">Not Allowed    </td>
+<td align="center">Not Allowed</td>
+</tr>
+</tbody>
+</table>
+
+
+<p>More details are covered in this post<a href="/blog/2013/10/11/optimal-isolation-level/">Optimal Isolation Level</a>;</p>
+
+<h2>References:</h2>
+
+<p><a href="http://www.codeproject.com/Articles/114262/6-ways-of-doing-locking-in-NET-Pessimistic-and-opt#Solution%20number%202:-%20Use%20timestamp%20data%20type">6 ways of doing locking in .NET (Pessimistic and optimistic)</a></p>
 ]]></content>
   </entry>
   
@@ -615,13 +701,20 @@ Step 9:    T1 commits transaction
 
 <h2>Choosing a right isolation level for your program:</h2>
 
-<p>Choosing a right isolation level for your program depends upon your application&rsquo;s requirement. In single application itself the requirement generally changes, suppose if you write a program for searching a product catalog from your database then you can easily choose <code>TRANSACTION_READ_UNCOMMITED</code> because you need not worry about the problems that are mentioned above, some other program can insert records at the same time, you don&rsquo;t have to bother much about that insertion. Obviously this improves performance significantly.
-If you write a critical program like bank or stocks analysis program where you want to control all of the above mentioned problems, you can choose TRANSACTION_SERIALIZABLE for maximum safety. Here it is the tradeoff between the safety and performance. Ultimately we need safety here.
+<p>Choosing a right isolation level for your program depends upon your application&rsquo;s requirement. In single application itself the requirement generally changes, suppose if you write a program for searching a product catalog from your database then you can easily choose <code>TRANSACTION_READ_UNCOMMITED</code> because you need not worry about the problems that are mentioned above, some other program can insert records at the same time, you don&rsquo;t have to bother much about that insertion. Obviously this improves performance significantly.</p>
+
+<p>If you write a critical program like bank or stocks analysis program where you want to control all of the above mentioned problems, you can choose TRANSACTION_SERIALIZABLE for maximum safety. Here it is the tradeoff between the safety and performance. Ultimately we need safety here.
 If you don&rsquo;t have to deal with concurrent transactions your application, then the best choice is <code>TRANSACTION_NONE</code> to improve performance.
 Other two isolation levels need good understanding of your requirement. If your application needs only committed records, then <code>TRANSACTION_READ_COMMITED</code> isolation is the good choice. If your application needs to read a row exclusively till you  finish your work, then <code>TRANSACTION_REPEATABLE_READ</code> is the best choice.
 Note: Be aware of your database server&rsquo;s support for these isolation levels. Database servers may not support all of these isolation levels. Oracle server supports only two isolation levels, <code>TRANSACTION_READ_COMMITED</code> and <code>TRANSACTION_SERIALIZABLE</code> isolation level, default isolation level is <code>TRANSACTION_READ_COMMITED</code>.</p>
 
-<h2>Something Besides the Isolation Level of Data Conflict</h2>
+<h2>References</h2>
+
+<ul>
+<li><a href="http://www.precisejava.com/javaperf/j2ee/JDBC.htm#JDBC102">Best practices to improve performance in JDBC</a></li>
+<li><a href="http://www.codeproject.com/Articles/114262/6-ways-of-doing-locking-in-NET-Pessimistic-and-opt#Solution%20number%202:-%20Use%20timestamp%20data%20type">6 ways of doing locking in .NET (Pessimistic and optimistic)</a></li>
+</ul>
+
 ]]></content>
   </entry>
   

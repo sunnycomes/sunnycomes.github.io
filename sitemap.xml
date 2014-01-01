@@ -6,13 +6,17 @@
     </url>
     <url>
         <loc>http://www.iovi.com/blog/2013/10/11/optimal-isolation-level/</loc>
-        <lastmod>2014-01-01T19:51:53+08:00</lastmod>
+        <lastmod>2014-01-01T22:00:22+08:00</lastmod>
+    </url>
+    <url>
+        <loc>http://www.iovi.com/blog/2013/10/21/optimistic-and-pessimistic-locking/</loc>
+        <lastmod>2014-01-01T22:10:05+08:00</lastmod>
     </url>
     <url>
         <loc>
             http://www.iovi.com/blog/2013/10/31/best-practices-to-improve-performance-in-JDBC/
         </loc>
-        <lastmod>2014-01-01T16:58:45+08:00</lastmod>
+        <lastmod>2014-01-01T22:52:57+08:00</lastmod>
     </url>
     <url>
         <loc>http://www.iovi.com/blog/2013/11/11/java-performance-tunning-tips/</loc>
@@ -28,11 +32,11 @@
     </url>
     <url>
         <loc>http://www.iovi.com/blog/archives/</loc>
-        <lastmod>2014-01-01T19:51:53+08:00</lastmod>
+        <lastmod>2014-01-01T22:52:57+08:00</lastmod>
     </url>
     <url>
         <loc>http://www.iovi.com/</loc>
-        <lastmod>2014-01-01T19:51:53+08:00</lastmod>
+        <lastmod>2014-01-01T22:52:57+08:00</lastmod>
     </url>
     <url>
         <loc>http://www.iovi.com/robots.txt</loc>

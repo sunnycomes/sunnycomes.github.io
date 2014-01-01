@@ -316,6 +316,135 @@ Markdown was created to be easy to read, easy to write, and still readable in pl
       
   <header>
     
+      <h1 class="entry-title"><a href="/blog/2013/10/21/optimistic-and-pessimistic-locking/">Optimistic and Pessimistic Locking</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-10-21T21:40:48+08:00" pubdate data-updated="true">Oct 21<span>st</span>, 2013</time>
+        
+           | <a href="/blog/2013/10/21/optimistic-and-pessimistic-locking/#disqus_thread"
+             data-disqus-identifier="http://www.iovi.com/blog/2013/10/21/optimistic-and-pessimistic-locking/">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><h2>Locking Introduction</h2>
+
+<p>This article talks about serveral ways of doing locking. It starts with concurrency problems and then discusses about 2 ways of doing optimistic locking. As optimistic locking does not solve the concurrency issues from roots, it introduces pessimistic locking. It then moves ahead to explain how isolation levels can help us implement pessimistic locking. Each isolation level is explained with sample demonstration to make concepts clearer.</p>
+
+<h2>Why do we need locking?</h2>
+
+<p>In multi-user environment it&rsquo;s possible that multiple users can update the same record at the same time causing confusion between users. This issue is termed as concurrency.</p>
+
+<h2>How can we solve concurrency problems?</h2>
+
+<p>Concurrency problems can be solved by implementing proper &ldquo;Locking strategy&rdquo;. Locks prevent action on a resource to be performed when some other resource is already performing some action on it.</p>
+
+<h2>Optimistic Locking</h2>
+
+<p>As the name suggests &ldquo;optimistic&rdquo; it assumes that multiple transaction will work without affecting each other. In other words no locks are enforced while doing optimistic locking. The transaction just verifies that no other transaction has modified the data. In case of modification the transaction is rolled back.</p>
+
+<h3>How does optimistic lock work?</h3>
+
+<p>You can implement optimistic locking by numerous ways but the fundamental to implement optimistic locking remains same. It&rsquo;s a 4 step process as shown below:</p>
+
+<ol>
+<li>Record the current timestamp.</li>
+<li>Start changing the values.</li>
+<li>Before updating check whether anyone else has changed the values by checking the old time stamp and new time stamp or the old value and the current value in database.</li>
+<li>If it&rsquo;s not equal rollbacks or else commit.</li>
+</ol>
+
+
+<p><img src="/images/upload/optimistic_locking.jpg" alt="optimistic_locking" /></p>
+
+<pre><code>update tbl_items set itemname='itemname' where CurrentTimestamp='OldTimeStamp'
+
+update tbl_items set itemname=@itemname where itemname=@OldItemNameValue
+</code></pre>
+
+<h2>Pessimistic Locking</h2>
+
+<p>But it looks like by using optimistic locking concurrency problems are not really solved?Yes, you said right. By using optimistic locking you only detect the concurrency problem. To solve concurrency issues from the roots itself we need to use pessimistic locking. Optimistic is like prevention while pessimistic locking is actually the cure.
+Pessimistic locking assumes that concurrency/collision issues will happen so a lock is placed on the records and then data is updated.</p>
+
+<h3>How can we do pessimistic locking?</h3>
+
+<p>We can do pessimistic locking by specifying &ldquo;IsolationLevel&rdquo; in SQL Server stored procedures, ADO.NET level or by using transaction scope object, in java the JDBC Connection.</p>
+
+<h3>What kind of locks can be acquired by using pessimistic locking?</h3>
+
+<p>There are 4 kinds of locks you can acquire Shared, Exclusive, Update and intent. The first two are actual locks while the other two are hybrid locks and marker. Correspondingly, in SQL there are 4 kinds of transaction isolation level, below is a simple table which shows when to use them and what locks they put.</p>
+
+<table>
+<thead>
+<tr>
+<th align="center">Isolation Level      </th>
+<th align="center">  Read                    </th>
+<th align="center">Update     </th>
+<th align="center">Insert</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="center">Read Uncommitted     </td>
+<td align="center">  Reads data which is yet not committed.  </td>
+<td align="center">Allowed    </td>
+<td align="center">Allowed</td>
+</tr>
+<tr>
+<td align="center">Read Committed ( Default)</td>
+<td align="center">  Reads data which is committed.      </td>
+<td align="center">Allowed    </td>
+<td align="center">Allowed</td>
+</tr>
+<tr>
+<td align="center">Repeatable Read      </td>
+<td align="center">  Reads data which is committed.      </td>
+<td align="center">Not Allowed    </td>
+<td align="center">Allowed</td>
+</tr>
+<tr>
+<td align="center">Serializable         </td>
+<td align="center">  Reads data which is committed.      </td>
+<td align="center">Not Allowed    </td>
+<td align="center">Not Allowed</td>
+</tr>
+</tbody>
+</table>
+
+
+<p>More details are covered in this post<a href="/blog/2013/10/11/optimal-isolation-level/">Optimal Isolation Level</a>;</p>
+
+<h2>References:</h2>
+
+<p><a href="http://www.codeproject.com/Articles/114262/6-ways-of-doing-locking-in-NET-Pessimistic-and-opt#Solution%20number%202:-%20Use%20timestamp%20data%20type">6 ways of doing locking in .NET (Pessimistic and optimistic)</a></p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
       <h1 class="entry-title"><a href="/blog/2013/10/11/optimal-isolation-level/">Optimal JDBC Transaction Isolation Level</a></h1>
     
     
@@ -479,13 +608,20 @@ Step 9:    T1 commits transaction
 
 <h2>Choosing a right isolation level for your program:</h2>
 
-<p>Choosing a right isolation level for your program depends upon your application&rsquo;s requirement. In single application itself the requirement generally changes, suppose if you write a program for searching a product catalog from your database then you can easily choose <code>TRANSACTION_READ_UNCOMMITED</code> because you need not worry about the problems that are mentioned above, some other program can insert records at the same time, you don&rsquo;t have to bother much about that insertion. Obviously this improves performance significantly.
-If you write a critical program like bank or stocks analysis program where you want to control all of the above mentioned problems, you can choose TRANSACTION_SERIALIZABLE for maximum safety. Here it is the tradeoff between the safety and performance. Ultimately we need safety here.
+<p>Choosing a right isolation level for your program depends upon your application&rsquo;s requirement. In single application itself the requirement generally changes, suppose if you write a program for searching a product catalog from your database then you can easily choose <code>TRANSACTION_READ_UNCOMMITED</code> because you need not worry about the problems that are mentioned above, some other program can insert records at the same time, you don&rsquo;t have to bother much about that insertion. Obviously this improves performance significantly.</p>
+
+<p>If you write a critical program like bank or stocks analysis program where you want to control all of the above mentioned problems, you can choose TRANSACTION_SERIALIZABLE for maximum safety. Here it is the tradeoff between the safety and performance. Ultimately we need safety here.
 If you don&rsquo;t have to deal with concurrent transactions your application, then the best choice is <code>TRANSACTION_NONE</code> to improve performance.
 Other two isolation levels need good understanding of your requirement. If your application needs only committed records, then <code>TRANSACTION_READ_COMMITED</code> isolation is the good choice. If your application needs to read a row exclusively till you  finish your work, then <code>TRANSACTION_REPEATABLE_READ</code> is the best choice.
 Note: Be aware of your database server&rsquo;s support for these isolation levels. Database servers may not support all of these isolation levels. Oracle server supports only two isolation levels, <code>TRANSACTION_READ_COMMITED</code> and <code>TRANSACTION_SERIALIZABLE</code> isolation level, default isolation level is <code>TRANSACTION_READ_COMMITED</code>.</p>
 
-<h2>Something Besides the Isolation Level of Data Conflict</h2>
+<h2>References</h2>
+
+<ul>
+<li><a href="http://www.precisejava.com/javaperf/j2ee/JDBC.htm#JDBC102">Best practices to improve performance in JDBC</a></li>
+<li><a href="http://www.codeproject.com/Articles/114262/6-ways-of-doing-locking-in-NET-Pessimistic-and-opt#Solution%20number%202:-%20Use%20timestamp%20data%20type">6 ways of doing locking in .NET (Pessimistic and optimistic)</a></li>
+</ul>
+
 </div>
   
   
@@ -780,11 +916,11 @@ mysqlimport -u [uname] -p[pass] [dbname] [backupfile.sql]</p></li>
       </li>
     
       <li class="post">
-        <a href="/blog/2013/10/11/optimal-isolation-level/">Optimal JDBC Transaction Isolation Level</a>
+        <a href="/blog/2013/10/21/optimistic-and-pessimistic-locking/">Optimistic and Pessimistic Locking</a>
       </li>
     
       <li class="post">
-        <a href="/blog/2013/09/06/short-list-of-mysql-commands/">Short List of MySQL Commands</a>
+        <a href="/blog/2013/10/11/optimal-isolation-level/">Optimal JDBC Transaction Isolation Level</a>
       </li>
     
   </ul>
