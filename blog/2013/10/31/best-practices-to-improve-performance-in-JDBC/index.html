@@ -403,6 +403,21 @@ ResultSet rs = stmt.executeQuery("select * from employee where name=RR");
 The better query is <code>"select salary from employee where name=RR"</code>
 It returns the required data  and reduces unnecessary data retrieval. Make your query specific.</p>
 
+<p>Another smart query ex: get employees in ENG dept
+Instead of:</p>
+
+<pre><code>SELECT * FROM employees;
+SELECT * FROM dept;
+</code></pre>
+
+<p>(and joining on Java application side)
+Use database join:</p>
+
+<pre><code>SELECT employees.* FROM employees E, 
+dept D WHERE E.DEPTNO = D.DEPTNO AND 
+D.DEPTTYPE = 'ENG';
+</code></pre>
+
 <h3>Cache the read-only and read-mostly data</h3>
 
 <p>Every database schema generally has read-only and read-mostly tables. These tables are called as lookup tables. Read-only tables contain static data that never changes in its life time. Read-mostly tables contain semi dynamic data that changes often. There will not be any sort of writing operations in these tables.

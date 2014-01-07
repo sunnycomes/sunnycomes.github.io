@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Coding | I/O VIsion]]></title>
   <link href="http://www.iovi.com/blog/categories/coding/atom.xml" rel="self"/>
   <link href="http://www.iovi.com/"/>
-  <updated>2014-01-03T14:31:37+08:00</updated>
+  <updated>2014-01-07T12:08:09+08:00</updated>
   <id>http://www.iovi.com/</id>
   <author>
     <name><![CDATA[Sunny]]></name>
@@ -402,6 +402,21 @@ ResultSet rs = stmt.executeQuery("select * from employee where name=RR");
 <p>The returned result set contains all the columns data. you may not need all the column data and want only salary for RR.
 The better query is <code>"select salary from employee where name=RR"</code>
 It returns the required data  and reduces unnecessary data retrieval. Make your query specific.</p>
+
+<p>Another smart query ex: get employees in ENG dept
+Instead of:</p>
+
+<pre><code>SELECT * FROM employees;
+SELECT * FROM dept;
+</code></pre>
+
+<p>(and joining on Java application side)
+Use database join:</p>
+
+<pre><code>SELECT employees.* FROM employees E, 
+dept D WHERE E.DEPTNO = D.DEPTNO AND 
+D.DEPTTYPE = 'ENG';
+</code></pre>
 
 <h3>Cache the read-only and read-mostly data</h3>
 
