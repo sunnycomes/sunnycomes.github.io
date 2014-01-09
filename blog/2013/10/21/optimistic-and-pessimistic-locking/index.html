@@ -149,6 +149,9 @@
 
 <p>In multi-user environment it&rsquo;s possible that multiple users can update the same record at the same time causing confusion between users. This issue is termed as concurrency.</p>
 
+<!-- more -->
+
+
 <h2>How can we solve concurrency problems?</h2>
 
 <p>Concurrency problems can be solved by implementing proper &ldquo;Locking strategy&rdquo;. Locks prevent action on a resource to be performed when some other resource is already performing some action on it.</p>
@@ -156,9 +159,6 @@
 <h2>Optimistic Locking</h2>
 
 <p>As the name suggests &ldquo;optimistic&rdquo; it assumes that multiple transaction will work without affecting each other. In other words no locks are enforced while doing optimistic locking. The transaction just verifies that no other transaction has modified the data. In case of modification the transaction is rolled back.</p>
-
-<!-- more -->
-
 
 <h3>How does optimistic lock work?</h3>
 

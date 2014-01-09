@@ -156,6 +156,9 @@
 }
 </code></pre>
 
+<!-- more -->
+
+
 <p>You can get the existing isolation level with getTransactionIsolation() method and set the isolation level with setTransactionIsolation(int isolationlevelconstant) by passing above constants to this method.
 The following table describes isolation level against the problem that it prevents :</p>
 
@@ -219,9 +222,6 @@ The following table describes isolation level against the problem that it preven
 
 
 <p>By setting isolation levels, you are having an impact on the performance as mentioned in the above table. Database use read and write locks to control above isolation levels. Let us have a look at each of these problems and then look at the impact on the performance.</p>
-
-<!-- more -->
-
 
 <h3>Dirty read problem :</h3>
 

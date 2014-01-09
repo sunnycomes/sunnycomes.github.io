@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Coding | I/O VIsion]]></title>
   <link href="http://www.iovi.com/blog/categories/coding/atom.xml" rel="self"/>
   <link href="http://www.iovi.com/"/>
-  <updated>2014-01-09T14:07:50+08:00</updated>
+  <updated>2014-01-09T15:14:59+08:00</updated>
   <id>http://www.iovi.com/</id>
   <author>
     <name><![CDATA[Sunny]]></name>
@@ -154,6 +154,9 @@
 </ul>
 
 
+<!-- more -->
+
+
 <h2>Agenda</h2>
 
 <ol>
@@ -180,9 +183,6 @@
 <li>Experience has shown that database calls are typical performance bottleneck.</li>
 <li>Bad JDBC can overwhelm the database.</li>
 </ul>
-
-
-<!-- more -->
 
 
 <h2><a name="steps"></a>Basic Steps to Write a JDBC Program</h2>
@@ -488,6 +488,9 @@ If an application reads data from these tables for every client request, then it
 
 <p>In multi-user environment it&rsquo;s possible that multiple users can update the same record at the same time causing confusion between users. This issue is termed as concurrency.</p>
 
+<!-- more -->
+
+
 <h2>How can we solve concurrency problems?</h2>
 
 <p>Concurrency problems can be solved by implementing proper &ldquo;Locking strategy&rdquo;. Locks prevent action on a resource to be performed when some other resource is already performing some action on it.</p>
@@ -495,9 +498,6 @@ If an application reads data from these tables for every client request, then it
 <h2>Optimistic Locking</h2>
 
 <p>As the name suggests &ldquo;optimistic&rdquo; it assumes that multiple transaction will work without affecting each other. In other words no locks are enforced while doing optimistic locking. The transaction just verifies that no other transaction has modified the data. In case of modification the transaction is rolled back.</p>
-
-<!-- more -->
-
 
 <h3>How does optimistic lock work?</h3>
 
@@ -597,6 +597,9 @@ Pessimistic locking assumes that concurrency/collision issues will happen so a l
 }
 </code></pre>
 
+<!-- more -->
+
+
 <p>You can get the existing isolation level with getTransactionIsolation() method and set the isolation level with setTransactionIsolation(int isolationlevelconstant) by passing above constants to this method.
 The following table describes isolation level against the problem that it prevents :</p>
 
@@ -660,9 +663,6 @@ The following table describes isolation level against the problem that it preven
 
 
 <p>By setting isolation levels, you are having an impact on the performance as mentioned in the above table. Database use read and write locks to control above isolation levels. Let us have a look at each of these problems and then look at the impact on the performance.</p>
-
-<!-- more -->
-
 
 <h3>Dirty read problem :</h3>
 

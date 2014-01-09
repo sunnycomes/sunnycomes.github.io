@@ -218,18 +218,6 @@ Markdown was created to be easy to read, easy to write, and still readable in pl
 </ol>
 
 
-<hr />
-
-<h2><a name='links'></a>Links</h2>
-
-<p>Most URLs will automatically be turned into links. To be explicit, just write it like this:</p>
-
-<pre><code>&lt;http://someurl&gt;  
-&lt;somebbob@example.com&gt;
-</code></pre>
-
-<p>Output:</p>
-
 </div>
   
   
@@ -331,34 +319,6 @@ Markdown was created to be easy to read, easy to write, and still readable in pl
 </ul>
 
 
-<h2>Agenda</h2>
-
-<ol>
-<li><a href="#why">Why optimize?</a></li>
-<li><a href="#steps">Basic Steps to Write a JDBC Program.</a>
-
-<ol>
-<li><a href="#driver">Choosing the right Driver</a></li>
-<li><a href="#connection">Optimization with Connection</a></li>
-<li><a href="#statement">Optimization with Statement</a></li>
-<li><a href="#result_set">Optimization with ResultSet</a></li>
-<li><a href="#sql_query">Optimization with SQL Query</a></li>
-</ol>
-</li>
-<li><a href="#other_means">Other Means of Optimization.</a></li>
-<li><a href="#key_points">Key Points</a></li>
-</ol>
-
-
-<h2><a name='why'></a>Why Optimize?</h2>
-
-<ul>
-<li>On average, a web request performs 4 database queries.</li>
-<li>Experience has shown that database calls are typical performance bottleneck.</li>
-<li>Bad JDBC can overwhelm the database.</li>
-</ul>
-
-
 </div>
   
   
@@ -408,14 +368,6 @@ Markdown was created to be easy to read, easy to write, and still readable in pl
 <h2>Why do we need locking?</h2>
 
 <p>In multi-user environment it&rsquo;s possible that multiple users can update the same record at the same time causing confusion between users. This issue is termed as concurrency.</p>
-
-<h2>How can we solve concurrency problems?</h2>
-
-<p>Concurrency problems can be solved by implementing proper &ldquo;Locking strategy&rdquo;. Locks prevent action on a resource to be performed when some other resource is already performing some action on it.</p>
-
-<h2>Optimistic Locking</h2>
-
-<p>As the name suggests &ldquo;optimistic&rdquo; it assumes that multiple transaction will work without affecting each other. In other words no locks are enforced while doing optimistic locking. The transaction just verifies that no other transaction has modified the data. In case of modification the transaction is rolled back.</p>
 
 </div>
   
@@ -474,70 +426,6 @@ Markdown was created to be easy to read, easy to write, and still readable in pl
 }
 </code></pre>
 
-<p>You can get the existing isolation level with getTransactionIsolation() method and set the isolation level with setTransactionIsolation(int isolationlevelconstant) by passing above constants to this method.
-The following table describes isolation level against the problem that it prevents :</p>
-
-<table>
-<thead>
-<tr>
-<th align="center">Transaction Level       </th>
-<th align="center"> Dirty reads   </th>
-<th align="center">Non  Repeatable reads  </th>
-<th align="center"> Phantom reads </th>
-<th align="center">Performance impact</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td align="center">TRANSACTION_NONE        </td>
-<td align="center"> N/A       </td>
-<td align="center"> N/A           </td>
-<td align="center"> N/A       </td>
-<td align="center"> FASTEST</td>
-</tr>
-<tr>
-<td align="center">TRANSACTION_READ_UNCOMMITED </td>
-<td align="center"> YES       </td>
-<td align="center"> YES           </td>
-<td align="center"> YES       </td>
-<td align="center"> FASTEST</td>
-</tr>
-<tr>
-<td align="center">TRANSACTION_READ_COMMITED   </td>
-<td align="center"> NO        </td>
-<td align="center"> YES           </td>
-<td align="center"> YES       </td>
-<td align="center"> FAST</td>
-</tr>
-<tr>
-<td align="center">TRANSACTION_REPEATABLE_READ </td>
-<td align="center"> NO        </td>
-<td align="center"> NO            </td>
-<td align="center"> YES       </td>
-<td align="center"> MEDIUM</td>
-</tr>
-<tr>
-<td align="center">TRANSACTION_SERIALIZABLE    </td>
-<td align="center"> NO        </td>
-<td align="center"> NO            </td>
-<td align="center"> NO        </td>
-<td align="center"> SLOW</td>
-</tr>
-</tbody>
-</table>
-
-
-<br/>
-
-
-<ul>
-<li>YES means that the Isolation level does not prevent the problem</li>
-<li>NO means that the Isolation level prevents the problem</li>
-</ul>
-
-
-<p>By setting isolation levels, you are having an impact on the performance as mentioned in the above table. Database use read and write locks to control above isolation levels. Let us have a look at each of these problems and then look at the impact on the performance.</p>
-
 </div>
   
   
@@ -594,30 +482,6 @@ The following table describes isolation level against the problem that it preven
 <li>Optional items are enclosed in square brackets [ ]</li>
 <li>Items in parentheses must appear in the command, along with the parentheses</li>
 <li>Items that can be repeated as often as desired are indicated by an ellipsis &hellip;</li>
-</ul>
-
-
-<h2>Quoting in MySQL Statements</h2>
-
-<ul>
-<li>Don&rsquo;t quote database, table, or column names</li>
-<li>Don&rsquo;t quote column types or modifiers</li>
-<li>Don&rsquo;t quote numerical values</li>
-<li>Quote (single or double) non-numeric values</li>
-<li>Quote file names and passwords</li>
-<li>Usernames are NOT quoted in GRANT or REVOKE statements, but they are quoted in other statements.</li>
-</ul>
-
-
-<h2>General Commands</h2>
-
-<ul>
-<li><p><code>USE database_name</code><br/>
-Change to specific database. You need to change to some database when you first connect to MySQL.</p></li>
-<li><p><code>SHOW DATABASES</code><br/>
-Lists all MySQL databases on the system.</p></li>
-<li><p><code>SHOW TABLES [FROM database_name]</code><br/>
-Lists all tables from the current database or from the database given in the command.</p></li>
 </ul>
 
 

@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Stuff | I/O VIsion]]></title>
   <link href="http://www.iovi.com/blog/categories/stuff/atom.xml" rel="self"/>
   <link href="http://www.iovi.com/"/>
-  <updated>2014-01-09T14:07:50+08:00</updated>
+  <updated>2014-01-09T15:14:59+08:00</updated>
   <id>http://www.iovi.com/</id>
   <author>
     <name><![CDATA[Sunny]]></name>
@@ -44,65 +44,65 @@ Markdown was created to be easy to read, easy to write, and still readable in pl
 </ol>
 
 
+<!-- more -->
+
+
 <hr />
 
 <h2><a name='links'></a>Links</h2>
 
 <p>Most URLs will automatically be turned into links. To be explicit, just write it like this:</p>
 
-<pre><code>&lt;http://someurl&gt;  
-&lt;somebbob@example.com&gt;
+<pre><code>&lt;http://www.iovi.com&gt;  
+&lt;somebbob@iovi.com&gt;
 </code></pre>
 
 <p>Output:</p>
 
-<!-- more -->
-
-
-<blockquote><p><a href="http://someurl">http://someurl</a><br/>
-<a href="&#109;&#x61;&#x69;&#x6c;&#116;&#x6f;&#x3a;&#x73;&#111;&#x6d;&#x65;&#x62;&#98;&#x6f;&#98;&#x40;&#101;&#x78;&#97;&#109;&#112;&#x6c;&#101;&#46;&#x63;&#111;&#x6d;">&#115;&#111;&#x6d;&#101;&#x62;&#98;&#111;&#x62;&#x40;&#x65;&#120;&#97;&#x6d;&#112;&#108;&#101;&#46;&#x63;&#111;&#x6d;</a></p></blockquote>
+<blockquote><p><a href="http://www.iovi.com">http://www.iovi.com</a><br/>
+<a href="&#109;&#x61;&#105;&#x6c;&#x74;&#111;&#58;&#x73;&#x6f;&#109;&#x65;&#x62;&#x62;&#x6f;&#98;&#x40;&#105;&#x6f;&#x76;&#105;&#x2e;&#x63;&#x6f;&#109;">&#115;&#x6f;&#x6d;&#101;&#x62;&#x62;&#x6f;&#98;&#x40;&#105;&#111;&#x76;&#105;&#46;&#99;&#x6f;&#x6d;</a></p></blockquote>
 
 <p>To use text for the link, write it:</p>
 
-<pre><code>[like this](http://someurl)
+<pre><code>[like this](http://www.iovi.com)
 </code></pre>
 
 <p>You can add a <em>title</em> (which shows up under the cursor):</p>
 
-<pre><code>[like this](http://someurl "this title shows up when you hover")
+<pre><code>[like this](http://www.iovi.com "this title shows up when you hover")
 </code></pre>
 
 <p>Output:</p>
 
-<blockquote><p><a href="http://someurl">like this</a></p>
+<blockquote><p><a href="http://www.iovi.com">like this</a></p>
 
 <p>You can add a <em>title</em> (which shows up under the cursor):</p>
 
-<p><a href="http://someurl" title="this title shows up when you hover">like that</a></p></blockquote>
+<p><a href="http://www.iovi.com" title="this title shows up when you hover">like that</a></p></blockquote>
 
 <hr />
 
 <h2><a name='reference_links'></a>Reference Links</h2>
 
 <pre><code>You can also put the [link URL][1] below the current paragraph like [this][2].  
-[1]: http://url  
-[2]: http://another.url "A funky title"  
+[1]: http://www.iovi.com  
+[2]: http://www.iovi.com "I/O VIsion"  
 </code></pre>
 
 <p>Output:</p>
 
-<blockquote><p>You can also put the <a href="http://url">link URL</a> below the current paragraph <a href="http://another.url" title="A funky title">like</a> this.</p></blockquote>
+<blockquote><p>You can also put the <a href="http://www.iovi.com">link URL</a> below the current paragraph <a href="http://www.iovi.com" title="I/O VIsion">like</a> this.</p></blockquote>
 
-<p>Here the text &ldquo;link URL&rdquo; gets linked to &ldquo;<a href="http://url">http://url</a>&rdquo;, and the lines showing &ldquo;<a href="http://url">1</a>: <a href="http://url">http://url</a>&rdquo; won&rsquo;t show anything.</p>
+<p>Here the text &ldquo;link URL&rdquo; gets linked to &ldquo;<a href="http://url">http://url</a>&rdquo;, and the lines showing &ldquo;<a href="http://www.iovi.com">1</a>: <a href="http://www.iovi.com">http://www.iovi.com</a>&rdquo; won&rsquo;t show anything.</p>
 
-<pre><code>[shortcut]: http://goes/with/the/link/name/text
+<pre><code>[shortcut]: http://www.iovi.com/goes/with/the/link/name/text
 </code></pre>
 
-<p>Or you can use a <a href="http://goes/with/the/link/name/text">shortcut</a> reference, which links the text &ldquo;shortcut&rdquo; to the link named &ldquo;<a href="http://goes/with/the/link/name/text">shortcut</a>&rdquo; on the next paragraph.</p>
+<p>Or you can use a <a href="http://www.iovi.com/goes/with/the/link/name/text">shortcut</a> reference, which links the text &ldquo;shortcut&rdquo; to the link named &ldquo;<a href="http://www.iovi.com/goes/with/the/link/name/text">shortcut</a>&rdquo; on the next paragraph.</p>
 
 <p>Output:</p>
 
-<blockquote><p>Or you can use a <a href="http://goes/with/the/link/name/text">shortcut</a> reference, which links the text &ldquo;shortcut&rdquo; to the link named &ldquo;<a href="http://goes/with/the/link/name/text">shortcut</a>&rdquo; on the next paragraph.</p></blockquote>
+<blockquote><p>Or you can use a <a href="http://www.iovi.com/goes/with/the/link/name/text">shortcut</a> reference, which links the text &ldquo;shortcut&rdquo; to the link named &ldquo;<a href="http://www.iovi.com/goes/with/the/link/name/text">shortcut</a>&rdquo; on the next paragraph.</p></blockquote>
 
 <hr />
 
