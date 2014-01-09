@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Coding | I/O VIsion]]></title>
   <link href="http://www.iovi.com/blog/categories/coding/atom.xml" rel="self"/>
   <link href="http://www.iovi.com/"/>
-  <updated>2014-01-07T12:08:09+08:00</updated>
+  <updated>2014-01-09T12:58:04+08:00</updated>
   <id>http://www.iovi.com/</id>
   <author>
     <name><![CDATA[Sunny]]></name>
@@ -496,6 +496,9 @@ If an application reads data from these tables for every client request, then it
 
 <p>As the name suggests &ldquo;optimistic&rdquo; it assumes that multiple transaction will work without affecting each other. In other words no locks are enforced while doing optimistic locking. The transaction just verifies that no other transaction has modified the data. In case of modification the transaction is rolled back.</p>
 
+<!-- more -->
+
+
 <h3>How does optimistic lock work?</h3>
 
 <p>You can implement optimistic locking by numerous ways but the fundamental to implement optimistic locking remains same. It&rsquo;s a 4 step process as shown below:</p>
@@ -657,6 +660,9 @@ The following table describes isolation level against the problem that it preven
 
 
 <p>By setting isolation levels, you are having an impact on the performance as mentioned in the above table. Database use read and write locks to control above isolation levels. Let us have a look at each of these problems and then look at the impact on the performance.</p>
+
+<!-- more -->
+
 
 <h3>Dirty read problem :</h3>
 

@@ -4,7 +4,7 @@
   <title><![CDATA[I/O VIsion]]></title>
   <link href="http://www.iovi.com/atom.xml" rel="self"/>
   <link href="http://www.iovi.com/"/>
-  <updated>2014-01-07T12:08:09+08:00</updated>
+  <updated>2014-01-09T12:58:04+08:00</updated>
   <id>http://www.iovi.com/</id>
   <author>
     <name><![CDATA[Sunny]]></name>
@@ -12,6 +12,201 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Abbreviation in Linux System]]></title>
+    <link href="http://www.iovi.com/blog/2014/01/09/abbreviation-in-linux-system/"/>
+    <updated>2014-01-09T09:42:19+08:00</updated>
+    <id>http://www.iovi.com/blog/2014/01/09/abbreviation-in-linux-system</id>
+    <content type="html"><![CDATA[<p>Unix is 35. Some people consider that the official start of middle age, although for a computer technology it&rsquo;s more like existing since the Middle Ages. Over that time, Unix and its child Linux have collected a lot of history and some quite archaic language. In this tip, we&rsquo;ll have a look at a few of the more ancient bits of crusty stuff and identify their purposes, if not their actual origins.</p>
+
+<h3>RC</h3>
+
+<p>Perhaps the most common abbreviation in Linux is &ldquo;rc,&rdquo; short for &ldquo;runcomm&rdquo; &mdash; short in term for &ldquo;run command.&rdquo; Today, &ldquo;rc&rdquo; is a suffix added to any script-like file that is called during the startup stage of a program, or of Linux in general. Thus /etc/rc is the master script for Linux startup, and .bashrc is the script that runs when the bash shell starts. The &ldquo;.&rdquo; prefix on .bashrc is a naming standard designed only to hide user-specific administrative files from user files; the &ldquo;ls&rdquo; command doesn&rsquo;t list such files by default, and &ldquo;rm&rdquo; doesn&rsquo;t delete them by default. Many programs demand that startup files or profile files begin with a period or have an &ldquo;rc&rdquo; suffix, but there&rsquo;s nothing magical about either from the file system&rsquo;s perspective.</p>
+
+<!-- more -->
+
+
+<h3>ETC</h3>
+
+<p>The &ldquo;etc&rdquo; in &ldquo;/etc/bin&rdquo; really does stand for &ldquo;etcetera.&rdquo; In early Unix systems, the most important directory was the &ldquo;bin&rdquo; directory (short for &ldquo;binaries&rdquo; &mdash; compiled programs), and &ldquo;etc&rdquo; was for trivial stuff like startup, shutdown and admin. The list of things you need for running Linux is: a program binary, etcetera, etcetera &mdash; in other words, a sole vital item, plus some less important bits and pieces. Today, &ldquo;etc&rdquo; holds system-wide configuration files that you&rsquo;d almost never do without &mdash; hardly unimportant.</p>
+
+<h3>Bin</h3>
+
+<p>Most large subsystems that run on Linux today, like GNOME or Oracle, use their own &ldquo;bin&rdquo; directories (or /usr/bin or /usr/local/bin) as a standard place for compiled programs. It&rsquo;s common now to see scripts in those directories too, since &ldquo;bin&rdquo; directories are frequently added the PATH of a user, making their run-able programs available. So run-able scripts are often stuck in bin as well.</p>
+
+<h3>TTY</h3>
+
+<p>Perhaps the most confusing jargon in Linux relates to terminals. TTY is an old abbreviation for a TeleTYpe. Teletypes, or teletypewriters, were originally printer-keyboard combinations that read and sent information over a serial line, not too different from an ancient telegraph machine. Later on, when computers only ran in batch mode (when card readers were the only way to get your program loaded), a teletype was the only useful &ldquo;real time&rdquo; input/output device available. Eventually teletypes were replaced with keyboard-and-screen terminals, but the operating system still needed a program to watch the serial port where the terminal or TTY was plugged in. That&rsquo;s what a getty &ldquo;GEt TTY&rdquo; process is: a program watching a physical TTY/terminal port. A Pseudo-TTY (a fake TTY, a &ldquo;PTY&rdquo;) is the terminal equivalent of a virtual network computing (VNC) server. When you run an xterm or GNOME Terminal program, the PTY acts as a TTY for the virtual or pseudo terminal that the xterm represents. &ldquo;Pseudo,&rdquo; meaning &ldquo;duplicating in a fake way,&rdquo; is really a more descriptive term than &ldquo;virtual&rdquo; or &ldquo;emulated.&rdquo; It&rsquo;s a shame that it has fallen out of fashion in computing.</p>
+
+<p>bin = BINaries
+/dev = DEVices
+/etc = ETCetera
+/lib = LIBrary
+/proc = PROCesses
+/sbin = Superuser BINaries
+/tmp = TeMPorary
+/usr = Unix Shared Resources
+/var = VARiable ?
+FIFO = First In, First Out
+GRUB = GRand Unified Bootloader
+IFS = Internal Field Seperators
+LILO = LInux LOader
+PHP = Personal Home Page
+PS = Prompt String
+Perl = &ldquo;Pratical Extraction and Report Language&rdquo; = &ldquo;Pathologically Eclectic Rubbish Lister&rdquo;
+Python Derived from Monty Python&rsquo;s Flying Circus
+Tcl = Tool Command Language
+Tk = ToolKit
+VT = Video Terminal
+YaST = Yet Another Setup Tool
+apache = &ldquo;a patchy&rdquo; server
+apt = Advanced Packaging Tool
+ar = archiver
+as = assembler
+awk = &ldquo;Aho Weiberger and Kernighan&rdquo;, Acronyms of Three Author&rsquo;s Names.
+bash = Bourne Again SHell
+bc = Basic (Better) Calculator
+biff = Dog&rsquo;s Name of the Author
+cal = CALendar
+cat = CATenate
+cd = Change Directory
+chgrp = CHange GRouP
+chmod = CHange MODe
+chown = CHange OWNer
+chsh = CHange SHell
+cmp = compare
+cobra = Common Object Request Broker Architecture
+comm = common
+cp = CoPy
+cpio = CoPy In and Out
+cpp = C Pre Processor
+cron = Chronos
+cups = Common Unix Printing System
+cvs = Current Version System
+daemon = Disk And Execution MONitor
+dc = Desk Calculator
+dd = Disk Dump
+df = Disk Free
+diff = DIFFerence
+dmesg = diagnostic message
+du = Disk Usage
+ed = editor
+egrep = Extended GREP
+elf = Extensible Linking Format
+elm = ELectronic Mail
+emacs = Editor MACroS
+eval = EVALuate
+ex = EXtended
+exec = EXECute
+fd = file descriptors
+fg = ForeGround
+fgrep = Fixed GREP
+fmt = format
+fsck = File System ChecK
+fstab = FileSystem TABle
+fvwm = F*** Virtual Window Manager
+gawk = GNU AWK
+gpg = GNU Privacy Guard
+groff = GNU troff
+hal = Hardware Abstraction Layer
+joe = Joe&rsquo;s Own Editor
+ksh = Korn SHell
+lame = Lame Ain&rsquo;t an MP3 Encoder
+lex = LEXical analyser
+lisp = LISt Processing = Lots of Irritating Superfluous Parentheses
+ln = LiNk
+lpr = Line PRint
+ls = list
+lsof = LiSt Open Files
+m4 = Macro processor Version 4
+man = MANual pages
+mawk = Mike Brennan&rsquo;s AWK
+mc = Midnight Commander
+mkfs = MaKe FileSystem
+mknod = MaKe NODe
+motd = Message of The Day
+mozilla = MOsaic GodZILLa
+mtab = Mount TABle
+mv = MoVe
+nano = Nano&rsquo;s ANOther editor
+nawk = New AWK
+nl = Number of Lines
+nm = names
+nohup = No HangUP
+nroff = New ROFF
+od = Octal Dump
+passwd = PASSWorD
+pg = pager
+pico = PIne&rsquo;s message COmposition editor
+pine = &ldquo;Program for Internet News &amp; Email&rdquo; = &ldquo;Pine is not Elm&rdquo;
+ping = Packet InterNet Grouper
+pirntcap = PRINTer CAPability
+popd = POP Directory
+pr = pre
+printf = PRINT Formatted
+ps = Processes Status
+pty = pseudo tty
+pushd = PUSH Directory
+pwd = Print Working Directory
+rc = runcom = run commands, also shell of plan9
+rev = REVerse
+rm = ReMove
+rn = Read News
+roff = RunOFF
+rpm = RPM Package Manager = RedHat Package Manager
+rsh, rlogin, rvim, of which r stands for Remote
+rxvt = ouR XVT
+sed = Stream EDitor
+seq = SEQuence
+shar = SHell ARchive
+slrn = S-Lang rn
+ssh = Secure SHell
+ssl = Secure Sockets Layer
+stty = Set TTY
+su = Substitute User
+svn = SubVersioN
+tar = Tape ARchive
+tcsh = TENEX C shell
+tee = T
+telnet = TEminaL over Network
+termcap = terminal capability
+terminfo = terminal information
+tr = traslate
+troff = Typesetter new ROFF
+tsort = Topological SORT
+tty = TeleTypewriter
+twm = Tom&rsquo;s Window Manager
+tz = TimeZone
+udev = Userspace DEV
+ulimit = User&rsquo;s LIMIT
+umask = User&rsquo;s MASK
+uniq = UNIQue
+vi = VIsual = Very Inconvenient
+vim = Vi IMproved
+wall = write all
+wc = Word Count
+wine = WINE Is Not an Emulator
+xargs = eXtended ARGuments
+xdm = X Display Manager
+xlfd = X Logical Font Description
+xmms = X Multimedia System
+xrdb = X Resources DataBase
+xwd = X Window Dump
+yacc = yet another compiler compiler
+Fish = the Friendly Interactive SHell
+su = Switch User
+MIME = Multipurpose Internet Mail Extensions
+ECMA = European Computer Manufacturers Association</p>
+
+<h2>References:</h2>
+
+<ol>
+<li><strong><em><a href="http://searchenterpriselinux.techtarget.com/tip/Excavating-ancient-abbreviations-in-Linux">Excavating ancient abbreviations in Linux</a></em></strong></li>
+</ol>
+
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Markdown Syntax Guide]]></title>
@@ -60,7 +255,7 @@ Markdown was created to be easy to read, easy to write, and still readable in pl
 
 
 <blockquote><p><a href="http://someurl">http://someurl</a><br/>
-<a href="&#109;&#x61;&#105;&#x6c;&#116;&#x6f;&#58;&#x73;&#x6f;&#x6d;&#x65;&#98;&#x62;&#x6f;&#98;&#x40;&#101;&#x78;&#x61;&#x6d;&#x70;&#x6c;&#x65;&#46;&#x63;&#x6f;&#109;">&#x73;&#111;&#x6d;&#x65;&#x62;&#98;&#111;&#98;&#x40;&#x65;&#120;&#x61;&#109;&#112;&#108;&#x65;&#x2e;&#99;&#x6f;&#109;</a></p></blockquote>
+<a href="&#x6d;&#97;&#x69;&#x6c;&#116;&#111;&#x3a;&#x73;&#x6f;&#x6d;&#x65;&#x62;&#98;&#111;&#x62;&#64;&#101;&#120;&#97;&#109;&#112;&#108;&#x65;&#46;&#x63;&#111;&#x6d;">&#x73;&#x6f;&#109;&#x65;&#98;&#98;&#111;&#98;&#x40;&#x65;&#x78;&#97;&#x6d;&#x70;&#x6c;&#x65;&#46;&#x63;&#x6f;&#x6d;</a></p></blockquote>
 
 <p>To use text for the link, write it:</p>
 
@@ -962,6 +1157,9 @@ If an application reads data from these tables for every client request, then it
 
 <p>As the name suggests &ldquo;optimistic&rdquo; it assumes that multiple transaction will work without affecting each other. In other words no locks are enforced while doing optimistic locking. The transaction just verifies that no other transaction has modified the data. In case of modification the transaction is rolled back.</p>
 
+<!-- more -->
+
+
 <h3>How does optimistic lock work?</h3>
 
 <p>You can implement optimistic locking by numerous ways but the fundamental to implement optimistic locking remains same. It&rsquo;s a 4 step process as shown below:</p>
@@ -1124,6 +1322,9 @@ The following table describes isolation level against the problem that it preven
 
 <p>By setting isolation levels, you are having an impact on the performance as mentioned in the above table. Database use read and write locks to control above isolation levels. Let us have a look at each of these problems and then look at the impact on the performance.</p>
 
+<!-- more -->
+
+
 <h3>Dirty read problem :</h3>
 
 <p>The following figure illustrates Dirty read problem  :</p>
@@ -1242,6 +1443,13 @@ Change to specific database. You need to change to some database when you first 
 Lists all MySQL databases on the system.</p></li>
 <li><p><code>SHOW TABLES [FROM database_name]</code><br/>
 Lists all tables from the current database or from the database given in the command.</p></li>
+</ul>
+
+
+<!-- more -->
+
+
+<ul>
 <li><p><code>DESCRIBE table_name</code>;<code>SHOW FIELDS FROM table_name</code>;<code>SHOW COLUMNS FROM table_name</code>
 These commands all give a list of all columns (fields) from the given table, along with column type and other info.</p></li>
 <li><p><code>SHOW INDEX FROM table_name</code>
