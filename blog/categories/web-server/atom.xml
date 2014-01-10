@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Web-server | I/O VIsion]]></title>
   <link href="http://www.iovi.com/blog/categories/web-server/atom.xml" rel="self"/>
   <link href="http://www.iovi.com/"/>
-  <updated>2014-01-10T10:05:17+08:00</updated>
+  <updated>2014-01-10T16:21:11+08:00</updated>
   <id>http://www.iovi.com/</id>
   <author>
     <name><![CDATA[Sunny]]></name>
@@ -372,8 +372,8 @@
     <updated>2013-09-06T14:50:01+08:00</updated>
     <id>http://www.iovi.com/blog/2013/09/06/short-list-of-mysql-commands</id>
     <content type="html"><![CDATA[<ul>
-<li><p>The first version is completed on 2013.12.22 21:38, the main content is from <strong><em><a href="http://www.bios.niu.edu/johns/bioinform/mysql_commands.htm">here</a></em></strong>, thanks to the origin author.</p></li>
-<li><p>The second version is updated on 2013.12.27 8:59, Backup tool is added, the complementary part is mainly from <strong><em><a href="http://webcheatsheet.com/sql/mysql_backup_restore.php">here</a></em></strong>, thanks to the origin author.</p></li>
+<li><p>The 1st version is completed on 2013.12.22 21:38, the main content is from <strong><em><a href="http://www.bios.niu.edu/johns/bioinform/mysql_commands.htm">Short List of MySQL Commands</a></em></strong>, thanks to the origin author.</p></li>
+<li><p>The 2nd version is updated on 2013.12.27 8:59, Backup tool is added, the complementary part is mainly from <strong><em><a href="http://webcheatsheet.com/sql/mysql_backup_restore.php">How to Back Up and Restore a MySQL Database</a></em></strong>, thanks to the origin author.</p></li>
 </ul>
 
 
@@ -412,23 +412,23 @@ Change to specific database. You need to change to some database when you first 
 Lists all MySQL databases on the system.</p></li>
 <li><p><code>SHOW TABLES [FROM database_name]</code><br/>
 Lists all tables from the current database or from the database given in the command.</p></li>
-<li><p><code>DESCRIBE table_name</code>;<code>SHOW FIELDS FROM table_name</code>;<code>SHOW COLUMNS FROM table_name</code>
+<li><p><code>DESCRIBE table_name</code>;<br/>
+<code>SHOW FIELDS FROM table_name</code>;<br/>
+<code>SHOW COLUMNS FROM table_name</code><br/>
 These commands all give a list of all columns (fields) from the given table, along with column type and other info.</p></li>
-<li><p><code>SHOW INDEX FROM table_name</code>
+<li><p><code>SHOW INDEX FROM table_name</code><br/>
 Lists all indexes from this tables.</p></li>
-<li><p><code>SET PASSWORD=PASSWORD('new_password')</code><br/>
-Allows the user to set his/her own password.</p></li>
 </ul>
 
 
 <h2>Table Commands</h2>
 
 <ul>
-<li><p><code>CREATE TABLE table_name (create_clause1, create_clause2, ...)</code></p>
+<li><p><code>CREATE TABLE table_name (create_clause1, create_clause2, ...)</code><br/>
+Creates a table with columns as indicated in the create clauses.</p>
 
 <ul>
-<li>Creates a table with columns as indicated in the create clauses.</li>
-<li>create_clause: column name followed by column type, followed optionally by modifiers. For example, &ldquo;gene_id INT      AUTO_INCREMENT PRIMARY KEY&rdquo; (without the quotes) creates a column of type integer with the modifiers described below.</li>
+<li>create_clause: column name followed by column type, followed optionally by modifiers. For example, &ldquo;gene_id INT AUTO_INCREMENT PRIMARY KEY&rdquo; (without the quotes) creates a column of type integer with the modifiers described below.</li>
 <li>create_clause modifiers
 
 <ul>
@@ -447,7 +447,7 @@ Adds the listed columns to the table.</p></li>
 <li><p><code>ALTER TABLE table_name DROP column_name</code><br/>
 Drops the listed columns from the table.</p></li>
 <li><p><code>ALTER TABLE table_name MODIFY create_clause</code><br/>
-Changes the type or modifiers to a column. Using MODIFY means that the column keeps the same name even though its type is altered. MySQL attempts to convert the data to match the new type: this can cause problems.</p></li>
+Changes the type or modifiers to a column. Using MODIFY means that the column keeps the same name even though its type is altered. MySQL attempts to convert the data to match the new type: <strong>this can cause problems</strong>.</p></li>
 <li><p><code>ALTER TABLE table_name CHANGE column_name create_clause</code>  <br/>
 Changes the name and type or modifiers of a column. Using CHANGE (instead of MODIFY) implies that the column is getting a new name.</p></li>
 <li><p><code>ALTER TABLE table_name ADD INDEX [index_name] (column_name1, column_name2, ...)</code> or
@@ -461,7 +461,7 @@ Adds an index to this table, based on the listed columns. Note that the order of
 <ul>
 <li><p><code>INSERT [INTO] table_name VALUES (value1, value2, ...)</code><br/>
 Insert a complete row of data, giving a value (or NULL) for every column in the proper order.</p></li>
-<li><p><code>INSERT [INTO] table_name (column_name1, column_name2, ...) VALUES (value1, value2, ...)</code> or
+<li><p><code>INSERT [INTO] table_name (column_name1, column_name2, ...) VALUES (value1, value2, ...)</code> or<br/>
 <code>INSERT [INTO] table_name SET column_name1=value1, column_name2=value2, ...</code><br/>
 Insert data into the listed columns only. Alternate forms, with the SET form showing column assignments more explicitly.</p></li>
 <li><p><code>INSERT [INTO] table_name (column_name1, column_name2, ...) SELECT list_of_fields_from_another_table FROM other_table_name WHERE where_clause</code><br/>
@@ -470,21 +470,25 @@ Inserts the data resulting from a SELECT statement into the listed columns. Be s
 Delete rows that meet the conditions of the where_clause. If the WHERE statement is omitted, the table is emptied, although its structure remains intact.</p></li>
 <li><p><code>UPDATE table_name SET column_name1=value1, column_name2=value2, ... [WHERE where_clause]</code><br/>
 Alters the data within a column based on the conditions in the where_clause.</p></li>
-<li><p><code>LOAD DATA LOCAL INFILE 'path to external file' INTO TABLE table_name</code><br/>
-Loads data from the listed file into the table. The default assumption is that fields in the file are separated by tabs, and each data record is separated from the others by a newline. It also assumes that nothing is quoted: quote marks are considered to be part of the data. Also, it assumes that the number of data fields matches the number of table columns. Columns that are AUTO_INCREMENT should have NULL as their value in the file.</p></li>
-<li><p><code>LOAD DATA LOCAL INFILE 'path to external file' [FIELDS TERMINATED BY 'termination_character'] [FIELDS ENCLOSED BY 'quoting character'] [LINES TERMINATED BY 'line termination character'] FROM table_name</code><br/>
+<li><p><code>LOAD DATA LOCAL INFILE 'path_to_external_file' INTO TABLE table_name</code><br/>
+Loads data from the listed file into the table. The default assumption is that fields in the file are separated by tabs, and each data record is separated from the others by a newline. It also assumes that nothing is quoted: quote marks are considered to be part of the data. Also, it assumes that the number of data fields matches the number of table columns. Columns that are <code>AUTO_INCREMENT</code> should have <strong>NULL</strong> as their value in the file.</p></li>
+<li><p><code>LOAD DATA LOCAL INFILE 'path_to_external_file' [FIELDS TERMINATED BY 'termination_character'] [FIELDS ENCLOSED BY 'quoting character'] [LINES TERMINATED BY 'line termination character'] FROM table_name</code><br/>
 Loads data from the listed file into the table, using the field termination character listed (default is tab \t), and/or the listed quoting character (default is nothing), and/or the listed line termination chacracter (default is a newline \n).</p></li>
-<li><p><code>SELECT column_name1, column_name2, ... INTO OUTFILE 'path to external file' [FIELDS TERMINATED BY 'termination_character'] [FIELDS ENCLOSED BY 'quoting character'] [LINES TERMINATED BY 'line termination character'] FROM table_name [WHERE where_clause]</code><br/>
-Allows you to move data from a table into an external file. The field and line termination clauses are the same as for LOAD above. Several tricky features:</p>
-
-<ol>
-<li> Note the positions of the table_name and where_clause, after the external file is given.</li>
-<li> You must use a complete path, not just a file name. Otherwise MySQL attempts to write to the directory where the database is stored, where you don&rsquo;t have permission to write.</li>
-<li> The user who is writing the file is &lsquo;mysql&rsquo;, not you! This means that user &lsquo;mysql&rsquo; needs permission to write to the directory you specify. The best way to do that is to creat a new directory under your home directory, then change the directory&rsquo;s permission to 777, then write to it. For example: mkdir mysql_output, chmod 777 mysql_output.</li>
-</ol>
-</li>
+<li><p><code>SOURCE path_to_external_backup_sql_file</code><br/>
+Restore data from the backuped file with extension of .sql, which should contain the SQL statements necessary to re-create the database.</p></li>
+<li><p><code>SELECT column_name1, column_name2, ...
+  INTO OUTFILE 'path_to_external_file' [FIELDS TERMINATED BY 'termination_character']
+      [FIELDS ENCLOSED BY 'quoting character'] [LINES TERMINATED BY 'line termination character']
+      FROM table_name [WHERE where_clause]</code></p></li>
 </ul>
 
+
+<p>Allows you to move data from a table into an external file. The field and line termination clauses are the same as for LOAD above. Several tricky features:</p>
+
+<pre><code>1. Note the positions of the table_name and where_clause, after the external file is given.
+1. You must use a **complete path**, not just a file name. Otherwise MySQL attempts to write to the directory where the database is stored, where you don't have permission to write.
+1. The user who is writing the file is 'mysql', not you! This means that user 'mysql' needs permission to write to the directory you specify. The best way to do that is to create a new directory under your home directory, then change the directory's permission to 777, then write to it. For example: mkdir mysql_output, chmod 777 mysql_output.
+</code></pre>
 
 <h2>Privilege Commands</h2>
 
@@ -492,23 +496,39 @@ Allows you to move data from a table into an external file. The field and line t
 
 <ul>
 <li><p><code>GRANT USAGE ON *.* TO user_name@localhost [IDENTIFIED BY 'password']</code><br/>
-Creates a new user on MySQL, with no rights to do anything. The IDENTIFED BY clause creates or changes the MySQL password, which is not necessarily the same as the user&rsquo;s system password. The @localhost after the user name allows usage on the local system, which is usually what we do; leaving this off allows the user to access the database from another system. User name NOT in quotes.</p></li>
+Creates a new user on MySQL, with no rights to do anything. The <code>IDENTIFED BY</code> clause creates or changes the MySQL password, which is not necessarily the same as the user&rsquo;s system password. The @localhost after the user name allows usage on the local system, which is usually what we do; leaving this off allows the user to access the database from another system. User name <code>NOT</code> in quotes.</p></li>
 <li><p><code>GRANT SELECT ON *.* TO user_name@localhost</code><br/>
-In general, unless data is supposed to be kept private, all users should be able to view it. A debatable point, and most databases will only grant SELECT privileges on particular databases. There is no way to grant privileges on all databses EXCEPT specifically enumerated ones.</p></li>
+In general, unless data is supposed to be kept private, all users should be able to view it. A debatable point, and most databases will only grant SELECT privileges on particular databases. There is no way to grant privileges on all databses <strong>EXCEPT</strong> specifically enumerated ones.</p></li>
 <li><p><code>GRANT ALL ON database_name.* TO user_name@localhost</code><br/>
 Grants permissions on all tables for a specific database (database_name.*) to a user. Permissions are for: ALTER, CREATE, DELETE, DROP, INDEX, INSERT, SELECT, UPDATE.</p></li>
 <li><p><code>FLUSH PRIVILEGES</code><br/>
 Needed to get updated privileges to work immediately. You need RELOAD privileges to get this to work.</p></li>
+<li><p><code>CREATE USER user_specification[,user_specification]...</code><br/>
+The <code>CREATE USER</code> statement creates new MySQL accounts. To use it, you must have the global <code>CREATE USER</code> privilege or the <code>INSERT</code> privilege for the mysql database. For each account, <code>CREATE USER</code> creates a new row in the mysql.user table and assgins the account no privileges.</p>
+
+<ul>
+<li>user_specification:<br/>
+  For example, &lsquo;username&rsquo;@&lsquo;host&rsquo; [IDENTIFIED BY [PASSWORD] &lsquo;password&rsquo;], however, it&rsquo;s recommended that <code>PASSWORD</code> keyword should be ignored since it emphasizes the password should be hash value of the password, rather than the password. Otherwise, you probably get error:</li>
+</ul>
+</li>
+</ul>
+
+
+<blockquote><p>Password hash should be a 41-digit hexadecimal number</p></blockquote>
+
+<p>BTW, <code>host</code> of <code>'username'@'host'</code> is not a necessity, if it is removed or just replaced with <code>%</code>, you can log in with this username from any host, otherwise, only the specific host can do that.</p>
+
+<ul>
 <li><p><code>SET PASSWORD=PASSWORD('new_password')</code><br/>
-Allows the user to set his/her own password.</p></li>
-<li><p><code>REVOKE ALL ON [database_name.]* FROM user_name@localhost</code><br/>
-Revokes all permissions for the user, but leaves the user in the MySQL database. This can be done for all databases using &ldquo;ON *&rdquo;, or for all tables within a specific databse, using &ldquo;ON database_name.*&rdquo;.</p></li>
+Allows the user to change his/her current password.</p></li>
+<li><p><code>REVOKE ALL ON [database_name.].* FROM user_name@localhost</code><br/>
+Revokes all permissions for the user, but leaves the user in the MySQL database. This can be done for all databases using <code>ON *</code>, or for all tables within a specific databse, using <code>ON database_name.*</code>.</p></li>
 <li><p><code>DELETE FROM mysql.user WHERE user='user_name@localhost'</code><br/>
 Removes the user from the database, which revokes all privileges. Note that the user name is in quotes here.</p></li>
 <li><p><code>UPDATE mysql.user SET password=PASSWORD('my_password') WHERE user='user_name'</code><br/>
-Sets the user&rsquo;s password. The PASSWORD function encrypts it; otherwise it will be in plain text.</p></li>
+Sets the user&rsquo;s password. The <code>PASSWORD</code> function hashes it; otherwise it will be in plain text.</p></li>
 <li><p><code>SELECT user, host, password, select_priv, insert_priv, shutdown_priv, grant_priv FROM mysql.user</code><br/>
-A good view of all users and their approximate privileges. If there is a password, it will by an encrytped string; if not, this field is blank. Select is a very general privlege; insert allows table manipulation within a database; shutdown allows major system changes, and should only be usable by root; the ability to grant permissions is separate from the others.</p></li>
+A good view of all users and their approximate privileges. If there is a password, it will be an hashed string; if not, this field is blank. Select is a very general privlege; insert allows table manipulation within a database; shutdown allows major system changes, and should only be usable by root; the ability to grant permissions is separate from the others.</p></li>
 <li><p><code>SELECT user, host, db, select_priv, insert_priv, grant_priv FROM mysql.db</code><br/>
 View permissions for individual databases.</p></li>
 </ul>
@@ -535,7 +555,7 @@ If you want to back up all the databases in the server at one time you should us
 <p>The mysqldump command has also some other useful options:</p>
 
 <ol>
-<li><p><code>--add-drop-table</code>: Tells MySQL to add a D<code>ROP TABLE</code> statement before each <code>CREATE TABLE</code> in the dump.</p></li>
+<li><p><code>--add-drop-table</code>: Tells MySQL to add a <code>DROP TABLE</code> statement before each <code>CREATE TABLE</code> in the dump.</p></li>
 <li><p><code>--no-data</code>: Dumps only the database structure, not the contents.</p></li>
 <li><p><code>--add-locks</code>: Adds the <code>LOCK TABLES</code> and <code>UNLOCK TABLES</code> statements you can see in the dump file.</p></li>
 </ol>
@@ -546,7 +566,7 @@ If you want to back up all the databases in the server at one time you should us
 <h3>Back up your MySQL Database with Compress</h3>
 
 <ul>
-<li><p><code>mysqldump -u [uname] -p[pass] [dbname] | gzip -9 &gt; [backupfile.sql.gz]</code>
+<li><p><code>mysqldump -u [uname] -p[pass] [dbname] | gzip -9 &gt; [backupfile.sql.gz]</code><br/>
 If your mysql database is very big, you might want to compress the output of mysqldump. Just use the mysql backup command below and pipe the output to gzip, then you will get the output as gzip file.</p></li>
 <li><p><code>gunzip [backupfile.sql.gz]</code><br/>
 If you want to extract the .gz file, use the command above:</p></li>
@@ -556,7 +576,7 @@ Above we backup the Tutorials database into tut_backup.sql file. To re-create th
 <ol>
 <li> Create an appropriately named database on the target machine</li>
 <li> Load the file using the mysql command:</li>
-<li> $ mysql -u [uname] -p[pass] [db_to_restore] &lt; [backupfile.sql]</li>
+<li> <code>$ mysql -u [uname] -p[pass] [db_to_restore] &lt; [backupfile.sql]</code></li>
 </ol>
 </li>
 </ul>
@@ -566,9 +586,9 @@ Above we backup the Tutorials database into tut_backup.sql file. To re-create th
 
 <ul>
 <li><p>To restore compressed backup files you can do the following:<br/>
-gunzip &lt; [backupfile.sql.gz] | mysql -u [uname] -p[pass] [dbname]</p></li>
+<code>gunzip &lt; [backupfile.sql.gz] | mysql -u [uname] -p[pass] [dbname]</code></p></li>
 <li><p>If you need to restore a database that already exists, you&rsquo;ll need to use mysqlimport command. The syntax for mysqlimport is as follows:<br/>
-mysqlimport -u [uname] -p[pass] [dbname] [backupfile.sql]</p></li>
+<code>mysqlimport -u [uname] -p[pass] [dbname] [backupfile.sql]</code></p></li>
 </ul>
 
 
@@ -583,7 +603,7 @@ mysqlimport -u [uname] -p[pass] [dbname] [backupfile.sql]</p></li>
 <li> Click the Export link. This should bring up a new screen that says View dump of database (or something similar).</li>
 <li> In the Export area, click the Select All link to choose all of the tables in your database.</li>
 <li> In the SQL options area, click the right options.</li>
-<li> Click on the Save as file option and the corresponding compression option and then click the &lsquo;Go&rsquo; button. A dialog box should appear prompting you to save the file locally.</li>
+<li> Click on the Save as file option and the corresponding compression option and then click the <code>Go</code> button. A dialog box should appear prompting you to save the file locally.</li>
 </ol>
 </li>
 <li><p>Restoring your database is easy as well as backing it up. Make the following:</p>
@@ -596,6 +616,16 @@ mysqlimport -u [uname] -p[pass] [dbname] [backupfile.sql]</p></li>
 <li> Click Go button. This will upload the backup, execute the SQL commands and re-create your database.</li>
 </ol>
 </li>
+</ul>
+
+
+<h2>References:</h2>
+
+<ul>
+<li><a href="http://www.bios.niu.edu/johns/bioinform/mysql_commands.htm">Short List of MySQL Commands</a></li>
+<li><a href="http://dev.mysql.com/doc/refman/5.1/en/create-user.html">CREATE USER Syntax</a></li>
+<li><a href="http://webcheatsheet.com/sql/mysql_backup_restore.php">How to Back Up and Restore a MySQL Database</a></li>
+<li><a href="http://stackoverflow.com/questions/9529651/mysql-user-creation-script">Mysql user creation script, error 1372</a></li>
 </ul>
 
 ]]></content>
