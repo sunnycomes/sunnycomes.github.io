@@ -176,7 +176,7 @@
 </ol>
 
 
-<h2><a name='why'></a>Why Optimize?</h2>
+<h3><a name='why'></a>Why Optimize?</h3>
 
 <ul>
 <li>On average, a web request performs 4 database queries.</li>
@@ -185,7 +185,7 @@
 </ul>
 
 
-<h2><a name="steps"></a>Basic Steps to Write a JDBC Program</h2>
+<h3><a name="steps"></a>Basic Steps to Write a JDBC Program</h3>
 
 <p>The following are the basic steps to write a JDBC program</p>
 
@@ -202,41 +202,41 @@
 
 <p>We will look at these areas one by one, what type of driver you need to load, how to use Connection interface in the best manner, how to use different Statement interfaces, how to process results using ResultSet and finally how to optimize SQL queries to improve JDBC performance.</p>
 
-<h3><a name="driver"></a>Choosing the right Driver</h3>
+<h4><a name="driver"></a>Choosing the right Driver</h4>
 
 <table>
 <thead>
 <tr>
 <th align="center"><em>Type</em> </th>
 <th align="center"> <em>Tier</em> </th>
-<th align="center"> <em>Driver mechanism</em> </th>
-<th align="center"> <em>Description</em></th>
+<th align="left"> <em>Driver mechanism</em> </th>
+<th align="left"> <em>Description</em></th>
 </tr>
 </thead>
 <tbody>
 <tr>
 <td align="center">1 </td>
 <td align="center">2  </td>
-<td align="center">JDBC-ODBC    </td>
-<td align="center">This driver converts JDBC calls to ODBC calls through JDBC-ODBC Bridge driver which in turn converts to database calls. Client requires ODBC libraries.</td>
+<td align="left">JDBC-ODBC    </td>
+<td align="left">This driver converts JDBC calls to ODBC calls through JDBC-ODBC Bridge driver which in turn converts to database calls. Client requires ODBC libraries.</td>
 </tr>
 <tr>
 <td align="center">2 </td>
 <td align="center">2  </td>
-<td align="center">Native API &ndash; Partly &ndash; Java driver</td>
-<td align="center">This driver converts JDBC calls to database specific native calls. Client requires database specific libraries.</td>
+<td align="left">Native API &ndash; Partly &ndash; Java driver</td>
+<td align="left">This driver converts JDBC calls to database specific native calls. Client requires database specific libraries.</td>
 </tr>
 <tr>
 <td align="center">3 </td>
 <td align="center">3  </td>
-<td align="center">JDBC &ndash; Net -All Java driver</td>
-<td align="center">This driver passes calls to proxy server through network protocol which in turn converts to database calls and passes through database specific protocol. Client doesn&rsquo;t require any driver.</td>
+<td align="left">JDBC &ndash; Net -All Java driver</td>
+<td align="left">This driver passes calls to proxy server through network protocol which in turn converts to database calls and passes through database specific protocol. Client doesn&rsquo;t require any driver.</td>
 </tr>
 <tr>
 <td align="center">4 </td>
 <td align="center">2  </td>
-<td align="center">Native protocol &ndash; All &ndash; Java driver</td>
-<td align="center">This driver directly calls database. Client doesn&rsquo;t require any driver.</td>
+<td align="left">Native protocol &ndash; All &ndash; Java driver</td>
+<td align="left">This driver directly calls database. Client doesn&rsquo;t require any driver.</td>
 </tr>
 </tbody>
 </table>
@@ -244,86 +244,104 @@
 
 <p>Type 3 &amp; 4 drivers are faster than other drivers because Type 3 gives facility for optimization techniques provided by application server such as connection pooling, caching, load balancing etc and Type 4 driver need not translate database calls to ODBC or native connectivity interface. Type 1 drivers are slow because they have to convert JDBC calls to ODBC through JDBC-ODBC Bridge driver initially and then ODBC Driver converts them into database specific calls. Type 2 drivers give average performance when compared to Type 3 &amp; 4 drivers because the database calls have to be converted into database specific calls. Type 2 drivers give better performance than Type 1 drivers.</p>
 
-<h3><a name="connection"></a>Optimization with Connection</h3>
+<h4><a name="connection"></a>Optimization with Connection</h4>
 
 <p>We have different approaches to establish a connection with the database, the <strong>first</strong> type of approach is :</p>
 
-<ol>
+<blockquote><ol>
 <li>DriverManager.getConnection(String url)</li>
 <li>DriverManager.getConnection(String url, Properties props)</li>
 <li>DriverManager.getConnection(String url, String user, String password)</li>
 <li>Driver.connect(String url, Properties props)</li>
 </ol>
+</blockquote>
 
+<p>When you use this approach, you can pass database specific information to the database by passing properties using Properties object. The following code snippet illustrates this approach for MySQL.</p>
 
-<p>When you use this approach, you can pass database specific information to the database by passing properties using Properties object to improve performance. For example, when you use oracle database you can pass default number of rows that must be pre-fetched from the database server and the default batch value that triggers an execution request. Oracle has default value as 10 for both properties. By increasing the value of these properties, you can reduce the number of database calls which in turn improves performance. The following code snippet illustrates this approach.</p>
-
-<pre><code>    java.util.Properties props = new java.util.Properties();
-    props.put("user","scott");
-    props.put("password","tiger");
-    props.put("defaultRowPrefetch","30");
-    props.put("defaultBatchValue","5");
-    Connection con = DriverManger.getConnection("jdbc:oracle:thin:@hoststring", props);
+<pre><code>Properties props = new Properties();
+FileInputStream in = new FileInputStream("/external/configuration/dir/db.properties");
+props.load(in);
+in.close();
+Connection con = DriverManger.getConnection("jdbc:mysql://localhost:3306/test", props);
 </code></pre>
 
-<p>You need to figure out appropriate values for above properties for better performance depending on application&rsquo;s requirement. Suppose, you want to set these properties for search facility, you can increase defaultRowPrefetch so that you can increase performance significantly.</p>
+<p>The db.properties is quite like this:</p>
 
-<p>The <strong>second</strong> type of approach is to get connection from DataSource. You can get the connection using javax.sql.DataSource interface. The advantage of getting connection from this approach is that the DataSource works with JNDI. The implementation of DataSource is done by vendor, for example you can find this feature in weblogic, websphere etc. The vendor simply creates DataSource implementation class and binds it to the JNDI tree. The following code shows how a vendor creates implementation class and binds it to JNDI tree.</p>
+<blockquote><p>drivername=com.mysql.jdbc.Driver
+url=jdbc:mysql://127.0.0.1:3306/test
+username=root
+password=123456</p></blockquote>
 
-<pre><code>    DataSourceImpl dsi = new DataSourceImpl();
-    dsi.setServerName("oracle8i");
-    dsi.setDatabaseName("Demo");
-    Context ctx = new InitialContext();
-    ctx.bind("jdbc/demoDB", dsi);
+<p>You can add extra properties for better performance depending on application&rsquo;s requirement, of course, you need to figure out if the database support such configuration first.</p>
+
+<p>The <strong>second</strong> type of approach is to get connection from DataSource(not tested yet). You can get the connection using javax.sql.DataSource interface. The advantage of getting connection from this approach is that the DataSource works with JNDI. The implementation of DataSource is done by vendor, for example you can find this feature in weblogic, websphere etc. The vendor simply creates DataSource implementation class and binds it to the JNDI tree. The following code shows how a vendor creates implementation class and binds it to JNDI tree.</p>
+
+<pre><code>DataSourceImpl dsi = new DataSourceImpl();
+dsi.setServerName("oracle8i");
+dsi.setDatabaseName("Demo");
+Context ctx = new InitialContext();
+ctx.bind("jdbc/demoDB", dsi);
 </code></pre>
 
 <p>This code registers the DataSourceImpl object to the JNDI tree, then the programmer can get the DataSource reference from JNDI tree without knowledge of the underlying technology.</p>
 
-<pre><code>    Context ctx = new InitialContext();
-    DataSource ds = (DataSource)ctx.lookup("jdbc/demoDB");
-    Connection con = ds.getConnection();
+<pre><code>Context ctx = new InitialContext();
+DataSource ds = (DataSource)ctx.lookup("jdbc/demoDB");
+Connection con = ds.getConnection();
 </code></pre>
 
 <p>By using this approach we can improve performance. Nearly all major vendor application servers like weblogic, webshpere implement the DataSource by taking connection from connection pool rather than a single connection every time. The application server creates connection pool by default. We will discuss the advantage of connection pool to improve performance in the next section.</p>
 
-<h4>Use Connection Pool</h4>
+<h5>Use Connection Pool</h5>
 
 <p>Creating a connection to the database server is expensive. It is even more expensive if the server is located on another machine. Connection pool contains a number of open database connections with minimum and maximum connections, that means the connection pool has open connections between minimum and maximum number that you specify. The pool expands and shrinks between minimum and maximum size depending on incremental capacity. You need to give minimum, maximum and incremental sizes as properties to the pool in order to maintain that functionality. You get the connection from the pool rather directly .For example, if you give properties like min, max and incremental sizes as 3, 10 and 1 then pool is created with size 3 initially and if it reaches it&rsquo;s capacity 3 and if a client requests a connection concurrently, it increments its capacity by 1 till it reaches 10 and later on it puts all its clients in a queue.</p>
+
+<p>There are a few choices when using connection pool.</p>
+
+<ol>
+<li>You can depend on application server if it supports this feature, generally all the application servers support connection pools. Application server creates the connection pool on behalf of you when it starts. You need to give properties like min, max and incremental sizes to the application server.</li>
+<li>You  can use JDBC 2.0 interfaces, ConnectionPoolDataSource and PooledConnection if your driver implements these interfaces</li>
+<li>Or  you can create your own connection pool if you are not using any application server or JDBC 2.0  compatible driver.</li>
+</ol>
+
+
+<p>By using any of these options, you can increase performance significantly. You need to take care of properties like min, max and incremental sizes. The maximum number of connections to be given depends on your application&rsquo;s  requirement that means how many concurrent clients can access  your database and also it depends up on your database&rsquo;s capability to provide maximum number of connections.</p>
+
+<p>See more about the <strong><em><a href="http://jolbox.com/index.html?page=http://jolbox.com/benchmarks.html">JDBC connection pool benchmarks</a></em></strong></p>
+
+<h5>Control transaction</h5>
 
 <p>In general, transaction represents one unit of work or bunch of code in the program that executes in it&rsquo;s entirety or none at all. To be precise, it is all or no work. In JDBC, transaction is a set of one or more Statements that execute as a single unit.
 java.sql.Connection interface provides some methods to control transaction they are</p>
 
-<pre><code>    public interface Connection {
-        boolean getAutoCommit();
-        void        setAutoCommit(boolean autocommit);
-        void        commit();
-        void        rollback();
-    }
+<pre><code>public interface Connection {
+    boolean getAutoCommit();
+    void        setAutoCommit(boolean autocommit);
+    void        commit();
+    void        rollback();
+}
 </code></pre>
 
-<h4>JDBC&rsquo;s default mechanism for transactions:</h4>
+<p>By default in JDBC transaction starts and commits after each statement&rsquo;s  execution on a connection. That is the AutoCommit mode is true. Programmer need not write a commit() method explicitly after each statement.Obviously this default mechanism gives good facility for programmers if they want to execute a single statement. But it gives poor performance when multiple statements on a connection are to be executed because commit is issued after each statement by default, that in turn reduces performance by issuing unnecessary commits. The remedy is to flip it back to AutoCommit mode as false and issue commit() method after a set of statements execute, this is called as <strong>batch transaction</strong>. Use rollback() in catch block to rollback the transaction whenever an exception occurs in your program. See more about <a href="http://www.tutorialspoint.com/jdbc/jdbc-transactions.htm">JDBC &ndash; Transactions</a></p>
 
-<p>By default in JDBC transaction starts and commits after each statement&rsquo;s  execution on a connection. That is the AutoCommit mode is true. Programmer need not write a commit() method explicitly after each statement.Obviously this default mechanism gives good facility for programmers if they want to execute a single statement. But it gives poor performance when multiple statements on a connection are to be executed because commit is issued after each statement by default, that in turn reduces performance by issuing unnecessary commits. The remedy is to flip it back to AutoCommit mode as false and issue commit() method after a set of statements execute, this is called as batch transaction. Use rollback() in catch block to rollback the transaction whenever an exception occurs in your program. The following code illustrates the batch transaction approach.This batch transaction gives good performance by reducing commit calls after each statement&rsquo;s execution.</p>
+<h5>Choose optimal isolation level</h5>
 
-<h3>Choose optimal isolation level</h3>
+<p>Isolation level represent how a database maintains data integrity against the problems like dirty reads, phantom reads and non-repeatable reads which can occur due to concurrent transactions. java.sql.Connection interface provides  methods and constants to avoid the above mentioned problems by setting different isolation levels.</p>
 
-<p>Isolation level represent how a database maintains data integrity against the problems like dirty reads, phantom reads and non-repeatable reads which can occur due to concurrent transactions. java.sql.Connection interface provides  methods and constants to avoid the above mentioned problems by setting different isolation levels.
-public interface Connection {</p>
-
-<pre><code>    public static final int  TRANSACTION_NONE                               = 0
-    public static final int  TRANSACTION_READ_COMMITTED                 = 2
-    public static final int  TRANSACTION_READ_UNCOMMITTED           = 1
-    public static final int  TRANSACTION_REPEATABLE_READ            = 4
-    public static final int  TRANSACTION_SERIALIZABLE                   = 8
-    int          getTransactionIsolation();
-    void        setTransactionIsolation(int isolationlevelconstant);
+<pre><code>public interface Connection {
+    public static final int  TRANSACTION_NONE                 = 0
+    public static final int  TRANSACTION_READ_UNCOMMITTED     = 1
+    public static final int  TRANSACTION_READ_COMMITTED       = 2
+    public static final int  TRANSACTION_REPEATABLE_READ      = 4
+    public static final int  TRANSACTION_SERIALIZABLE         = 8
+    int    getTransactionIsolation();
+    void   setTransactionIsolation(int isolationlevelconstant);
+}
 </code></pre>
 
-<p>}</p>
+<p>More details are covered in <strong><em><a href="/blog/2013/10/11/optimal-isolation-level/">Optimal JDBC Transaction Isolation Level</a> and [Optimistic and Pessimistic Locking]</em></strong>(/blog/2013/10/21/optimistic-and-pessimistic-locking/)</p>
 
-<p>More details are covered in <a href="/blog/2013/10/11/optimal-isolation-level/">Optimal JDBC Transaction Isolation Level</a> and <a href="/blog/2013/10/21/optimistic-and-pessimistic-locking/">Optimistic and Pessimistic Locking</a></p>
-
-<h3>Optimization with Statement</h3>
+<h4>Optimization with Statement</h4>
 
 <p>Statement interface represents SQL query and execution and they provide number of methods and constants to work with queries. They also provide some methods to fine tune performance. Programmer may overlook these fine tuning methods that result in poor performance. The following are the tips to improve performance by using statement interfaces</p>
 
@@ -335,16 +353,18 @@ public interface Connection {</p>
 </ol>
 
 
-<h4>1. Choose right Statement interface</h4>
+<h5>1. Choose right Statement interface</h5>
 
-<p>There are three types of Statement interfaces in JDBC to represent the SQL query and execute that query, they are Statement, PreparedStatement and CallableStatement.
-Statement is used for static SQL statement with no input and output parameters, PreparedStatement is used for dynamic SQL statement with input parameters and CallableStatement is used for dynamic SQL satement with both input and output parameters, but PreparedStatement and CallableStatement can be used for static SQL statements as well. CallableStatement is mainly meant for stored procedures.</p>
+<p>There are three types of Statement interfaces in JDBC to represent the SQL query and execute that query, they are Statement, PreparedStatement and CallableStatement.</p>
 
-<p>PreparedStatement gives better performance when compared to Statement because it is pre-parsed and pre-compiled by the database once for the first time and then onwards it reuses the parsed and compiled statement. Because of this feature, it significantly improves performance when a statement executes repeatedly, It reduces the overload incurred by parsing and compiling.</p>
+<ol>
+<li><p>Statement is used for static SQL statement with no input and output parameters, PreparedStatement is used for dynamic SQL statement with input parameters and CallableStatement is used for dynamic SQL satement with both input and output parameters, but PreparedStatement and CallableStatement can be used for static SQL statements as well. CallableStatement is mainly meant for stored procedures.</p></li>
+<li><p>PreparedStatement gives better performance when compared to Statement because it is pre-parsed and pre-compiled by the database once for the first time and then onwards it reuses the parsed and compiled statement. Because of this feature, it significantly improves performance when a statement executes repeatedly, It reduces the overload incurred by parsing and compiling.</p></li>
+<li><p>CallableStatement gives better performance when compared to PreparedStatement and Statement when there is a requirement for single request to process multiple complex statements. It parses and stores the stored procedures in the database and does all the work at database itself that in turn improves performance. But we loose java portability and we have to depend up on database specific stored procedures.</p></li>
+</ol>
 
-<p>CallableStatement gives better performance when compared to PreparedStatement and Statement when there is a requirement for single request to process multiple complex statements. It parses and stores the stored procedures in the database and does all the work at database itself that in turn improves performance. But we loose java portability and we have to depend up on database specific stored procedures.</p>
 
-<h4>2. Do batch update</h4>
+<h5>2. Do batch update</h5>
 
 <p>You can send multiple queries to the database at a time using batch update feature of statement objects this reduces the number of JDBC calls and improves performance. Here is an example of how you can do batch update,</p>
 
@@ -356,15 +376,15 @@ statement.executeBatch();
 
 <p><strong>All</strong> three types of statements have these methods to do batch update.</p>
 
-<h4>3. Do batch retrieval using Statement</h4>
+<h5>3. Do batch retrieval using Statement</h5>
 
 <p>You can get the default number of rows that is provided by the driver. You can improve performance by increasing number of rows to be fetched at a time from database using <code>setFetchSize()</code> method of the statement object.Initially find the default size by using <code>Statement.getFetchSize();</code>   and then set the size as per your requirement <code>Statement.setFetchSize(30);</code>Here it retrieves 30 rows at a time for all result sets of this statement.</p>
 
-<h4>4. Close Statement when finished</h4>
+<h5>4. Close Statement when finished</h5>
 
 <p>Close statement object as soon as you finish working with that, it explicitly gives a chance to garbage collector to recollect memory as early as possible which in turn effects performance. Statement.close();</p>
 
-<h3>Optimization with ResultSet</h3>
+<h4>Optimization with ResultSet</h4>
 
 <p>ResultSet interface represents data that contains the results of executing an SQL Query and it provides a number of methods and constants to work with that data. It also provides methods to fine tune retrieval of data to improve performance. The following are the fine tuning tips to improve performance by using ResultSet interface.
 1. Do batch retrieval using ResultSet
@@ -372,26 +392,28 @@ statement.executeBatch();
 3. Use proper get methods
 4. Close ResultSet when finished</p>
 
-<h4>1. Do batch retrieval using ResultSet</h4>
+<h5>Do batch retrieval using ResultSet</h5>
 
 <p>ResultSet interface also provides batch retrieval facility like Statement as mentioned above. It overrides the Statement behaviour. Initially find the default size by using
 <code>ResultSet.getFetchSize();</code> and then set the size as per requirement <code>ResultSet.setFetchSize(50);</code> This feature significantly improves performance when you are dealing with retrieval of large number of rows like search functionality.</p>
 
-<h4>2. Setup proper direction of processing rows</h4>
+<h5>Setup proper direction of processing rows</h5>
 
 <p>ResultSet has the capability of setting the direction in which you want to process the results, it has three constants for this purpose, they are <code>FETCH_FORWARD</code>, <code>FETCH_REVERSE</code>, <code>FETCH_UNKNOWN</code>. Initially find the direction by using <code>ResultSet.getFetchDirection();</code> and then set the direction accordingly <code>ResultSet.setFetchDirection(FETCH_REVERSE);</code></p>
 
-<h4>3. Use proper <code>getxxx()</code> methods</h4>
+<h5>Use proper <code>getxxx()</code> methods</h5>
 
 <p>ResultSet interface provides lot of getxxx() methods to get and convert database data types to java data types and is flexibile in converting non feasible data types. For example, <code>getString(String columnName)</code> returns java String object. <code>columnName</code> is recommended to be a <code>VARCHAR</code> or <code>CHAR</code> type of database but it can also be a <code>NUMERIC</code>, <code>DATE</code> etc.If you give non recommended parameters, it needs to cast it to proper java data type that is  expensive. For example consider that  you select  a product&rsquo;s id from huge database which returns millions of records from search functionality, it needs to convert all these records that is very expensive.
 So always use proper getxxx() methods according to JDBC recommendations.</p>
 
-<h4>4. Close ResultSet when finished</h4>
+<h5>Close ResultSet when finished</h5>
 
 <p>Close ResultSet object as soon as you finish working with ResultSet object even though Statement object closes the ResultSet object implicitly when it closes, closing ResultSet explicitly gives chance to garbage collector to recollect memory as early as possible because ResultSet object may occupy lot of memory depending on query.
 <code>ResultSet.close();</code></p>
 
-<h3>Optimization with SQL Query</h3>
+<p>See more details about <strong><em><a href="http://tutorials.jenkov.com/jdbc/resultset.html">JDBC: ResultSet</a></em></strong></p>
+
+<h4>Optimization with SQL Query</h4>
 
 <p>This is one of the area where programmers generally make a mistake. If you give a query like</p>
 
@@ -399,7 +421,7 @@ So always use proper getxxx() methods according to JDBC recommendations.</p>
 ResultSet rs = stmt.executeQuery("select * from employee where name=RR");
 </code></pre>
 
-<p>The returned result set contains all the columns data. you may not need all the column data and want only salary for RR.
+<p>The returned result set contains all the columns data. you may not need all the column data and want <strong>only</strong> salary for RR.
 The better query is <code>"select salary from employee where name=RR"</code>
 It returns the required data  and reduces unnecessary data retrieval. Make your query specific.</p>
 
@@ -418,10 +440,26 @@ dept D WHERE E.DEPTNO = D.DEPTNO AND
 D.DEPTTYPE = 'ENG';
 </code></pre>
 
-<h3>Cache the read-only and read-mostly data</h3>
+<h5>Smart Query Guidelines</h5>
+
+<ul>
+<li>Make queries as specific as possible</li>
+<li>Put more logic into SQL statements</li>
+<li>DB are designed to use SQL efficiently</li>
+<li>Use DB for filtering</li>
+<li>Use Java for business logic,DB business logic is poor(At least very inconsistent between database vendors.)</li>
+<li>DB does filtering very well</li>
+</ul>
+
+
+<h3><a name='other_means'></a>Other Means of Optimization.</h3>
+
+<p>There are also some other techniques you can rely on, for example, caching, iteratively fetching, stored procedures, database table sharding.</p>
+
+<h4>Cache the read-only and read-mostly data</h4>
 
 <p>Every database schema generally has read-only and read-mostly tables. These tables are called as lookup tables. Read-only tables contain static data that never changes in its life time. Read-mostly tables contain semi dynamic data that changes often. There will not be any sort of writing operations in these tables.
-If an application reads data from these tables for every client request, then it is redundant, unnecessary and expensive. The solution for this problem is to cache the read-only table data by reading the data from that table once and caching the read-mostly table data by reading and refreshing with time limit. This solution improves performance significantly. See the following link for source code of such <a href="http://www.javaworld.com/javaworld/jw-07-2001/jw-0720-cache.html">caching mechanism</a>.</p>
+If an application reads data from these tables for every client request, then it is redundant, unnecessary and expensive. The solution for this problem is to cache the read-only table data by reading the data from that table once and caching the read-mostly table data by reading and refreshing with time limit. This solution improves performance significantly.</p>
 
 <p>You can tweak this code as per application requirement. For read-only data, you need not refresh data in its life time. For read-mostly data, you need to refresh the data with time limit. It is better to set this refreshing time limit in properties file so that it can be changed at any time.</p>
 
@@ -437,7 +475,15 @@ If an application reads data from these tables for every client request, then it
 
 <p>Out of these solutions the second solution gives better performance because it need not keep the data in the cache (in-memory). The first procedure is useful when the total amount of data to be returned is not huge.</p>
 
-<h2>Key Points</h2>
+<h4>Keep operational data set small as possible</h4>
+
+<ul>
+<li>Move non-current data to other tables and do joins for rarer historical queries</li>
+<li>Otherwise, index and cluster so frequently used data is logically and physically localized</li>
+</ul>
+
+
+<h3><a name='key_points'></a>Key Points</h3>
 
 <ul>
 <li>Use Type two driver for two tiered applications to communicate from java client to database that gives better performance than Type1 driver.</li>
@@ -447,8 +493,8 @@ If an application reads data from these tables for every client request, then it
 <li>Pass database specific properties like defaultPrefetch if your database supports any of them.</li>
 <li>Get database connection from connection pool rather than getting it directly</li>
 <li>Use batch transactions.</li>
-<li>Choose right isolation level as per your requirement. TRANSACTION_READ_UNCOMMITED gives best performance for concurrent transaction based applications. TRANSACTION_NONE gives best performance for non-concurrent transaction based applications.
-*Your database server may not support all isolation levels, be aware of your database server features.</li>
+<li>Choose right isolation level as per your requirement. <code>TRANSACTION_READ_UNCOMMITED</code> gives best performance for concurrent transaction based applications. <code>TRANSACTION_NONE</code> gives best performance for non-concurrent transaction based applications. Also, Have a good understanding of optimistic and pessimistic locking since such techniques definitely improve the robustness of your program.</li>
+<li>Your database server may not support all isolation levels, be aware of your database server features.</li>
 <li>Use PreparedStatement when you execute the same statement more than once.</li>
 <li>Use CallableStatement when you want result from multiple and complex statements for a single request.</li>
 <li>Use batch update facility available in Statements.</li>
@@ -456,8 +502,8 @@ If an application reads data from these tables for every client request, then it
 <li>Set up proper direction for processing rows.</li>
 <li>Use proper getXXX() methods.</li>
 <li>Close ResultSet, Statement and Connection whenever you finish your work with them.</li>
-<li>Write precise SQL queries.</li>
-<li>Cache read-only and read-mostly tables data.</li>
+<li>Write precise SQL queries, let the DB do the logic since it&rsquo;s designed for those stuffs.</li>
+<li>Cache read-only and read-mostly tables data, split database tables for efficiency purposes.</li>
 <li>Fetch small amount of data iteratively rather than whole data at once when retrieving large amount of data like searching database etc.</li>
 </ul>
 
@@ -465,11 +511,15 @@ If an application reads data from these tables for every client request, then it
 <h2>References:</h2>
 
 <ul>
+<li><a href="http://alumnus.caltech.edu/~chamness/JDBC_Tuning.pdf">Performance Tuning for the JDBC API</a></li>
 <li><a href="http://www.precisejava.com/javaperf/j2ee/JDBC.htm">Best practices to improve performance in JDBC</a>(I love this most.)</li>
 <li><a href="http://www.tutorialspoint.com/jdbc/jdbc-driver-types.htm">Jdbc Driver Types</a></li>
 <li><a href="https://access.redhat.com/site/documentation/en-US/JBoss_Enterprise_Data_Services/5/html/Data_Services_Client_Developer_Guide/chap-JDBC_Transactions.html">JDBC Transactions</a></li>
+<li><a href="http://jolbox.com/index.html?page=http://jolbox.com/benchmarks.html">The JDBC Connection Pool Benchmarks</a></li>
+<li><a href="http://www.tutorialspoint.com/jdbc/jdbc-transactions.htm">JDBC &ndash; Transactions</a></li>
 <li><a href="http://www-01.ibm.com/software/webservers/appserv/ws_bestpractices.pdf">WebSphere Application Server Development Best Practices for Performance and Scalability</a></li>
 <li><a href="http://www.jguru.com/faq/view.jsp?EID=131579">What areas should I focus on for the best performance in a JDBC application?</a></li>
+<li><a href="http://www.javaworld.com/javaworld/jw-07-2001/jw-0720-cache.html">Develop a generic caching service to improve performance</a></li>
 </ul>
 
 </div>

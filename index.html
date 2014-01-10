@@ -417,8 +417,8 @@ Markdown was created to be easy to read, easy to write, and still readable in pl
 
 <pre><code>public interface Connection {
     public static final int  TRANSACTION_NONE                 = 0
-    public static final int  TRANSACTION_READ_COMMITTED       = 2
     public static final int  TRANSACTION_READ_UNCOMMITTED     = 1
+    public static final int  TRANSACTION_READ_COMMITTED       = 2
     public static final int  TRANSACTION_REPEATABLE_READ      = 4
     public static final int  TRANSACTION_SERIALIZABLE         = 8
     int    getTransactionIsolation();
