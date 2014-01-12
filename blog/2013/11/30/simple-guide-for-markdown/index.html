@@ -5,12 +5,12 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>Markdown Syntax Guide - I/O VIsion</title>
+  <title>Simple Guide for Markdown - I/O VIsion</title>
   <meta name="author" content="Sunny">
 
   
-  <meta name="description" content="This post is from here. Thanks to the origin author.
-Markdown was created to be easy to read, easy to write, and still readable in plain text format &hellip;">
+  <meta name="description" content="This post is from Markdown Syntax Guide. Thanks to the origin author.
+Markdown was created to be easy to read, easy to write, and still readable in &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -116,7 +116,7 @@ Markdown was created to be easy to read, easy to write, and still readable in pl
   
   <header>
     
-      <h1 class="entry-title">Markdown Syntax Guide</h1>
+      <h1 class="entry-title">Simple Guide for Markdown</h1>
     
     
       <p class="meta">
@@ -142,7 +142,7 @@ Markdown was created to be easy to read, easy to write, and still readable in pl
   </header>
 
 
-<div class="entry-content"><p>This post is from <a href="http://sourceforge.net/p/forge/documentation/markdown_syntax/#md_ex_links" title="thanks to the origin author.">here</a>. Thanks to the origin author.
+<div class="entry-content"><p>This post is from <a href="http://sourceforge.net/p/forge/documentation/markdown_syntax/#md_ex_links" title="thanks to the origin author.">Markdown Syntax Guide</a>. Thanks to the origin author.
 Markdown was created to be easy to read, easy to write, and still readable in plain text format.</p>
 
 <ol>
@@ -154,17 +154,12 @@ Markdown was created to be easy to read, easy to write, and still readable in pl
 <li><a href="#preformatted_text">Preformatted Text</a></li>
 <li><a href="#lists">Lists</a></li>
 <li><a href="#tables">Tables</a>(We will talk about this feature)</li>
-<li>Headers(Removed)</li>
 <li><a href="#more_headers">More Headers</a></li>
 <li><a href="#horizontal_rules">Horizontal Rules</a></li>
 <li><a href="#images">Images</a></li>
-<li>Videos(Removed)</li>
 <li><a href="#escapes_and_html">Escapes and HTML</a></li>
-<li>Table of Contents(Removed)</li>
+<li>Table of Contents</li>
 <li><a href="#code_highlighting">Code Highlighting</a></li>
-<li>Includes(Removed)</li>
-<li>Neighborhood Notifications(Removed)</li>
-<li>Project Info Macros(Removed)</li>
 </ol>
 
 
@@ -184,7 +179,7 @@ Markdown was created to be easy to read, easy to write, and still readable in pl
 <p>Output:</p>
 
 <blockquote><p><a href="http://www.iovi.com">http://www.iovi.com</a><br/>
-<a href="&#109;&#x61;&#105;&#x6c;&#x74;&#x6f;&#x3a;&#115;&#111;&#x6d;&#101;&#x62;&#98;&#111;&#x62;&#x40;&#x69;&#111;&#x76;&#105;&#x2e;&#x63;&#111;&#x6d;">&#115;&#111;&#109;&#x65;&#98;&#98;&#111;&#98;&#64;&#105;&#x6f;&#118;&#105;&#x2e;&#99;&#x6f;&#109;</a></p></blockquote>
+<a href="&#x6d;&#x61;&#105;&#108;&#116;&#111;&#58;&#x73;&#x6f;&#x6d;&#x65;&#98;&#x62;&#111;&#x62;&#64;&#x69;&#111;&#x76;&#x69;&#x2e;&#99;&#x6f;&#x6d;">&#x73;&#111;&#109;&#101;&#x62;&#98;&#x6f;&#x62;&#64;&#105;&#111;&#x76;&#x69;&#46;&#99;&#111;&#x6d;</a></p></blockquote>
 
 <p>To use text for the link, write it:</p>
 
@@ -217,12 +212,11 @@ Markdown was created to be easy to read, easy to write, and still readable in pl
 
 <blockquote><p>You can also put the <a href="http://www.iovi.com">link URL</a> below the current paragraph <a href="http://www.iovi.com" title="I/O VIsion">like</a> this.</p></blockquote>
 
-<p>Here the text &ldquo;link URL&rdquo; gets linked to &ldquo;<a href="http://url">http://url</a>&rdquo;, and the lines showing &ldquo;<a href="http://www.iovi.com">1</a>: <a href="http://www.iovi.com">http://www.iovi.com</a>&rdquo; won&rsquo;t show anything.</p>
+<p>Here the text &ldquo;link URL&rdquo; gets linked to <code>http://www.iovi.com</code>, and the lines showing <code>[1]: http://www.iovi.com</code> won&rsquo;t show anything.</p>
 
-<pre><code>[shortcut]: http://www.iovi.com/goes/with/the/link/name/text
+<pre><code>Or you can use a [shortcut][] reference, which links the text "shortcut" to the link named "[shortcut]" on the next paragraph.
+[shortcut]: http://www.iovi.com/goes/with/the/link/name/text
 </code></pre>
-
-<p>Or you can use a <a href="http://www.iovi.com/goes/with/the/link/name/text">shortcut</a> reference, which links the text &ldquo;shortcut&rdquo; to the link named &ldquo;<a href="http://www.iovi.com/goes/with/the/link/name/text">shortcut</a>&rdquo; on the next paragraph.</p>
 
 <p>Output:</p>
 
@@ -232,18 +226,9 @@ Markdown was created to be easy to read, easy to write, and still readable in pl
 
 <h2><a name='artifact_links'></a>Artifact Links</h2>
 
-<p>Any forge resource (artifact) can be linked with surrounding square brackets, e.g.</p>
+<p>Any forge resource (artifact) can be linked with surrounding square brackets, e.g. <code>[MyPage]</code> or <code>[#123]</code>. These artifact links can take several forms(However, some of them haven&rsquo;t been tested yet).</p>
 
-<pre><code>[MyPage] 
-or 
-[#123]. 
-</code></pre>
-
-<p>These artifact links can take several forms.</p>
-
-<hr />
-
-<h2><a name='simple_links'></a>Simple Links</h2>
+<h3>Simple Links</h3>
 
 <p>Most commonly, the artifact identifier can simply be surrounded with square brackets. Here are some examples:</p>
 
@@ -302,7 +287,7 @@ or
 
 <blockquote><p><s>this is strike through text</s></p></blockquote>
 
-<p>Two blank spaces at the end of the line do the same work as <br/> in <em>html</em>, making a line break. <em>(A little bit different from the origin post)</em>.<br/>
+<p>Two blank spaces at the end of the line do the same work as <code>&lt;br/&gt;</code> in <em>html</em>, making a line break. <em>(A little bit different from the origin post)</em>.<br/>
 Two carriage returns make a new paragraph.</p>
 
 <hr />
@@ -314,24 +299,17 @@ Two carriage returns make a new paragraph.</p>
 <pre><code>&gt; Use it if you're quoting a person, a song or whatever.
 
 &gt; You can use *italic* or lists inside them also.
-And just like with other paragraphs,
-all of these lines are still
-part of the blockquote, even without the &gt; character in front.
+And just like with other paragraphs, all of these lines are still part of the blockquote, even without the &gt; character in front.
 </code></pre>
 
-<p>To end the blockquote, just put a blank line before the following
-paragraph.</p>
+<p>To end the blockquote, just put a <strong>blank line</strong> before the following paragraph.</p>
 
 <p>Output:</p>
 
 <blockquote><p>Use it if you&rsquo;re quoting a person, a song or whatever.</p>
 
-<p>You can use italic or lists inside them also.
-And just like with other paragraphs,
-all of these lines are still
-part of the blockquote, even without the > character in front.</p></blockquote>
-
-<p>To end the blockquote, just put a blank line before the following paragraph.</p>
+<p>You can use italic or lists inside them also.<br/>
+And just like with other paragraphs, all of these lines are still part of the blockquote, even without the > character in front.</p></blockquote>
 
 <hr />
 
@@ -346,7 +324,10 @@ Markdown. &lt;b&gt;this won't show up as HTML&lt;/b&gt; but
 exactly &lt;i&gt;as you see it in this text file&lt;/i&gt;.  
 </code></pre>
 
-<p>Within a paragraph, you can use backquotes to do the same thing.<code>This won't be *italic* or **bold** at all.</code></p>
+<p>Within a paragraph, you can use backquotes to do the same thing.</p>
+
+<pre><code>`This won't be *italic* or **bold** at all.`
+</code></pre>
 
 <p>Output:</p>
 
@@ -356,11 +337,10 @@ This is great for showing program source code, or HTML or even<br/>
 Markdown. <b>this won&rsquo;t show up as HTML</b> but<br/>
 exactly <i>as you see it in this text file</i>.</p></blockquote>
 
-<p>Within a paragraph, you can use backquotes to do the same thing.<code>This won't be *italic* or **bold** at all.</code></p>
+<p>Within a paragraph, you can use backquotes to do the same thing.
+<code>This won't be *italic* or **bold** at all.</code></p>
 
 <h2><a name='lists'></a>Lists</h2>
-
-<p>(Here is some place different from the origin counterpart, accutally not powerful as it described, and pay attention that the next line must be blank, even two blank spaces(break line) don&rsquo;t work.)</p>
 
 <pre><code>* an asterisk starts an unordered list
 * and this is another item in the list
@@ -370,9 +350,13 @@ exactly <i>as you see it in this text file</i>.</p></blockquote>
 
 <p>To start an ordered list, write this:</p>
 
-<pre><code>1.this starts a list *with* numbers  
-1. this will show as number "2."  
-1. this will show as number "3."  
+<pre><code>1. this starts a list *with* numbers
++  this will show as number "2"
+*  this will show as number "3."
+9. any number, +, -, or * will keep the list going.
+    * just indent by 4 spaces (or tab) to make a sub-list
+        1. keep indenting for more sub lists
+    * here i'm back to the second level
 </code></pre>
 
 <p>Output:</p>
@@ -385,46 +369,70 @@ exactly <i>as you see it in this text file</i>.</p></blockquote>
 </ul>
 </blockquote>
 
-<p>To start an ordered list, write this:</p>
+<p>To start an ordered and multi-level list, write this:</p>
 
 <blockquote><ol>
 <li>this starts a list <em>with</em> numbers</li>
-<li>this will show as number &ldquo;2.&rdquo;</li>
+<li>this will show as number &ldquo;2&rdquo;</li>
 <li>this will show as number &ldquo;3.&rdquo;</li>
+<li>any number, +, &ndash;, or * will keep the list going.
+
+<ul>
+<li>just indent by 4 spaces (or tab) to make a sub-list
+
+<ol>
+<li> keep indenting for more sub lists</li>
+</ol>
+</li>
+<li>here i&rsquo;m back to the second level</li>
+</ul>
+</li>
 </ol>
 </blockquote>
 
-<h3>Multi-level List###</h3>
+<hr />
 
-<p>(Newly added, 2013.12.26 21:15)</p>
+<h2><a name='tables'></a>Tables</h2>
 
-<pre><code>* First Level
- * Second Level, add one more space than first level
-      * Third Level, add six more spaces than first level
+<p>A little bit different from the origin one, alignment attribute added.</p>
+
+<pre><code>First Header        | Second Header     | Third Header  |Fourth Header
+-------------       | :-------------    | --------:     | :----------:
+Align Default       |Align Left         | Align Right   | Align Center
+**Bold**        |*Italic*       | _Italic_  | &lt;s&gt;Strike&lt;/s&gt;
 </code></pre>
 
 <p>Output:</p>
 
-<blockquote><ul>
-<li>First Level</li>
-<li>Second Level, add one more space than first level
+<table>
+<thead>
+<tr>
+<th>First Header        </th>
+<th align="left"> Second Header     </th>
+<th align="right"> Third Header  </th>
+<th align="center">Fourth Header</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Align Default       </td>
+<td align="left">Align Left         </td>
+<td align="right"> Align Right   </td>
+<td align="center"> Align Center</td>
+</tr>
+<tr>
+<td><strong>Bold</strong>        </td>
+<td align="left"><em>Italic</em>       </td>
+<td align="right"> <em>Italic</em>  </td>
+<td align="center"> <s>Strike</s></td>
+</tr>
+</tbody>
+</table>
 
-<ul>
-<li> Third Level, add six more spaces than first level</li>
-</ul>
-</li>
-</ul>
-</blockquote>
 
 <hr />
 
-<h2><a name='tables'>Tables</h2>
-
-<p>(We will talk about this feature later)</p>
-
-<hr />
-
-<h2><a name='more_headers'>More Headers</h2>
+<h2><a name='more_headers'></a>More Headers</h2>
 
 <p>More ways of doing headers:</p>
 
@@ -472,15 +480,17 @@ exactly <i>as you see it in this text file</i>.</p></blockquote>
 
 <p>Output:</p>
 
-<hr />
-
-<p>or</p>
-
-<hr />
+<blockquote><hr /></blockquote>
 
 <p>Make sure you have a blank line above the dashes, though, or else:</p>
 
-<h2>you will get a header</h2>
+<pre><code>you will get a header
+-------
+</code></pre>
+
+<p>Output:</p>
+
+<blockquote><h2>you will get a header</h2></blockquote>
 
 <hr />
 
@@ -491,6 +501,8 @@ exactly <i>as you see it in this text file</i>.</p></blockquote>
 <pre><code>![alternate text](https://sourceforge.net/images/icon_linux.gif)
 </code></pre>
 
+<p>The &ldquo;alternate text&rdquo; will show up if the browser can&rsquo;t load the image.</p>
+
 <p>You can also use a title if you want, like this:</p>
 
 <pre><code>![tiny arrow](https://sourceforge.net/images/icon_linux.gif "tiny arrow")
@@ -498,8 +510,7 @@ exactly <i>as you see it in this text file</i>.</p></blockquote>
 
 <p>Output:</p>
 
-<blockquote><p><img src="https://sourceforge.net/images/icon_linux.gif" alt="alternate text" />
-The &ldquo;alternate text&rdquo; will show up if the browser can&rsquo;t load the image.</p></blockquote>
+<blockquote><p><img src="https://sourceforge.net/images/icon_linux.gif" alt="alternate text" /></p></blockquote>
 
 <p>You can also use a title if you want, like this:</p>
 
@@ -510,43 +521,37 @@ The &ldquo;alternate text&rdquo; will show up if the browser can&rsquo;t load th
 <p>What if you want to just show asterisks, not italics?</p>
 
 <pre><code>* this shows up in italics: *a happy day*  
-* this shows the asterisks: *a happy day*
+* this shows the asterisks: \*a happy day\*
 </code></pre>
 
 <p>Output:</p>
 
 <blockquote><ul>
 <li>this shows up in italics: <em>a happy day</em></li>
-<li>this shows the asterisks: <em>a happy day</em></li>
+<li>this shows the asterisks: *a happy day*</li>
 </ul>
 </blockquote>
 
-<p>What is you want to show the angle brackets <code>"&lt;xxx&gt;"</code>, not for special purposes? This example is newly added.</p>
+<p>The backslashes will disappear and leave the asterisks. You can do the same with any of the characters that have a special meaning for Markdown.</p>
 
-<pre><code>&lt;b&gt;place `` on the left of the close bracket.&lt;/b&gt;  
-&lt;b&gt;place back quotes between the brackets&lt;/b&gt;
+<p>Many simple HTML tags are allowed, for example <code>&lt;b&gt;</code> And unknown tags will be dropped. To show a literal <code>&lt;b&gt;</code> or an unknown tag like <foobar> you need escape it with HTML entities:</p>
+
+<pre><code>&lt;b&gt;this will be bold.&lt;/b&gt;  
+you should escape &lt;unknown\&gt; tags with "\" by placing which on the left of the close bracket.  
+&amp;copy; special entities work.  
+\&amp;copy; if you want to escape it.
 </code></pre>
 
 <p>Output:</p>
 
-<blockquote><p><b>xxxx</b><br/>
-<b>place back quotes between the brackets</b></p></blockquote>
+<blockquote><p><b>this will be bold.</b><br/>
+you should escape &lt;unknown> tags with &ldquo;\&rdquo; by placing which on the left of the close bracket.<br/>
+&copy; special entities work.<br/>
+&amp;copy; if you want to escape it.</p></blockquote>
 
-<p>The backslashes will disappear and leave the asterisks. You can do the same with any of the characters that have a special meaning
-for Markdown.</p>
+<p>HTML tags that are <strong>block-level</strong> like <code>&lt;div&gt;</code> can be used, but if there is markdown formatting <strong>within</strong> it, you must add a <code>markdown</code> attribute: <code>&lt;div markdown&gt;</code>.</p>
 
-<p>Many simple HTML tags are allowed, for example <code>&lt;b&gt;</code> And unknown tags will be dropped. To show a literal <b> or an unknown tag like <foobar> you need escape it with HTML entities: :</p>
-
-<pre><code>&lt;b&gt;this will be bold&lt;/b&gt;  
-you should escape &lt;unknown&gt; tags  
-</code></pre>
-
-<p>Output:</p>
-
-<blockquote><p><b>this will be bold</b><br/>
-you should escape <unknown> tags</p></blockquote>
-
-<p>HTML tags that are block-level like <div> can be used, but if there is markdown formatting within it, you must add a &ldquo;markdown&rdquo; attribute: <code>&lt;div markdown&gt;</code> Some safe attributes are also allowed, permitting basic styling and layout: <div markdown style="float:left"></p>
+<p>Some safe attributes are also allowed, permitting basic styling and layout: <code>&lt;div markdown style="float:left"&gt;</code>.</p>
 
 <p>Individual ampersands (&amp;) and less-than signs (&lt;) are fine, they will be shown as expected.</p>
 
@@ -554,13 +559,19 @@ you should escape <unknown> tags</p></blockquote>
 
 <h2><a name='table_of_contents'></a>Table of Contents</h2>
 
-<p>You can display a list of links to jump to headers in a document. Sub-headers will be nested.</p>
+<p>You can display a list of links to jump to headers in a document. Sub-headers will be nested. This function is quite like anchor, however more flexible and less labor. The following example is from the <a href="http://sourceforge.net/p/forge/documentation/markdown_syntax/">Markdown Syntax Guide</a>, however not functions well for me.</p>
 
 <p>[TOC]</p>
 
-<pre><code># Section 1  
-## Sub-section 1  
-# Section 2  
+<pre><code>#Section 1  
+##Sub-section 1  
+#Section 2  
+
+#Section 1  
+
+##Sub-section 1  
+
+#Section 2  
 </code></pre>
 
 <p>Output:</p>
@@ -571,35 +582,48 @@ you should escape <unknown> tags</p></blockquote>
 
 <h1>Section 2</h1></blockquote>
 
+<h1>Section 1</h1>
+
+<h2>Sub-section 1</h2>
+
+<h1>Section 2</h1>
+
+<p><strong>Alternative</strong> solution to achieve such function is using hyer links if the above does not work for your case.</p>
+
+<pre><code>#[Section 1](#section1)
+##[Sub-section 1](#sub-section1)
+#[Section 2](#section2)
+
+#&lt;a name="section1"&gt;&lt;/a&gt;Section 1  
+
+##&lt;a name="sub-section1"&gt;&lt;/a&gt;Sub-section 1  
+
+#&lt;a name="section2"&gt;&lt;/a&gt;Section 2  
+</code></pre>
+
+<p>Output:</p>
+
+<blockquote><h1><a href="#section1">Section 1</a></h1>
+
+<h2><a href="#sub-section1">Sub-section 1</a></h2>
+
+<h1><a href="#section2">Section 2</a></h1></blockquote>
+
+<h1><a name="section1"></a>Section 1</h1>
+
+<h2><a name="sub-section1"></a>Sub-section 1</h2>
+
+<h1><a name="section2"></a>Section 2</h1>
+
 <hr />
 
-<h2><a name='code_highlighting'></a>Code Highlighting</h2>
+<p>References:</p>
 
-<p>The code highlighting syntax uses CodeHilite and is colored with Pygments. It follows the same syntax as regular Markdown code blocks, except that there are two ways to tell the highlighter what language to use for the code block.</p>
+<ul>
+<li><a href="http://sourceforge.net/p/forge/documentation/markdown_syntax/">Markdown Syntax Guide</a></li>
+<li><a href="https://github.com/adam-p/markdown-here/wiki/Markdown-Cheatsheet">Markdown Cheatsheet</a></li>
+</ul>
 
-<p>If the first line of the codeblock contains a shebang, the language is derived from that and line numbers are used(actually not).</p>
-
-<pre><code>#!/usr/bin/python  
-# Code goes here ...
-</code></pre>
-
-<p>Output:</p>
-
-<blockquote><h1>!/usr/bin/python</h1>
-
-<h1>Code goes here &hellip;</h1></blockquote>
-
-<p>If the first line contains a shebang, but the shebang line does not contain a path (a single / or even a space) or If the first line begins with three or more colons, the text following the colons identifies the language. In both cases, the first line is removed from the code block before processing.</p>
-
-<pre><code>:::python  
-# Code goes here ...
-</code></pre>
-
-<p>Output:</p>
-
-<blockquote><p>:::python</p>
-
-<h1>Code goes here &hellip;</h1></blockquote>
 </div>
 
 
@@ -671,7 +695,7 @@ you should escape <unknown> tags</p></blockquote>
       </li>
     
       <li class="post">
-        <a href="/blog/2013/11/30/simple-guide-for-markdown/">Markdown Syntax Guide</a>
+        <a href="/blog/2013/11/30/simple-guide-for-markdown/">Simple Guide for Markdown</a>
       </li>
     
       <li class="post">
