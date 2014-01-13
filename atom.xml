@@ -4,7 +4,7 @@
   <title><![CDATA[I/O VIsion]]></title>
   <link href="http://www.iovi.com/atom.xml" rel="self"/>
   <link href="http://www.iovi.com/"/>
-  <updated>2014-01-13T08:31:22+08:00</updated>
+  <updated>2014-01-13T14:18:04+08:00</updated>
   <id>http://www.iovi.com/</id>
   <author>
     <name><![CDATA[Sunny]]></name>
@@ -12,359 +12,6 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
-  
-  <entry>
-    <title type="html"><![CDATA[Abbreviation in Linux System]]></title>
-    <link href="http://www.iovi.com/blog/2014/01/09/abbreviation-in-linux-system/"/>
-    <updated>2014-01-09T09:42:19+08:00</updated>
-    <id>http://www.iovi.com/blog/2014/01/09/abbreviation-in-linux-system</id>
-    <content type="html"><![CDATA[<p>Unix is 35. Some people consider that the official start of middle age, although for a computer technology it&rsquo;s more like existing since the Middle Ages. Over that time, Unix and its child Linux have collected a lot of history and some quite archaic language. In this tip, we&rsquo;ll have a look at a few of the more ancient bits of crusty stuff and identify their purposes, if not their actual origins.</p>
-
-<h3>RC</h3>
-
-<p>Perhaps the most common abbreviation in Linux is &ldquo;rc,&rdquo; short for &ldquo;runcomm&rdquo; &mdash; short in term for &ldquo;run command.&rdquo; Today, &ldquo;rc&rdquo; is a suffix added to any script-like file that is called during the startup stage of a program, or of Linux in general. Thus /etc/rc is the master script for Linux startup, and .bashrc is the script that runs when the bash shell starts. The &ldquo;.&rdquo; prefix on .bashrc is a naming standard designed only to hide user-specific administrative files from user files; the &ldquo;ls&rdquo; command doesn&rsquo;t list such files by default, and &ldquo;rm&rdquo; doesn&rsquo;t delete them by default. Many programs demand that startup files or profile files begin with a period or have an &ldquo;rc&rdquo; suffix, but there&rsquo;s nothing magical about either from the file system&rsquo;s perspective.</p>
-
-<!-- more -->
-
-
-<h3>ETC</h3>
-
-<p>The &ldquo;etc&rdquo; in &ldquo;/etc/bin&rdquo; really does stand for &ldquo;etcetera.&rdquo; In early Unix systems, the most important directory was the &ldquo;bin&rdquo; directory (short for &ldquo;binaries&rdquo; &mdash; compiled programs), and &ldquo;etc&rdquo; was for trivial stuff like startup, shutdown and admin. The list of things you need for running Linux is: a program binary, etcetera, etcetera &mdash; in other words, a sole vital item, plus some less important bits and pieces. Today, &ldquo;etc&rdquo; holds system-wide configuration files that you&rsquo;d almost never do without &mdash; hardly unimportant.</p>
-
-<h3>Bin</h3>
-
-<p>Most large subsystems that run on Linux today, like GNOME or Oracle, use their own &ldquo;bin&rdquo; directories (or /usr/bin or /usr/local/bin) as a standard place for compiled programs. It&rsquo;s common now to see scripts in those directories too, since &ldquo;bin&rdquo; directories are frequently added the PATH of a user, making their run-able programs available. So run-able scripts are often stuck in bin as well.</p>
-
-<h3>TTY</h3>
-
-<p>Perhaps the most confusing jargon in Linux relates to terminals. TTY is an old abbreviation for a TeleTYpe. Teletypes, or teletypewriters, were originally printer-keyboard combinations that read and sent information over a serial line, not too different from an ancient telegraph machine. Later on, when computers only ran in batch mode (when card readers were the only way to get your program loaded), a teletype was the only useful &ldquo;real time&rdquo; input/output device available. Eventually teletypes were replaced with keyboard-and-screen terminals, but the operating system still needed a program to watch the serial port where the terminal or TTY was plugged in. That&rsquo;s what a getty &ldquo;GEt TTY&rdquo; process is: a program watching a physical TTY/terminal port. A Pseudo-TTY (a fake TTY, a &ldquo;PTY&rdquo;) is the terminal equivalent of a virtual network computing (VNC) server. When you run an xterm or GNOME Terminal program, the PTY acts as a TTY for the virtual or pseudo terminal that the xterm represents. &ldquo;Pseudo,&rdquo; meaning &ldquo;duplicating in a fake way,&rdquo; is really a more descriptive term than &ldquo;virtual&rdquo; or &ldquo;emulated.&rdquo; It&rsquo;s a shame that it has fallen out of fashion in computing.</p>
-
-<p>bin = BINaries</p>
-
-<p>/dev = DEVices</p>
-
-<p>/etc = ETCetera</p>
-
-<p>/lib = LIBrary</p>
-
-<p>/proc = PROCesses</p>
-
-<p>/sbin = Superuser BINaries</p>
-
-<p>/tmp = TeMPorary</p>
-
-<p>/usr = Unix Shared Resources</p>
-
-<p>/var = VARiable</p>
-
-<p>FIFO = First In, First Out</p>
-
-<p>GRUB = GRand Unified Bootloader</p>
-
-<p>IFS = Internal Field Seperators</p>
-
-<p>LILO = LInux LOader</p>
-
-<p>PHP = Personal Home Page</p>
-
-<p>PS = Prompt String</p>
-
-<p>Perl = &ldquo;Pratical Extraction and Report Language&rdquo; = &ldquo;Pathologically Eclectic Rubbish Lister&rdquo;</p>
-
-<p>Python Derived from Monty Python&rsquo;s Flying Circus</p>
-
-<p>Tcl = Tool Command Language</p>
-
-<p>Tk = ToolKit</p>
-
-<p>VT = Video Terminal</p>
-
-<p>YaST = Yet Another Setup Tool</p>
-
-<p>apache = &ldquo;a patchy&rdquo; server</p>
-
-<p>apt = Advanced Packaging Tool</p>
-
-<p>ar = archiver</p>
-
-<p>as = assembler</p>
-
-<p>awk = &ldquo;Aho Weiberger and Kernighan&rdquo;, Acronyms of Three Author&rsquo;s Names.</p>
-
-<p>bash = Bourne Again SHell</p>
-
-<p>bc = Basic (Better) Calculator</p>
-
-<p>biff = Dog&rsquo;s Name of the Author</p>
-
-<p>cal = CALendar</p>
-
-<p>cat = CATenate</p>
-
-<p>cd = Change Directory</p>
-
-<p>chgrp = CHange GRouP</p>
-
-<p>chmod = CHange MODe</p>
-
-<p>chown = CHange OWNer</p>
-
-<p>chsh = CHange SHell</p>
-
-<p>cmp = compare</p>
-
-<p>cobra = Common Object Request Broker Architecture</p>
-
-<p>comm = common</p>
-
-<p>cp = CoPy</p>
-
-<p>cpio = CoPy In and Out</p>
-
-<p>cpp = C Pre Processor</p>
-
-<p>cron = Chronos</p>
-
-<p>cups = Common Unix Printing System</p>
-
-<p>cvs = Current Version System</p>
-
-<p>daemon = Disk And Execution MONitor</p>
-
-<p>dc = Desk Calculator</p>
-
-<p>dd = Disk Dump</p>
-
-<p>df = Disk Free</p>
-
-<p>diff = DIFFerence</p>
-
-<p>dmesg = diagnostic message</p>
-
-<p>du = Disk Usage</p>
-
-<p>ed = editor</p>
-
-<p>egrep = Extended GREP</p>
-
-<p>elf = Extensible Linking Format</p>
-
-<p>elm = ELectronic Mail</p>
-
-<p>emacs = Editor MACroS</p>
-
-<p>eval = EVALuate</p>
-
-<p>ex = EXtended</p>
-
-<p>exec = EXECute</p>
-
-<p>fd = file descriptors</p>
-
-<p>fg = ForeGround</p>
-
-<p>fgrep = Fixed GREP</p>
-
-<p>fmt = format</p>
-
-<p>fsck = File System ChecK</p>
-
-<p>fstab = FileSystem TABle</p>
-
-<p>fvwm = F*** Virtual Window Manager</p>
-
-<p>gawk = GNU AWK</p>
-
-<p>gpg = GNU Privacy Guard</p>
-
-<p>groff = GNU troff</p>
-
-<p>hal = Hardware Abstraction Layer</p>
-
-<p>joe = Joe&rsquo;s Own Editor</p>
-
-<p>ksh = Korn SHell</p>
-
-<p>lame = Lame Ain&rsquo;t an MP3 Encoder</p>
-
-<p>lex = LEXical analyser</p>
-
-<p>lisp = LISt Processing = Lots of Irritating Superfluous Parentheses</p>
-
-<p>ln = LiNk</p>
-
-<p>lpr = Line PRint</p>
-
-<p>ls = list</p>
-
-<p>lsof = LiSt Open Files</p>
-
-<p>m4 = Macro processor Version 4</p>
-
-<p>man = MANual pages</p>
-
-<p>mawk = Mike Brennan&rsquo;s AWK</p>
-
-<p>mc = Midnight Commander</p>
-
-<p>mkfs = MaKe FileSystem</p>
-
-<p>mknod = MaKe NODe</p>
-
-<p>motd = Message of The Day</p>
-
-<p>mozilla = MOsaic GodZILLa</p>
-
-<p>mtab = Mount TABle</p>
-
-<p>mv = MoVe</p>
-
-<p>nano = Nano&rsquo;s ANOther editor</p>
-
-<p>nawk = New AWK</p>
-
-<p>nl = Number of Lines</p>
-
-<p>nm = names</p>
-
-<p>nohup = No HangUP</p>
-
-<p>nroff = New ROFF</p>
-
-<p>od = Octal Dump</p>
-
-<p>passwd = PASSWorD</p>
-
-<p>pg = pager</p>
-
-<p>pico = PIne&rsquo;s message COmposition editor</p>
-
-<p>pine = &ldquo;Program for Internet News &amp; Email&rdquo; = &ldquo;Pine is not Elm&rdquo;</p>
-
-<p>ping = Packet InterNet Grouper</p>
-
-<p>pirntcap = PRINTer CAPability</p>
-
-<p>popd = POP Directory</p>
-
-<p>pr = pre</p>
-
-<p>printf = PRINT Formatted</p>
-
-<p>ps = Processes Status</p>
-
-<p>pty = pseudo tty</p>
-
-<p>pushd = PUSH Directory</p>
-
-<p>pwd = Print Working Directory</p>
-
-<p>rc = runcom = run commands, also shell of plan9</p>
-
-<p>rev = REVerse</p>
-
-<p>rm = ReMove</p>
-
-<p>rn = Read News</p>
-
-<p>roff = RunOFF</p>
-
-<p>rpm = RPM Package Manager = RedHat Package Manager</p>
-
-<p>rsh, rlogin, rvim, of which r stands for Remote</p>
-
-<p>rxvt = ouR XVT</p>
-
-<p>sed = Stream EDitor</p>
-
-<p>seq = SEQuence</p>
-
-<p>shar = SHell ARchive</p>
-
-<p>slrn = S-Lang rn</p>
-
-<p>ssh = Secure SHell</p>
-
-<p>ssl = Secure Sockets Layer</p>
-
-<p>stty = Set TTY</p>
-
-<p>su = Substitute User</p>
-
-<p>svn = SubVersioN</p>
-
-<p>tar = Tape ARchive</p>
-
-<p>tcsh = TENEX C shell</p>
-
-<p>tee = T</p>
-
-<p>telnet = TEminaL over Network</p>
-
-<p>termcap = terminal capability</p>
-
-<p>terminfo = terminal information</p>
-
-<p>tr = traslate</p>
-
-<p>troff = Typesetter new ROFF</p>
-
-<p>tsort = Topological SORT</p>
-
-<p>tty = TeleTypewriter</p>
-
-<p>twm = Tom&rsquo;s Window Manager</p>
-
-<p>tz = TimeZone</p>
-
-<p>udev = Userspace DEV</p>
-
-<p>ulimit = User&rsquo;s LIMIT</p>
-
-<p>umask = User&rsquo;s MASK</p>
-
-<p>uniq = UNIQue</p>
-
-<p>vi = VIsual = Very Inconvenient</p>
-
-<p>vim = Vi IMproved</p>
-
-<p>wall = write all</p>
-
-<p>wc = Word Count</p>
-
-<p>wine = WINE Is Not an Emulator</p>
-
-<p>xargs = eXtended ARGuments</p>
-
-<p>xdm = X Display Manager</p>
-
-<p>xlfd = X Logical Font Description</p>
-
-<p>xmms = X Multimedia System</p>
-
-<p>xrdb = X Resources DataBase</p>
-
-<p>xwd = X Window Dump</p>
-
-<p>yacc = yet another compiler compiler</p>
-
-<p>Fish = the Friendly Interactive SHell</p>
-
-<p>su = Switch User</p>
-
-<p>MIME = Multipurpose Internet Mail Extensions</p>
-
-<p>ECMA = European Computer Manufacturers Association</p>
-
-<h2>References:</h2>
-
-<ol>
-<li><strong><em><a href="http://searchenterpriselinux.techtarget.com/tip/Excavating-ancient-abbreviations-in-Linux">Excavating ancient abbreviations in Linux</a></em></strong></li>
-</ol>
-
-]]></content>
-  </entry>
   
   <entry>
     <title type="html"><![CDATA[Simple Guide for Markdown]]></title>
@@ -407,7 +54,7 @@ Markdown was created to be easy to read, easy to write, and still readable in pl
 <p>Output:</p>
 
 <blockquote><p><a href="http://www.iovi.com">http://www.iovi.com</a><br/>
-<a href="&#x6d;&#97;&#x69;&#x6c;&#x74;&#x6f;&#x3a;&#x73;&#111;&#109;&#101;&#98;&#x62;&#x6f;&#x62;&#x40;&#x69;&#111;&#118;&#x69;&#x2e;&#99;&#x6f;&#109;">&#x73;&#111;&#x6d;&#x65;&#x62;&#x62;&#x6f;&#x62;&#64;&#105;&#x6f;&#118;&#105;&#46;&#x63;&#x6f;&#109;</a></p></blockquote>
+<a href="&#x6d;&#97;&#x69;&#108;&#116;&#x6f;&#58;&#115;&#111;&#x6d;&#101;&#98;&#x62;&#x6f;&#98;&#x40;&#105;&#111;&#118;&#x69;&#46;&#99;&#x6f;&#x6d;">&#115;&#111;&#x6d;&#x65;&#x62;&#98;&#x6f;&#x62;&#x40;&#105;&#x6f;&#x76;&#x69;&#46;&#x63;&#111;&#x6d;</a></p></blockquote>
 
 <p>To use text for the link, write it:</p>
 
@@ -878,20 +525,20 @@ you should escape &lt;unknown> tags with &ldquo;\&rdquo; by placing which on the
 <p>Few of important fundamentals and guidelines included in Java Performance Tuning are:</p>
 
 <ul>
-<li>Tuning tips for object creation.</li>
-<li>Performance Tuning in JDBC.</li>
-<li>Web services performance tips.</li>
-<li>Tips for Quality of services for Web Services</li>
-<li>Performance Tuning tips for EJB.</li>
-<li>J2EE Performance tuning tips.</li>
-<li>Tuning tips for JMS.</li>
-<li>RMI tuning performance tips.</li>
+<li><a href="#ttfoc">Tuning tips for object creation</a></li>
+<li><a href="#ptij">Performance Tuning in JDBC</a></li>
+<li><a href="#wspt">Web services performance tips</a></li>
+<li><a href="#tfqosfws">Tips for Quality of services for Web Services</a></li>
+<li><a href="#pttfe">Performance Tuning tips for EJB</a></li>
+<li><a href="#jptt">J2EE Performance tuning tips</a></li>
+<li><a href="#ttfj">Tuning tips for JMS</a></li>
+<li><a href="#rtpt">RMI tuning performance tips</a></li>
 </ul>
 
 
 <p>Guidelines for tuning java code without destroying program&rsquo;s skeleton is efficiently presented in second edition of Java Performance Tuning. It includes how to use threads effectively, how to optimize the use of strings, minimizing the creation of objects in program, avoiding bottleneck operation by including all the important fundamentals of Software Engineering to re-pioneer the code, issues of speed of Servlets and JSPs etc. That provides very crucial guidelines in performance tuning for java developers.</p>
 
-<h2>Tuning Tips for Object Creation:</h2>
+<h2><a name="ttfoc"></a>Tuning Tips for Object Creation:</h2>
 
 <ol>
 <li><p>Object Creation is one of the most basic and essential thing while developing a Java Application, as such; object defines the physical reality of class. Pay proper attention while declaring class&#8217; methods and variables because careless work carried out at this stage, can cost you in terms of speed and performance because variables and methods unwontedly declared and initialize can create overhead in overall speed. Garbage collection and memory recycling cost more time and CPU effort. Object should always be created early when there is spare time in the application, object once created should be in hold position until it is required.</p></li>
@@ -899,7 +546,7 @@ you should escape &lt;unknown> tags with &ldquo;\&rdquo; by placing which on the
 </ol>
 
 
-<h2>Performance Tuning in JDBC:</h2>
+<h2><a name="ptij"></a>Performance Tuning in JDBC:</h2>
 
 <p>Java Database Connectivity (JDBC) is mainly used in most of the Java application. To keep trace on performance tuning in JDBC becomes very crucial and prime issue when Java developer realizes that most of the processing time should not be wasted behind data processing over the network. For more details, check out  <strong><a href="http://www.iovi.com/blog/2013/10/31/basic-practical-usage-of-jdbc-api/">Best Practices to Improve Performance in JDBC</a></strong></p>
 
@@ -914,7 +561,7 @@ you should escape &lt;unknown> tags with &ldquo;\&rdquo; by placing which on the
 </ul>
 
 
-<h2>Web Services performance tips:</h2>
+<h2><a name="wspt"></a>Web Services performance tips:</h2>
 
 <p>Because of Java&rsquo;s outstanding performance in web services there are few of the performance tips that are to be considered while developing a web service application. Here are few of the tips given for improving the web services performance.</p>
 
@@ -927,7 +574,7 @@ you should escape &lt;unknown> tags with &ldquo;\&rdquo; by placing which on the
 </ul>
 
 
-<h2>Tips for Quality of services for Web Services</h2>
+<h2><a name="tfqosfws"></a>Tips for Quality of services for Web Services</h2>
 
 <p>The main requirements in quality of service for web services are:</p>
 
@@ -956,11 +603,11 @@ you should escape &lt;unknown> tags with &ldquo;\&rdquo; by placing which on the
 
 <p>Use of faster communication protocol, like plain socket, should always be preferred. Whenever there is requirement of sending large number of documents over the network, basic load-balancing scheme should be achieved, all the documents to be sent should have different URL hosts i.e. binding addresses. For scalability of server better and speedy hardware should be preferred though there is limitation of scalability of server,  that most application performance does not scale linearly with increases in the hardware power. Most of the times in web related services cluster of more than one server is used.</p>
 
-<h2>Performance Tuning tips for EJB:</h2>
+<h2><a name="pttfe"></a>Performance Tuning tips for EJB:</h2>
 
 <p>While developing an EJB application if EJB services for an object is not required than plain Java object should be replaced in place of EJB object. Multiple remote method calls should be changed into one remote method call with all the data combined into a parameter object to enhance the overall process. There should be proper tuning in EJB Server thread count; Use Stateless session beans pool size to minimize the creation and destruction of the beans. When multiple EJB remote calls have to be changed into one session bean remote call and several local calls(SessionFacade), wrap multiple entity beans in a session bean. Transactional time-out should be set previously. Use HttpSession object rather than Stateful session bean to maintain client state. Bulk updating should be used to reduce the overall database calls to fetch and retrieving the data. When dealing with large amounts of data such as searching large database JDBC should be directly used rather than using entity beans.</p>
 
-<h2>J2EE Performance tuning tips:</h2>
+<h2><a name="jptt"></a>J2EE Performance tuning tips:</h2>
 
 <p>Here few of the important tuning tips for J2EE in points.</p>
 
@@ -977,11 +624,11 @@ you should escape &lt;unknown> tags with &ldquo;\&rdquo; by placing which on the
 </ul>
 
 
-<h2>Tuning tips for JMS:</h2>
+<h2><a name="ttfj"></a>Tuning tips for JMS:</h2>
 
 <p>For developing an efficient JMS application transient variables should be used to reduce serialization overheads. For receiving messages asynchronously implement MessageListener. To avoid persistency overhead choose non-durable (NON_PERSISTENT) messages wherever appropriate. It is practically efficient to use <code>DUPS_OK_ACKNOWLEDGE AND AUTO_ACKNOWLEDGE</code> than <code>CLIENT_ACKNOWLEDGE</code> as far as issue of performance is concerned. Separate transactional sessions and non-transactional sessions for transactional and non-transactional messages should be used separately. Because of the fact that &ldquo;a higher redelivery delay and lower redelivery limit reduces the overhead&rdquo; remember to tune the destination parameters. Open java resources can claim for more system resources never forget to close all the resources whenever they are not in use. The last point to be kept while developing a JMS application is that consumer should always start before we start the producer so that the initial messages do not need to be queued up.</p>
 
-<h2>RMI tuning performance tips:</h2>
+<h2><a name="rtpt"></a>RMI tuning performance tips:</h2>
 
 <p>To improve the performance in RMI application always consider altering the Tcp WindowSize parameter. To measure the bandwidth of network netp erf should be used. By setting the properties sun.rmi.dgc.client.gcInterval and sun.rmi.dgc.server.gcInterval RMI garbage collection should be configured in a proper manner. Since sending the object over network may consume much of the time in a big application sending groups of objects together rather than one object at a time is advisable. To speed up the transfers, implement Externalize interface. To handle special cases such as singleton or reusable objects use special codes. To improve overall development quality never try to add the extra complications once the performance target have been met.</p>
 

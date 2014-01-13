@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Coding | I/O VIsion]]></title>
   <link href="http://www.iovi.com/blog/categories/coding/atom.xml" rel="self"/>
   <link href="http://www.iovi.com/"/>
-  <updated>2014-01-13T08:31:22+08:00</updated>
+  <updated>2014-01-13T14:18:04+08:00</updated>
   <id>http://www.iovi.com/</id>
   <author>
     <name><![CDATA[Sunny]]></name>
@@ -32,20 +32,20 @@
 <p>Few of important fundamentals and guidelines included in Java Performance Tuning are:</p>
 
 <ul>
-<li>Tuning tips for object creation.</li>
-<li>Performance Tuning in JDBC.</li>
-<li>Web services performance tips.</li>
-<li>Tips for Quality of services for Web Services</li>
-<li>Performance Tuning tips for EJB.</li>
-<li>J2EE Performance tuning tips.</li>
-<li>Tuning tips for JMS.</li>
-<li>RMI tuning performance tips.</li>
+<li><a href="#ttfoc">Tuning tips for object creation</a></li>
+<li><a href="#ptij">Performance Tuning in JDBC</a></li>
+<li><a href="#wspt">Web services performance tips</a></li>
+<li><a href="#tfqosfws">Tips for Quality of services for Web Services</a></li>
+<li><a href="#pttfe">Performance Tuning tips for EJB</a></li>
+<li><a href="#jptt">J2EE Performance tuning tips</a></li>
+<li><a href="#ttfj">Tuning tips for JMS</a></li>
+<li><a href="#rtpt">RMI tuning performance tips</a></li>
 </ul>
 
 
 <p>Guidelines for tuning java code without destroying program&rsquo;s skeleton is efficiently presented in second edition of Java Performance Tuning. It includes how to use threads effectively, how to optimize the use of strings, minimizing the creation of objects in program, avoiding bottleneck operation by including all the important fundamentals of Software Engineering to re-pioneer the code, issues of speed of Servlets and JSPs etc. That provides very crucial guidelines in performance tuning for java developers.</p>
 
-<h2>Tuning Tips for Object Creation:</h2>
+<h2><a name="ttfoc"></a>Tuning Tips for Object Creation:</h2>
 
 <ol>
 <li><p>Object Creation is one of the most basic and essential thing while developing a Java Application, as such; object defines the physical reality of class. Pay proper attention while declaring class' methods and variables because careless work carried out at this stage, can cost you in terms of speed and performance because variables and methods unwontedly declared and initialize can create overhead in overall speed. Garbage collection and memory recycling cost more time and CPU effort. Object should always be created early when there is spare time in the application, object once created should be in hold position until it is required.</p></li>
@@ -53,7 +53,7 @@
 </ol>
 
 
-<h2>Performance Tuning in JDBC:</h2>
+<h2><a name="ptij"></a>Performance Tuning in JDBC:</h2>
 
 <p>Java Database Connectivity (JDBC) is mainly used in most of the Java application. To keep trace on performance tuning in JDBC becomes very crucial and prime issue when Java developer realizes that most of the processing time should not be wasted behind data processing over the network. For more details, check out  <strong><a href="/blog/2013/10/31/basic-practical-usage-of-jdbc-api/">Best Practices to Improve Performance in JDBC</a></strong></p>
 
@@ -68,7 +68,7 @@
 </ul>
 
 
-<h2>Web Services performance tips:</h2>
+<h2><a name="wspt"></a>Web Services performance tips:</h2>
 
 <p>Because of Java&rsquo;s outstanding performance in web services there are few of the performance tips that are to be considered while developing a web service application. Here are few of the tips given for improving the web services performance.</p>
 
@@ -81,7 +81,7 @@
 </ul>
 
 
-<h2>Tips for Quality of services for Web Services</h2>
+<h2><a name="tfqosfws"></a>Tips for Quality of services for Web Services</h2>
 
 <p>The main requirements in quality of service for web services are:</p>
 
@@ -110,11 +110,11 @@
 
 <p>Use of faster communication protocol, like plain socket, should always be preferred. Whenever there is requirement of sending large number of documents over the network, basic load-balancing scheme should be achieved, all the documents to be sent should have different URL hosts i.e. binding addresses. For scalability of server better and speedy hardware should be preferred though there is limitation of scalability of server,  that most application performance does not scale linearly with increases in the hardware power. Most of the times in web related services cluster of more than one server is used.</p>
 
-<h2>Performance Tuning tips for EJB:</h2>
+<h2><a name="pttfe"></a>Performance Tuning tips for EJB:</h2>
 
 <p>While developing an EJB application if EJB services for an object is not required than plain Java object should be replaced in place of EJB object. Multiple remote method calls should be changed into one remote method call with all the data combined into a parameter object to enhance the overall process. There should be proper tuning in EJB Server thread count; Use Stateless session beans pool size to minimize the creation and destruction of the beans. When multiple EJB remote calls have to be changed into one session bean remote call and several local calls(SessionFacade), wrap multiple entity beans in a session bean. Transactional time-out should be set previously. Use HttpSession object rather than Stateful session bean to maintain client state. Bulk updating should be used to reduce the overall database calls to fetch and retrieving the data. When dealing with large amounts of data such as searching large database JDBC should be directly used rather than using entity beans.</p>
 
-<h2>J2EE Performance tuning tips:</h2>
+<h2><a name="jptt"></a>J2EE Performance tuning tips:</h2>
 
 <p>Here few of the important tuning tips for J2EE in points.</p>
 
@@ -131,11 +131,11 @@
 </ul>
 
 
-<h2>Tuning tips for JMS:</h2>
+<h2><a name="ttfj"></a>Tuning tips for JMS:</h2>
 
 <p>For developing an efficient JMS application transient variables should be used to reduce serialization overheads. For receiving messages asynchronously implement MessageListener. To avoid persistency overhead choose non-durable (NON_PERSISTENT) messages wherever appropriate. It is practically efficient to use <code>DUPS_OK_ACKNOWLEDGE AND AUTO_ACKNOWLEDGE</code> than <code>CLIENT_ACKNOWLEDGE</code> as far as issue of performance is concerned. Separate transactional sessions and non-transactional sessions for transactional and non-transactional messages should be used separately. Because of the fact that &ldquo;a higher redelivery delay and lower redelivery limit reduces the overhead&rdquo; remember to tune the destination parameters. Open java resources can claim for more system resources never forget to close all the resources whenever they are not in use. The last point to be kept while developing a JMS application is that consumer should always start before we start the producer so that the initial messages do not need to be queued up.</p>
 
-<h2>RMI tuning performance tips:</h2>
+<h2><a name="rtpt"></a>RMI tuning performance tips:</h2>
 
 <p>To improve the performance in RMI application always consider altering the Tcp WindowSize parameter. To measure the bandwidth of network netp erf should be used. By setting the properties sun.rmi.dgc.client.gcInterval and sun.rmi.dgc.server.gcInterval RMI garbage collection should be configured in a proper manner. Since sending the object over network may consume much of the time in a big application sending groups of objects together rather than one object at a time is advisable. To speed up the transfers, implement Externalize interface. To handle special cases such as singleton or reusable objects use special codes. To improve overall development quality never try to add the extra complications once the performance target have been met.</p>
 
