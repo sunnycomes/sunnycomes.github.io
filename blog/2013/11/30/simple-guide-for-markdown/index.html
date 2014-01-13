@@ -153,12 +153,12 @@ Markdown was created to be easy to read, easy to write, and still readable in pl
 <li><a href="#blockquotes">Blockquotes</a></li>
 <li><a href="#preformatted_text">Preformatted Text</a></li>
 <li><a href="#lists">Lists</a></li>
-<li><a href="#tables">Tables</a>(We will talk about this feature)</li>
+<li><a href="#tables">Tables</a></li>
 <li><a href="#more_headers">More Headers</a></li>
 <li><a href="#horizontal_rules">Horizontal Rules</a></li>
 <li><a href="#images">Images</a></li>
 <li><a href="#escapes_and_html">Escapes and HTML</a></li>
-<li>Table of Contents</li>
+<li><a href="#table_of_contents">Table of Contents</a></li>
 </ol>
 
 
@@ -178,7 +178,7 @@ Markdown was created to be easy to read, easy to write, and still readable in pl
 <p>Output:</p>
 
 <blockquote><p><a href="http://www.iovi.com">http://www.iovi.com</a><br/>
-<a href="&#x6d;&#x61;&#x69;&#108;&#x74;&#111;&#x3a;&#x73;&#x6f;&#x6d;&#101;&#98;&#x62;&#x6f;&#98;&#x40;&#x69;&#x6f;&#118;&#105;&#46;&#99;&#x6f;&#x6d;">&#x73;&#111;&#x6d;&#101;&#x62;&#98;&#111;&#x62;&#64;&#x69;&#111;&#118;&#105;&#x2e;&#x63;&#x6f;&#x6d;</a></p></blockquote>
+<a href="&#x6d;&#97;&#x69;&#x6c;&#x74;&#x6f;&#x3a;&#x73;&#111;&#109;&#101;&#98;&#x62;&#x6f;&#x62;&#x40;&#x69;&#111;&#118;&#x69;&#x2e;&#99;&#x6f;&#109;">&#x73;&#111;&#x6d;&#x65;&#x62;&#x62;&#x6f;&#x62;&#64;&#105;&#x6f;&#118;&#105;&#46;&#x63;&#x6f;&#109;</a></p></blockquote>
 
 <p>To use text for the link, write it:</p>
 
@@ -558,11 +558,10 @@ you should escape &lt;unknown> tags with &ldquo;\&rdquo; by placing which on the
 
 <h2><a name='table_of_contents'></a>Table of Contents</h2>
 
-<p>You can display a list of links to jump to headers in a document. Sub-headers will be nested. This function is quite like anchor, however more flexible and less labor. The following example is from the <a href="http://sourceforge.net/p/forge/documentation/markdown_syntax/">Markdown Syntax Guide</a>, however not functions well for me.</p>
+<p>You can display a list of links to jump to headers in a document. Sub-headers will be nested. This function is quite like anchor, however more flexible and less labor. The following example is from the <a href="http://sourceforge.net/p/forge/documentation/markdown_syntax/">Markdown Syntax Guide</a>, however not functions well for me, more details about TOC <a href="http://pythonhosted.org/Markdown/extensions/toc.html">Table of Contents</a>.</p>
 
-<p>[TOC]</p>
-
-<pre><code>#Section 1  
+<pre><code>[TOC]
+#Section 1  
 ##Sub-section 1  
 #Section 2  
 
@@ -575,11 +574,15 @@ you should escape &lt;unknown> tags with &ldquo;\&rdquo; by placing which on the
 
 <p>Output:</p>
 
-<blockquote><h1>Section 1</h1>
+<p>[TOC]</p>
+
+<h1>Section 1</h1>
 
 <h2>Sub-section 1</h2>
 
-<h1>Section 2</h1></blockquote>
+<h1>Section 2</h1>
+
+<p>sssssssssssssssssssss</p>
 
 <h1>Section 1</h1>
 
@@ -621,6 +624,7 @@ you should escape &lt;unknown> tags with &ldquo;\&rdquo; by placing which on the
 <ul>
 <li><a href="http://sourceforge.net/p/forge/documentation/markdown_syntax/">Markdown Syntax Guide</a></li>
 <li><a href="https://github.com/adam-p/markdown-here/wiki/Markdown-Cheatsheet">Markdown Cheatsheet</a></li>
+<li><a href="http://pythonhosted.org/Markdown/extensions/toc.html">Table of Contents</a></li>
 </ul>
 
 </div>

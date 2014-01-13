@@ -4,7 +4,7 @@
   <title><![CDATA[I/O VIsion]]></title>
   <link href="http://www.iovi.com/atom.xml" rel="self"/>
   <link href="http://www.iovi.com/"/>
-  <updated>2014-01-12T22:35:09+08:00</updated>
+  <updated>2014-01-13T08:31:22+08:00</updated>
   <id>http://www.iovi.com/</id>
   <author>
     <name><![CDATA[Sunny]]></name>
@@ -382,12 +382,12 @@ Markdown was created to be easy to read, easy to write, and still readable in pl
 <li><a href="#blockquotes">Blockquotes</a></li>
 <li><a href="#preformatted_text">Preformatted Text</a></li>
 <li><a href="#lists">Lists</a></li>
-<li><a href="#tables">Tables</a>(We will talk about this feature)</li>
+<li><a href="#tables">Tables</a></li>
 <li><a href="#more_headers">More Headers</a></li>
 <li><a href="#horizontal_rules">Horizontal Rules</a></li>
 <li><a href="#images">Images</a></li>
 <li><a href="#escapes_and_html">Escapes and HTML</a></li>
-<li>Table of Contents</li>
+<li><a href="#table_of_contents">Table of Contents</a></li>
 </ol>
 
 
@@ -407,7 +407,7 @@ Markdown was created to be easy to read, easy to write, and still readable in pl
 <p>Output:</p>
 
 <blockquote><p><a href="http://www.iovi.com">http://www.iovi.com</a><br/>
-<a href="&#x6d;&#x61;&#x69;&#108;&#x74;&#111;&#x3a;&#x73;&#x6f;&#x6d;&#101;&#98;&#x62;&#x6f;&#98;&#x40;&#x69;&#x6f;&#118;&#105;&#46;&#99;&#x6f;&#x6d;">&#x73;&#111;&#x6d;&#101;&#x62;&#98;&#111;&#x62;&#64;&#x69;&#111;&#118;&#105;&#x2e;&#x63;&#x6f;&#x6d;</a></p></blockquote>
+<a href="&#x6d;&#97;&#x69;&#x6c;&#x74;&#x6f;&#x3a;&#x73;&#111;&#109;&#101;&#98;&#x62;&#x6f;&#x62;&#x40;&#x69;&#111;&#118;&#x69;&#x2e;&#99;&#x6f;&#109;">&#x73;&#111;&#x6d;&#x65;&#x62;&#x62;&#x6f;&#x62;&#64;&#105;&#x6f;&#118;&#105;&#46;&#x63;&#x6f;&#109;</a></p></blockquote>
 
 <p>To use text for the link, write it:</p>
 
@@ -787,11 +787,10 @@ you should escape &lt;unknown> tags with &ldquo;\&rdquo; by placing which on the
 
 <h2><a name='table_of_contents'></a>Table of Contents</h2>
 
-<p>You can display a list of links to jump to headers in a document. Sub-headers will be nested. This function is quite like anchor, however more flexible and less labor. The following example is from the <a href="http://sourceforge.net/p/forge/documentation/markdown_syntax/">Markdown Syntax Guide</a>, however not functions well for me.</p>
+<p>You can display a list of links to jump to headers in a document. Sub-headers will be nested. This function is quite like anchor, however more flexible and less labor. The following example is from the <a href="http://sourceforge.net/p/forge/documentation/markdown_syntax/">Markdown Syntax Guide</a>, however not functions well for me, more details about TOC <a href="http://pythonhosted.org/Markdown/extensions/toc.html">Table of Contents</a>.</p>
 
-<p>[TOC]</p>
-
-<pre><code>#Section 1  
+<pre><code>[TOC]
+#Section 1  
 ##Sub-section 1  
 #Section 2  
 
@@ -804,11 +803,15 @@ you should escape &lt;unknown> tags with &ldquo;\&rdquo; by placing which on the
 
 <p>Output:</p>
 
-<blockquote><h1>Section 1</h1>
+<p>[TOC]</p>
+
+<h1>Section 1</h1>
 
 <h2>Sub-section 1</h2>
 
-<h1>Section 2</h1></blockquote>
+<h1>Section 2</h1>
+
+<p>sssssssssssssssssssss</p>
 
 <h1>Section 1</h1>
 
@@ -850,6 +853,7 @@ you should escape &lt;unknown> tags with &ldquo;\&rdquo; by placing which on the
 <ul>
 <li><a href="http://sourceforge.net/p/forge/documentation/markdown_syntax/">Markdown Syntax Guide</a></li>
 <li><a href="https://github.com/adam-p/markdown-here/wiki/Markdown-Cheatsheet">Markdown Cheatsheet</a></li>
+<li><a href="http://pythonhosted.org/Markdown/extensions/toc.html">Table of Contents</a></li>
 </ul>
 
 ]]></content>
@@ -860,7 +864,7 @@ you should escape &lt;unknown> tags with &ldquo;\&rdquo; by placing which on the
     <link href="http://www.iovi.com/blog/2013/11/11/java-performance-tunning-tips/"/>
     <updated>2013-11-11T20:59:44+08:00</updated>
     <id>http://www.iovi.com/blog/2013/11/11/java-performance-tunning-tips</id>
-    <content type="html"><![CDATA[<p>The first version is completed on 2013.11.10 21:55, the main content is from <a href="http://www.exforsys.com/tutorials/j2ee/performance-tuning-of-java-applications.html">here</a>, thanks to the origin author.</p>
+    <content type="html"><![CDATA[<p>The 1st version is completed on 2013.11.10 21:55, the main content is from <a href="http://www.exforsys.com/tutorials/j2ee/performance-tuning-of-java-applications.html">Performance Tuning of Java Applications</a>, thanks to the origin author.</p>
 
 <p>Ever since the first version of Java Technology hit the streets, performance has been an important issue for Java developers. Java has improved dramatically and continually but, performance tuning is very essential to get the best results, especially when we think of J2EE applications.</p>
 
@@ -875,12 +879,13 @@ you should escape &lt;unknown> tags with &ldquo;\&rdquo; by placing which on the
 
 <ul>
 <li>Tuning tips for object creation.</li>
-<li>Tuning in JDBC.</li>
+<li>Performance Tuning in JDBC.</li>
 <li>Web services performance tips.</li>
-<li>Tuning in EJB.</li>
-<li>Tuning in J2EE.</li>
-<li>Tuning in JMS.</li>
-<li>Tuning in RMI.</li>
+<li>Tips for Quality of services for Web Services</li>
+<li>Performance Tuning tips for EJB.</li>
+<li>J2EE Performance tuning tips.</li>
+<li>Tuning tips for JMS.</li>
+<li>RMI tuning performance tips.</li>
 </ul>
 
 
@@ -888,11 +893,15 @@ you should escape &lt;unknown> tags with &ldquo;\&rdquo; by placing which on the
 
 <h2>Tuning Tips for Object Creation:</h2>
 
-<p>Object Creation is one of the most basic and essential thing while developing a Java Application, as such; object defines the physical reality of class. Pay proper attention while declaring class&#8217; methods and variables because careless work carried out at this stage, can cost you in terms of speed and performance because variables and methods unwontedly declared and initialize can create overhead in overall speed. Object should always be created early when there is spare time in the application, object once created should be in hold position until it is required. Care should be taken while defining methods that can accept the reusable objects to be filled with the data rather than methods that return objects holding that data, immutable objects can also be used here. Object should be created only when class logically needs. Constructor of class should always be simple. Methods that alter objects directly should always be preferred. Use classes that handle primitive data types rather than wrapping the primitive data types.</p>
+<ol>
+<li><p>Object Creation is one of the most basic and essential thing while developing a Java Application, as such; object defines the physical reality of class. Pay proper attention while declaring class&#8217; methods and variables because careless work carried out at this stage, can cost you in terms of speed and performance because variables and methods unwontedly declared and initialize can create overhead in overall speed. Garbage collection and memory recycling cost more time and CPU effort. Object should always be created early when there is spare time in the application, object once created should be in hold position until it is required.</p></li>
+<li><p>Care should be taken while defining methods that can accept the <strong>reusable objects</strong> to be filled with the data rather than methods that return objects holding that data,  especially for those methods frequently invoked, immutable objects can also be used here. Object should be created only when class logically needs. Constructor of class should always be simple. Methods that alter objects directly should always be preferred. Use classes that handle primitive data types rather than wrapping the primitive data types. See more details for <strong><a href="http://www.oreilly.com/catalog/javapt/chapter/ch04.html">Object Creation</a></strong></p></li>
+</ol>
+
 
 <h2>Performance Tuning in JDBC:</h2>
 
-<p>Java Database Connectivity (JDBC) is mainly used in most of the Java application. To keep trace on performance tuning in JDBC becomes very crucial and prime issue when Java developer realizes that most of the processing time should not be wasted behind data processing over the network. For more details, check out  <a href="http://www.iovi.com/blog/2013/10/31/basic-practical-usage-of-jdbc-api/">here</a></p>
+<p>Java Database Connectivity (JDBC) is mainly used in most of the Java application. To keep trace on performance tuning in JDBC becomes very crucial and prime issue when Java developer realizes that most of the processing time should not be wasted behind data processing over the network. For more details, check out  <strong><a href="http://www.iovi.com/blog/2013/10/31/basic-practical-usage-of-jdbc-api/">Best Practices to Improve Performance in JDBC</a></strong></p>
 
 <p>Here are few of the tuning tips for JDBC that can improve the over all performance in Java application.</p>
 
@@ -975,6 +984,14 @@ you should escape &lt;unknown> tags with &ldquo;\&rdquo; by placing which on the
 <h2>RMI tuning performance tips:</h2>
 
 <p>To improve the performance in RMI application always consider altering the Tcp WindowSize parameter. To measure the bandwidth of network netp erf should be used. By setting the properties sun.rmi.dgc.client.gcInterval and sun.rmi.dgc.server.gcInterval RMI garbage collection should be configured in a proper manner. Since sending the object over network may consume much of the time in a big application sending groups of objects together rather than one object at a time is advisable. To speed up the transfers, implement Externalize interface. To handle special cases such as singleton or reusable objects use special codes. To improve overall development quality never try to add the extra complications once the performance target have been met.</p>
+
+<p>References:</p>
+
+<ul>
+<li><a href="http://www.exforsys.com/tutorials/j2ee/performance-tuning-of-java-applications.html">Performance Tuning of Java Applications</a></li>
+<li><a href="http://www.javaworld.com/article/2071737/core-java/plug-memory-leaks-in-enterprise-java-applications.html">Plug memory leaks in enterprise Java applications</a></li>
+</ul>
+
 ]]></content>
   </entry>
   
