@@ -1,5 +1,24 @@
 // This File is imported last, and will override other styles in the cascade
 // Add styles here to make changes without digging in too much
+body>nav
+{
+     border-top-left-radius:10px;
+     border-top-right-radius:10px;
+     border-bottom-left-radius:3px;
+     border-bottom-right-radius:3px;
+/* 
+     border-radius: 2px;
+    -webkit-border-radius: 2px;
+    -moz-border-radius: 2px;
+    -khtml-border-radius: 2px;
+*/    
+}
+#content article
+{
+  font-size:0.9em;
+  line-height:30px;
+  margin-top:2px;
+}
 #content>div>b>section
 {
 	padding-left: 55px;
@@ -25,7 +44,7 @@
 {
 	text-indent:1em;
 	margin-bottom:10px;
-	/*font-family:Menlo,Monaco,"Andale Mono","lucida console","Courier New",monospace;*/font-family: "Segoe UI";
+	/*font-family:Menlo,Monaco,"Andale Mono","lucida console","Courier New",monospace;font-family: "Segoe UI";*/
 }
 
 .entry-content>ul,.entry-content>ol
