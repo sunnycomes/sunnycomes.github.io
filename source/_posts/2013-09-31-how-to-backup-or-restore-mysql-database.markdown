@@ -1,14 +1,19 @@
 ---
 layout: post
-title: "Basic Practical Usage of JDBC API"
-date: 2013-12-31 14:54:53 +0800
+title: "How to Backup or Restore MySQL Database"
+date: 2013-09-31 14:54:53 +0800
 comments: true
 tags: MySQL
 ---
 
-##Backup Tool##
+##The Way You Need to Know##
 
-###Back up From the Command Line (using mysqldump)
+1. [Back up From the Command Line](#buftcl)
+1. [Operations over Web with PHPMyAdmin](#oowwp)
+
+************
+
+###<a name='buftcl'></a>Back up From the Command Line (using mysqldump)
 
 If you have shell or telnet access to your web server, you can backup your MySQL data by using the mysqldump command. This command connects to the MySQL server and creates an SQL dump file. The dump file contains the SQL statements necessary to re-create the database. Here is the proper syntax:
 
@@ -56,7 +61,7 @@ Have a look how you can restore your tut_backup.sql file to the Tutorials databa
 * If you need to restore a database that already exists, you'll need to use mysqlimport command. The syntax for mysqlimport is as follows:  
 `mysqlimport -u [uname] -p[pass] [dbname] [backupfile.sql]`
 
-##Operations over Web with PHPMyAdmin##
+##<a name='oowwp'></a>Operations over Web with PHPMyAdmin##
 
 * It is assumed that you have phpMyAdmin installed since a lot of web service providers use it. To backup your MySQL database using PHPMyAdmin just follow a couple of steps:
 	1. Open phpMyAdmin.

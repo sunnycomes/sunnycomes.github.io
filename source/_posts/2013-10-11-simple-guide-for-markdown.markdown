@@ -232,7 +232,7 @@ A little bit different from the origin one, alignment attribute added.
 	First Header  		| Second Header 	| Third Header  |Fourth Header
 	------------- 		| :------------- 	| --------: 	| :----------:
 	Align Default 		|Align Left 		| Align Right 	| Align Center
-	**Bold** 		|*Italic* 		| _Italic_ 	| <s>Strike</s>
+	**Bold**			|*Italic* 			| _Italic_ 		| <s>Strike</s>
 
 Output:
 

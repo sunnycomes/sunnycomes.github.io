@@ -1,11 +1,11 @@
 ---
 layout: post
 title: "Java Performance Tuning Tips"
-date: 2013-11-11 20:59:44 +0800
+date: 2013-12-11 20:59:44 +0800
 comments: true
 tags: Java
 ---
-The 1st version is completed on 2013.11.11, the main content is from [Performance Tuning of Java Applications](http://www.exforsys.com/tutorials/j2ee/performance-tuning-of-java-applications.html).
+The 1st version is completed on 2013.12.11, the main content is from [Performance Tuning of Java Applications](http://www.exforsys.com/tutorials/j2ee/performance-tuning-of-java-applications.html).
 
 Ever since the first version of Java Technology hit the streets, performance has been an important issue for Java developers. Java has improved dramatically and continually but, performance tuning is very essential to get the best results, especially when we think of J2EE applications.
 
@@ -107,7 +107,7 @@ For developing an efficient JMS application transient variables should be used t
 To improve the performance in RMI application always consider altering the Tcp WindowSize parameter. To measure the bandwidth of network netp erf should be used. By setting the properties sun.rmi.dgc.client.gcInterval and sun.rmi.dgc.server.gcInterval RMI garbage collection should be configured in a proper manner. Since sending the object over network may consume much of the time in a big application sending groups of objects together rather than one object at a time is advisable. To speed up the transfers, implement Externalize interface. To handle special cases such as singleton or reusable objects use special codes. To improve overall development quality never try to add the extra complications once the performance target have been met.
 
 
-References:
+##References:
 
 * [Performance Tuning of Java Applications](http://www.exforsys.com/tutorials/j2ee/performance-tuning-of-java-applications.html)
 * [Plug memory leaks in enterprise Java applications](http://www.javaworld.com/article/2071737/core-java/plug-memory-leaks-in-enterprise-java-applications.html)

@@ -1,15 +1,17 @@
 ---
 layout: post
 title: "Best practices to improve performance in JDBC"
-date: 2013-10-31 14:54:53 +0800
+date: 2013-11-11 14:54:53 +0800
 comments: true
 tags: Java
 
 ---
-The 1st version is completed on 2013.11.1 20:38.
+The 1st version is completed on 2013.11.11 20:38.
 
 The 2nd version is completed on 2013.11.22, which modified completely, the main content is from ***[Best practices to improve performance in JDBC](http://www.precisejava.com/javaperf/j2ee/JDBC.htm)***, this is a great article about JDBC tuning.
 
+*************
+<br/>
 This post is dedicated to illustrate techniques for optimizing JDBC API-based calls from the Java platform. As a result of this presentation, you will:
 
 * Design better JDBC implementations
@@ -49,6 +51,8 @@ The following are the basic steps to write a JDBC program
 
 
 We will look at these areas one by one, what type of driver you need to load, how to use Connection interface in the best manner, how to use different Statement interfaces, how to process results using ResultSet and finally how to optimize SQL queries to improve JDBC performance.
+
+*********
 
 ####<a name="driver"></a>Choosing the right Driver
 
@@ -140,7 +144,7 @@ Isolation level represent how a database maintains data integrity against the pr
         void   setTransactionIsolation(int isolationlevelconstant);
     }
 
-More details are covered in ***[Optimal JDBC Transaction Isolation Level](/blog/2013/10/11/optimal-isolation-level/) and [Optimistic and Pessimistic Locking]***(/blog/2013/10/21/optimistic-and-pessimistic-locking/)
+More details are covered in ***[Optimal JDBC Transaction Isolation Level](/blog/2013/10/11/optimal-isolation-level/) and ***[Optimistic and Pessimistic Locking](/blog/2013/10/21/optimistic-and-pessimistic-locking/)***
 
 ####Optimization with Statement
 

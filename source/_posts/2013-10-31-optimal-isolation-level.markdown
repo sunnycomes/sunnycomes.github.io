@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "Optimal JDBC Transaction Isolation Level"
-date: 2014-01-11 16:09:47 +0800
+date: 2013-10-31 16:09:47 +0800
 comments: true
 tags: Database
 

@@ -5,9 +5,6 @@ date: 2013-09-6 14:50:01 +0800
 comments: true
 tags: MySQL
 ---
-* The 1st version is completed on 2013.9.6;
-
-* The 2nd version is updated on 2013.12.27, Backup tool is added.
 
 ##Conventions used here:##
 
@@ -18,7 +15,7 @@ tags: MySQL
 * Items that can be repeated as often as desired are indicated by an ellipsis ...
  
 <!-- more -->
-
+<!--
 ##Quoting in MySQL Statements##
 
 * Don't quote database, table, or column names
@@ -27,7 +24,7 @@ tags: MySQL
 * Quote (single or double) non-numeric values
 * Quote file names and passwords
 * Usernames are NOT quoted in GRANT or REVOKE statements, but they are quoted in other statements.
-
+-->
 ##General Commands##
 
 * `USE database_name`  
@@ -51,12 +48,12 @@ Lists all indexes from this tables.
 
 * `CREATE TABLE table_name (create_clause1, create_clause2, ...)`  
 Creates a table with columns as indicated in the create clauses.  
-	* create\_clause: column name followed by column type, followed optionally by modifiers. For example, "gene_id INT AUTO\_INCREMENT PRIMARY KEY" (without the quotes) creates a column of type integer with the modifiers described below.  
+	* create\_clause: column name followed by column type, followed optionally by modifiers. For example, `gene_id INT AUTO_INCREMENT PRIMARY KEY` (without the quotes) creates a column of type integer with the modifiers described below.  
 	* create\_clause modifiers
-		* AUTO\_INCREMENT : each data record is assigned the next sequential number when it is given a NULL value.
-		* PRIMARY KEY : Items in this column have unique names, and the table is indexed automatically based on this column. One column must be the PRIMARY KEY, and only one column may be the PRIMARY KEY. This column should also be NOT NULL.
-		* NOT NULL : No NULL values are allowed in this column: a NULL generates an error message as the data is inserted into the table.
-		* DEFAULT value : If a NULL value is used in the data for this column, the default value is entered instead.
+		* `AUTO_INCREMENT` : each data record is assigned the next sequential number when it is given a `NULL` value.
+		* `PRIMARY KEY` : Items in this column have unique names, and the table is indexed automatically based on this column. One column must be the `PRIMARY KEY`, and only one column may be the `PRIMARY KEY`. This column should also be `NOT NULL`.
+		* `NOT NULL` : `No NULL` values are allowed in this column: a `NULL` generates an error message as the data is inserted into the table.
+		* `DEFAULT value` : If a `NULL` value is used in the data for this column, the default value is entered instead.
  
 * `DROP TABLE table_name`  
 Removes the table from the database. Permanently! So be careful with this command!
@@ -75,7 +72,7 @@ Changes the name and type or modifiers of a column. Using CHANGE (instead of MOD
  
 * `ALTER TABLE table_name ADD INDEX [index_name] (column_name1, column_name2, ...)` or 
 `CREATE INDEX index_name ON table_name (column_name1, column_name2, ...)`    
-Adds an index to this table, based on the listed columns. Note that the order of the columns is important, because additional indexes are created from all subsets of the listed columns reading from left to write. The index name is optional if you use ALTER TABLE, but it is necesary if you use CREATE INDEX. Rarely is the name of an index useful (in my experience).
+Adds an index to this table, based on the listed columns. Note that the order of the columns is important, because additional indexes are created from all subsets of the listed columns reading from left to write. The index name is optional if you use `ALTER TABLE`, but it is necesary if you use `CREATE INDEX`. Rarely is the name of an index useful (in my experience).
 
 ##Data Commands##
 
@@ -87,16 +84,16 @@ Insert a complete row of data, giving a value (or NULL) for every column in the 
 Insert data into the listed columns only. Alternate forms, with the SET form showing column assignments more explicitly.
  
 * `INSERT [INTO] table_name (column_name1, column_name2, ...) SELECT list_of_fields_from_another_table FROM other_table_name WHERE where_clause`  
-Inserts the data resulting from a SELECT statement into the listed columns. Be sure the number of items taken from the old table match the number of columns they are put into!
+Inserts the data resulting from a `SELECT` statement into the listed columns. Be sure the number of items taken from the old table match the number of columns they are put into!
  
 * `DELETE FROM table_name WHERE where_clause`  
-Delete rows that meet the conditions of the where_clause. If the WHERE statement is omitted, the table is emptied, although its structure remains intact.
+Delete rows that meet the conditions of the where_clause. If the `WHERE` statement is omitted, the table is emptied, although its structure remains intact.
  
 * `UPDATE table_name SET column_name1=value1, column_name2=value2, ... [WHERE where_clause]`  
 Alters the data within a column based on the conditions in the where_clause.
  
 * `LOAD DATA LOCAL INFILE 'path_to_external_file' INTO TABLE table_name`  
-Loads data from the listed file into the table. The default assumption is that fields in the file are separated by tabs, and each data record is separated from the others by a newline. It also assumes that nothing is quoted: quote marks are considered to be part of the data. Also, it assumes that the number of data fields matches the number of table columns. Columns that are `AUTO_INCREMENT` should have **NULL** as their value in the file.
+Loads data from the listed file into the table. The default assumption is that fields in the file are separated by tabs, and each data record is separated from the others by a newline. It also assumes that nothing is quoted: quote marks are considered to be part of the data. Also, it assumes that the number of data fields matches the number of table columns. Columns that are `AUTO_INCREMENT` should have `NULL` as their value in the file.
  
 * `LOAD DATA LOCAL INFILE 'path_to_external_file' [FIELDS TERMINATED BY 'termination_character'] [FIELDS ENCLOSED BY 'quoting character'] [LINES TERMINATED BY 'line termination character'] FROM table_name`  
 Loads data from the listed file into the table, using the field termination character listed (default is tab \t), and/or the listed quoting character (default is nothing), and/or the listed line termination chacracter (default is a newline \n).
@@ -119,16 +116,16 @@ Allows you to move data from a table into an external file. The field and line t
 Most of the commands below require MySQL root access
  
 * `GRANT USAGE ON *.* TO user_name@localhost [IDENTIFIED BY 'password']`  
-Creates a new user on MySQL, with no rights to do anything. The `IDENTIFED BY` clause creates or changes the MySQL password, which is not necessarily the same as the user's system password. The @localhost after the user name allows usage on the local system, which is usually what we do; leaving this off allows the user to access the database from another system. User name `NOT` in quotes.
+Creates a new user on MySQL, with no rights to do anything. The `IDENTIFED BY` clause creates or changes the MySQL password, which is not necessarily the same as the user's system password. The `@localhost` after the user name allows usage on the local system, which is usually what we do; leaving this off allows the user to access the database from another system. User name `NOT` in quotes.
  
 * `GRANT SELECT ON *.* TO user_name@localhost`  
 In general, unless data is supposed to be kept private, all users should be able to view it. A debatable point, and most databases will only grant SELECT privileges on particular databases. There is no way to grant privileges on all databses **EXCEPT** specifically enumerated ones.
  
 * `GRANT ALL ON database_name.* TO user_name@localhost`  
-Grants permissions on all tables for a specific database (database_name.*) to a user. Permissions are for: ALTER, CREATE, DELETE, DROP, INDEX, INSERT, SELECT, UPDATE.
+Grants permissions on all tables for a specific database (database_name.*) to a user. Permissions are for: `ALTER`, `CREATE`, `DELETE`, `DROP`, `INDEX`, `INSERT`, `SELECT`, `UPDATE`.
 
 * `FLUSH PRIVILEGES`  
-Needed to get updated privileges to work immediately. You need RELOAD privileges to get this to work.
+Needed to get updated privileges to work immediately. You need **RELOAD** privileges to get this to work.
  
 * `CREATE USER user_specification[,user_specification]...`  
 The `CREATE USER` statement creates new MySQL accounts. To use it, you must have the global `CREATE USER` privilege or the `INSERT` privilege for the mysql database. For each account, `CREATE USER` creates a new row in the mysql.user table and assgins the account no privileges.
