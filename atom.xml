@@ -4,7 +4,7 @@
   <title><![CDATA[I/O VIsion]]></title>
   <link href="http://www.iovi.com/atom.xml" rel="self"/>
   <link href="http://www.iovi.com/"/>
-  <updated>2014-03-21T08:26:32+08:00</updated>
+  <updated>2014-03-21T08:28:48+08:00</updated>
   <id>http://www.iovi.com/</id>
   <author>
     <name><![CDATA[Sunny]]></name>
@@ -54,7 +54,7 @@ Markdown was created to be easy to read, easy to write, and still readable in pl
 <p>Output:</p>
 
 <blockquote><p><a href="http://www.iovi.com">http://www.iovi.com</a><br/>
-<a href="&#x6d;&#x61;&#x69;&#x6c;&#116;&#111;&#x3a;&#x73;&#x6f;&#x6d;&#101;&#98;&#x62;&#111;&#98;&#x40;&#x69;&#111;&#118;&#x69;&#x2e;&#x63;&#111;&#x6d;">&#x73;&#111;&#x6d;&#101;&#x62;&#x62;&#111;&#x62;&#64;&#105;&#111;&#118;&#x69;&#46;&#x63;&#x6f;&#109;</a></p></blockquote>
+<a href="&#x6d;&#97;&#x69;&#108;&#116;&#111;&#x3a;&#x73;&#x6f;&#109;&#101;&#x62;&#x62;&#111;&#98;&#64;&#105;&#111;&#118;&#x69;&#x2e;&#99;&#111;&#109;">&#115;&#x6f;&#x6d;&#x65;&#98;&#x62;&#111;&#x62;&#x40;&#x69;&#x6f;&#118;&#105;&#x2e;&#99;&#x6f;&#109;</a></p></blockquote>
 
 <p>To use text for the link, write it:</p>
 
