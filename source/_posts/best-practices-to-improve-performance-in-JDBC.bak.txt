@@ -1,0 +1,113 @@
+<a name='api_tech'></a>##Basic API techniques
+
+![most_versatile_most_optimized](/images/upload/most_versatile_most_optimized.png)
+
+###SQL Statements###
+
+* Most flexible
+* Least reliable
+* Must be recompiled in database for each use
+
+####PreparedStatement###
+
+* Represents a precompiled SQL statement
+* Can be used to efficiently execute statement multiple times
+* Somewhat flexible \- can create new ones as needed
+
+<!-- more -->
+
+###CallableStatement###
+
+* Used to execute SQL stored procedures. Use stored procedures when they can be created in a standard manner. Do watch out for DB specific SP definitions that can cause migration headaches.
+* Same syntax as PreparedStatement.
+* Least flexible.
+* Most optimized DB call.
+
+###Cache
+
+Keep data within client to reduce the number of round-trips to the database.  
+Lesson: The less JDBC the better.
+
+##<a name='design_tech'></a>Basic Design Techniques
+
+###Use Database Connection Pool
+
+* Necessity for any production system.
+* Don't use DriverManager.getConnection() often. JDBC connections can take 0.5 to 2 seconds to create.
+* Create Pool of Connections and reuse them.
+
+###Use multi-threading with Connection Pooling to address network latency
+
+Threads can issue queries over separate database connections. This improves performance to a point.
+
+	Single-batch Transactions
+		BEGIN TRANSACTION
+			UPDATE TABLE1... 
+			INSERT INTO TABLE2...
+			DELETE TABLE3
+		COMMIT
+
+
+###Single-batch Transactions---Significantly different effects!###
+
+* DB obtains necessary locks on rows and tables, uses and releases them in one step
+* Depending on transaction type, separate statements and commits can result in more DB calls and hold DB locks longer
+
+
+###Don't have transaction span user input
+
+Application sends BEGIN TRAN and SQL, locking rows or tables for update
+Application waits for user to press key before committing transaction
+
+
+####Solution: Optimistic locking####
+
+1. Optimistic locking employs timestamps and triggers in queries and updates
+1. Queries select data with timestamp value
+1. Prepare a transaction based on that value, without locking data in a transaction
+1. If that value changed, this update is invalid and you should query again
+
+
+###Smart Queries##
+
+* Make queries as specific as possible,Select only required columns rather than using select * from Tablexyz.  
+* Put more logic into SQL statements	
+* DB are designed to use SQL efficiently	
+* Proper use of SQL can avoid performance problems
+
+Smart Query Ex: get employees in ENG dept, Instead of:	
+
+	SELECT * FROM employees; 
+	SELECT * FROM dept;
+(and joining on Java application side), **use database join:**	
+
+	SELECT employees.* FROM employees E, dept D 
+	WHERE E.DEPTNO = D.DEPTNO AND D.DEPTTYPE = 'ENG';
+
+Minimize ResultSet before crossing network 
+Many performance problems come from moving raw data around needlessly
+
+
+###Smart Query Guidelines###
+
+* Use DB for filtering
+* Use Java for business logic
+* DB does filtering very well
+* DB business logic is poor(At least very inconsistent between database vendors.)
+
+
+###Keep operational data set small as possible###
+
+* Move non-current data to other tables and do joins for rarer historical queries
+* Otherwise, index and cluster so frequently used data is logically and physically localized
+
+
+##<a name='strategies'></a>Optimization Stategies
+
+1. Leverage the strengths of the DB
+1. Use the full range of java.sql API
+1. Design for Performance \- Connection Pools, Multi-Threading, etc. 
+1. Always close Statement and ResultSet objects as soon as possible.
+1. Test your code with debug statements to determine the time it takes to execute your query and so on to help in tuning your code. Also use query plan functionality if available.
+1. Use proper ( and a single standard if possible ) formats, especially for dates.
+1. Use proper data types for specific kind of data. For example, store birthdate as a date type rather than, say, varchar.

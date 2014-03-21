@@ -6,30 +6,36 @@ comments: true
 sharing: true
 footer: true
 ---
-##Iovi##
-
+##I/O VIsion  
 Welcome to my blog which dedicated to collect and share some awesome also useful technology related posts and information through out the IT world, something I think really important for coder's career. 
 
 This is a public platform of sharing and learning knowledge other than simply a personal blog. I hope you will like what I am doing here and dig out something you want.
 
-##Me##
+##About Me
 
-* ####Intro  
-	I'm Caijun Sun, currently a student of BUPT(Beijing University of Posts and Telecommunications) of information security major. I really like doing some readings every day and write down the ideas and howtos I came across.
+* ####Intro
 
-* ####Education Background  
-	2009.9 ~ 2013.6, Hangzhou Normal University, Bachelor of Software Engineering.
+I'm Caijun Sun, currently a student of BUPT(Beijing University of Posts and Telecommunications) of information security major. I really like doing some readings every day and write down the ideas and howtos I came across.
 
-	2013.9 ~ Now, Beijing University of Posts and Telecommunications, Master of Information Security.
+* ####Education Background
 
-* ####Photo  
-	Click ***[here](/images/me.jpg)*** and you will find it.
+	1. 2009.9 ~ 2013.6, Hangzhou Normal University, Bachelor of Software Engineering.
+	1. 2013.9 ~ Now, Beijing University of Posts and Telecommunications, Master of Information Security.
 
-##Works##
+* ####Photo
+
+Click ***[here](/images/me.jpg)*** and you will find it.
+
+* ####Wallet
+
+**DF8XNSzB7reWoLsjTvGNJ3eNgUBwZXkYFL**, wow this address if you like my blog, or I give you some of mine.
+
+##Works
 
 No project good enough to show you.
 
-##Links##
+##Links
+
 Profiles on ***[about.me](http://www.about.me/sunnycomes)***
 
 Projects on ***[github.com](http://www.github.com/sunnycomes)***

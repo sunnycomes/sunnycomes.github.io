@@ -71,11 +71,11 @@ aside.sidebar {
     }
     &:after {
       position: absolute; right: -11px; top: 0;
-      width: 18px;
+      width: 20px;
       font-size: 1.2em;
       line-height: 1.1em;
       padding-bottom: .15em;
-      @include border-radius(.3em);
+      @include border-bottom-right-radius(.3em);
       text-align: center;
       background: $main-bg $noise-bg;
       border-bottom: 1px solid $sidebar-border;
