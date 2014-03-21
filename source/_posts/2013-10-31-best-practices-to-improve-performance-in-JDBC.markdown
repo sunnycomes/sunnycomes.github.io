@@ -3,11 +3,12 @@ layout: post
 title: "Best practices to improve performance in JDBC"
 date: 2013-10-31 14:54:53 +0800
 comments: true
-categories: coding
----
-The 1st version is completed on 2013.10.22 20:38, the main content is from ***[Performance Tuning for the JDBC API](http://alumnus.caltech.edu/~chamness/JDBC_Tuning.pdf)***.
+tags: Java
 
-The 2nd version is completed on 2013.11.22 21:18, which modified completely, the main content is from ***[Best practices to improve performance in JDBC](http://www.precisejava.com/javaperf/j2ee/JDBC.htm)***, this is a great article about JDBC tuning.
+---
+The 1st version is completed on 2013.11.1 20:38.
+
+The 2nd version is completed on 2013.11.22, which modified completely, the main content is from ***[Best practices to improve performance in JDBC](http://www.precisejava.com/javaperf/j2ee/JDBC.htm)***, this is a great article about JDBC tuning.
 
 This post is dedicated to illustrate techniques for optimizing JDBC API-based calls from the Java platform. As a result of this presentation, you will:
 

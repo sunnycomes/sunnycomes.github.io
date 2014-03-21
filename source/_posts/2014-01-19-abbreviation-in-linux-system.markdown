@@ -1,10 +1,10 @@
 ---
 layout: post
 title: "Abbreviation in Linux System"
-date: 2014-01-09 09:42:19 +0800
+date: 2014-01-19 09:42:19 +0800
 comments: true
-categories: web-server
-published: false
+tags: Linux
+published: true
 
 ---
 Unix is 35. Some people consider that the official start of middle age, although for a computer technology it's more like existing since the Middle Ages. Over that time, Unix and its child Linux have collected a lot of history and some quite archaic language. In this tip, we'll have a look at a few of the more ancient bits of crusty stuff and identify their purposes, if not their actual origins.

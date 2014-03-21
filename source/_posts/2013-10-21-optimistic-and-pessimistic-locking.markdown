@@ -3,7 +3,7 @@ layout: post
 title: "Optimistic and Pessimistic Locking"
 date: 2013-10-21 21:40:48 +0800
 comments: true
-categories: coding
+tags: Database
 ---
 ##Locking Introduction
 

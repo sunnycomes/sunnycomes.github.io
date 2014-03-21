@@ -3,9 +3,9 @@ layout: post
 title: "Java Performance Tuning Tips"
 date: 2013-11-11 20:59:44 +0800
 comments: true
-categories: coding
+tags: Java
 ---
-The 1st version is completed on 2013.11.10 21:55, the main content is from [Performance Tuning of Java Applications](http://www.exforsys.com/tutorials/j2ee/performance-tuning-of-java-applications.html), thanks to the origin author.
+The 1st version is completed on 2013.11.11, the main content is from [Performance Tuning of Java Applications](http://www.exforsys.com/tutorials/j2ee/performance-tuning-of-java-applications.html).
 
 Ever since the first version of Java Technology hit the streets, performance has been an important issue for Java developers. Java has improved dramatically and continually but, performance tuning is very essential to get the best results, especially when we think of J2EE applications.
 

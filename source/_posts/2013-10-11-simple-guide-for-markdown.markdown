@@ -1,11 +1,11 @@
 ---
 layout: post
 title: "Simple Guide for Markdown"
-date: 2013-11-30 21:35:48 +0800
+date: 2013-10-11 21:35:48 +0800
 comments: true
 categories: stuff
 ---
-This post is from [Markdown Syntax Guide](http://sourceforge.net/p/forge/documentation/markdown_syntax/#md_ex_links "thanks to the origin author."). Thanks to the origin author.
+
 Markdown was created to be easy to read, easy to write, and still readable in plain text format.
 
 1. [Links](#links)
