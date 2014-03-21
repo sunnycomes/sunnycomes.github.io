@@ -2,29 +2,37 @@
 <urlset xmlns='http://www.sitemaps.org/schemas/sitemap/0.9'>
     <url>
         <loc>http://www.iovi.com/blog/2013/09/06/short-list-of-mysql-commands/</loc>
-        <lastmod>2014-01-10T16:20:58+08:00</lastmod>
+        <lastmod>2014-03-21T14:49:50+08:00</lastmod>
     </url>
     <url>
-        <loc>http://www.iovi.com/blog/2013/10/11/optimal-isolation-level/</loc>
-        <lastmod>2014-01-09T15:51:07+08:00</lastmod>
+        <loc>http://www.iovi.com/blog/2013/10/01/how-to-backup-or-restore-mysql-database/</loc>
+        <lastmod>2014-03-21T15:02:08+08:00</lastmod>
+    </url>
+    <url>
+        <loc>http://www.iovi.com/blog/2013/10/11/simple-guide-for-markdown/</loc>
+        <lastmod>2014-03-21T15:04:46+08:00</lastmod>
     </url>
     <url>
         <loc>http://www.iovi.com/blog/2013/10/21/optimistic-and-pessimistic-locking/</loc>
-        <lastmod>2014-01-09T15:14:48+08:00</lastmod>
+        <lastmod>2014-03-21T14:03:29+08:00</lastmod>
+    </url>
+    <url>
+        <loc>http://www.iovi.com/blog/2013/10/31/optimal-isolation-level/</loc>
+        <lastmod>2014-03-21T15:20:45+08:00</lastmod>
     </url>
     <url>
         <loc>
-            http://www.iovi.com/blog/2013/10/31/best-practices-to-improve-performance-in-JDBC/
+            http://www.iovi.com/blog/2013/11/11/best-practices-to-improve-performance-in-JDBC/
         </loc>
-        <lastmod>2014-01-10T10:05:08+08:00</lastmod>
+        <lastmod>2014-03-21T15:19:50+08:00</lastmod>
     </url>
     <url>
-        <loc>http://www.iovi.com/blog/2013/11/11/java-performance-tunning-tips/</loc>
-        <lastmod>2014-01-13T14:13:11+08:00</lastmod>
+        <loc>http://www.iovi.com/blog/2013/12/11/java-performance-tunning-tips/</loc>
+        <lastmod>2014-03-21T15:23:13+08:00</lastmod>
     </url>
     <url>
-        <loc>http://www.iovi.com/blog/2013/11/30/simple-guide-for-markdown/</loc>
-        <lastmod>2014-01-12T22:51:58+08:00</lastmod>
+        <loc>http://www.iovi.com/blog/2014/01/19/abbreviation-in-linux-system/</loc>
+        <lastmod>2014-03-21T14:03:29+08:00</lastmod>
     </url>
     <url>
         <loc>http://www.iovi.com/about/</loc>
@@ -32,11 +40,19 @@
     </url>
     <url>
         <loc>http://www.iovi.com/blog/archives/</loc>
-        <lastmod>2014-01-13T14:13:11+08:00</lastmod>
+        <lastmod>2014-03-21T15:23:13+08:00</lastmod>
+    </url>
+    <url>
+        <loc>http://www.iovi.com/blog/stuff/</loc>
+        <lastmod>2014-03-21T15:23:13+08:00</lastmod>
+    </url>
+    <url>
+        <loc>http://www.iovi.com/bookshelf/</loc>
+        <lastmod>2014-03-21T14:03:29+08:00</lastmod>
     </url>
     <url>
         <loc>http://www.iovi.com/</loc>
-        <lastmod>2014-01-13T14:13:11+08:00</lastmod>
+        <lastmod>2014-03-21T15:23:13+08:00</lastmod>
     </url>
     <url>
         <loc>http://www.iovi.com/robots.txt</loc>

@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Stuff | I/O VIsion]]></title>
   <link href="http://www.iovi.com/blog/categories/stuff/atom.xml" rel="self"/>
   <link href="http://www.iovi.com/"/>
-  <updated>2014-03-21T11:20:00+08:00</updated>
+  <updated>2014-03-21T15:28:16+08:00</updated>
   <id>http://www.iovi.com/</id>
   <author>
     <name><![CDATA[Sunny]]></name>
@@ -15,11 +15,10 @@
   
   <entry>
     <title type="html"><![CDATA[Simple Guide for Markdown]]></title>
-    <link href="http://www.iovi.com/blog/2013/11/30/simple-guide-for-markdown/"/>
-    <updated>2013-11-30T21:35:48+08:00</updated>
-    <id>http://www.iovi.com/blog/2013/11/30/simple-guide-for-markdown</id>
-    <content type="html"><![CDATA[<p>This post is from <a href="http://sourceforge.net/p/forge/documentation/markdown_syntax/#md_ex_links" title="thanks to the origin author.">Markdown Syntax Guide</a>. Thanks to the origin author.
-Markdown was created to be easy to read, easy to write, and still readable in plain text format.</p>
+    <link href="http://www.iovi.com/blog/2013/10/11/simple-guide-for-markdown/"/>
+    <updated>2013-10-11T21:35:48+08:00</updated>
+    <id>http://www.iovi.com/blog/2013/10/11/simple-guide-for-markdown</id>
+    <content type="html"><![CDATA[<p>Markdown was created to be easy to read, easy to write, and still readable in plain text format.</p>
 
 <ol>
 <li><a href="#links">Links</a></li>
@@ -54,7 +53,7 @@ Markdown was created to be easy to read, easy to write, and still readable in pl
 <p>Output:</p>
 
 <blockquote><p><a href="http://www.iovi.com">http://www.iovi.com</a><br/>
-<a href="&#x6d;&#x61;&#x69;&#x6c;&#116;&#111;&#58;&#115;&#111;&#x6d;&#x65;&#98;&#98;&#x6f;&#x62;&#64;&#105;&#x6f;&#118;&#x69;&#46;&#x63;&#111;&#x6d;">&#x73;&#x6f;&#109;&#x65;&#98;&#98;&#x6f;&#x62;&#64;&#x69;&#x6f;&#118;&#x69;&#x2e;&#x63;&#111;&#109;</a></p></blockquote>
+<a href="&#x6d;&#x61;&#x69;&#x6c;&#x74;&#111;&#58;&#x73;&#x6f;&#109;&#101;&#x62;&#98;&#111;&#x62;&#x40;&#x69;&#111;&#x76;&#105;&#x2e;&#99;&#x6f;&#109;">&#x73;&#x6f;&#109;&#x65;&#x62;&#x62;&#x6f;&#98;&#64;&#x69;&#x6f;&#118;&#x69;&#x2e;&#x63;&#x6f;&#109;</a></p></blockquote>
 
 <p>To use text for the link, write it:</p>
 
@@ -274,7 +273,7 @@ exactly <i>as you see it in this text file</i>.</p></blockquote>
 <pre><code>First Header        | Second Header     | Third Header  |Fourth Header
 -------------       | :-------------    | --------:     | :----------:
 Align Default       |Align Left         | Align Right   | Align Center
-**Bold**        |*Italic*       | _Italic_  | &lt;s&gt;Strike&lt;/s&gt;
+**Bold**            |*Italic*           | _Italic_      | &lt;s&gt;Strike&lt;/s&gt;
 </code></pre>
 
 <p>Output:</p>
