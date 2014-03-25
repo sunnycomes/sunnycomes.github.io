@@ -1,0 +1,212 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Tag: Git | I/O VIsion]]></title>
+  <link href="http://www.iovi.com/tags/git/atom.xml" rel="self"/>
+  <link href="http://www.iovi.com/"/>
+  <updated>2014-03-25T10:25:30+08:00</updated>
+  <id>http://www.iovi.com/</id>
+  <author>
+    <name><![CDATA[Sunny]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Simple Git Guide]]></title>
+    <link href="http://www.iovi.com/blog/2014/02/21/simple-git-guide/"/>
+    <updated>2014-02-21T15:46:05+08:00</updated>
+    <id>http://www.iovi.com/blog/2014/02/21/simple-git-guide</id>
+    <content type="html"><![CDATA[<h2>Introduction</h2>
+
+<p>In software development, Git is a distributed revision control and source code management (SCM) system with an emphasis on speed initially designed and developed by Linus Torvalds. Every Git working directory is a full-fledged repository with complete history and full version tracking capabilities, not dependent on network access or a central server.</p>
+
+<p>Since each developer&rsquo;s working copy is a bona fide Git repository, there are multiple possibilities for working with Git. In a larger team setting, you might actually prefer an approach similar to client-server systems, where you maintain one &ldquo;master&rdquo; repository which each developer pulls from and pushes to. For a small team (say, two or three developers) it may be effective to have each developer pull changes from, and push changes to, each of the others directly. And if you&rsquo;re a solo developer, then one Git repository on your development machine is likely all you need.</p>
+
+<!--more-->
+
+
+<h2>Preliminary</h2>
+
+<h3>Remote</h3>
+
+<p>If you have not cloned an existing repository and want to connect your repository to a remote server, you need to add it with</p>
+
+<pre><code>git remote add repo_path
+</code></pre>
+
+<p>repo_path can be something like <code>https://github.com/sunnycomes/okcoin_pc</code>.</p>
+
+<h3>branch</h3>
+
+<p>Branches are used to develop features isolated from each other. The master branch is the &ldquo;default&rdquo; branch when you create a repository. Use other branches for development and merge them back to the master branch upon completion.</p>
+
+<p>create a new branch named &ldquo;branch_xx&rdquo;,</p>
+
+<pre><code>git branch branch_xx
+</code></pre>
+
+<p>and switch to it using</p>
+
+<pre><code>git checkout branch_xx
+</code></pre>
+
+<p>or,</p>
+
+<pre><code>git checkout -b branch_xx
+</code></pre>
+
+<p>do the same work.</p>
+
+<h3>Working Directory, Index, HEAD</h3>
+
+<p>your local repository consists of three &ldquo;trees&rdquo; maintained by git. the first one is your <code>Working Directory</code> which holds the actual files. the second one is the <code>Index</code> which acts as a staging area and finally the <code>HEAD</code> which points to the last commit you&rsquo;ve made.</p>
+
+<h2>Basic Workflow</h2>
+
+<h3>checkout a repository</h3>
+
+<p>create a working copy of a local repository by running the command</p>
+
+<pre><code>git clone /path/to/repository 
+</code></pre>
+
+<p>when using a remote server, your command will be</p>
+
+<pre><code>git clone username@host:/path/to/repository
+</code></pre>
+
+<h3>Fetch</h3>
+
+<p>Fetch the latest history from the server, use this command</p>
+
+<pre><code>git fetch repo_path
+</code></pre>
+
+<h3>Add</h3>
+
+<p>This is the first step in the basic git workflow. You can propose changes (add it to the Index) using</p>
+
+<pre><code>git add &lt;filename&gt;
+</code></pre>
+
+<p>or</p>
+
+<pre><code>git add *
+</code></pre>
+
+<p>to add all the untracked files.</p>
+
+<h3>Commit</h3>
+
+<p>To actually commit these changes use</p>
+
+<pre><code>git commit -m "Commit message, it's necessary for a detail description of the changes."
+</code></pre>
+
+<p>Now the file is committed to the HEAD, but not in your remote repository yet.</p>
+
+<h3>Merge &amp; Pull</h3>
+
+<p>To merge another branch into your active branch (e.g. master), use</p>
+
+<pre><code>git merge master
+</code></pre>
+
+<p>to update your local repository to the newest commit, execute</p>
+
+<pre><code>git pull repo_path branch_xx
+</code></pre>
+
+<p>in your working directory to fetch and merge remote changes, in both cases git tries to auto-merge changes.</p>
+
+<p>Unfortunately, this is not always possible and results in conflicts. You are responsible to merge those conflicts manually by editing the files shown by git. Show unmerged paths which contains conflicts and changes that uncommited,</p>
+
+<pre><code>git status
+</code></pre>
+
+<p>After changing, you need to mark them as merged with</p>
+
+<pre><code>git add &lt;filename&gt;
+</code></pre>
+
+<p>before merging changes, you can also preview them by using</p>
+
+<pre><code>git diff --cached
+</code></pre>
+
+<p>Then <strong>commit</strong> all the changes to keep the working  directory <strong>clean</strong>,</p>
+
+<pre><code>git commit -a -m "Conflicts fixed."
+</code></pre>
+
+<h3>Push changes</h3>
+
+<p>Your changes are now in the HEAD of your local working copy. To send those changes to your remote repository, execute</p>
+
+<pre><code>git push repo_path branch_xx
+</code></pre>
+
+<p>Change <code>branch_xx</code> to whatever branch you want to push your changes to.</p>
+
+<h3>Tagging</h3>
+
+<p>It&rsquo;s recommended to create tags for software releases. this is a known concept, which also exists in SVN. You can create a new tag named 1.0.0 by executing</p>
+
+<pre><code>git tag 1.0.0 1b2e1d63ff
+</code></pre>
+
+<p>the 1b2e1d63ff stands for the first 10 characters of the commit id you want to reference with your tag. You can get the commit id with</p>
+
+<pre><code>git log
+</code></pre>
+
+<p>you can also use fewer characters of the commit id, it just has to be unique.</p>
+
+<h3>Reseting</h3>
+
+<p>In case you did something wrong (which for sure never happens ;) you can replace local changes using the command</p>
+
+<pre><code>git checkout -- &lt;filename&gt;
+</code></pre>
+
+<p>this replaces the changes in your working tree with the last content in HEAD, if it&rsquo;s a new and already tracked file of <filename>, then will be changed to <strong>untracked</strong>. Changes already added to the index, as well as new files, <strong>will be kept</strong>.</p>
+
+<p>Actually this would not remove the newly added files, this is pretty much like the command line</p>
+
+<pre><code>git reset
+</code></pre>
+
+<p><strong>however</strong>, such command just make the newly tracked file untracked, the changed content is excluded.</p>
+
+<pre><code>git reset --hard
+</code></pre>
+
+<p>This command will purge the working directory to the last commits.</p>
+
+<p>If you instead want to drop all your changes or commits</p>
+
+<pre><code>git reset --hard HEAD_ID
+</code></pre>
+
+<p>this will remove all the commits after the commit with the <em>HEAD_ID</em>.</p>
+
+<p>Fetch the latest history from the server and point your local branch_xx branch at it like this</p>
+
+<pre><code>git reset --hard repo_path/branch_xx
+</code></pre>
+
+<h2>References</h2>
+
+<ol>
+<li><a href="http://en.wikipedia.org/wiki/Git_(software">WIKI Git</a>)</li>
+<li><a href="http://blog.csdn.net/kasagawa/article/details/6797812">Git for Small Development Group</a></li>
+<li><a href="http://viget.com/extend/getting-to-know-git">Getting to Know Git</a></li>
+<li><a href="http://rogerdudler.github.io/git-guide/">Simple Git Guide, No Deep Shit</a></li>
+</ol>
+
+]]></content>
+  </entry>
+  
+</feed>

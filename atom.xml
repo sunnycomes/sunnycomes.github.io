@@ -4,7 +4,7 @@
   <title><![CDATA[I/O VIsion]]></title>
   <link href="http://www.iovi.com/atom.xml" rel="self"/>
   <link href="http://www.iovi.com/"/>
-  <updated>2014-03-21T15:28:16+08:00</updated>
+  <updated>2014-03-25T10:25:30+08:00</updated>
   <id>http://www.iovi.com/</id>
   <author>
     <name><![CDATA[Sunny]]></name>
@@ -12,6 +12,202 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Simple Git Guide]]></title>
+    <link href="http://www.iovi.com/blog/2014/02/21/simple-git-guide/"/>
+    <updated>2014-02-21T15:46:05+08:00</updated>
+    <id>http://www.iovi.com/blog/2014/02/21/simple-git-guide</id>
+    <content type="html"><![CDATA[<h2>Introduction</h2>
+
+<p>In software development, Git is a distributed revision control and source code management (SCM) system with an emphasis on speed initially designed and developed by Linus Torvalds. Every Git working directory is a full-fledged repository with complete history and full version tracking capabilities, not dependent on network access or a central server.</p>
+
+<p>Since each developer&rsquo;s working copy is a bona fide Git repository, there are multiple possibilities for working with Git. In a larger team setting, you might actually prefer an approach similar to client-server systems, where you maintain one &ldquo;master&rdquo; repository which each developer pulls from and pushes to. For a small team (say, two or three developers) it may be effective to have each developer pull changes from, and push changes to, each of the others directly. And if you&rsquo;re a solo developer, then one Git repository on your development machine is likely all you need.</p>
+
+<!--more-->
+
+
+<h2>Preliminary</h2>
+
+<h3>Remote</h3>
+
+<p>If you have not cloned an existing repository and want to connect your repository to a remote server, you need to add it with</p>
+
+<pre><code>git remote add repo_path
+</code></pre>
+
+<p>repo_path can be something like <code>https://github.com/sunnycomes/okcoin_pc</code>.</p>
+
+<h3>branch</h3>
+
+<p>Branches are used to develop features isolated from each other. The master branch is the &ldquo;default&rdquo; branch when you create a repository. Use other branches for development and merge them back to the master branch upon completion.</p>
+
+<p>create a new branch named &ldquo;branch_xx&rdquo;,</p>
+
+<pre><code>git branch branch_xx
+</code></pre>
+
+<p>and switch to it using</p>
+
+<pre><code>git checkout branch_xx
+</code></pre>
+
+<p>or,</p>
+
+<pre><code>git checkout -b branch_xx
+</code></pre>
+
+<p>do the same work.</p>
+
+<h3>Working Directory, Index, HEAD</h3>
+
+<p>your local repository consists of three &ldquo;trees&rdquo; maintained by git. the first one is your <code>Working Directory</code> which holds the actual files. the second one is the <code>Index</code> which acts as a staging area and finally the <code>HEAD</code> which points to the last commit you&rsquo;ve made.</p>
+
+<h2>Basic Workflow</h2>
+
+<h3>checkout a repository</h3>
+
+<p>create a working copy of a local repository by running the command</p>
+
+<pre><code>git clone /path/to/repository 
+</code></pre>
+
+<p>when using a remote server, your command will be</p>
+
+<pre><code>git clone username@host:/path/to/repository
+</code></pre>
+
+<h3>Fetch</h3>
+
+<p>Fetch the latest history from the server, use this command</p>
+
+<pre><code>git fetch repo_path
+</code></pre>
+
+<h3>Add</h3>
+
+<p>This is the first step in the basic git workflow. You can propose changes (add it to the Index) using</p>
+
+<pre><code>git add &lt;filename&gt;
+</code></pre>
+
+<p>or</p>
+
+<pre><code>git add *
+</code></pre>
+
+<p>to add all the untracked files.</p>
+
+<h3>Commit</h3>
+
+<p>To actually commit these changes use</p>
+
+<pre><code>git commit -m "Commit message, it's necessary for a detail description of the changes."
+</code></pre>
+
+<p>Now the file is committed to the HEAD, but not in your remote repository yet.</p>
+
+<h3>Merge &amp; Pull</h3>
+
+<p>To merge another branch into your active branch (e.g. master), use</p>
+
+<pre><code>git merge master
+</code></pre>
+
+<p>to update your local repository to the newest commit, execute</p>
+
+<pre><code>git pull repo_path branch_xx
+</code></pre>
+
+<p>in your working directory to fetch and merge remote changes, in both cases git tries to auto-merge changes.</p>
+
+<p>Unfortunately, this is not always possible and results in conflicts. You are responsible to merge those conflicts manually by editing the files shown by git. Show unmerged paths which contains conflicts and changes that uncommited,</p>
+
+<pre><code>git status
+</code></pre>
+
+<p>After changing, you need to mark them as merged with</p>
+
+<pre><code>git add &lt;filename&gt;
+</code></pre>
+
+<p>before merging changes, you can also preview them by using</p>
+
+<pre><code>git diff --cached
+</code></pre>
+
+<p>Then <strong>commit</strong> all the changes to keep the working  directory <strong>clean</strong>,</p>
+
+<pre><code>git commit -a -m "Conflicts fixed."
+</code></pre>
+
+<h3>Push changes</h3>
+
+<p>Your changes are now in the HEAD of your local working copy. To send those changes to your remote repository, execute</p>
+
+<pre><code>git push repo_path branch_xx
+</code></pre>
+
+<p>Change <code>branch_xx</code> to whatever branch you want to push your changes to.</p>
+
+<h3>Tagging</h3>
+
+<p>It&rsquo;s recommended to create tags for software releases. this is a known concept, which also exists in SVN. You can create a new tag named 1.0.0 by executing</p>
+
+<pre><code>git tag 1.0.0 1b2e1d63ff
+</code></pre>
+
+<p>the 1b2e1d63ff stands for the first 10 characters of the commit id you want to reference with your tag. You can get the commit id with</p>
+
+<pre><code>git log
+</code></pre>
+
+<p>you can also use fewer characters of the commit id, it just has to be unique.</p>
+
+<h3>Reseting</h3>
+
+<p>In case you did something wrong (which for sure never happens ;) you can replace local changes using the command</p>
+
+<pre><code>git checkout -- &lt;filename&gt;
+</code></pre>
+
+<p>this replaces the changes in your working tree with the last content in HEAD, if it&rsquo;s a new and already tracked file of <filename>, then will be changed to <strong>untracked</strong>. Changes already added to the index, as well as new files, <strong>will be kept</strong>.</p>
+
+<p>Actually this would not remove the newly added files, this is pretty much like the command line</p>
+
+<pre><code>git reset
+</code></pre>
+
+<p><strong>however</strong>, such command just make the newly tracked file untracked, the changed content is excluded.</p>
+
+<pre><code>git reset --hard
+</code></pre>
+
+<p>This command will purge the working directory to the last commits.</p>
+
+<p>If you instead want to drop all your changes or commits</p>
+
+<pre><code>git reset --hard HEAD_ID
+</code></pre>
+
+<p>this will remove all the commits after the commit with the <em>HEAD_ID</em>.</p>
+
+<p>Fetch the latest history from the server and point your local branch_xx branch at it like this</p>
+
+<pre><code>git reset --hard repo_path/branch_xx
+</code></pre>
+
+<h2>References</h2>
+
+<ol>
+<li><a href="http://en.wikipedia.org/wiki/Git_(software">WIKI Git</a>)</li>
+<li><a href="http://blog.csdn.net/kasagawa/article/details/6797812">Git for Small Development Group</a></li>
+<li><a href="http://viget.com/extend/getting-to-know-git">Getting to Know Git</a></li>
+<li><a href="http://rogerdudler.github.io/git-guide/">Simple Git Guide, No Deep Shit</a></li>
+</ol>
+
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Abbreviation in Linux System]]></title>
@@ -39,41 +235,9 @@
 
 <p>Perhaps the most confusing jargon in Linux relates to terminals. TTY is an old abbreviation for a TeleTYpe. Teletypes, or teletypewriters, were originally printer-keyboard combinations that read and sent information over a serial line, not too different from an ancient telegraph machine. Later on, when computers only ran in batch mode (when card readers were the only way to get your program loaded), a teletype was the only useful &ldquo;real time&rdquo; input/output device available. Eventually teletypes were replaced with keyboard-and-screen terminals, but the operating system still needed a program to watch the serial port where the terminal or TTY was plugged in. That&rsquo;s what a getty &ldquo;GEt TTY&rdquo; process is: a program watching a physical TTY/terminal port. A Pseudo-TTY (a fake TTY, a &ldquo;PTY&rdquo;) is the terminal equivalent of a virtual network computing (VNC) server. When you run an xterm or GNOME Terminal program, the PTY acts as a TTY for the virtual or pseudo terminal that the xterm represents. &ldquo;Pseudo,&rdquo; meaning &ldquo;duplicating in a fake way,&rdquo; is really a more descriptive term than &ldquo;virtual&rdquo; or &ldquo;emulated.&rdquo; It&rsquo;s a shame that it has fallen out of fashion in computing.</p>
 
-<p>bin = BINaries</p>
-
-<p>/dev = DEVices</p>
-
-<p>/etc = ETCetera</p>
-
-<p>/lib = LIBrary</p>
-
-<p>/proc = PROCesses</p>
-
 <p>/sbin = Superuser BINaries</p>
 
-<p>/tmp = TeMPorary</p>
-
 <p>/usr = Unix Shared Resources</p>
-
-<p>/var = VARiable</p>
-
-<p>FIFO = First In, First Out</p>
-
-<p>GRUB = GRand Unified Bootloader</p>
-
-<p>IFS = Internal Field Seperators</p>
-
-<p>LILO = LInux LOader</p>
-
-<p>PHP = Personal Home Page</p>
-
-<p>PS = Prompt String</p>
-
-<p>Perl = &ldquo;Pratical Extraction and Report Language&rdquo; = &ldquo;Pathologically Eclectic Rubbish Lister&rdquo;</p>
-
-<p>Python Derived from Monty Python&rsquo;s Flying Circus</p>
-
-<p>Tcl = Tool Command Language</p>
 
 <p>Tk = ToolKit</p>
 
@@ -81,19 +245,11 @@
 
 <p>YaST = Yet Another Setup Tool</p>
 
-<p>apache = &ldquo;a patchy&rdquo; server</p>
-
 <p>apt = Advanced Packaging Tool</p>
-
-<p>ar = archiver</p>
-
-<p>as = assembler</p>
 
 <p>awk = &ldquo;Aho Weiberger and Kernighan&rdquo;, Acronyms of Three Author&rsquo;s Names.</p>
 
 <p>bash = Bourne Again SHell</p>
-
-<p>bc = Basic (Better) Calculator</p>
 
 <p>biff = Dog&rsquo;s Name of the Author</p>
 
@@ -103,21 +259,11 @@
 
 <p>cd = Change Directory</p>
 
-<p>chgrp = CHange GRouP</p>
-
-<p>chmod = CHange MODe</p>
-
-<p>chown = CHange OWNer</p>
-
-<p>chsh = CHange SHell</p>
-
 <p>cmp = compare</p>
 
 <p>cobra = Common Object Request Broker Architecture</p>
 
 <p>comm = common</p>
-
-<p>cp = CoPy</p>
 
 <p>cpio = CoPy In and Out</p>
 
@@ -127,8 +273,6 @@
 
 <p>cups = Common Unix Printing System</p>
 
-<p>cvs = Current Version System</p>
-
 <p>daemon = Disk And Execution MONitor</p>
 
 <p>dc = Desk Calculator</p>
@@ -136,8 +280,6 @@
 <p>dd = Disk Dump</p>
 
 <p>df = Disk Free</p>
-
-<p>diff = DIFFerence</p>
 
 <p>dmesg = diagnostic message</p>
 
@@ -191,35 +333,21 @@
 
 <p>lisp = LISt Processing = Lots of Irritating Superfluous Parentheses</p>
 
-<p>ln = LiNk</p>
-
 <p>lpr = Line PRint</p>
-
-<p>ls = list</p>
 
 <p>lsof = LiSt Open Files</p>
 
 <p>m4 = Macro processor Version 4</p>
 
-<p>man = MANual pages</p>
-
 <p>mawk = Mike Brennan&rsquo;s AWK</p>
 
 <p>mc = Midnight Commander</p>
-
-<p>mkfs = MaKe FileSystem</p>
 
 <p>mknod = MaKe NODe</p>
 
 <p>motd = Message of The Day</p>
 
-<p>mozilla = MOsaic GodZILLa</p>
-
 <p>mtab = Mount TABle</p>
-
-<p>mv = MoVe</p>
-
-<p>nano = Nano&rsquo;s ANOther editor</p>
 
 <p>nawk = New AWK</p>
 
@@ -232,8 +360,6 @@
 <p>nroff = New ROFF</p>
 
 <p>od = Octal Dump</p>
-
-<p>passwd = PASSWorD</p>
 
 <p>pg = pager</p>
 
@@ -249,21 +375,15 @@
 
 <p>pr = pre</p>
 
-<p>printf = PRINT Formatted</p>
-
 <p>ps = Processes Status</p>
 
 <p>pty = pseudo tty</p>
 
 <p>pushd = PUSH Directory</p>
 
-<p>pwd = Print Working Directory</p>
-
 <p>rc = runcom = run commands, also shell of plan9</p>
 
 <p>rev = REVerse</p>
-
-<p>rm = ReMove</p>
 
 <p>rn = Read News</p>
 
@@ -281,17 +401,9 @@
 
 <p>shar = SHell ARchive</p>
 
-<p>slrn = S-Lang rn</p>
-
-<p>ssh = Secure SHell</p>
-
-<p>ssl = Secure Sockets Layer</p>
-
 <p>stty = Set TTY</p>
 
-<p>su = Substitute User</p>
-
-<p>svn = SubVersioN</p>
+<p>su = Switch User</p>
 
 <p>tar = Tape ARchive</p>
 
@@ -350,12 +462,6 @@
 <p>yacc = yet another compiler compiler</p>
 
 <p>Fish = the Friendly Interactive SHell</p>
-
-<p>su = Switch User</p>
-
-<p>MIME = Multipurpose Internet Mail Extensions</p>
-
-<p>ECMA = European Computer Manufacturers Association</p>
 
 <h2>References:</h2>
 
@@ -1202,7 +1308,7 @@ Pessimistic locking assumes that concurrency/collision issues will happen so a l
 <p>Output:</p>
 
 <blockquote><p><a href="http://www.iovi.com">http://www.iovi.com</a><br/>
-<a href="&#109;&#97;&#x69;&#108;&#x74;&#x6f;&#58;&#115;&#111;&#x6d;&#101;&#98;&#x62;&#111;&#x62;&#x40;&#x69;&#x6f;&#x76;&#x69;&#x2e;&#99;&#111;&#x6d;">&#115;&#x6f;&#x6d;&#101;&#98;&#x62;&#x6f;&#98;&#64;&#105;&#x6f;&#x76;&#x69;&#x2e;&#x63;&#111;&#109;</a></p></blockquote>
+<a href="&#x6d;&#x61;&#x69;&#108;&#116;&#x6f;&#x3a;&#x73;&#x6f;&#109;&#101;&#x62;&#98;&#111;&#x62;&#x40;&#105;&#111;&#x76;&#x69;&#x2e;&#99;&#x6f;&#x6d;">&#115;&#x6f;&#109;&#x65;&#x62;&#98;&#x6f;&#98;&#64;&#105;&#111;&#x76;&#105;&#x2e;&#x63;&#111;&#x6d;</a></p></blockquote>
 
 <p>To use text for the link, write it:</p>
 
