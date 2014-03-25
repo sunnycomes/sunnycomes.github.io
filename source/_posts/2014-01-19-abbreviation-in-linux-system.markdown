@@ -23,41 +23,10 @@ Most large subsystems that run on Linux today, like GNOME or Oracle, use their o
 ###TTY
 Perhaps the most confusing jargon in Linux relates to terminals. TTY is an old abbreviation for a TeleTYpe. Teletypes, or teletypewriters, were originally printer-keyboard combinations that read and sent information over a serial line, not too different from an ancient telegraph machine. Later on, when computers only ran in batch mode (when card readers were the only way to get your program loaded), a teletype was the only useful "real time" input/output device available. Eventually teletypes were replaced with keyboard-and-screen terminals, but the operating system still needed a program to watch the serial port where the terminal or TTY was plugged in. That's what a getty "GEt TTY" process is: a program watching a physical TTY/terminal port. A Pseudo-TTY (a fake TTY, a "PTY") is the terminal equivalent of a virtual network computing (VNC) server. When you run an xterm or GNOME Terminal program, the PTY acts as a TTY for the virtual or pseudo terminal that the xterm represents. "Pseudo," meaning "duplicating in a fake way," is really a more descriptive term than "virtual" or "emulated." It's a shame that it has fallen out of fashion in computing.
 
-bin = BINaries
-
-/dev = DEVices
-
-/etc = ETCetera
-
-/lib = LIBrary
-
-/proc = PROCesses
 
 /sbin = Superuser BINaries
 
-/tmp = TeMPorary
-
 /usr = Unix Shared Resources
-
-/var = VARiable
-
-FIFO = First In, First Out
-
-GRUB = GRand Unified Bootloader
-
-IFS = Internal Field Seperators
-
-LILO = LInux LOader
-
-PHP = Personal Home Page
-
-PS = Prompt String
-
-Perl = "Pratical Extraction and Report Language" = "Pathologically Eclectic Rubbish Lister"
-
-Python Derived from Monty Python's Flying Circus
-
-Tcl = Tool Command Language
 
 Tk = ToolKit
 
@@ -65,19 +34,11 @@ VT = Video Terminal
 
 YaST = Yet Another Setup Tool
 
-apache = "a patchy" server
-
 apt = Advanced Packaging Tool
-
-ar = archiver
-
-as = assembler
 
 awk = "Aho Weiberger and Kernighan", Acronyms of Three Author's Names.
 
 bash = Bourne Again SHell
-
-bc = Basic (Better) Calculator
 
 biff = Dog's Name of the Author
 
@@ -87,21 +48,11 @@ cat = CATenate
 
 cd = Change Directory
 
-chgrp = CHange GRouP
-
-chmod = CHange MODe
-
-chown = CHange OWNer
-
-chsh = CHange SHell
-
 cmp = compare
 
 cobra = Common Object Request Broker Architecture
 
 comm = common
-
-cp = CoPy
 
 cpio = CoPy In and Out
 
@@ -111,8 +62,6 @@ cron = Chronos
 
 cups = Common Unix Printing System
 
-cvs = Current Version System
-
 daemon = Disk And Execution MONitor
 
 dc = Desk Calculator
@@ -120,8 +69,6 @@ dc = Desk Calculator
 dd = Disk Dump
 
 df = Disk Free
-
-diff = DIFFerence
 
 dmesg = diagnostic message
 
@@ -175,35 +122,21 @@ lex = LEXical analyser
 
 lisp = LISt Processing = Lots of Irritating Superfluous Parentheses
 
-ln = LiNk
-
 lpr = Line PRint
-
-ls = list
 
 lsof = LiSt Open Files
 
 m4 = Macro processor Version 4
 
-man = MANual pages
-
 mawk = Mike Brennan's AWK
 
 mc = Midnight Commander
-
-mkfs = MaKe FileSystem
 
 mknod = MaKe NODe
 
 motd = Message of The Day
 
-mozilla = MOsaic GodZILLa
-
 mtab = Mount TABle
-
-mv = MoVe
-
-nano = Nano's ANOther editor
 
 nawk = New AWK
 
@@ -216,8 +149,6 @@ nohup = No HangUP
 nroff = New ROFF
 
 od = Octal Dump
-
-passwd = PASSWorD
 
 pg = pager
 
@@ -233,21 +164,15 @@ popd = POP Directory
 
 pr = pre
 
-printf = PRINT Formatted
-
 ps = Processes Status
 
 pty = pseudo tty
 
 pushd = PUSH Directory
 
-pwd = Print Working Directory
-
 rc = runcom = run commands, also shell of plan9
 
 rev = REVerse
-
-rm = ReMove
 
 rn = Read News
 
@@ -265,17 +190,9 @@ seq = SEQuence
 
 shar = SHell ARchive
 
-slrn = S-Lang rn
-
-ssh = Secure SHell
-
-ssl = Secure Sockets Layer
-
 stty = Set TTY
 
-su = Substitute User
-
-svn = SubVersioN
+su = Switch User
 
 tar = Tape ARchive
 
@@ -334,13 +251,6 @@ xwd = X Window Dump
 yacc = yet another compiler compiler
 
 Fish = the Friendly Interactive SHell
-
-su = Switch User
-
-MIME = Multipurpose Internet Mail Extensions
-
-ECMA = European Computer Manufacturers Association
-
 
 
 ##References:
