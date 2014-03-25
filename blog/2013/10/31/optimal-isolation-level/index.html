@@ -1,0 +1,432 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Optimal JDBC Transaction Isolation Level - I/O VIsion</title>
+  <meta name="author" content="Sunny">
+
+  
+  <meta name="description" content="Choose optimal isolation level Isolation level represent how a database maintains data integrity against the problems like dirty reads, phantom reads &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://www.iovi.com/blog/2013/10/31/optimal-isolation-level">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="I/O VIsion" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="./javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-43860851-1']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://' : 'http://') + 'stats.g.doubleclick.net/dc.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-43860851-1', 'iovi.com');
+  ga('send', 'pageview');
+
+</script>
+
+
+
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">I/O VIsion</a></h1>
+  
+    <h2>Do one thing at a time, and do well.</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:www.iovi.com" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+
+
+<li><a href="/">Home</a></li>
+
+<li><a href="/blog/archives">Archives</a></li>
+
+<li><a href="/blog/categories/stuff">Stuff</a></li>
+
+<li><a href="/bookshelf">Bookshelf</a></li>
+
+<!--
+	<li><a href="/blog/stuff">Stuff</a></li>
+
+	Commented out for present.
+<li><a href="/blog/categories/data-mining">Data Mining</a></li>
+
+<li><a href="/blog/bookrack ">Bookrack</a></li>
+
+-->
+<li><a href="/about ">About</a></li>
+
+
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">Optimal JDBC Transaction Isolation Level</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-10-31T16:09:47+08:00" pubdate data-updated="true">Oct 31<span>st</span>, 2013</time>
+        
+           | <a href="#disqus_thread"
+             data-disqus-identifier="http://www.iovi.com">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><h2>Choose optimal isolation level</h2>
+
+<p>Isolation level represent how a database maintains data integrity against the problems like dirty reads, phantom reads and non-repeatable reads which can occur due to concurrent transactions. java.sql.Connection interface provides  methods and constants to avoid the above mentioned problems by setting different isolation levels.</p>
+
+<pre><code>public interface Connection {
+    public static final int  TRANSACTION_NONE                 = 0
+    public static final int  TRANSACTION_READ_UNCOMMITTED     = 1
+    public static final int  TRANSACTION_READ_COMMITTED       = 2
+    public static final int  TRANSACTION_REPEATABLE_READ      = 4
+    public static final int  TRANSACTION_SERIALIZABLE         = 8
+    int    getTransactionIsolation();
+    void   setTransactionIsolation(int isolationlevelconstant);
+}
+</code></pre>
+
+<!-- more -->
+
+
+<p>You can get the existing isolation level with getTransactionIsolation() method and set the isolation level with setTransactionIsolation(int isolationlevelconstant) by passing above constants to this method.
+The following table describes isolation level against the problem that it prevents :</p>
+
+<table>
+<thead>
+<tr>
+<th align="center">Transaction Level       </th>
+<th align="center"> Dirty reads   </th>
+<th align="center">Non  Repeatable reads  </th>
+<th align="center"> Phantom reads </th>
+<th align="center">Performance impact</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="center">TRANSACTION_NONE        </td>
+<td align="center"> N/A       </td>
+<td align="center"> N/A           </td>
+<td align="center"> N/A       </td>
+<td align="center"> FASTEST</td>
+</tr>
+<tr>
+<td align="center">TRANSACTION_READ_UNCOMMITED </td>
+<td align="center"> YES       </td>
+<td align="center"> YES           </td>
+<td align="center"> YES       </td>
+<td align="center"> FASTEST</td>
+</tr>
+<tr>
+<td align="center">TRANSACTION_READ_COMMITED   </td>
+<td align="center"> NO        </td>
+<td align="center"> YES           </td>
+<td align="center"> YES       </td>
+<td align="center"> FAST</td>
+</tr>
+<tr>
+<td align="center">TRANSACTION_REPEATABLE_READ </td>
+<td align="center"> NO        </td>
+<td align="center"> NO            </td>
+<td align="center"> YES       </td>
+<td align="center"> MEDIUM</td>
+</tr>
+<tr>
+<td align="center">TRANSACTION_SERIALIZABLE    </td>
+<td align="center"> NO        </td>
+<td align="center"> NO            </td>
+<td align="center"> NO        </td>
+<td align="center"> SLOW</td>
+</tr>
+</tbody>
+</table>
+
+
+<br/>
+
+
+<ul>
+<li>YES means that the Isolation level does not prevent the problem</li>
+<li>NO means that the Isolation level prevents the problem</li>
+</ul>
+
+
+<p>By setting isolation levels, you are having an impact on the performance as mentioned in the above table. Database use read and write locks to control above isolation levels. Let us have a look at each of these problems and then look at the impact on the performance.</p>
+
+<h3>Dirty read problem :</h3>
+
+<p>The following figure illustrates Dirty read problem  :</p>
+
+<p> <img src="/images/upload/dirty_read.gif" alt="dirty_read" /></p>
+
+<pre><code>Step 1:    Database row has PRODUCT = A001 and PRICE = 10
+Step 2:    Connection1 starts  Transaction1 (T1) .
+Step 3:    Connection2 starts  Transaction2 (T2) .
+Step 4:    T1 updates PRICE =20 for PRODUCT = A001
+Step 5:    Database has now PRICE = 20 for PRODUCT = A001
+Step 6:    T2 reads PRICE = 20 for PRODUCT = A001
+Step 7:    T2 commits transaction
+Step 8:    T1 rollbacks the transaction because of some problem
+</code></pre>
+
+<p>The problem is that T2 gets wrong PRICE=20 for PRODUCT = A001 instead of 10 because of uncommitted read.Obviously it is very dangerous in critical transactions if you read inconsistent data. If you  are sure about not accessing data concurrently  then you can allow this problem by setting TRANSACTION_READ_UNCOMMITED or TRANSACTION_NONE that in turn improves performance otherwise you have to use TRANSACTION_READ_COMMITED to avoid this problem.</p>
+
+<h3>Unrepeatable read problem :</h3>
+
+<p>The following figure illustrates Unrepeatable read problem  :</p>
+
+<p><img src="/images/upload/unrepeatable_read.gif" alt="unrepeatable_read" /></p>
+
+<pre><code>Step 1:    Database row has PRODUCT = A001 and PRICE = 10
+Step 2:    Connection1 starts  Transaction1 (T1) .
+Step 3:    Connection2 starts  Transaction2 (T2) .
+Step 4:    T1 reads PRICE =10 for PRODUCT = A001
+Step 5:    T2 updates PRICE = 20 for PRODUCT = A001
+Step 6:    T2 commits transaction
+Step 7:    Database row has PRODUCT = A001 and PRICE = 20
+Step 8:    T1 reads PRICE = 20 for PRODUCT = A001
+Step 9:    T1 commits transaction
+</code></pre>
+
+<p>Here the problem is that Transaction1 reads 10 first time and reads 20 second time but it is supposed to be 10 always whenever it reads a record in that transaction. You can control this problem by setting isolation level as TRANSACTION_REPEATABLE_READ(setting for which one? Of course both).</p>
+
+<h3>Phantom read problem :</h3>
+
+<p>The following figure illustrates Phantom read problem  :</p>
+
+<p><img src="/images/upload/phantom_read.gif" alt="phantom_read" /></p>
+
+<pre><code>Step 1:    Database has a row PRODUCT = A001 and COMPANY_ID = 10
+Step 2:    Connection1 starts  Transaction1 (T1) .
+Step 3:    Connection2 starts  Transaction2 (T2) .
+Step 4:    T1 selects a row with a condition SELECT PRODUCT WHERE COMPANY_ID = 10
+Step 5:    T2 inserts a row with a condition INSERT PRODUCT=A002  WHERE COMPANY_ID= 10
+Step 6:    T2 commits transaction
+Step 7:    Database has 2 rows with that condition
+Step 8:    T1 select again with a condition SELECT PRODUCT WHERE COMPANY_ID=10 and gets 2 rows instead of 1 row
+Step 9:    T1 commits transaction
+</code></pre>
+
+<p>Here the problem is that T1 gets 2 rows instead of 1 row up on selecting the same condition second time. You can control this problem by setting isolation level as <code>TRANSACTION_SERIALIZABLE</code></p>
+
+<h2>Choosing a right isolation level for your program:</h2>
+
+<p>Choosing a right isolation level for your program depends upon your application&rsquo;s requirement. In single application itself the requirement generally changes, suppose if you write a program for searching a product catalog from your database then you can easily choose <code>TRANSACTION_READ_UNCOMMITED</code> because you need not worry about the problems that are mentioned above, some other program can insert records at the same time, you don&rsquo;t have to bother much about that insertion. Obviously this improves performance significantly.</p>
+
+<p>If you write a critical program like bank or stocks analysis program where you want to control all of the above mentioned problems, you can choose TRANSACTION_SERIALIZABLE for maximum safety. Here it is the tradeoff between the safety and performance. Ultimately we need safety here.
+If you don&rsquo;t have to deal with concurrent transactions your application, then the best choice is <code>TRANSACTION_NONE</code> to improve performance.
+Other two isolation levels need good understanding of your requirement. If your application needs only committed records, then <code>TRANSACTION_READ_COMMITED</code> isolation is the good choice. If your application needs to read a row exclusively till you  finish your work, then <code>TRANSACTION_REPEATABLE_READ</code> is the best choice.
+Note: Be aware of your database server&rsquo;s support for these isolation levels. Database servers may not support all of these isolation levels. Oracle server supports only two isolation levels, <code>TRANSACTION_READ_COMMITED</code> and <code>TRANSACTION_SERIALIZABLE</code> isolation level, default isolation level is <code>TRANSACTION_READ_COMMITED</code>.</p>
+
+<h2>References</h2>
+
+<ul>
+<li><a href="http://www.precisejava.com/javaperf/j2ee/JDBC.htm#JDBC102">Best practices to improve performance in JDBC</a></li>
+<li><a href="http://www.codeproject.com/Articles/114262/6-ways-of-doing-locking-in-NET-Pessimistic-and-opt#Solution%20number%202:-%20Use%20timestamp%20data%20type">6 ways of doing locking in .NET (Pessimistic and optimistic)</a></li>
+</ul>
+
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">Sunny</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-10-31T16:09:47+08:00" pubdate data-updated="true">Oct 31<span>st</span>, 2013</time>
+      
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2013/10/21/optimistic-and-pessimistic-locking/" title="Previous Post: Optimistic and Pessimistic Locking">&laquo; Optimistic and Pessimistic Locking</a>
+      
+      
+        <a class="basic-alignment right" href="/blog/2013/11/11/best-practices-to-improve-performance-in-JDBC/" title="Next Post: Best practices to improve performance in JDBC">Best practices to improve performance in JDBC &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+  <section>
+    <h1>Comments</h1>
+    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+  </section>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2014/01/19/abbreviation-in-linux-system/">Abbreviation in Linux System</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2013/12/11/java-performance-tunning-tips/">Java Performance Tuning Tips</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2013/11/11/best-practices-to-improve-performance-in-JDBC/">Best Practices to Improve Performance in JDBC</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2013/10/31/optimal-isolation-level/">Optimal JDBC Transaction Isolation Level</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2013/10/21/optimistic-and-pessimistic-locking/">Optimistic and Pessimistic Locking</a>
+      </li>
+    
+  </ul>
+</section>
+<section>
+  <h1>Tags</h1>
+  <ul class="tag-cloud">
+    <a style="font-size: 210%" href="/tags/database/">Database</a>
+<a style="font-size: 210%" href="/tags/java/">Java</a>
+<a style="font-size: 90%" href="/tags/linux/">Linux</a>
+<a style="font-size: 210%" href="/tags/mysql/">MySQL</a>
+
+  </ul>
+</section>
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2014 - Sunny -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+<script type="text/javascript">
+      var disqus_shortname = 'sunnycomes';
+      
+        
+        // var disqus_developer = 1;
+        var disqus_identifier = 'http://www.iovi.com/blog/2013/10/31/optimal-isolation-level/';
+        var disqus_url = 'http://www.iovi.com/blog/2013/10/31/optimal-isolation-level/';
+        var disqus_script = 'embed.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = '//' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>

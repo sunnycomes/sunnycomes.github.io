@@ -1,0 +1,621 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Abbreviation in Linux System - I/O VIsion</title>
+  <meta name="author" content="Sunny">
+
+  
+  <meta name="description" content="Unix is 35. Some people consider that the official start of middle age, although for a computer technology it&rsquo;s more like existing since the &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://www.iovi.com/blog/2014/01/19/abbreviation-in-linux-system">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="I/O VIsion" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="./javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-43860851-1']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://' : 'http://') + 'stats.g.doubleclick.net/dc.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-43860851-1', 'iovi.com');
+  ga('send', 'pageview');
+
+</script>
+
+
+
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">I/O VIsion</a></h1>
+  
+    <h2>Do one thing at a time, and do well.</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:www.iovi.com" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+
+
+<li><a href="/">Home</a></li>
+
+<li><a href="/blog/archives">Archives</a></li>
+
+<li><a href="/blog/categories/stuff">Stuff</a></li>
+
+<li><a href="/bookshelf">Bookshelf</a></li>
+
+<!--
+	<li><a href="/blog/stuff">Stuff</a></li>
+
+	Commented out for present.
+<li><a href="/blog/categories/data-mining">Data Mining</a></li>
+
+<li><a href="/blog/bookrack ">Bookrack</a></li>
+
+-->
+<li><a href="/about ">About</a></li>
+
+
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">Abbreviation in Linux System</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-01-19T09:42:19+08:00" pubdate data-updated="true">Jan 19<span>th</span>, 2014</time>
+        
+           | <a href="#disqus_thread"
+             data-disqus-identifier="http://www.iovi.com">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><p>Unix is 35. Some people consider that the official start of middle age, although for a computer technology it&rsquo;s more like existing since the Middle Ages. Over that time, Unix and its child Linux have collected a lot of history and some quite archaic language. In this tip, we&rsquo;ll have a look at a few of the more ancient bits of crusty stuff and identify their purposes, if not their actual origins.</p>
+
+<h3>RC</h3>
+
+<p>Perhaps the most common abbreviation in Linux is &ldquo;rc,&rdquo; short for &ldquo;runcomm&rdquo; &mdash; short in term for &ldquo;run command.&rdquo; Today, &ldquo;rc&rdquo; is a suffix added to any script-like file that is called during the startup stage of a program, or of Linux in general. Thus /etc/rc is the master script for Linux startup, and .bashrc is the script that runs when the bash shell starts. The &ldquo;.&rdquo; prefix on .bashrc is a naming standard designed only to hide user-specific administrative files from user files; the &ldquo;ls&rdquo; command doesn&rsquo;t list such files by default, and &ldquo;rm&rdquo; doesn&rsquo;t delete them by default. Many programs demand that startup files or profile files begin with a period or have an &ldquo;rc&rdquo; suffix, but there&rsquo;s nothing magical about either from the file system&rsquo;s perspective.</p>
+
+<!-- more -->
+
+
+<h3>ETC</h3>
+
+<p>The &ldquo;etc&rdquo; in &ldquo;/etc/bin&rdquo; really does stand for &ldquo;etcetera.&rdquo; In early Unix systems, the most important directory was the &ldquo;bin&rdquo; directory (short for &ldquo;binaries&rdquo; &mdash; compiled programs), and &ldquo;etc&rdquo; was for trivial stuff like startup, shutdown and admin. The list of things you need for running Linux is: a program binary, etcetera, etcetera &mdash; in other words, a sole vital item, plus some less important bits and pieces. Today, &ldquo;etc&rdquo; holds system-wide configuration files that you&rsquo;d almost never do without &mdash; hardly unimportant.</p>
+
+<h3>Bin</h3>
+
+<p>Most large subsystems that run on Linux today, like GNOME or Oracle, use their own &ldquo;bin&rdquo; directories (or /usr/bin or /usr/local/bin) as a standard place for compiled programs. It&rsquo;s common now to see scripts in those directories too, since &ldquo;bin&rdquo; directories are frequently added the PATH of a user, making their run-able programs available. So run-able scripts are often stuck in bin as well.</p>
+
+<h3>TTY</h3>
+
+<p>Perhaps the most confusing jargon in Linux relates to terminals. TTY is an old abbreviation for a TeleTYpe. Teletypes, or teletypewriters, were originally printer-keyboard combinations that read and sent information over a serial line, not too different from an ancient telegraph machine. Later on, when computers only ran in batch mode (when card readers were the only way to get your program loaded), a teletype was the only useful &ldquo;real time&rdquo; input/output device available. Eventually teletypes were replaced with keyboard-and-screen terminals, but the operating system still needed a program to watch the serial port where the terminal or TTY was plugged in. That&rsquo;s what a getty &ldquo;GEt TTY&rdquo; process is: a program watching a physical TTY/terminal port. A Pseudo-TTY (a fake TTY, a &ldquo;PTY&rdquo;) is the terminal equivalent of a virtual network computing (VNC) server. When you run an xterm or GNOME Terminal program, the PTY acts as a TTY for the virtual or pseudo terminal that the xterm represents. &ldquo;Pseudo,&rdquo; meaning &ldquo;duplicating in a fake way,&rdquo; is really a more descriptive term than &ldquo;virtual&rdquo; or &ldquo;emulated.&rdquo; It&rsquo;s a shame that it has fallen out of fashion in computing.</p>
+
+<p>bin = BINaries</p>
+
+<p>/dev = DEVices</p>
+
+<p>/etc = ETCetera</p>
+
+<p>/lib = LIBrary</p>
+
+<p>/proc = PROCesses</p>
+
+<p>/sbin = Superuser BINaries</p>
+
+<p>/tmp = TeMPorary</p>
+
+<p>/usr = Unix Shared Resources</p>
+
+<p>/var = VARiable</p>
+
+<p>FIFO = First In, First Out</p>
+
+<p>GRUB = GRand Unified Bootloader</p>
+
+<p>IFS = Internal Field Seperators</p>
+
+<p>LILO = LInux LOader</p>
+
+<p>PHP = Personal Home Page</p>
+
+<p>PS = Prompt String</p>
+
+<p>Perl = &ldquo;Pratical Extraction and Report Language&rdquo; = &ldquo;Pathologically Eclectic Rubbish Lister&rdquo;</p>
+
+<p>Python Derived from Monty Python&rsquo;s Flying Circus</p>
+
+<p>Tcl = Tool Command Language</p>
+
+<p>Tk = ToolKit</p>
+
+<p>VT = Video Terminal</p>
+
+<p>YaST = Yet Another Setup Tool</p>
+
+<p>apache = &ldquo;a patchy&rdquo; server</p>
+
+<p>apt = Advanced Packaging Tool</p>
+
+<p>ar = archiver</p>
+
+<p>as = assembler</p>
+
+<p>awk = &ldquo;Aho Weiberger and Kernighan&rdquo;, Acronyms of Three Author&rsquo;s Names.</p>
+
+<p>bash = Bourne Again SHell</p>
+
+<p>bc = Basic (Better) Calculator</p>
+
+<p>biff = Dog&rsquo;s Name of the Author</p>
+
+<p>cal = CALendar</p>
+
+<p>cat = CATenate</p>
+
+<p>cd = Change Directory</p>
+
+<p>chgrp = CHange GRouP</p>
+
+<p>chmod = CHange MODe</p>
+
+<p>chown = CHange OWNer</p>
+
+<p>chsh = CHange SHell</p>
+
+<p>cmp = compare</p>
+
+<p>cobra = Common Object Request Broker Architecture</p>
+
+<p>comm = common</p>
+
+<p>cp = CoPy</p>
+
+<p>cpio = CoPy In and Out</p>
+
+<p>cpp = C Pre Processor</p>
+
+<p>cron = Chronos</p>
+
+<p>cups = Common Unix Printing System</p>
+
+<p>cvs = Current Version System</p>
+
+<p>daemon = Disk And Execution MONitor</p>
+
+<p>dc = Desk Calculator</p>
+
+<p>dd = Disk Dump</p>
+
+<p>df = Disk Free</p>
+
+<p>diff = DIFFerence</p>
+
+<p>dmesg = diagnostic message</p>
+
+<p>du = Disk Usage</p>
+
+<p>ed = editor</p>
+
+<p>egrep = Extended GREP</p>
+
+<p>elf = Extensible Linking Format</p>
+
+<p>elm = ELectronic Mail</p>
+
+<p>emacs = Editor MACroS</p>
+
+<p>eval = EVALuate</p>
+
+<p>ex = EXtended</p>
+
+<p>exec = EXECute</p>
+
+<p>fd = file descriptors</p>
+
+<p>fg = ForeGround</p>
+
+<p>fgrep = Fixed GREP</p>
+
+<p>fmt = format</p>
+
+<p>fsck = File System ChecK</p>
+
+<p>fstab = FileSystem TABle</p>
+
+<p>fvwm = F*** Virtual Window Manager</p>
+
+<p>gawk = GNU AWK</p>
+
+<p>gpg = GNU Privacy Guard</p>
+
+<p>groff = GNU troff</p>
+
+<p>hal = Hardware Abstraction Layer</p>
+
+<p>joe = Joe&rsquo;s Own Editor</p>
+
+<p>ksh = Korn SHell</p>
+
+<p>lame = Lame Ain&rsquo;t an MP3 Encoder</p>
+
+<p>lex = LEXical analyser</p>
+
+<p>lisp = LISt Processing = Lots of Irritating Superfluous Parentheses</p>
+
+<p>ln = LiNk</p>
+
+<p>lpr = Line PRint</p>
+
+<p>ls = list</p>
+
+<p>lsof = LiSt Open Files</p>
+
+<p>m4 = Macro processor Version 4</p>
+
+<p>man = MANual pages</p>
+
+<p>mawk = Mike Brennan&rsquo;s AWK</p>
+
+<p>mc = Midnight Commander</p>
+
+<p>mkfs = MaKe FileSystem</p>
+
+<p>mknod = MaKe NODe</p>
+
+<p>motd = Message of The Day</p>
+
+<p>mozilla = MOsaic GodZILLa</p>
+
+<p>mtab = Mount TABle</p>
+
+<p>mv = MoVe</p>
+
+<p>nano = Nano&rsquo;s ANOther editor</p>
+
+<p>nawk = New AWK</p>
+
+<p>nl = Number of Lines</p>
+
+<p>nm = names</p>
+
+<p>nohup = No HangUP</p>
+
+<p>nroff = New ROFF</p>
+
+<p>od = Octal Dump</p>
+
+<p>passwd = PASSWorD</p>
+
+<p>pg = pager</p>
+
+<p>pico = PIne&rsquo;s message COmposition editor</p>
+
+<p>pine = &ldquo;Program for Internet News &amp; Email&rdquo; = &ldquo;Pine is not Elm&rdquo;</p>
+
+<p>ping = Packet InterNet Grouper</p>
+
+<p>pirntcap = PRINTer CAPability</p>
+
+<p>popd = POP Directory</p>
+
+<p>pr = pre</p>
+
+<p>printf = PRINT Formatted</p>
+
+<p>ps = Processes Status</p>
+
+<p>pty = pseudo tty</p>
+
+<p>pushd = PUSH Directory</p>
+
+<p>pwd = Print Working Directory</p>
+
+<p>rc = runcom = run commands, also shell of plan9</p>
+
+<p>rev = REVerse</p>
+
+<p>rm = ReMove</p>
+
+<p>rn = Read News</p>
+
+<p>roff = RunOFF</p>
+
+<p>rpm = RPM Package Manager = RedHat Package Manager</p>
+
+<p>rsh, rlogin, rvim, of which r stands for Remote</p>
+
+<p>rxvt = ouR XVT</p>
+
+<p>sed = Stream EDitor</p>
+
+<p>seq = SEQuence</p>
+
+<p>shar = SHell ARchive</p>
+
+<p>slrn = S-Lang rn</p>
+
+<p>ssh = Secure SHell</p>
+
+<p>ssl = Secure Sockets Layer</p>
+
+<p>stty = Set TTY</p>
+
+<p>su = Substitute User</p>
+
+<p>svn = SubVersioN</p>
+
+<p>tar = Tape ARchive</p>
+
+<p>tcsh = TENEX C shell</p>
+
+<p>tee = T</p>
+
+<p>telnet = TEminaL over Network</p>
+
+<p>termcap = terminal capability</p>
+
+<p>terminfo = terminal information</p>
+
+<p>tr = traslate</p>
+
+<p>troff = Typesetter new ROFF</p>
+
+<p>tsort = Topological SORT</p>
+
+<p>tty = TeleTypewriter</p>
+
+<p>twm = Tom&rsquo;s Window Manager</p>
+
+<p>tz = TimeZone</p>
+
+<p>udev = Userspace DEV</p>
+
+<p>ulimit = User&rsquo;s LIMIT</p>
+
+<p>umask = User&rsquo;s MASK</p>
+
+<p>uniq = UNIQue</p>
+
+<p>vi = VIsual = Very Inconvenient</p>
+
+<p>vim = Vi IMproved</p>
+
+<p>wall = write all</p>
+
+<p>wc = Word Count</p>
+
+<p>wine = WINE Is Not an Emulator</p>
+
+<p>xargs = eXtended ARGuments</p>
+
+<p>xdm = X Display Manager</p>
+
+<p>xlfd = X Logical Font Description</p>
+
+<p>xmms = X Multimedia System</p>
+
+<p>xrdb = X Resources DataBase</p>
+
+<p>xwd = X Window Dump</p>
+
+<p>yacc = yet another compiler compiler</p>
+
+<p>Fish = the Friendly Interactive SHell</p>
+
+<p>su = Switch User</p>
+
+<p>MIME = Multipurpose Internet Mail Extensions</p>
+
+<p>ECMA = European Computer Manufacturers Association</p>
+
+<h2>References:</h2>
+
+<ol>
+<li><strong><em><a href="http://searchenterpriselinux.techtarget.com/tip/Excavating-ancient-abbreviations-in-Linux">Excavating ancient abbreviations in Linux</a></em></strong></li>
+</ol>
+
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">Sunny</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-01-19T09:42:19+08:00" pubdate data-updated="true">Jan 19<span>th</span>, 2014</time>
+      
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2013/12/11/java-performance-tunning-tips/" title="Previous Post: Java Performance Tuning Tips">&laquo; Java Performance Tuning Tips</a>
+      
+      
+    </p>
+  </footer>
+</article>
+
+  <section>
+    <h1>Comments</h1>
+    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+  </section>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2014/01/19/abbreviation-in-linux-system/">Abbreviation in Linux System</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2013/12/11/java-performance-tunning-tips/">Java Performance Tuning Tips</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2013/11/11/best-practices-to-improve-performance-in-JDBC/">Best Practices to Improve Performance in JDBC</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2013/10/31/optimal-isolation-level/">Optimal JDBC Transaction Isolation Level</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2013/10/21/optimistic-and-pessimistic-locking/">Optimistic and Pessimistic Locking</a>
+      </li>
+    
+  </ul>
+</section>
+<section>
+  <h1>Tags</h1>
+  <ul class="tag-cloud">
+    <a style="font-size: 210%" href="/tags/database/">Database</a>
+<a style="font-size: 210%" href="/tags/java/">Java</a>
+<a style="font-size: 90%" href="/tags/linux/">Linux</a>
+<a style="font-size: 210%" href="/tags/mysql/">MySQL</a>
+
+  </ul>
+</section>
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2014 - Sunny -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+<script type="text/javascript">
+      var disqus_shortname = 'sunnycomes';
+      
+        
+        // var disqus_developer = 1;
+        var disqus_identifier = 'http://www.iovi.com/blog/2014/01/19/abbreviation-in-linux-system/';
+        var disqus_url = 'http://www.iovi.com/blog/2014/01/19/abbreviation-in-linux-system/';
+        var disqus_script = 'embed.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = '//' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>

@@ -1,0 +1,508 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: Stuff | I/O VIsion]]></title>
+  <link href="http://www.iovi.com/blog/categories/stuff/atom.xml" rel="self"/>
+  <link href="http://www.iovi.com/"/>
+  <updated>2014-03-21T15:28:16+08:00</updated>
+  <id>http://www.iovi.com/</id>
+  <author>
+    <name><![CDATA[Sunny]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Simple Guide for Markdown]]></title>
+    <link href="http://www.iovi.com/blog/2013/10/11/simple-guide-for-markdown/"/>
+    <updated>2013-10-11T21:35:48+08:00</updated>
+    <id>http://www.iovi.com/blog/2013/10/11/simple-guide-for-markdown</id>
+    <content type="html"><![CDATA[<p>Markdown was created to be easy to read, easy to write, and still readable in plain text format.</p>
+
+<ol>
+<li><a href="#links">Links</a></li>
+<li><a href="#reference_links">Reference Links</a></li>
+<li><a href="#artifact_links">Artifact Links</a></li>
+<li><a href="#basic_text_formatting">Basic Text Formatting</a></li>
+<li><a href="#blockquotes">Blockquotes</a></li>
+<li><a href="#preformatted_text">Preformatted Text</a></li>
+<li><a href="#lists">Lists</a></li>
+<li><a href="#tables">Tables</a></li>
+<li><a href="#more_headers">More Headers</a></li>
+<li><a href="#horizontal_rules">Horizontal Rules</a></li>
+<li><a href="#images">Images</a></li>
+<li><a href="#escapes_and_html">Escapes and HTML</a></li>
+<li><a href="#table_of_contents">Table of Contents</a></li>
+</ol>
+
+
+<!-- more -->
+
+
+<hr />
+
+<h2><a name='links'></a>Links</h2>
+
+<p>Most URLs will automatically be turned into links. To be explicit, just write it like this:</p>
+
+<pre><code>&lt;http://www.iovi.com&gt;  
+&lt;somebbob@iovi.com&gt;
+</code></pre>
+
+<p>Output:</p>
+
+<blockquote><p><a href="http://www.iovi.com">http://www.iovi.com</a><br/>
+<a href="&#x6d;&#x61;&#x69;&#x6c;&#x74;&#111;&#58;&#x73;&#x6f;&#109;&#101;&#x62;&#98;&#111;&#x62;&#x40;&#x69;&#111;&#x76;&#105;&#x2e;&#99;&#x6f;&#109;">&#x73;&#x6f;&#109;&#x65;&#x62;&#x62;&#x6f;&#98;&#64;&#x69;&#x6f;&#118;&#x69;&#x2e;&#x63;&#x6f;&#109;</a></p></blockquote>
+
+<p>To use text for the link, write it:</p>
+
+<pre><code>[like this](http://www.iovi.com)
+</code></pre>
+
+<p>You can add a <em>title</em> (which shows up under the cursor):</p>
+
+<pre><code>[like this](http://www.iovi.com "this title shows up when you hover")
+</code></pre>
+
+<p>Output:</p>
+
+<blockquote><p><a href="http://www.iovi.com">like this</a></p>
+
+<p>You can add a <em>title</em> (which shows up under the cursor):</p>
+
+<p><a href="http://www.iovi.com" title="this title shows up when you hover">like that</a></p></blockquote>
+
+<hr />
+
+<h2><a name='reference_links'></a>Reference Links</h2>
+
+<pre><code>You can also put the [link URL][1] below the current paragraph like [this][2].  
+[1]: http://www.iovi.com  
+[2]: http://www.iovi.com "I/O VIsion"  
+</code></pre>
+
+<p>Output:</p>
+
+<blockquote><p>You can also put the <a href="http://www.iovi.com">link URL</a> below the current paragraph <a href="http://www.iovi.com" title="I/O VIsion">like</a> this.</p></blockquote>
+
+<p>Here the text &ldquo;link URL&rdquo; gets linked to <code>http://www.iovi.com</code>, and the lines showing <code>[1]: http://www.iovi.com</code> won&rsquo;t show anything.</p>
+
+<pre><code>Or you can use a [shortcut][] reference, which links the text "shortcut" to the link named "[shortcut]" on the next paragraph.
+[shortcut]: http://www.iovi.com/goes/with/the/link/name/text
+</code></pre>
+
+<p>Output:</p>
+
+<blockquote><p>Or you can use a <a href="http://www.iovi.com/goes/with/the/link/name/text">shortcut</a> reference, which links the text &ldquo;shortcut&rdquo; to the link named &ldquo;<a href="http://www.iovi.com/goes/with/the/link/name/text">shortcut</a>&rdquo; on the next paragraph.</p></blockquote>
+
+<hr />
+
+<h2><a name='artifact_links'></a>Artifact Links</h2>
+
+<p>Any forge resource (artifact) can be linked with surrounding square brackets, e.g. <code>[MyPage]</code> or <code>[#123]</code>. These artifact links can take several forms(However, some of them haven&rsquo;t been tested yet).</p>
+
+<h3>Simple Links</h3>
+
+<p>Most commonly, the artifact identifier can simply be surrounded with square brackets. Here are some examples:</p>
+
+<pre><code>[MyWikiPage]       # Wiki - name of wiki page  
+[#123]             # Tracker - ticket number  
+[r10721]           # SVN - revision number  
+[3b9d48]           # Git &amp; Mercurial - first 6 characters of revision hash  
+[2012/02/my-post]  # Blog - post slug, including YYYY/MM/ prefix  
+[a6d38f98]         # Discussion Thread - thread id  
+[a6d38f98#42f8]    # Discussion Post - thread_id#post_id  
+</code></pre>
+
+<h3>Two-part Links</h3>
+
+<p>To link to an artifact in a specific tool, use the form: <code>[tool:artifact]</code>, where <code>tool</code> is the name of the tool as it appears in the URL. Two-part links are useful when you have two tools of the same type installed. For example, let&rsquo;s say you have a &lsquo;bugs&rsquo; tracker and a &lsquo;features&rsquo; tracker installed, and you want to link to the first ticket in each:</p>
+
+<pre><code>[bugs:#1]  
+[features:#1]
+</code></pre>
+
+<h3>Three-part Links</h3>
+
+<p>To link to an artifact in another project, use the form: <code>[project:tool:artifact]</code>, where <code>project</code> is the name of the project as it appears in the URL. For example:</p>
+
+<pre><code>[allura:wiki:Home]
+</code></pre>
+
+<p>To link to an artifact in a subproject, use the form: <code>[project/subproject:tool:artifact]</code>, where <code>subproject</code> is the name of the subproject as it appears in the URL. For example:</p>
+
+<pre><code>[allura/sub:code:3b9d48]
+</code></pre>
+
+<hr />
+
+<h2><a name='basic_text_formatting'></a>Basic Text Formatting</h2>
+
+<p>Use * or _ to emphasize things:</p>
+
+<pre><code>*this is in italic*  and _so is this_  
+**this is in bold**  and __so is this__  
+***this is bold and italic***  and ___so is this___
+</code></pre>
+
+<p>Output:</p>
+
+<blockquote><p><em>this is in italic</em>  and <em>so is this</em><br/>
+<strong>this is in bold</strong>  and <strong>so is this</strong><br/>
+<strong><em>this is bold and italic</em></strong>  and <strong><em>so is this</em></strong></p></blockquote>
+
+<p>You can strike through text using HTML like this:</p>
+
+<pre><code>&lt;s&gt;this is strike through text&lt;/s&gt;
+</code></pre>
+
+<p>Output:</p>
+
+<blockquote><p><s>this is strike through text</s></p></blockquote>
+
+<p>Two blank spaces at the end of the line do the same work as <code>&lt;br/&gt;</code> in <em>html</em>, making a line break. <em>(A little bit different from the origin post)</em>.<br/>
+Two carriage returns make a new paragraph.</p>
+
+<hr />
+
+<h2><a name='blockquotes'></a>Blockquotes</h2>
+
+<p>Use the > character in front of a line, just like in email</p>
+
+<pre><code>&gt; Use it if you're quoting a person, a song or whatever.
+
+&gt; You can use *italic* or lists inside them also.
+And just like with other paragraphs, all of these lines are still part of the blockquote, even without the &gt; character in front.
+</code></pre>
+
+<p>To end the blockquote, just put a <strong>blank line</strong> before the following paragraph.</p>
+
+<p>Output:</p>
+
+<blockquote><p>Use it if you&rsquo;re quoting a person, a song or whatever.</p>
+
+<p>You can use italic or lists inside them also.<br/>
+And just like with other paragraphs, all of these lines are still part of the blockquote, even without the > character in front.</p></blockquote>
+
+<hr />
+
+<h2><a name='preformatted_text'></a>Preformatted Text</h2>
+
+<p>If you want some text to show up exactly as you write it, without Markdown doing anything to it, just indent every line by at least 4 spaces (or 1 tab). As an alternative to indenting, you can use 4 or more tildes before and after the text. See examples in the Code Highlighting section(<em>xxxxx</em> at the head of line is a placeholder for one tab):</p>
+
+<pre><code>This line won't *have any markdown* formatting applied.  
+I can even write &lt;b&gt;HTML&lt;/b&gt; and it will show up as text.  
+This is great for showing program source code, or HTML or even  
+Markdown. &lt;b&gt;this won't show up as HTML&lt;/b&gt; but  
+exactly &lt;i&gt;as you see it in this text file&lt;/i&gt;.  
+</code></pre>
+
+<p>Within a paragraph, you can use backquotes to do the same thing.</p>
+
+<pre><code>`This won't be *italic* or **bold** at all.`
+</code></pre>
+
+<p>Output:</p>
+
+<blockquote><p>This line won&rsquo;t <em>have any markdown</em> formatting applied.<br/>
+I can even write <b>HTML</b> and it will show up as text.<br/>
+This is great for showing program source code, or HTML or even<br/>
+Markdown. <b>this won&rsquo;t show up as HTML</b> but<br/>
+exactly <i>as you see it in this text file</i>.</p></blockquote>
+
+<p>Within a paragraph, you can use backquotes to do the same thing.
+<code>This won't be *italic* or **bold** at all.</code></p>
+
+<h2><a name='lists'></a>Lists</h2>
+
+<pre><code>* an asterisk starts an unordered list
+* and this is another item in the list
++ or you can also use the + character
+- or the - character
+</code></pre>
+
+<p>To start an ordered list, write this:</p>
+
+<pre><code>1. this starts a list *with* numbers
++  this will show as number "2"
+*  this will show as number "3."
+9. any number, +, -, or * will keep the list going.
+    * just indent by 4 spaces (or tab) to make a sub-list
+        1. keep indenting for more sub lists
+    * here i'm back to the second level
+</code></pre>
+
+<p>Output:</p>
+
+<blockquote><ul>
+<li>an asterisk starts an unordered list</li>
+<li>and this is another item in the list</li>
+<li>or you can also use the + character</li>
+<li>or the &ndash; character</li>
+</ul>
+</blockquote>
+
+<p>To start an ordered and multi-level list, write this:</p>
+
+<blockquote><ol>
+<li>this starts a list <em>with</em> numbers</li>
+<li>this will show as number &ldquo;2&rdquo;</li>
+<li>this will show as number &ldquo;3.&rdquo;</li>
+<li>any number, +, &ndash;, or * will keep the list going.
+
+<ul>
+<li>just indent by 4 spaces (or tab) to make a sub-list
+
+<ol>
+<li> keep indenting for more sub lists</li>
+</ol>
+</li>
+<li>here i&rsquo;m back to the second level</li>
+</ul>
+</li>
+</ol>
+</blockquote>
+
+<hr />
+
+<h2><a name='tables'></a>Tables</h2>
+
+<p>A little bit different from the origin one, alignment attribute added.</p>
+
+<pre><code>First Header        | Second Header     | Third Header  |Fourth Header
+-------------       | :-------------    | --------:     | :----------:
+Align Default       |Align Left         | Align Right   | Align Center
+**Bold**            |*Italic*           | _Italic_      | &lt;s&gt;Strike&lt;/s&gt;
+</code></pre>
+
+<p>Output:</p>
+
+<table>
+<thead>
+<tr>
+<th>First Header        </th>
+<th align="left"> Second Header     </th>
+<th align="right"> Third Header  </th>
+<th align="center">Fourth Header</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Align Default       </td>
+<td align="left">Align Left         </td>
+<td align="right"> Align Right   </td>
+<td align="center"> Align Center</td>
+</tr>
+<tr>
+<td><strong>Bold</strong>        </td>
+<td align="left"><em>Italic</em>       </td>
+<td align="right"> <em>Italic</em>  </td>
+<td align="center"> <s>Strike</s></td>
+</tr>
+</tbody>
+</table>
+
+
+<hr />
+
+<h2><a name='more_headers'></a>More Headers</h2>
+
+<p>More ways of doing headers:</p>
+
+<pre><code># this is a huge header #  
+## this is a smaller header ##  
+### this is even smaller ###  
+#### more small ####  
+##### even smaller #####  
+###### smallest still: `&lt;h6&gt;` header  
+</code></pre>
+
+<p>Output:</p>
+
+<blockquote><h1>this is a huge header</h1>
+
+<h2>this is a smaller header</h2>
+
+<h3>this is even smaller</h3>
+
+<h4>more small</h4>
+
+<h5>even smaller</h5>
+
+<h6>smallest still: <code>&lt;h6&gt;</code> header</h6></blockquote>
+
+<p>You can use up to 6 # characters at the beginning of the line.</p>
+
+<hr />
+
+<h2><a name='horizontal_rule'></a>Horizontal Rule</h2>
+
+<p>Just put three or more &ldquo;*&rdquo; or &ldquo;&ndash;&rdquo; on a line:</p>
+
+<pre><code>----------------
+</code></pre>
+
+<p>Output:</p>
+
+<blockquote><hr /></blockquote>
+
+<p>Or, you can use single spaces between them, like this:</p>
+
+<pre><code>* * *
+</code></pre>
+
+<p>Output:</p>
+
+<blockquote><hr /></blockquote>
+
+<p>Make sure you have a blank line above the dashes, though, or else:</p>
+
+<pre><code>you will get a header
+-------
+</code></pre>
+
+<p>Output:</p>
+
+<blockquote><h2>you will get a header</h2></blockquote>
+
+<hr />
+
+<h2><a name='images'></a>Images</h2>
+
+<p>To include an image, just put a &ldquo;!&rdquo; in front of a text link:</p>
+
+<pre><code>![alternate text](https://sourceforge.net/images/icon_linux.gif)
+</code></pre>
+
+<p>The &ldquo;alternate text&rdquo; will show up if the browser can&rsquo;t load the image.</p>
+
+<p>You can also use a title if you want, like this:</p>
+
+<pre><code>![tiny arrow](https://sourceforge.net/images/icon_linux.gif "tiny arrow")
+</code></pre>
+
+<p>Output:</p>
+
+<blockquote><p><img src="https://sourceforge.net/images/icon_linux.gif" alt="alternate text" /></p></blockquote>
+
+<p>You can also use a title if you want, like this:</p>
+
+<blockquote><p><img src="https://sourceforge.net/images/icon_linux.gif" title="tiny arrow" alt="tiny arrow" /></p></blockquote>
+
+<p>Some other features like macro is not covered here since not support in my lib.</p>
+
+<p>What if you want to just show asterisks, not italics?</p>
+
+<pre><code>* this shows up in italics: *a happy day*  
+* this shows the asterisks: \*a happy day\*
+</code></pre>
+
+<p>Output:</p>
+
+<blockquote><ul>
+<li>this shows up in italics: <em>a happy day</em></li>
+<li>this shows the asterisks: *a happy day*</li>
+</ul>
+</blockquote>
+
+<p>The backslashes will disappear and leave the asterisks. You can do the same with any of the characters that have a special meaning for Markdown.</p>
+
+<p>Many simple HTML tags are allowed, for example <code>&lt;b&gt;</code> And unknown tags will be dropped. To show a literal <code>&lt;b&gt;</code> or an unknown tag like <foobar> you need escape it with HTML entities:</p>
+
+<pre><code>&lt;b&gt;this will be bold.&lt;/b&gt;  
+you should escape &lt;unknown\&gt; tags with "\" by placing which on the left of the close bracket.  
+&amp;copy; special entities work.  
+\&amp;copy; if you want to escape it.
+</code></pre>
+
+<p>Output:</p>
+
+<blockquote><p><b>this will be bold.</b><br/>
+you should escape &lt;unknown> tags with &ldquo;\&rdquo; by placing which on the left of the close bracket.<br/>
+&copy; special entities work.<br/>
+&amp;copy; if you want to escape it.</p></blockquote>
+
+<p>HTML tags that are <strong>block-level</strong> like <code>&lt;div&gt;</code> can be used, but if there is markdown formatting <strong>within</strong> it, you must add a <code>markdown</code> attribute: <code>&lt;div markdown&gt;</code>.</p>
+
+<p>Some safe attributes are also allowed, permitting basic styling and layout: <code>&lt;div markdown style="float:left"&gt;</code>.</p>
+
+<p>Individual ampersands (&amp;) and less-than signs (&lt;) are fine, they will be shown as expected.</p>
+
+<hr />
+
+<h2><a name='table_of_contents'></a>Table of Contents</h2>
+
+<p>You can display a list of links to jump to headers in a document. Sub-headers will be nested. This function is quite like anchor, however more flexible and less labor. The following example is from the <a href="http://sourceforge.net/p/forge/documentation/markdown_syntax/">Markdown Syntax Guide</a>, however not functions well for me, more details about TOC <a href="http://pythonhosted.org/Markdown/extensions/toc.html">Table of Contents</a>.</p>
+
+<pre><code>[TOC]
+#Section 1  
+##Sub-section 1  
+#Section 2  
+
+#Section 1  
+
+##Sub-section 1  
+
+#Section 2  
+</code></pre>
+
+<p>Output:</p>
+
+<p>[TOC]</p>
+
+<h1>Section 1</h1>
+
+<h2>Sub-section 1</h2>
+
+<h1>Section 2</h1>
+
+<p>sssssssssssssssssssss</p>
+
+<h1>Section 1</h1>
+
+<h2>Sub-section 1</h2>
+
+<h1>Section 2</h1>
+
+<p><strong>Alternative</strong> solution to achieve such function is using hyer links if the above does not work for your case.</p>
+
+<pre><code>#[Section 1](#section1)
+##[Sub-section 1](#sub-section1)
+#[Section 2](#section2)
+
+#&lt;a name="section1"&gt;&lt;/a&gt;Section 1  
+
+##&lt;a name="sub-section1"&gt;&lt;/a&gt;Sub-section 1  
+
+#&lt;a name="section2"&gt;&lt;/a&gt;Section 2  
+</code></pre>
+
+<p>Output:</p>
+
+<blockquote><h1><a href="#section1">Section 1</a></h1>
+
+<h2><a href="#sub-section1">Sub-section 1</a></h2>
+
+<h1><a href="#section2">Section 2</a></h1></blockquote>
+
+<h1><a name="section1"></a>Section 1</h1>
+
+<h2><a name="sub-section1"></a>Sub-section 1</h2>
+
+<h1><a name="section2"></a>Section 2</h1>
+
+<hr />
+
+<p>References:</p>
+
+<ul>
+<li><a href="http://sourceforge.net/p/forge/documentation/markdown_syntax/">Markdown Syntax Guide</a></li>
+<li><a href="https://github.com/adam-p/markdown-here/wiki/Markdown-Cheatsheet">Markdown Cheatsheet</a></li>
+<li><a href="http://pythonhosted.org/Markdown/extensions/toc.html">Table of Contents</a></li>
+</ul>
+
+]]></content>
+  </entry>
+  
+</feed>
