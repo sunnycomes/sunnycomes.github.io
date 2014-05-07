@@ -28,7 +28,7 @@ Click ***[here](/images/me.jpg)*** and you will find it.
 
 * ####Wallet
 
-**DF8XNSzB7reWoLsjTvGNJ3eNgUBwZXkYFL**, wow this address if you like my blog, or I give you some of mine.
+**D6PCeJmoU6pt4S9MYAgmNNLvTHZqNGSTds**, wow this address if you like my blog, or I give you some of mine.
 
 ##Works
 
