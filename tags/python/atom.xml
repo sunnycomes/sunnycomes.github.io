@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Tag: Python | I/O VIsion]]></title>
+  <link href="http://www.iovi.com/tags/python/atom.xml" rel="self"/>
+  <link href="http://www.iovi.com/"/>
+  <updated>2014-05-07T17:05:38+08:00</updated>
+  <id>http://www.iovi.com/</id>
+  <author>
+    <name><![CDATA[Sunny]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Tips and Tricks---Python Programming]]></title>
+    <link href="http://www.iovi.com/blog/2014/03/21/tips-and-tricks-python-programming/"/>
+    <updated>2014-03-21T15:49:07+08:00</updated>
+    <id>http://www.iovi.com/blog/2014/03/21/tips-and-tricks-python-programming</id>
+    <content type="html"><![CDATA[
+]]></content>
+  </entry>
+  
+</feed>

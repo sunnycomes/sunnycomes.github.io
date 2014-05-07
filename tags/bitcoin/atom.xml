@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Tag: Bitcoin | I/O VIsion]]></title>
+  <link href="http://www.iovi.com/tags/bitcoin/atom.xml" rel="self"/>
+  <link href="http://www.iovi.com/"/>
+  <updated>2014-05-07T17:05:38+08:00</updated>
+  <id>http://www.iovi.com/</id>
+  <author>
+    <name><![CDATA[Sunny]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Talk about Bitcoin]]></title>
+    <link href="http://www.iovi.com/blog/2014/03/01/talk-about-bitcoin/"/>
+    <updated>2014-03-01T15:43:56+08:00</updated>
+    <id>http://www.iovi.com/blog/2014/03/01/talk-about-bitcoin</id>
+    <content type="html"><![CDATA[
+]]></content>
+  </entry>
+  
+</feed>
