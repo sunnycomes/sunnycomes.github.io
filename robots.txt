@@ -1,4 +1,4 @@
 User-agent: *
 Disallow: 
 
-Sitemap: http://www.iovi.com//github/sitemap.xml 
+Sitemap: http://www.iovi.com/sitemap.xml 

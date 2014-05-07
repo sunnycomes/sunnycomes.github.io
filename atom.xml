@@ -2,10 +2,10 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 
   <title><![CDATA[I/O VIsion]]></title>
-  <link href="http://www.iovi.com//github/atom.xml" rel="self"/>
-  <link href="http://www.iovi.com//github/"/>
-  <updated>2014-05-07T17:09:37+08:00</updated>
-  <id>http://www.iovi.com//github/</id>
+  <link href="http://www.iovi.com/atom.xml" rel="self"/>
+  <link href="http://www.iovi.com/"/>
+  <updated>2014-05-07T17:39:53+08:00</updated>
+  <id>http://www.iovi.com/</id>
   <author>
     <name><![CDATA[Sunny]]></name>
     
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[Simple Git Guide]]></title>
-    <link href="http://www.iovi.com//github/blog/2014/02/21/simple-git-guide/"/>
+    <link href="http://www.iovi.com/blog/2014/02/21/simple-git-guide/"/>
     <updated>2014-02-21T15:46:05+08:00</updated>
-    <id>http://www.iovi.com//github/blog/2014/02/21/simple-git-guide</id>
+    <id>http://www.iovi.com/blog/2014/02/21/simple-git-guide</id>
     <content type="html"><![CDATA[<h2>Introduction</h2>
 
 <p>In software development, Git is a distributed revision control and source code management (SCM) system with an emphasis on speed initially designed and developed by Linus Torvalds. Every Git working directory is a full-fledged repository with complete history and full version tracking capabilities, not dependent on network access or a central server.</p>
@@ -211,9 +211,9 @@
   
   <entry>
     <title type="html"><![CDATA[Simple Guide for Markdown]]></title>
-    <link href="http://www.iovi.com//github/blog/2013/10/11/simple-guide-for-markdown/"/>
+    <link href="http://www.iovi.com/blog/2013/10/11/simple-guide-for-markdown/"/>
     <updated>2013-10-11T21:35:48+08:00</updated>
-    <id>http://www.iovi.com//github/blog/2013/10/11/simple-guide-for-markdown</id>
+    <id>http://www.iovi.com/blog/2013/10/11/simple-guide-for-markdown</id>
     <content type="html"><![CDATA[<p>Markdown was created to be easy to read, easy to write, and still readable in plain text format.</p>
 
 <ol>
@@ -249,7 +249,7 @@
 <p>Output:</p>
 
 <blockquote><p><a href="http://www.iovi.com">http://www.iovi.com</a><br/>
-<a href="&#109;&#97;&#x69;&#108;&#116;&#111;&#58;&#115;&#111;&#x6d;&#x65;&#98;&#98;&#111;&#x62;&#64;&#105;&#x6f;&#118;&#105;&#x2e;&#99;&#111;&#x6d;">&#115;&#x6f;&#x6d;&#101;&#98;&#98;&#111;&#x62;&#x40;&#x69;&#x6f;&#x76;&#x69;&#x2e;&#x63;&#111;&#109;</a></p></blockquote>
+<a href="&#x6d;&#x61;&#105;&#108;&#x74;&#111;&#58;&#115;&#111;&#109;&#101;&#x62;&#98;&#111;&#x62;&#x40;&#105;&#111;&#118;&#105;&#x2e;&#99;&#x6f;&#x6d;">&#x73;&#111;&#109;&#x65;&#98;&#98;&#111;&#98;&#x40;&#105;&#111;&#118;&#x69;&#46;&#99;&#x6f;&#x6d;</a></p></blockquote>
 
 <p>To use text for the link, write it:</p>
 

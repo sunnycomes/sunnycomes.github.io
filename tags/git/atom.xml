@@ -2,10 +2,10 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 
   <title><![CDATA[Tag: Git | I/O VIsion]]></title>
-  <link href="http://www.iovi.com//github/tags/git/atom.xml" rel="self"/>
-  <link href="http://www.iovi.com//github/"/>
-  <updated>2014-05-07T17:09:37+08:00</updated>
-  <id>http://www.iovi.com//github/</id>
+  <link href="http://www.iovi.com/tags/git/atom.xml" rel="self"/>
+  <link href="http://www.iovi.com/"/>
+  <updated>2014-05-07T17:39:53+08:00</updated>
+  <id>http://www.iovi.com/</id>
   <author>
     <name><![CDATA[Sunny]]></name>
     
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[Simple Git Guide]]></title>
-    <link href="http://www.iovi.com//github/blog/2014/02/21/simple-git-guide/"/>
+    <link href="http://www.iovi.com/blog/2014/02/21/simple-git-guide/"/>
     <updated>2014-02-21T15:46:05+08:00</updated>
-    <id>http://www.iovi.com//github/blog/2014/02/21/simple-git-guide</id>
+    <id>http://www.iovi.com/blog/2014/02/21/simple-git-guide</id>
     <content type="html"><![CDATA[<h2>Introduction</h2>
 
 <p>In software development, Git is a distributed revision control and source code management (SCM) system with an emphasis on speed initially designed and developed by Linus Torvalds. Every Git working directory is a full-fledged repository with complete history and full version tracking capabilities, not dependent on network access or a central server.</p>

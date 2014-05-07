@@ -2,10 +2,10 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 
   <title><![CDATA[Category: Stuff | I/O VIsion]]></title>
-  <link href="http://www.iovi.com//github/blog/categories/stuff/atom.xml" rel="self"/>
-  <link href="http://www.iovi.com//github/"/>
-  <updated>2014-05-07T17:09:37+08:00</updated>
-  <id>http://www.iovi.com//github/</id>
+  <link href="http://www.iovi.com/blog/categories/stuff/atom.xml" rel="self"/>
+  <link href="http://www.iovi.com/"/>
+  <updated>2014-05-07T17:39:53+08:00</updated>
+  <id>http://www.iovi.com/</id>
   <author>
     <name><![CDATA[Sunny]]></name>
     
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[Simple Guide for Markdown]]></title>
-    <link href="http://www.iovi.com//github/blog/2013/10/11/simple-guide-for-markdown/"/>
+    <link href="http://www.iovi.com/blog/2013/10/11/simple-guide-for-markdown/"/>
     <updated>2013-10-11T21:35:48+08:00</updated>
-    <id>http://www.iovi.com//github/blog/2013/10/11/simple-guide-for-markdown</id>
+    <id>http://www.iovi.com/blog/2013/10/11/simple-guide-for-markdown</id>
     <content type="html"><![CDATA[<p>Markdown was created to be easy to read, easy to write, and still readable in plain text format.</p>
 
 <ol>
@@ -53,7 +53,7 @@
 <p>Output:</p>
 
 <blockquote><p><a href="http://www.iovi.com">http://www.iovi.com</a><br/>
-<a href="&#x6d;&#97;&#105;&#x6c;&#116;&#x6f;&#x3a;&#x73;&#111;&#x6d;&#x65;&#x62;&#x62;&#x6f;&#x62;&#x40;&#105;&#111;&#118;&#105;&#46;&#x63;&#x6f;&#x6d;">&#x73;&#111;&#109;&#101;&#98;&#98;&#111;&#x62;&#64;&#105;&#111;&#118;&#x69;&#46;&#x63;&#x6f;&#x6d;</a></p></blockquote>
+<a href="&#109;&#x61;&#x69;&#x6c;&#116;&#x6f;&#x3a;&#x73;&#x6f;&#109;&#x65;&#x62;&#98;&#x6f;&#98;&#64;&#x69;&#111;&#x76;&#105;&#46;&#x63;&#x6f;&#109;">&#115;&#x6f;&#109;&#101;&#x62;&#x62;&#x6f;&#98;&#x40;&#105;&#x6f;&#x76;&#x69;&#46;&#99;&#111;&#109;</a></p></blockquote>
 
 <p>To use text for the link, write it:</p>
 
