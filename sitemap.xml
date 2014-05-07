@@ -1,0 +1,35 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<urlset xmlns='http://www.sitemaps.org/schemas/sitemap/0.9'>
+    <url>
+        <loc>http://www.iovi.com//github/blog/2013/10/11/simple-guide-for-markdown/</loc>
+        <lastmod>2014-05-06T09:10:50+08:00</lastmod>
+    </url>
+    <url>
+        <loc>http://www.iovi.com//github/blog/2014/02/21/simple-git-guide/</loc>
+        <lastmod>2014-05-06T09:10:50+08:00</lastmod>
+    </url>
+    <url>
+        <loc>http://www.iovi.com//github/</loc>
+        <lastmod>2014-05-06T09:10:50+08:00</lastmod>
+    </url>
+    <url>
+        <loc>http://www.iovi.com//github/robots.txt</loc>
+        <lastmod>2014-05-06T09:10:50+08:00</lastmod>
+    </url>
+    <url>
+        <loc>http://www.iovi.com//github/bookshelf/</loc>
+        <lastmod>2014-05-06T09:10:50+08:00</lastmod>
+    </url>
+    <url>
+        <loc>http://www.iovi.com//github/blog/stuff/</loc>
+        <lastmod>2014-05-06T09:10:50+08:00</lastmod>
+    </url>
+    <url>
+        <loc>http://www.iovi.com//github/blog/archives/</loc>
+        <lastmod>2014-05-06T09:10:50+08:00</lastmod>
+    </url>
+    <url>
+        <loc>http://www.iovi.com//github/about/</loc>
+        <lastmod>2014-05-06T09:10:50+08:00</lastmod>
+    </url>
+</urlset>
