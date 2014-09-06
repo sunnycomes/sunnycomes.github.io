@@ -3,7 +3,7 @@ layout: post
 title: "聊一聊不一样的比特币找零机制"
 date: 2014-03-1 15:43:56 +0800
 comments: true
-published: false
+published: true
 categories: 
 tags: Bitcoin
 ---
