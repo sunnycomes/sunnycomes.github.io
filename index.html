@@ -9,7 +9,7 @@
   <meta name="author" content="Sunny">
 
   
-  <meta name="description" content="Preliminary Remote If you have not cloned an existing repository and want to connect your repository to a remote server, you need to add it with git &hellip;">
+  <meta name="description" content="刚开始接触比特币的时候，一定很多人困惑于比特币的找零，幸好资料很多，随手从网上找了一篇，很详尽《详解比特币的找零机制》，大家可以做一个入门导读。 好了，针对原文的一些概念，这里我做一些我的理解。 原文中“比特币钱包交易100次以上时再次交易后要重新备份钱包”，值得一提的是，这里的交易指的是支出， &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -109,6 +109,58 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2014/03/01/talk-about-bitcoin-change/">聊一聊不一样的比特币找零机制</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-03-01T15:43:56+08:00" pubdate data-updated="true">Mar 1<span>st</span>, 2014</time>
+        
+           | <a href="/blog/2014/03/01/talk-about-bitcoin-change/#disqus_thread"
+             data-disqus-identifier="http://www.iovi.com/blog/2014/03/01/talk-about-bitcoin-change/">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>刚开始接触比特币的时候，一定很多人困惑于比特币的找零，幸好资料很多，随手从网上找了一篇，很详尽<a href="http://jingyan.baidu.com/article/19192ad84bcd54e53e570729.html">《详解比特币的找零机制》</a>，大家可以做一个入门导读。</p>
+
+<p>好了，针对原文的一些概念，这里我做一些我的理解。</p>
+
+<p>原文中“<strong>比特币钱包交易100次以上时再次交易后要重新备份钱包</strong>”，值得一提的是，这里的交易指的是支出，而不包含接收。</p>
+
+<p>原文中举了一个买棒棒糖的例子，“<strong>新创建的货币金额与被销毁的货币金额是完全一样的</strong>”，这种说法其实不对，这里根本没有销毁和创建一说，无非是原地址比特币数字归零，余额赋值到新地址，正是因为原文中的说法，导致很多人以为比特币是完整不可分割。</p>
+
+<p>原文中，“<strong>同时为了防止双重支付和伪造，必须确保在任何时候，新创建的货币金额与被销毁的货币金额是完全一样的。</strong>”，“销毁”和“创建”金额相同，跟双重支付和伪造够不成因果关系，确认交易和防止双重支付主要是有PROOF-OF-WORK机制保证的，就是常说的PoW。</p>
+
+</div>
+  
+  
+    <footer>
+      <a rel="full-article" href="/blog/2014/03/01/talk-about-bitcoin-change/">Read on &rarr;</a>
+    </footer>
+  
+
+
+    </article>
   
   
     <article>
@@ -661,6 +713,10 @@ Above we backup the Tutorials database into tut_backup.sql file. To re-create th
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/blog/2014/03/01/talk-about-bitcoin-change/">聊一聊不一样的比特币找零机制</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2014/02/21/simple-git-guide/">Simple Git Guide</a>
       </li>
     
@@ -676,16 +732,13 @@ Above we backup the Tutorials database into tut_backup.sql file. To re-create th
         <a href="/blog/2013/10/31/optimal-isolation-level/">Optimal JDBC Transaction Isolation Level</a>
       </li>
     
-      <li class="post">
-        <a href="/blog/2013/10/21/optimistic-and-pessimistic-locking/">Optimistic and Pessimistic Locking</a>
-      </li>
-    
   </ul>
 </section>
 <section>
   <h1>Tags</h1>
   <ul class="tag-cloud">
-    <a style="font-size: 210%" href="/tags/database/">Database</a>
+    <a style="font-size: 90%" href="/tags/bitcoin/">Bitcoin</a>
+<a style="font-size: 210%" href="/tags/database/">Database</a>
 <a style="font-size: 90%" href="/tags/git/">Git</a>
 <a style="font-size: 210%" href="/tags/java/">Java</a>
 <a style="font-size: 210%" href="/tags/mysql/">MySQL</a>
