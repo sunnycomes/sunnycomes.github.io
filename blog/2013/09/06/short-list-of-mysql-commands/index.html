@@ -1,0 +1,443 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Short List of MySQL Commands - I/O VIsion</title>
+  <meta name="author" content="Sunny">
+
+  
+  <meta name="description" content="Conventions used here: MySQL keywords are shown in CAPS
+User-specified names are in small letters
+Optional items are enclosed in square brackets [ ] &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://www.iovi.com/blog/2013/09/06/short-list-of-mysql-commands">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="I/O VIsion" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="./javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-43860851-1']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://' : 'http://') + 'stats.g.doubleclick.net/dc.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-43860851-1', 'iovi.com');
+  ga('send', 'pageview');
+
+</script>
+
+
+
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">I/O VIsion</a></h1>
+  
+    <h2>Do one thing at a time, and do well.</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:www.iovi.com" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+
+
+<li><a href="/">Home</a></li>
+
+<li><a href="/blog/archives">Archives</a></li>
+
+<li><a href="/blog/categories/stuff">Stuff</a></li>
+
+<li><a href="/bookshelf">Bookshelf</a></li>
+
+<!--
+	<li><a href="/blog/stuff">Stuff</a></li>
+
+	Commented out for present.
+<li><a href="/blog/categories/data-mining">Data Mining</a></li>
+
+<li><a href="/blog/bookrack ">Bookrack</a></li>
+
+-->
+<li><a href="/about ">About</a></li>
+
+
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">Short List of MySQL Commands</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-09-06T14:50:01+08:00" pubdate data-updated="true">Sep 6<span>th</span>, 2013</time>
+        
+           | <a href="#disqus_thread"
+             data-disqus-identifier="http://www.iovi.com">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><h2>Conventions used here:</h2>
+
+<ul>
+<li>MySQL keywords are shown in CAPS</li>
+<li>User-specified names are in small letters</li>
+<li>Optional items are enclosed in square brackets [ ]</li>
+<li>Items in parentheses must appear in the command, along with the parentheses</li>
+<li>Items that can be repeated as often as desired are indicated by an ellipsis &hellip;</li>
+</ul>
+
+
+<!-- more -->
+
+
+<!--
+##Quoting in MySQL Statements##
+
+* Don't quote database, table, or column names
+* Don't quote column types or modifiers
+* Don't quote numerical values
+* Quote (single or double) non-numeric values
+* Quote file names and passwords
+* Usernames are NOT quoted in GRANT or REVOKE statements, but they are quoted in other statements.
+-->
+
+
+<h2>General Commands</h2>
+
+<ul>
+<li><p><code>USE database_name</code><br/>
+Change to specific database. You need to change to some database when you first connect to MySQL.</p></li>
+<li><p><code>SHOW DATABASES</code><br/>
+Lists all MySQL databases on the system.</p></li>
+<li><p><code>SHOW TABLES [FROM database_name]</code><br/>
+Lists all tables from the current database or from the database given in the command.</p></li>
+<li><p><code>DESCRIBE table_name</code>;<br/>
+<code>SHOW FIELDS FROM table_name</code>;<br/>
+<code>SHOW COLUMNS FROM table_name</code><br/>
+These commands all give a list of all columns (fields) from the given table, along with column type and other info.</p></li>
+<li><p><code>SHOW INDEX FROM table_name</code><br/>
+Lists all indexes from this tables.</p></li>
+</ul>
+
+
+<h2>Table Commands</h2>
+
+<ul>
+<li><p><code>CREATE TABLE table_name (create_clause1, create_clause2, ...)</code><br/>
+Creates a table with columns as indicated in the create clauses.</p>
+
+<ul>
+<li>create_clause: column name followed by column type, followed optionally by modifiers. For example, <code>gene_id INT AUTO_INCREMENT PRIMARY KEY</code> (without the quotes) creates a column of type integer with the modifiers described below.</li>
+<li>create_clause modifiers
+
+<ul>
+<li><code>AUTO_INCREMENT</code> : each data record is assigned the next sequential number when it is given a <code>NULL</code> value.</li>
+<li><code>PRIMARY KEY</code> : Items in this column have unique names, and the table is indexed automatically based on this column. One column must be the <code>PRIMARY KEY</code>, and only one column may be the <code>PRIMARY KEY</code>. This column should also be <code>NOT NULL</code>.</li>
+<li><code>NOT NULL</code> : <code>No NULL</code> values are allowed in this column: a <code>NULL</code> generates an error message as the data is inserted into the table.</li>
+<li><code>DEFAULT value</code> : If a <code>NULL</code> value is used in the data for this column, the default value is entered instead.</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p><code>DROP TABLE table_name</code><br/>
+Removes the table from the database. Permanently! So be careful with this command!</p></li>
+<li><p><code>ALTER TABLE table_name ADD (create_clause1, create_clause2, ...)</code><br/>
+Adds the listed columns to the table.</p></li>
+<li><p><code>ALTER TABLE table_name DROP column_name</code><br/>
+Drops the listed columns from the table.</p></li>
+<li><p><code>ALTER TABLE table_name MODIFY create_clause</code><br/>
+Changes the type or modifiers to a column. Using MODIFY means that the column keeps the same name even though its type is altered. MySQL attempts to convert the data to match the new type: <strong>this can cause problems</strong>.</p></li>
+<li><p><code>ALTER TABLE table_name CHANGE column_name create_clause</code>  <br/>
+Changes the name and type or modifiers of a column. Using CHANGE (instead of MODIFY) implies that the column is getting a new name.</p></li>
+<li><p><code>ALTER TABLE table_name ADD INDEX [index_name] (column_name1, column_name2, ...)</code> or
+<code>CREATE INDEX index_name ON table_name (column_name1, column_name2, ...)</code>  <br/>
+Adds an index to this table, based on the listed columns. Note that the order of the columns is important, because additional indexes are created from all subsets of the listed columns reading from left to write. The index name is optional if you use <code>ALTER TABLE</code>, but it is necesary if you use <code>CREATE INDEX</code>. Rarely is the name of an index useful (in my experience).</p></li>
+</ul>
+
+
+<h2>Data Commands</h2>
+
+<ul>
+<li><p><code>INSERT [INTO] table_name VALUES (value1, value2, ...)</code><br/>
+Insert a complete row of data, giving a value (or NULL) for every column in the proper order.</p></li>
+<li><p><code>INSERT [INTO] table_name (column_name1, column_name2, ...) VALUES (value1, value2, ...)</code> or<br/>
+<code>INSERT [INTO] table_name SET column_name1=value1, column_name2=value2, ...</code><br/>
+Insert data into the listed columns only. Alternate forms, with the SET form showing column assignments more explicitly.</p></li>
+<li><p><code>INSERT [INTO] table_name (column_name1, column_name2, ...) SELECT list_of_fields_from_another_table FROM other_table_name WHERE where_clause</code><br/>
+Inserts the data resulting from a <code>SELECT</code> statement into the listed columns. Be sure the number of items taken from the old table match the number of columns they are put into!</p></li>
+<li><p><code>DELETE FROM table_name WHERE where_clause</code><br/>
+Delete rows that meet the conditions of the where_clause. If the <code>WHERE</code> statement is omitted, the table is emptied, although its structure remains intact.</p></li>
+<li><p><code>UPDATE table_name SET column_name1=value1, column_name2=value2, ... [WHERE where_clause]</code><br/>
+Alters the data within a column based on the conditions in the where_clause.</p></li>
+<li><p><code>LOAD DATA LOCAL INFILE 'path_to_external_file' INTO TABLE table_name</code><br/>
+Loads data from the listed file into the table. The default assumption is that fields in the file are separated by tabs, and each data record is separated from the others by a newline. It also assumes that nothing is quoted: quote marks are considered to be part of the data. Also, it assumes that the number of data fields matches the number of table columns. Columns that are <code>AUTO_INCREMENT</code> should have <code>NULL</code> as their value in the file.</p></li>
+<li><p><code>LOAD DATA LOCAL INFILE 'path_to_external_file' [FIELDS TERMINATED BY 'termination_character'] [FIELDS ENCLOSED BY 'quoting character'] [LINES TERMINATED BY 'line termination character'] FROM table_name</code><br/>
+Loads data from the listed file into the table, using the field termination character listed (default is tab \t), and/or the listed quoting character (default is nothing), and/or the listed line termination chacracter (default is a newline \n).</p></li>
+<li><p><code>SOURCE path_to_external_backup_sql_file</code><br/>
+Restore data from the backuped file with extension of .sql, which should contain the SQL statements necessary to re-create the database.</p></li>
+<li><p><code>SELECT column_name1, column_name2, ...
+  INTO OUTFILE 'path_to_external_file' [FIELDS TERMINATED BY 'termination_character']
+      [FIELDS ENCLOSED BY 'quoting character'] [LINES TERMINATED BY 'line termination character']
+      FROM table_name [WHERE where_clause]</code></p></li>
+</ul>
+
+
+<p>Allows you to move data from a table into an external file. The field and line termination clauses are the same as for LOAD above. Several tricky features:</p>
+
+<pre><code>1. Note the positions of the table_name and where_clause, after the external file is given.
+1. You must use a **complete path**, not just a file name. Otherwise MySQL attempts to write to the directory where the database is stored, where you don't have permission to write.
+1. The user who is writing the file is 'mysql', not you! This means that user 'mysql' needs permission to write to the directory you specify. The best way to do that is to create a new directory under your home directory, then change the directory's permission to 777, then write to it. For example: mkdir mysql_output, chmod 777 mysql_output.
+</code></pre>
+
+<h2>Privilege Commands</h2>
+
+<p>Most of the commands below require MySQL root access</p>
+
+<ul>
+<li><p><code>GRANT USAGE ON *.* TO user_name@localhost [IDENTIFIED BY 'password']</code><br/>
+Creates a new user on MySQL, with no rights to do anything. The <code>IDENTIFED BY</code> clause creates or changes the MySQL password, which is not necessarily the same as the user&rsquo;s system password. The <code>@localhost</code> after the user name allows usage on the local system, which is usually what we do; leaving this off allows the user to access the database from another system. User name <code>NOT</code> in quotes.</p></li>
+<li><p><code>GRANT SELECT ON *.* TO user_name@localhost</code><br/>
+In general, unless data is supposed to be kept private, all users should be able to view it. A debatable point, and most databases will only grant SELECT privileges on particular databases. There is no way to grant privileges on all databses <strong>EXCEPT</strong> specifically enumerated ones.</p></li>
+<li><p><code>GRANT ALL ON database_name.* TO user_name@localhost</code><br/>
+Grants permissions on all tables for a specific database (database_name.*) to a user. Permissions are for: <code>ALTER</code>, <code>CREATE</code>, <code>DELETE</code>, <code>DROP</code>, <code>INDEX</code>, <code>INSERT</code>, <code>SELECT</code>, <code>UPDATE</code>.</p></li>
+<li><p><code>FLUSH PRIVILEGES</code><br/>
+Needed to get updated privileges to work immediately. You need <strong>RELOAD</strong> privileges to get this to work.</p></li>
+<li><p><code>CREATE USER user_specification[,user_specification]...</code><br/>
+The <code>CREATE USER</code> statement creates new MySQL accounts. To use it, you must have the global <code>CREATE USER</code> privilege or the <code>INSERT</code> privilege for the mysql database. For each account, <code>CREATE USER</code> creates a new row in the mysql.user table and assgins the account no privileges.</p>
+
+<ul>
+<li>user_specification:<br/>
+  For example, &lsquo;username&rsquo;@&lsquo;host&rsquo; [IDENTIFIED BY [PASSWORD] &lsquo;password&rsquo;], however, it&rsquo;s recommended that <code>PASSWORD</code> keyword should be ignored since it emphasizes the password should be hash value of the password, rather than the password. Otherwise, you probably get error:</li>
+</ul>
+</li>
+</ul>
+
+
+<blockquote><p>Password hash should be a 41-digit hexadecimal number</p></blockquote>
+
+<p>BTW, <code>host</code> of <code>'username'@'host'</code> is not a necessity, if it is removed or just replaced with <code>%</code>, you can log in with this username from any host, otherwise, only the specific host can do that.</p>
+
+<ul>
+<li><p><code>SET PASSWORD=PASSWORD('new_password')</code><br/>
+Allows the user to change his/her current password.</p></li>
+<li><p><code>REVOKE ALL ON [database_name.].* FROM user_name@localhost</code><br/>
+Revokes all permissions for the user, but leaves the user in the MySQL database. This can be done for all databases using <code>ON *</code>, or for all tables within a specific databse, using <code>ON database_name.*</code>.</p></li>
+<li><p><code>DELETE FROM mysql.user WHERE user='user_name@localhost'</code><br/>
+Removes the user from the database, which revokes all privileges. Note that the user name is in quotes here.</p></li>
+<li><p><code>UPDATE mysql.user SET password=PASSWORD('my_password') WHERE user='user_name'</code><br/>
+Sets the user&rsquo;s password. The <code>PASSWORD</code> function hashes it; otherwise it will be in plain text.</p></li>
+<li><p><code>SELECT user, host, password, select_priv, insert_priv, shutdown_priv, grant_priv FROM mysql.user</code><br/>
+A good view of all users and their approximate privileges. If there is a password, it will be an hashed string; if not, this field is blank. Select is a very general privlege; insert allows table manipulation within a database; shutdown allows major system changes, and should only be usable by root; the ability to grant permissions is separate from the others.</p></li>
+<li><p><code>SELECT user, host, db, select_priv, insert_priv, grant_priv FROM mysql.db</code><br/>
+View permissions for individual databases.</p></li>
+</ul>
+
+
+<h2>References:</h2>
+
+<ul>
+<li><a href="http://www.bios.niu.edu/johns/bioinform/mysql_commands.htm">Short List of MySQL Commands</a></li>
+<li><a href="http://dev.mysql.com/doc/refman/5.1/en/create-user.html">CREATE USER Syntax</a></li>
+<li><a href="http://stackoverflow.com/questions/9529651/mysql-user-creation-script">Mysql user creation script, error 1372</a></li>
+</ul>
+
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">Sunny</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-09-06T14:50:01+08:00" pubdate data-updated="true">Sep 6<span>th</span>, 2013</time>
+      
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+      
+        <a class="basic-alignment right" href="/blog/2013/10/01/how-to-backup-or-restore-mysql-database/" title="Next Post: How to Backup or Restore MySQL Database">How to Backup or Restore MySQL Database &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+  <section>
+    <h1>Comments</h1>
+    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+  </section>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2014/02/21/simple-git-guide/">Simple Git Guide</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2013/12/11/java-performance-tunning-tips/">Java Performance Tuning Tips</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2013/11/11/best-practices-to-improve-performance-in-JDBC/">Best Practices to Improve Performance in JDBC</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2013/10/31/optimal-isolation-level/">Optimal JDBC Transaction Isolation Level</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2013/10/21/optimistic-and-pessimistic-locking/">Optimistic and Pessimistic Locking</a>
+      </li>
+    
+  </ul>
+</section>
+<section>
+  <h1>Tags</h1>
+  <ul class="tag-cloud">
+    <a style="font-size: 210%" href="/tags/database/">Database</a>
+<a style="font-size: 90%" href="/tags/git/">Git</a>
+<a style="font-size: 210%" href="/tags/java/">Java</a>
+<a style="font-size: 210%" href="/tags/mysql/">MySQL</a>
+
+  </ul>
+</section>
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2014 - Sunny -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+<script type="text/javascript">
+      var disqus_shortname = 'sunnycomes';
+      
+        
+        // var disqus_developer = 1;
+        var disqus_identifier = 'http://www.iovi.com/blog/2013/09/06/short-list-of-mysql-commands/';
+        var disqus_url = 'http://www.iovi.com/blog/2013/09/06/short-list-of-mysql-commands/';
+        var disqus_script = 'embed.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = '//' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>
