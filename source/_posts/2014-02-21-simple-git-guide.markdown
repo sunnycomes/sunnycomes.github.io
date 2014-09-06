@@ -7,13 +7,6 @@ categories:
 tags: Git 
 ---
 
-##Introduction
-
-In software development, Git is a distributed revision control and source code management (SCM) system with an emphasis on speed initially designed and developed by Linus Torvalds. Every Git working directory is a full-fledged repository with complete history and full version tracking capabilities, not dependent on network access or a central server.
-
-Since each developer's working copy is a bona fide Git repository, there are multiple possibilities for working with Git. In a larger team setting, you might actually prefer an approach similar to client-server systems, where you maintain one "master" repository which each developer pulls from and pushes to. For a small team (say, two or three developers) it may be effective to have each developer pull changes from, and push changes to, each of the others directly. And if you're a solo developer, then one Git repository on your development machine is likely all you need.
-
-<!--more-->
 ##Preliminary
 
 ###Remote
@@ -39,6 +32,8 @@ or,
 	git checkout -b branch_xx
 
 do the same work.
+
+<!-- more -->
 
 ###Working Directory, Index, HEAD
 

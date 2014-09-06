@@ -6,33 +6,32 @@ comments: true
 sharing: true
 footer: true
 ---
-##I/O VIsion  
-Welcome to my blog which dedicated to collect and share some awesome also useful technology related posts and information through out the IT world, something I think really important for coder's career. 
-
-This is a public platform of sharing and learning knowledge other than simply a personal blog. I hope you will like what I am doing here and dig out something you want.
 
 ##About Me
 
 * ####Intro
 
-I'm Caijun Sun, currently a student of BUPT(Beijing University of Posts and Telecommunications) of information security major. I really like doing some readings every day and write down the ideas and howtos I came across.
+网名sunnycomes，从本科开始接触计算机，到现在也有若干个年头，跟大部分的互联网从业者相似，业余时间也喜欢写写代码，丰富下枯燥的生活。平时爱好比较广泛，喜欢涉猎一些互联网发生的新奇事物，如比特币，可惜入场太晚，不过与传统的玩家不同，现在已经转战量化交易；也有空没空收藏一些域名，从一无所知的小白，到后面小赚一笔，至今手头还有留存不少域名，当然，收藏为主，卖的少数。
+
+
 
 * ####Education Background
 
-	1. 2009.9 ~ 2013.6, Hangzhou Normal University, Bachelor of Software Engineering.
-	1. 2013.9 ~ Now, Beijing University of Posts and Telecommunications, Master of Information Security.
+	1. 2009.9 ~ 2013.6, 杭州师范大学，软件工程学士
+	1. 2013.9 ~ Now, 北京邮电大学，信息安全硕士
+	1. Future，北京邮电大学，信息安全博士
 
 * ####Photo
 
-Click ***[here](/images/me.jpg)*** and you will find it.
+想看就点 ***[here](/images/me.jpg)***，大众脸，平凡人.
 
 * ####Wallet
 
-**D6PCeJmoU6pt4S9MYAgmNNLvTHZqNGSTds**, wow this address if you like my blog, or I give you some of mine.
+**D6PCeJmoU6pt4S9MYAgmNNLvTHZqNGSTds**, 这个是我的狗币钱包地址，玩山寨币的应该知道，如果你也玩这个，不妨捐我几个呗，当然，如果你想要，我也是可以送你几个的.
 
 ##Works
 
-No project good enough to show you.
+写过的东西很多，但是留存下的不多，自我感觉良好的更少，暂时就留个白吧，日后看看有没有拿得出手的货。
 
 ##Links
 
