@@ -9,7 +9,7 @@
   <meta name="author" content="Sunny">
 
   
-  <meta name="description" content="抛硬币，玩家庄家概率对半开，怎么赢，关键看下注策略。资金管理领域，有两种不得不提的策略，等价鞅与反等价鞅，从表现形式看，使用等价鞅制度的资金管理方式，在出现亏损以后，倾向于使用增加投入金额的方式进行后来的游戏。一旦获得盈利后，资金投入比例会再次回到起始水平；使用反等价鞅制度的资金管理方式， &hellip;">
+  <meta name="description" content="刚接触Java变成，就经常碰到“@”这个符号，所谓的Java中的annotation。很多时候它都是跟@Override，@Deprecated，@SuppressWarnings，或者更见多识广一些，还有@Retention，@Target，@Documented，@Inherieted，但是， &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -115,6 +115,83 @@
       
   <header>
     
+      <h1 class="entry-title"><a href="/blog/2014/06/07/java-deep-learning-of-annotation/">打破沙锅问到底－－Java的@符号</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-06-07T14:23:59+08:00" pubdate data-updated="true">Jun 7<span>th</span>, 2014</time>
+        
+           | <a href="/blog/2014/06/07/java-deep-learning-of-annotation/#disqus_thread"
+             data-disqus-identifier="http://www.iovi.com/blog/2014/06/07/java-deep-learning-of-annotation/">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>刚接触Java变成，就经常碰到“@”这个符号，所谓的Java中的annotation。很多时候它都是跟@Override，@Deprecated，@SuppressWarnings，或者更见多识广一些，还有@Retention，@Target，@Documented，@Inherieted，但是，大多数情况下，很少会有人去过问为什么这么去写，只知道这是一种理所当然的写法，在这里推荐一篇非常详细的关于Java注解的博文<a href="http://computerdragon.blog.51cto.com/6235984/1210969">Java注解annotation用法和自定义注解处理器</a>。</p>
+
+<p>读完上面那篇文章，相信大家应该对Java的注解有了比较初步的认识，当然，光看别人的不行，没有自己的总结体会，等于没有学到太多。</p>
+
+<p>原文中提到“<strong>自定义注解是以@interface为标志的</strong>”，那么，“注释”到底是不是一个interface呢？答案可以从<a href="http://docs.oracle.com/javase/tutorial/java/annotations/declaring.html">官方文档</a>中找到，“<code>Annotation types are a form of interface</code>”，如是写道。</p>
+
+<p>原文中定义了一个Constraints的Annotation，当其他Annotation引用它时，却有两种不同的用法，我从原文中复制了这样一段代码</p>
+
+<pre><code>@Target(ElementType.FIELD)
+@Retention(RetentionPolicy.RUNTIME)
+public @interface SQLString {
+    int value() default 0;
+    String name() default "";
+    Constraints constraints() default @Constraints;
+}
+</code></pre>
+
+<p>想必大家应该注意到了，<code>Constraints constraints() default @Constraints;
+</code>，这一行中，前一个Constraints是不加“@”，而后面加了，再回忆下最初我们接触到的Override，Deprecated，SupressWarnings，前面都有“@”，这是为什么？目前猜测不加表示“类型”，而加了之后，表示“实例”，有兴趣的读者可以深究下。</p>
+
+<p>看了这么多代码，从头到尾都觉得Annotation type element(官网原话)定义特别怪异，如<code>int value() default 0;</code>，自开始学习java编程以来，还从未接触过这种写法，有兴趣的读者可以试着把这段代码放到一个普通的类内部，会是什么效果，肯定报错！<a href="http://docs.oracle.com/javase/7/docs/technotes/guides/language/annotations.html">官网</a>有这样一段原话,</p>
+
+<pre><code>Annotation type declarations are similar to normal interface declarations. 
+
+An at-sign (@) precedes the interface keyword. Each method declaration defines an element of the annotation type. Method declarations must not have any parameters or a throws clause. 
+
+Return types are restricted to primitives, String, Class, enums, annotations, and arrays of the preceding types. Methods can have default values. 
+</code></pre>
+
+<p>相信已经解答大家的疑惑了。</p>
+
+<p>再啰嗦一句，在Annotation里面，有一个接口很少抛头露面，但有重要到不得不提的地步，它就是<code>java.lang.annotation.Annotation</code>，默认的，Override，Deprecated等annotation都继承于它，跟java.lang.Object类似。更多详细资料见官网<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/annotation/Annotation.html">Interface Annotation</a>. 值得注意的是，你要是自己写个接口Intf，实现Annotation，并不能使Intf成为annotation类型。</p>
+
+<p>最后，可以尝试做下官网提供的小测验，巩固下知识，<a href="http://docs.oracle.com/javase/tutorial/java/annotations/QandE/questions.html">地址</a></p>
+
+</div>
+  
+  
+    <footer>
+      <a rel="full-article" href="/blog/2014/06/07/java-deep-learning-of-annotation/">Read on &rarr;</a>
+    </footer>
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
       <h1 class="entry-title"><a href="/blog/2014/04/01/flipping-coins-strategy-to-win/">抛硬币也能抛出人生大赢家</a></h1>
     
     
@@ -167,7 +244,7 @@ public class FlippingCoins {
 
     public static final int MAX_TEST_CASE_CNT = 100;
 
-    // This is related to PREFERED_FUNDS if you think carefully.
+    // This value is related to PREFERED_FUNDS if you think carefully.
     public static final int MAX_FLIPPING_CNT_IN_ONE_TEST_CASE = 20000;
 
     public static void main(String[] args) {
@@ -182,14 +259,14 @@ public class FlippingCoins {
             while(funds &lt;= PREFERED_FUNDS) {
 
                 if(flipCnt &gt;= MAX_FLIPPING_CNT_IN_ONE_TEST_CASE) {
-                    //System.out.print("Max flipping count in one test case reached#");
+                    //System.err.print("Max flipping count in one test case reached#");
                     break;
                 }
                 flipCnt ++;
 
                 lastChip = lastResult == 1 ? 1 : lastChip * 2;
                 if(funds &lt; lastChip) {
-                    //System.out.print("No enough funds for next round#");
+                    //System.err.print("No enough funds for next round#");
                     break;
                 }
 
@@ -681,143 +758,6 @@ public class FlippingCoins {
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2013/10/01/how-to-backup-or-restore-mysql-database/">How to Backup or Restore MySQL Database</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2013-10-01T14:54:53+08:00" pubdate data-updated="true">Oct 1<span>st</span>, 2013</time>
-        
-           | <a href="/blog/2013/10/01/how-to-backup-or-restore-mysql-database/#disqus_thread"
-             data-disqus-identifier="http://www.iovi.com/blog/2013/10/01/how-to-backup-or-restore-mysql-database/">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><h2>The Way You Need to Know</h2>
-
-<ol>
-<li><a href="#buftcl">Back up From the Command Line</a></li>
-<li><a href="#oowwp">Operations over Web with PHPMyAdmin</a></li>
-</ol>
-
-
-<hr />
-
-<h3><a name='buftcl'></a>Back up From the Command Line (using mysqldump)</h3>
-
-<p>If you have shell or telnet access to your web server, you can backup your MySQL data by using the mysqldump command. This command connects to the MySQL server and creates an SQL dump file. The dump file contains the SQL statements necessary to re-create the database. Here is the proper syntax:</p>
-
-<ul>
-<li><p><code>mysqldump --opt -u [uname] -p[pass] [dbname] &gt; [backupfile.sql]</code><br/>
-This command will backup the &lsquo;Tutorials&rsquo; database into a file called tut_backup.sql which will contain all the SQL statements needed to re-create the database.</p></li>
-<li><p><code>mysqldump -u root -p Tutorials php_tutorials asp_tutorials &gt; tut_backup.sql</code><br/>
-With mysqldump command you can specify certain tables of your database you want to backup. For example, to back up only php_tutorials and asp_tutorials tables from the &lsquo;Tutorials&rsquo; database accomplish the command below. Each table name has to be separated by space.</p></li>
-<li><p><code>mysqldump -u root -p --databases Tutorials Articles Comments &gt; content_backup.sql</code><br/>
-Sometimes it is necessary to back up more that one database at once. In this case you can use the &mdash;database option followed by the list of databases you would like to backup. Each database name has to be separated by space.</p></li>
-<li><p><code>mysqldump -u root -p --all-databases &gt; alldb_backup.sql</code><br/>
-If you want to back up all the databases in the server at one time you should use the &mdash;all-databases option. It tells MySQL to dump all the databases it has in storage.</p></li>
-</ul>
-
-
-<p>The mysqldump command has also some other useful options:</p>
-
-<ol>
-<li><p><code>--add-drop-table</code>: Tells MySQL to add a <code>DROP TABLE</code> statement before each <code>CREATE TABLE</code> in the dump.</p></li>
-<li><p><code>--no-data</code>: Dumps only the database structure, not the contents.</p></li>
-<li><p><code>--add-locks</code>: Adds the <code>LOCK TABLES</code> and <code>UNLOCK TABLES</code> statements you can see in the dump file.</p></li>
-</ol>
-
-
-<p>The mysqldump command has advantages and disadvantages. The advantages of using mysqldump are that it is simple to use and it takes care of table locking issues for you. The disadvantage is that the command locks tables. If the size of your tables is very big mysqldump can lock out users for a long period of time.</p>
-
-<h3>Back up your MySQL Database with Compress</h3>
-
-<ul>
-<li><p><code>mysqldump -u [uname] -p[pass] [dbname] | gzip -9 &gt; [backupfile.sql.gz]</code><br/>
-If your mysql database is very big, you might want to compress the output of mysqldump. Just use the mysql backup command below and pipe the output to gzip, then you will get the output as gzip file.</p></li>
-<li><p><code>gunzip [backupfile.sql.gz]</code><br/>
-If you want to extract the .gz file, use the command above:</p></li>
-<li><p><code>Restoring your MySQL Database</code><br/>
-Above we backup the Tutorials database into tut_backup.sql file. To re-create the Tutorials database you should follow two steps:</p>
-
-<ol>
-<li> Create an appropriately named database on the target machine</li>
-<li> Load the file using the mysql command:</li>
-<li> <code>$ mysql -u [uname] -p[pass] [db_to_restore] &lt; [backupfile.sql]</code></li>
-</ol>
-</li>
-</ul>
-
-
-<p>Have a look how you can restore your tut_backup.sql file to the Tutorials database.</p>
-
-<ul>
-<li><p>To restore compressed backup files you can do the following:<br/>
-<code>gunzip &lt; [backupfile.sql.gz] | mysql -u [uname] -p[pass] [dbname]</code></p></li>
-<li><p>If you need to restore a database that already exists, you&rsquo;ll need to use mysqlimport command. The syntax for mysqlimport is as follows:<br/>
-<code>mysqlimport -u [uname] -p[pass] [dbname] [backupfile.sql]</code></p></li>
-</ul>
-
-
-<h2><a name='oowwp'></a>Operations over Web with PHPMyAdmin</h2>
-
-<ul>
-<li><p>It is assumed that you have phpMyAdmin installed since a lot of web service providers use it. To backup your MySQL database using PHPMyAdmin just follow a couple of steps:</p>
-
-<ol>
-<li> Open phpMyAdmin.</li>
-<li> Select your database by clicking the database name in the list on the left of the screen.</li>
-<li> Click the Export link. This should bring up a new screen that says View dump of database (or something similar).</li>
-<li> In the Export area, click the Select All link to choose all of the tables in your database.</li>
-<li> In the SQL options area, click the right options.</li>
-<li> Click on the Save as file option and the corresponding compression option and then click the <code>Go</code> button. A dialog box should appear prompting you to save the file locally.</li>
-</ol>
-</li>
-<li><p>Restoring your database is easy as well as backing it up. Make the following:</p>
-
-<ol>
-<li> Open phpMyAdmin.</li>
-<li> Create an appropriately named database and select it by clicking the database name in the list on the left of the screen. If you would like to rewrite the backup over an    1. existing database then click on the database name, select all the check boxes next to the table names and select Drop to delete all existing tables in the database.</li>
-<li> Click the SQL link. This should bring up a new screen where you can either type in SQL commands, or upload your SQL file.</li>
-<li> Use the browse button to find the database file.</li>
-<li> Click Go button. This will upload the backup, execute the SQL commands and re-create your database.</li>
-</ol>
-</li>
-</ul>
-
-
-<h2>References:</h2>
-
-<ul>
-<li><a href="http://webcheatsheet.com/sql/mysql_backup_restore.php">How to Back Up and Restore a MySQL Database</a></li>
-</ul>
-
-</div>
-  
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/blog/page/2/">&larr; Older</a>
@@ -833,6 +773,10 @@ Above we backup the Tutorials database into tut_backup.sql file. To re-create th
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/blog/2014/06/07/java-deep-learning-of-annotation/">打破沙锅问到底－－Java的@符号</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2014/04/01/flipping-coins-strategy-to-win/">抛硬币也能抛出人生大赢家</a>
       </li>
     
@@ -846,10 +790,6 @@ Above we backup the Tutorials database into tut_backup.sql file. To re-create th
     
       <li class="post">
         <a href="/blog/2014/02/21/simple-git-guide/">Simple Git Guide</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2013/12/11/java-performance-tunning-tips/">Java Performance Tuning Tips</a>
       </li>
     
   </ul>

@@ -164,7 +164,7 @@ public class FlippingCoins {
 
     public static final int MAX_TEST_CASE_CNT = 100;
 
-    // This is related to PREFERED_FUNDS if you think carefully.
+    // This value is related to PREFERED_FUNDS if you think carefully.
     public static final int MAX_FLIPPING_CNT_IN_ONE_TEST_CASE = 20000;
 
     public static void main(String[] args) {
@@ -179,14 +179,14 @@ public class FlippingCoins {
             while(funds &lt;= PREFERED_FUNDS) {
 
                 if(flipCnt &gt;= MAX_FLIPPING_CNT_IN_ONE_TEST_CASE) {
-                    //System.out.print("Max flipping count in one test case reached#");
+                    //System.err.print("Max flipping count in one test case reached#");
                     break;
                 }
                 flipCnt ++;
 
                 lastChip = lastResult == 1 ? 1 : lastChip * 2;
                 if(funds &lt; lastChip) {
-                    //System.out.print("No enough funds for next round#");
+                    //System.err.print("No enough funds for next round#");
                     break;
                 }
 
@@ -259,6 +259,8 @@ public class FlippingCoins {
         <a class="basic-alignment left" href="/blog/2014/03/06/a-new-start/" title="Previous Post: 脱离低级趣味的写作">&laquo; 脱离低级趣味的写作</a>
       
       
+        <a class="basic-alignment right" href="/blog/2014/06/07/java-deep-learning-of-annotation/" title="Next Post: 打破沙锅问到底－－Java的@符号">打破沙锅问到底－－Java的@符号 &raquo;</a>
+      
     </p>
   </footer>
 </article>
@@ -278,6 +280,10 @@ public class FlippingCoins {
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/blog/2014/06/07/java-deep-learning-of-annotation/">打破沙锅问到底－－Java的@符号</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2014/04/01/flipping-coins-strategy-to-win/">抛硬币也能抛出人生大赢家</a>
       </li>
     
@@ -291,10 +297,6 @@ public class FlippingCoins {
     
       <li class="post">
         <a href="/blog/2014/02/21/simple-git-guide/">Simple Git Guide</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2013/12/11/java-performance-tunning-tips/">Java Performance Tuning Tips</a>
       </li>
     
   </ul>

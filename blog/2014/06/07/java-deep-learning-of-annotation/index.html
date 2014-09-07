@@ -5,11 +5,11 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>About - I/O VIsion</title>
+  <title>打破沙锅问到底－－Java的@符号 - I/O VIsion</title>
   <meta name="author" content="Sunny">
 
   
-  <meta name="description" content="Under construction. (End) Comments Please enable JavaScript to view the comments powered by Disqus. Recent Posts 打破沙锅问到底－－Java的@符号 抛硬币也能抛出人生大赢家 &hellip;">
+  <meta name="description" content="刚接触Java变成，就经常碰到“@”这个符号，所谓的Java中的annotation。很多时候它都是跟@Override，@Deprecated，@SuppressWarnings，或者更见多识广一些，还有@Retention，@Target，@Documented，@Inherieted，但是， &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -18,7 +18,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://www.iovi.com/bookshelf">
+  <link rel="canonical" href="http://www.iovi.com/blog/2014/06/07/java-deep-learning-of-annotation">
   <link href="/favicon.png" rel="icon">
   <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
   <link href="/atom.xml" rel="alternate" title="I/O VIsion" type="application/atom+xml">
@@ -108,16 +108,115 @@
   <div id="main">
     <div id="content">
       <div>
-<article role="article">
-  <h1>Under construction.</h1>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">打破沙锅问到底－－Java的@符号</h1>
+    
+    
+      <p class="meta">
+        
 
-<p><strong>(End)</strong></p>
-
-<hr />
-
-<br/>
 
 
+
+
+
+
+
+  
+
+
+<time datetime="2014-06-07T14:23:59+08:00" pubdate data-updated="true">Jun 7<span>th</span>, 2014</time>
+        
+           | <a href="#disqus_thread"
+             data-disqus-identifier="http://www.iovi.com">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><p>刚接触Java变成，就经常碰到“@”这个符号，所谓的Java中的annotation。很多时候它都是跟@Override，@Deprecated，@SuppressWarnings，或者更见多识广一些，还有@Retention，@Target，@Documented，@Inherieted，但是，大多数情况下，很少会有人去过问为什么这么去写，只知道这是一种理所当然的写法，在这里推荐一篇非常详细的关于Java注解的博文<a href="http://computerdragon.blog.51cto.com/6235984/1210969">Java注解annotation用法和自定义注解处理器</a>。</p>
+
+<p>读完上面那篇文章，相信大家应该对Java的注解有了比较初步的认识，当然，光看别人的不行，没有自己的总结体会，等于没有学到太多。</p>
+
+<p>原文中提到“<strong>自定义注解是以@interface为标志的</strong>”，那么，“注释”到底是不是一个interface呢？答案可以从<a href="http://docs.oracle.com/javase/tutorial/java/annotations/declaring.html">官方文档</a>中找到，“<code>Annotation types are a form of interface</code>”，如是写道。</p>
+
+<p>原文中定义了一个Constraints的Annotation，当其他Annotation引用它时，却有两种不同的用法，我从原文中复制了这样一段代码</p>
+
+<pre><code>@Target(ElementType.FIELD)
+@Retention(RetentionPolicy.RUNTIME)
+public @interface SQLString {
+    int value() default 0;
+    String name() default "";
+    Constraints constraints() default @Constraints;
+}
+</code></pre>
+
+<p>想必大家应该注意到了，<code>Constraints constraints() default @Constraints;
+</code>，这一行中，前一个Constraints是不加“@”，而后面加了，再回忆下最初我们接触到的Override，Deprecated，SupressWarnings，前面都有“@”，这是为什么？目前猜测不加表示“类型”，而加了之后，表示“实例”，有兴趣的读者可以深究下。</p>
+
+<p>看了这么多代码，从头到尾都觉得Annotation type element(官网原话)定义特别怪异，如<code>int value() default 0;</code>，自开始学习java编程以来，还从未接触过这种写法，有兴趣的读者可以试着把这段代码放到一个普通的类内部，会是什么效果，肯定报错！<a href="http://docs.oracle.com/javase/7/docs/technotes/guides/language/annotations.html">官网</a>有这样一段原话,</p>
+
+<pre><code>Annotation type declarations are similar to normal interface declarations. 
+
+An at-sign (@) precedes the interface keyword. Each method declaration defines an element of the annotation type. Method declarations must not have any parameters or a throws clause. 
+
+Return types are restricted to primitives, String, Class, enums, annotations, and arrays of the preceding types. Methods can have default values. 
+</code></pre>
+
+<p>相信已经解答大家的疑惑了。</p>
+
+<p>再啰嗦一句，在Annotation里面，有一个接口很少抛头露面，但有重要到不得不提的地步，它就是<code>java.lang.annotation.Annotation</code>，默认的，Override，Deprecated等annotation都继承于它，跟java.lang.Object类似。更多详细资料见官网<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/annotation/Annotation.html">Interface Annotation</a>. 值得注意的是，你要是自己写个接口Intf，实现Annotation，并不能使Intf成为annotation类型。</p>
+
+<p>最后，可以尝试做下官网提供的小测验，巩固下知识，<a href="http://docs.oracle.com/javase/tutorial/java/annotations/QandE/questions.html">地址</a></p>
+
+<!-- more -->
+
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">Sunny</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-06-07T14:23:59+08:00" pubdate data-updated="true">Jun 7<span>th</span>, 2014</time>
+      
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2014/04/01/flipping-coins-strategy-to-win/" title="Previous Post: 抛硬币也能抛出人生大赢家">&laquo; 抛硬币也能抛出人生大赢家</a>
+      
+      
+    </p>
+  </footer>
 </article>
 
   <section>
@@ -190,8 +289,8 @@
       
         
         // var disqus_developer = 1;
-        var disqus_identifier = 'http://www.iovi.com/bookshelf/index.html';
-        var disqus_url = 'http://www.iovi.com/bookshelf/index.html';
+        var disqus_identifier = 'http://www.iovi.com/blog/2014/06/07/java-deep-learning-of-annotation/';
+        var disqus_url = 'http://www.iovi.com/blog/2014/06/07/java-deep-learning-of-annotation/';
         var disqus_script = 'embed.js';
       
     (function () {
