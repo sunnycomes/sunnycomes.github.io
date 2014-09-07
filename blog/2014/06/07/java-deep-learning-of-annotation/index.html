@@ -169,7 +169,7 @@ Return types are restricted to primitives, String, Class, enums, annotations, an
 
 <p>相信已经解答大家的疑惑了。</p>
 
-<p>再啰嗦一句，在Annotation里面，有一个接口很少抛头露面，但有重要到不得不提的地步，它就是<code>java.lang.annotation.Annotation</code>，默认的，Override，Deprecated等annotation都继承于它，跟java.lang.Object类似。更多详细资料见官网<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/annotation/Annotation.html">Interface Annotation</a>. 值得注意的是，你要是自己写个接口Intf，实现Annotation，并不能使Intf成为annotation类型。</p>
+<p>再啰嗦一句，在Annotation里面，有一个接口很少抛头露面，但有重要到不得不提的地步，它就是<code>java.lang.annotation.Annotation</code>，默认的，Override，Deprecated等annotation类型都继承于它，跟java.lang.Object类似。更多详细资料见官网<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/annotation/Annotation.html">Interface Annotation</a>. 值得注意的是，你要是自己写个接口Intf，实现<code>java.lang.annotation.Annotation</code>，并不能使Intf成为<code>java.lang.annotation.Annotation</code>类型。</p>
 
 <p>最后，可以尝试做下官网提供的小测验，巩固下知识，<a href="http://docs.oracle.com/javase/tutorial/java/annotations/QandE/questions.html">地址</a></p>
 
@@ -215,6 +215,8 @@ Return types are restricted to primitives, String, Class, enums, annotations, an
         <a class="basic-alignment left" href="/blog/2014/04/01/flipping-coins-strategy-to-win/" title="Previous Post: 抛硬币也能抛出人生大赢家">&laquo; 抛硬币也能抛出人生大赢家</a>
       
       
+        <a class="basic-alignment right" href="/blog/2014/07/07/talk-about-double-in-java/" title="Next Post: 聊一聊Java中Double精度缺失的问题">聊一聊Java中Double精度缺失的问题 &raquo;</a>
+      
     </p>
   </footer>
 </article>
@@ -234,6 +236,10 @@ Return types are restricted to primitives, String, Class, enums, annotations, an
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/blog/2014/07/07/talk-about-double-in-java/">聊一聊Java中Double精度缺失的问题</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2014/06/07/java-deep-learning-of-annotation/">打破沙锅问到底－－Java的@符号</a>
       </li>
     
@@ -249,21 +255,17 @@ Return types are restricted to primitives, String, Class, enums, annotations, an
         <a href="/blog/2014/03/01/talk-about-bitcoin-change/">聊一聊不一样的比特币找零机制</a>
       </li>
     
-      <li class="post">
-        <a href="/blog/2014/02/21/simple-git-guide/">Simple Git Guide</a>
-      </li>
-    
   </ul>
 </section>
 <section>
   <h1>Tags</h1>
   <ul class="tag-cloud">
     <a style="font-size: 90%" href="/tags/bitcoin/">Bitcoin</a>
-<a style="font-size: 166%" href="/tags/database/">Database</a>
+<a style="font-size: 150%" href="/tags/database/">Database</a>
 <a style="font-size: 90%" href="/tags/gamble/">Gamble</a>
 <a style="font-size: 90%" href="/tags/git/">Git</a>
 <a style="font-size: 210%" href="/tags/java/">Java</a>
-<a style="font-size: 166%" href="/tags/mysql/">MySQL</a>
+<a style="font-size: 150%" href="/tags/mysql/">MySQL</a>
 
   </ul>
 </section>
