@@ -4,7 +4,7 @@
   <title><![CDATA[Tag: Java | I/O VIsion]]></title>
   <link href="http://www.iovi.com/tags/java/atom.xml" rel="self"/>
   <link href="http://www.iovi.com/"/>
-  <updated>2014-09-08T10:47:05+08:00</updated>
+  <updated>2014-09-08T12:11:05+08:00</updated>
   <id>http://www.iovi.com/</id>
   <author>
     <name><![CDATA[Sunny]]></name>
@@ -18,7 +18,7 @@
     <link href="http://www.iovi.com/blog/2014/07/07/talk-about-double-in-java/"/>
     <updated>2014-07-07T21:30:11+08:00</updated>
     <id>http://www.iovi.com/blog/2014/07/07/talk-about-double-in-java</id>
-    <content type="html"><![CDATA[<p>前段时间，因为要测试一个刚出炉的高频策略，放实盘去跑吧，怕出岔，所以写了个简单的回测系统，跑一遍历史数据。其中有一部分是关于撮合系统，简陋了点，还算能跑得起来，几个用例下来，也没什么问题，接着增加历史数据量，居然出现了负数，简直不可能发生的事情居然出现了！</p>
+    <content type="html"><![CDATA[<p>前段时间，因为要测试一个刚出炉的高频策略，放实盘去跑吧，怕出岔，所以写了个简单的回测系统，跑一遍历史数据。其中有一部分是关于撮合系统，简陋了点，还算能跑得起来，几个用例下来，也没什么问题，接着增加历史数据量，居然出现了负数，简直不可能发生的事情居然出现了，虽然都是小金额的偏差，但是毕竟跟钱打交道，必须谨慎，况且现在比特币那么贵，丝毫偏差都是不允许的！</p>
 
 <p>当然，后面就是苦逼的找bug，逻辑没问题，发狠的，把所有的数据都打印出来，日志一页一页没有尽头，心里发麻，硬着头皮一条条排查，人品不错，开头就发现一条异常数据，0.05+0.01＝0.060000000000000005，瞬间明白，google it，才发现Java的double原来精度那么蛋疼。网上推荐BigDecimal代替double，果然不错，那就用BigDecimal替换。等所有的double都换之后，狗血的事情发生了，BigDecimal是如此的慢，以至于跑一个用例花了之前N倍的时间，怎么办，只能用一个折中的办法，数值表示仍然用double，数值计算用BigDecimal，于是乎，有了如下的一个四则运算工具类MathUtil.java</p>
 
