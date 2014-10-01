@@ -3,7 +3,6 @@ layout: post
 title: "Simple Guide for Markdown"
 date: 2013-10-11 21:35:48 +0800
 comments: true
-categories: stuff
 ---
 
 Markdown was created to be easy to read, easy to write, and still readable in plain text format.

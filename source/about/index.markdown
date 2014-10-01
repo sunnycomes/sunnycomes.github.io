@@ -11,7 +11,7 @@ footer: true
 
 * ####Intro
 
-网名sunnycomes，从本科开始接触计算机，到现在也有若干个年头，跟大部分的互联网从业者相似，业余时间也喜欢写写代码，丰富下枯燥的生活。平时爱好比较广泛，喜欢涉猎一些互联网发生的新奇事物，如比特币，可惜入场太晚，不过与传统的玩家不同，现在已经转战量化交易；也有空没空收藏一些域名，从一无所知的小白，到后面小赚一笔，至今手头还有留存不少域名，当然，收藏为主，卖的少数。
+姓孙，名才俊，字江南，浙江余姚人。网名sunnycomes，从本科开始接触计算机，到现在也有若干个年头，跟大部分的互联网从业者相似，业余时间也喜欢写写代码，丰富下枯燥的生活。平时爱好比较广泛，喜欢涉猎一些互联网发生的新奇事物，如比特币，可惜入场太晚，不过与传统的玩家不同，现在已经转战量化交易；也有空没空收藏一些域名，从一无所知的小白，到后面小赚一笔，至今手头还有留存不少域名，当然，收藏为主，卖的少数。
 
 
 
@@ -23,11 +23,15 @@ footer: true
 
 * ####Photo
 
-想看就点 ***[here](/images/me.jpg)***，大众脸，平凡人.
+想看就点 ***[here](/images/me.jpg)***，大众脸，平凡人，不平凡的心.
 
 * ####Wallet
 
-**D6PCeJmoU6pt4S9MYAgmNNLvTHZqNGSTds**, 这个是我的狗币钱包地址，玩山寨币的应该知道，如果你也玩这个，不妨捐我几个呗，当然，如果你想要，我也是可以送你几个的.
+<a href="https://blockchain.info/address/17L2bPF8WRhu81UBZnBsQfiopdnDFKFv5W" target="_blank">比特币钱包：17L2bPF8WRhu81UBZnBsQfiopdnDFKFv5W</a>
+
+<a href="https://dogechain.info/address/DNFR3FWD82DP51LWVF5NzWaKRZSAQ317iy" target="_blank">狗狗币钱包：DNFR3FWD82DP51LWVF5NzWaKRZSAQ317iy</a>
+
+这两个是我的电子钱包，如果你也玩这个，不妨捐我几个呗，当然，如果你想要，我也是可以送你几个的.
 
 ##Works
 
