@@ -31,22 +31,15 @@
 <!-- more -->
 
 <p>原文中定义了一个Constraints的Annotation，当其他Annotation引用它时，却有两种不同的用法，我从原文中复制了这样一段代码</p>
-<pre><code>@Target(ElementType.FIELD)
-@Retention(RetentionPolicy.RUNTIME)
-public @interface SQLString {
-    int value() default 0;
-    String name() default "";
-    Constraints constraints() default @Constraints;
-}
-</code></pre>
+<script src="https://gist.github.com/sunnycomes/413329639635de049e3c.js"></script>
+
 <p>想必大家应该注意到了，<code>Constraints constraints() default @Constraints;</code>，这一行中，前一个Constraints是不加“@”，而后面加了，再回忆下最初我们接触到的Override，Deprecated，SupressWarnings，前面都有“@”，这是为什么？目前猜测不加表示“类型”，而加了之后，表示“实例”，有兴趣的读者可以深究下。</p>
 <p>看了这么多代码，从头到尾都觉得Annotation type element(官网原话)定义特别怪异，如<code>int value() default 0;</code>，自开始学习java编程以来，还从未接触过这种写法，有兴趣的读者可以试着把这段代码放到一个普通的类内部，会是什么效果，肯定报错！<a href="http://docs.oracle.com/javase/7/docs/technotes/guides/language/annotations.html">官网</a>有这样一段原话,</p>
-<pre><code>Annotation type declarations are similar to normal interface declarations.
-
-An at-sign (@) precedes the interface keyword. Each method declaration defines an element of the annotation type. Method declarations must not have any parameters or a throws clause.
-
-Return types are restricted to primitives, String, Class, enums, annotations, and arrays of the preceding types. Methods can have default values.
-</code></pre>
+<blockquote>
+<p>Annotation type declarations are similar to normal interface declarations.<br />
+An at-sign (@) precedes the interface keyword. Each method declaration defines an element of the annotation type. Method declarations must not have any parameters or a throws clause.<br />
+Return types are restricted to primitives, String, Class, enums, annotations, and arrays of the preceding types. Methods can have default values. </p>
+</blockquote>
 <p>相信已经解答大家的疑惑了。</p>
 <p>再啰嗦一句，在Annotation里面，有一个接口很少抛头露面，但有重要到不得不提的地步，它就是<code>java.lang.annotation.Annotation</code>，默认的，Override，Deprecated等annotation类型都继承于它，跟java.lang.Object类似。更多详细资料见官网<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/annotation/Annotation.html">Interface Annotation</a>. 值得注意的是，你要是自己写个接口Intf，实现<code>java.lang.annotation.Annotation</code>，并不能使Intf成为<code>java.lang.annotation.Annotation</code>类型。</p>
 <p>最后，可以尝试做下官网提供的小测验，巩固下知识，<a href="http://docs.oracle.com/javase/tutorial/java/annotations/QandE/questions.html">地址</a></p>

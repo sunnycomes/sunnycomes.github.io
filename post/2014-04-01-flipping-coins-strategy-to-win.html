@@ -35,67 +35,8 @@
 <!-- more -->
 
 <p>代码：</p>
-<pre><code>package com.iovi.flippingcoins;
+<script src="https://gist.github.com/sunnycomes/7057bb47f4b03ec0dbdf.js"></script>
 
-/**
-  * @author sunnycomes
-  *
-*/
-public class FlippingCoins {
-
-    public static final int INIT_FUNDS = 10000;
-    public static final int PREFERED_FUNDS = INIT_FUNDS * 2;
-
-    public static final int MAX_TEST_CASE_CNT = 100;
-
-    // This value is related to PREFERED_FUNDS if you think carefully.
-    public static final int MAX_FLIPPING_CNT_IN_ONE_TEST_CASE = 20000;
-
-    public static void main(String[] args) {
-
-        for(int testCnt = 0; testCnt &lt; MAX_TEST_CASE_CNT; testCnt++) {
-
-            int funds = INIT_FUNDS;
-            int lastResult = 1;
-            int lastChip = 1;
-            int flipCnt = 0;
-
-            while(funds &lt;= PREFERED_FUNDS) {
-
-                if(flipCnt &gt;= MAX_FLIPPING_CNT_IN_ONE_TEST_CASE) {
-                    //System.err.print("Max flipping count in one test case reached#");
-                    break;
-                }
-                flipCnt ++;
-
-                lastChip = lastResult == 1 ? 1 : lastChip * 2;
-                if(funds &lt; lastChip) {
-                    //System.err.print("No enough funds for next round#");
-                    break;
-                }
-
-                lastResult = getResult();
-                funds = lastResult == 1 ? funds + lastChip : funds - lastChip;
-            }
-
-            if(funds &gt; PREFERED_FUNDS) {
-                System.out.println("flipCnt=" + flipCnt + "#funds=" + funds);
-            }
-
-            //System.out.println("flipCnt=" + flipCnt + "#funds=" + funds);
-        }
-    }
-
-    /**
-     * The method is designed to create a random result simulating the coin flipping result.
-     * 
-     * @return a pseudorandom int either 1 or 0, 1 stands for win and vice versa.
-     */
-    public static int getResult() {
-        return (int) (Math.random() + 0.5);
-    }
-}
-</code></pre>
 <p>听网友反馈，测试结果不理想，最后产生了亏损，这其实是可能发生的，要体现策略的效果，首先，初始资金要充足，而后，测试的用例必须保证充足。要理解一个概念，产生了一列随机数，测试次数远远不够，要搞清楚一个概念。概率和运气：概率是你抛1w次硬币，正反面对半开，而关于运气，则是前5k次是正面，后5k次是反面。你只测了一列随机数，不具有代表性。</p>
 <p>另外，还推荐一篇比较不错的关于资金管理的文章<a href="http://blog.sina.com.cn/s/blog_4b9aa4250101k4q5.html">【干货】关于等价鞅、反等价鞅、剀利公式、赌徒输光定理</a></p>
 </div>
