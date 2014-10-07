@@ -4,7 +4,7 @@
   <title><![CDATA[Tag: Java | I/O VIsion]]></title>
   <link href="http://www.iovi.com/tags/java/atom.xml" rel="self"/>
   <link href="http://www.iovi.com/"/>
-  <updated>2014-09-21T12:29:40+08:00</updated>
+  <updated>2014-10-07T12:17:58+08:00</updated>
   <id>http://www.iovi.com/</id>
   <author>
     <name><![CDATA[Sunny]]></name>
@@ -22,86 +22,8 @@
 
 <p>当然，后面就是苦逼的找bug，逻辑没问题，发狠的，把所有的数据都打印出来，日志一页一页没有尽头，心里发麻，硬着头皮一条条排查，人品不错，开头就发现一条异常数据，0.05+0.01＝0.060000000000000005，瞬间明白，google it，才发现Java的double原来精度那么蛋疼。网上推荐BigDecimal代替double，果然不错，那就用BigDecimal替换。等所有的double都换之后，狗血的事情发生了，BigDecimal是如此的慢，以至于跑一个用例花了之前N倍的时间，怎么办，只能用一个折中的办法，数值表示仍然用double，数值计算用BigDecimal，于是乎，有了如下的一个四则运算工具类MathUtil.java</p>
 
-<pre><code>package com.iovi.math;
+<script src="https://gist.github.com/sunnycomes/294abb067fbd662c60f5.js"></script>
 
-import java.math.BigDecimal;
-import java.math.RoundingMode;
-
-/**
- * @author sunnycomes
- * 
- */
-public class MathUtil {
-
-    /**
-     * Return a double whose value is a add b and the scale is specified to 4.
-     * 
-     * @param a the first double value
-     * @param b value to be added to a
-     * @return a + b, the scale is 4
-     */
-    public static double add(double a, double b) {
-        BigDecimal aa = new BigDecimal(a + "");
-        BigDecimal bb = new BigDecimal(b + "");
-
-        aa = aa.add(bb);
-        aa.setScale(4, RoundingMode.FLOOR);
-
-        return aa.doubleValue();
-    }
-
-    /**
-     * Return a double whose value is a subtract b and the scale is specified to 4.
-     * 
-     * @param a the first double value
-     * @param b value to be subtracted from a
-     * @return a - b, the scale is 4
-     */
-    public static double subtract(double a, double b) {
-        BigDecimal aa = new BigDecimal(a + "");
-        BigDecimal bb = new BigDecimal(b + "");
-
-        aa = aa.subtract(bb);
-        aa.setScale(4, RoundingMode.FLOOR);
-
-        return aa.doubleValue();
-    }
-
-    /**
-     * Return a double whose value is a multiply b and the scale is specified to 4.
-     * 
-     * @param a the first double value
-     * @param b value to be multiply by a
-     * @return a * b, the scale is 4
-     */
-    public static double multiply(double a, double b) {
-        BigDecimal aa = new BigDecimal(a + "");
-        BigDecimal bb = new BigDecimal(b + "");
-
-        aa = aa.multiply(bb);
-        aa.setScale(4, RoundingMode.FLOOR);
-
-        return aa.doubleValue();
-    }
-
-    /**
-     * Return a double whose value is a divide b and the scale is specified to 4.
-     * 
-     * @param a the first double value
-     * @param b value by which a is to be divided
-     * @return a + b, the scale is 4
-     */
-    public static double divide(double a, double b) {
-        BigDecimal aa = new BigDecimal(a + "");
-        BigDecimal bb = new BigDecimal(b + "");
-
-        aa = aa.divide(bb);
-        aa.setScale(4, RoundingMode.FLOOR);
-
-        return aa.doubleValue();
-    }
-}
-</code></pre>
 
 <p>当然，这里我想做的，不仅仅只是找到解决方案，更多的事想理解为什么double会出现这样的问题，如果是其他语言，例如C，会不会也出现这样的问题，我试着用同一组数据，发现C对于这组数据是没有出现异常的，那么，Java为什么会这么与众不同呢？</p>
 
