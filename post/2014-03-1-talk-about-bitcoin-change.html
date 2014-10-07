@@ -1,0 +1,61 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<title>IoVision</title>
+<link rel="shortcut icon" href="/static/img/favicon.ico"/>
+<link rel="stylesheet" href="/static/style/style.css" type="text/css">
+</head>
+<body>
+<div id="content">
+<header id="header_index">
+<hgroup>
+<h2 class="site-nav"><a href="/">首页</a></h2>
+<h2 class="site-nav"><a href="/about">About</a></h2>
+</hgroup>
+</header>
+<div id="main">
+<div class="article_wrapper">
+<article>
+<div class="entry-header">
+<h1 class="entry-title">"聊一聊不一样的比特币找零机制"</h1>
+<div class="entry-meta">
+<span class="sep"><time>2014-03-1 15:43:56 +0800</time></a></span>
+</div>
+</div>
+<div class="entry-content">
+<p>刚开始接触比特币的时候，一定很多人困惑于比特币的找零，幸好资料很多，随手从网上找了一篇，很详尽<a href="http://jingyan.baidu.com/article/19192ad84bcd54e53e570729.html">《详解比特币的找零机制》</a>，大家可以做一个入门导读。</p>
+<p>好了，针对原文的一些概念，这里我做一些我的理解。</p>
+<p>原文中“<strong>比特币钱包交易100次以上时再次交易后要重新备份钱包</strong>”，值得一提的是，这里的交易指的是支出，而不包含接收。</p>
+<p>原文中举了一个买棒棒糖的例子，“<strong>新创建的货币金额与被销毁的货币金额是完全一样的</strong>”，这种说法其实不对，这里根本没有销毁和创建一说，无非是原地址比特币数字归零，余额赋值到新地址，正是因为原文中的说法，导致很多人以为比特币是完整不可分割。</p>
+<p>原文中，“<strong>同时为了防止双重支付和伪造，必须确保在任何时候，新创建的货币金额与被销毁的货币金额是完全一样的。</strong>”，“销毁”和“创建”金额相同，跟双重支付和伪造够不成因果关系，确认交易和防止双重支付主要是有PROOF-OF-WORK机制保证的，就是常说的PoW。
+<!-- more -->
+不知道大家有没有注意到，原文中始终没有提到为什么要创建新地址接收余额，为什么？理论上，新地址和旧地址(支付地址)接收余额性质是一样的，技术上实现也是没有问题的，聪明的你不知道有没有注意到一个问题，比特币是匿名币，非常注重<strong>隐私</strong>，匿名不止体现在比特币地址上，还体现在找零机制。这里不做赘述，读者自己思考。</p>
+</div>
+</article>
+<div id="disqus_thread"></div>
+<script type="text/javascript">
+/* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+var disqus_shortname = 'iovision'; // required: replace example with your forum shortname
+/* * * DON'T EDIT BELOW THIS LINE * * */
+(function() {
+var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+(document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+})();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+
+</div>
+</div>
+<footer class="footer">
+<div class="footer_powered_by">
+Powered by <a href="http://www.iovi.com">Sunnycomes</a>
+</div>
+</footer>
+</div>
+<a target="_blank" href="https://github.com/sunnycomes/IoVision"><img style="position: absolute; top: 0; right: 0; border: 0;" src="https://camo.githubusercontent.com/e7bbb0521b397edbd5fe43e7f760759336b5e05f/68747470733a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f72696768745f677265656e5f3030373230302e706e67" alt="Fork me on GitHub" data-canonical-src="https://s3.amazonaws.com/github/ribbons/forkme_right_green_007200.png"></a>
+</body>
+</html>

@@ -1,0 +1,139 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<title>IoVision</title>
+<link rel="shortcut icon" href="/static/img/favicon.ico"/>
+<link rel="stylesheet" href="/static/style/style.css" type="text/css">
+</head>
+<body>
+<div id="content">
+<header id="header_index">
+<hgroup>
+<h2 class="site-nav"><a href="/">首页</a></h2>
+<h2 class="site-nav"><a href="/about">About</a></h2>
+</hgroup>
+</header>
+<div id="main">
+<div id="blog_index">
+
+<article>
+<div class="entry-header">
+<h1 class="entry-title"><a href="/post/2014-07-07-talk-about-double-in-java.html">"聊一聊Java中double精度去哪了(1)"</a></h1>
+<div class="entry-meta">
+<span class="sep"><time>2014-07-07 21:30:11</time></a></span>
+</div>
+</div>
+<div class="entry-content">
+<p>前段时间，因为要测试一个刚出炉的高频策略，放实盘去跑吧，怕出岔，所以写了个简单的回测系统，跑一遍历史数据。其中有一部分是关于撮合系统，简陋了点，还算能跑得起来，几个用例下来，也没什么问题，接着增加历史数据量，居然出现了负数，简直不可能发生的事情居然出现了，虽然都是小金额的偏差，但是毕竟跟钱打交道，必须谨慎，况且现在比特币那么贵，丝毫偏差都是不允许的！</p>
+<p>当然，后面就是苦逼的找bug，逻辑没问题，发狠的，把所有的数据都打印出来，日志一页一页没有尽头，心里发麻，硬着头皮一条条排查，人品不错，开头就发现一条异常数据，0.05+0.01＝0.060000000000000005，瞬间明白，google it，才发现Java的double原来精度那么蛋疼。网上推荐BigDecimal代替double，果然不错，那就用BigDecimal替换。等所有的double都换之后，狗血的事情发生了，BigDecimal是如此的慢，以至于跑一个用例花了之前N倍的时间，怎么办，只能用一个折中的办法，数值表示仍然用double，数值计算用BigDecimal，于是乎，有了如下的一个四则运算工具类MathUtil.java</p>
+
+</div>
+</article>
+
+<article>
+<div class="entry-header">
+<h1 class="entry-title"><a href="/post/2014-06-07-java-deep-learning-of-annotation.html">"打破沙锅问到底－－Java的@符号"</a></h1>
+<div class="entry-meta">
+<span class="sep"><time>2014-06-07 14:23:59 +0800</time></a></span>
+</div>
+</div>
+<div class="entry-content">
+<p>刚接触Java变成，就经常碰到“@”这个符号，所谓的Java中的annotation。很多时候它都是跟@Override，@Deprecated，@SuppressWarnings，或者更见多识广一些，还有@Retention，@Target，@Documented，@Inherieted，但是，大多数情况下，很少会有人去过问为什么这么去写，只知道这是一种理所当然的写法，在这里推荐一篇非常详细的关于Java注解的博文<a href="http://computerdragon.blog.51cto.com/6235984/1210969">Java注解annotation用法和自定义注解处理器</a>。</p>
+<p>读完上面那篇文章，相信大家应该对Java的注解有了比较初步的认识，当然，光看别人的不行，没有自己的总结体会，等于没有学到太多。</p>
+<p>原文中提到“<strong>自定义注解是以@interface为标志的</strong>”，那么，“注释”到底是不是一个interface呢？答案可以从<a href="http://docs.oracle.com/javase/tutorial/java/annotations/declaring.html">官方文档</a>中找到，“<code>Annotation types are a form of interface</code>”，如是写道。</p>
+
+</div>
+</article>
+
+<article>
+<div class="entry-header">
+<h1 class="entry-title"><a href="/post/2014-04-01-flipping-coins-strategy-to-win.html">"抛硬币也能抛出人生大赢家"</a></h1>
+<div class="entry-meta">
+<span class="sep"><time>2014-04-01 23:25:39 +0800</time></a></span>
+</div>
+</div>
+<div class="entry-content">
+<p>抛硬币，玩家庄家概率对半开，怎么赢，关键看下注策略。资金管理领域，有两种不得不提的策略，等价鞅与反等价鞅，从表现形式看，使用等价鞅制度的资金管理方式，在出现亏损以后，倾向于使用增加投入金额的方式进行后来的游戏。一旦获得盈利后，资金投入比例会再次回到起始水平；使用反等价鞅制度的资金管理方式，在出现亏损以后，会倾向于减少投入金额的比例进行后来的游戏；而伴随盈利的增加，也会不断增加投入资金，更多相关的内容见<a href="http://bluema75.blog.163.com/blog/static/386767082007101710422663/">等价鞅和反等价鞅</a>，写的很精彩，不做赘述。在这里，抛硬币属于古典概型，理解起来，相对简单直观。</p>
+<p>游戏开始，你有10000块钱，资金翻倍后离场，不然一直到次数上限</p>
+<p>等价鞅策略：</p>
+<pre><code>1:如果前一次赢了，本次下注金额为1元。
+2:如果前一次输了，本次下注金额为之前两倍，这样做到本次赢了，能把之前输的都回本。
+3:第一次玩时，认为前一次是赢的，因此，开局赌注为1元。
+</code></pre>
+
+</div>
+</article>
+
+<article>
+<div class="entry-header">
+<h1 class="entry-title"><a href="/post/2014-03-1-talk-about-bitcoin-change.html">"聊一聊不一样的比特币找零机制"</a></h1>
+<div class="entry-meta">
+<span class="sep"><time>2014-03-1 15:43:56 +0800</time></a></span>
+</div>
+</div>
+<div class="entry-content">
+<p>刚开始接触比特币的时候，一定很多人困惑于比特币的找零，幸好资料很多，随手从网上找了一篇，很详尽<a href="http://jingyan.baidu.com/article/19192ad84bcd54e53e570729.html">《详解比特币的找零机制》</a>，大家可以做一个入门导读。</p>
+<p>好了，针对原文的一些概念，这里我做一些我的理解。</p>
+<p>原文中“<strong>比特币钱包交易100次以上时再次交易后要重新备份钱包</strong>”，值得一提的是，这里的交易指的是支出，而不包含接收。</p>
+<p>原文中举了一个买棒棒糖的例子，“<strong>新创建的货币金额与被销毁的货币金额是完全一样的</strong>”，这种说法其实不对，这里根本没有销毁和创建一说，无非是原地址比特币数字归零，余额赋值到新地址，正是因为原文中的说法，导致很多人以为比特币是完整不可分割。</p>
+<p>原文中，“<strong>同时为了防止双重支付和伪造，必须确保在任何时候，新创建的货币金额与被销毁的货币金额是完全一样的。</strong>”，“销毁”和“创建”金额相同，跟双重支付和伪造够不成因果关系，确认交易和防止双重支付主要是有PROOF-OF-WORK机制保证的，就是常说的PoW。
+
+</div>
+</article>
+
+<article>
+<div class="entry-header">
+<h1 class="entry-title"><a href="/post/2014-03-06-a-new-start.html">"脱离低级趣味的写作"</a></h1>
+<div class="entry-meta">
+<span class="sep"><time>2014-03-06 22:39:51 +0800</time></a></span>
+</div>
+</div>
+<div class="entry-content">
+<p>之前的大多博文，东抄西抄，完全体现不出个人的劳动成果，作为一个研究僧，的确应该写一些自己独立思考的文字，挖掘深层次的知识。</p>
+<p>其实现实当中可以书写的素材非常丰富，一篇博客，一纸论文，一本书，都能引出无数的话题，关键在于自己愿不愿挖掘，有没有探索的精神，这个非常重要，本科学习过程中，总能感觉自己遇到困难就撤退，很多事物浅尝辄止，泛泛而学，完全不应该是一个胸怀志向的年轻人的所作所为。</p>
+<p>早些年读书，读不好，很大程度是不会读书，做任何时候，都有套路，就像游戏攻略一样，如果自己沉下心去思考，肯定会有领悟。谈到读书，不能泛泛的读，一本书，狼吞虎咽的浏览，翻到最后一夜，可能前面的内容都一点就没有了印象。除非天资聪颖，不然，认真翻个几遍真的是很有必要的事情。古人说，读书百遍，其义自现，当然，百遍是夸张的，但是没有多次的回顾，其实也是很难有所收获的，回顾的意义在于发现过去所遗漏的，或者未尝试思考的，次数多了，深度也就有了，体会也便油然而生，这样才能真正有自己的产出，而不是完全书上的注解。
+
+</div>
+</article>
+
+<article>
+<div class="entry-header">
+<h1 class="entry-title"><a href="/post/2014-02-21-simple-git-guide.html">"Simple Git Guide"</a></h1>
+<div class="entry-meta">
+<span class="sep"><time>2014-02-21 15:46:05 +0800</time></a></span>
+</div>
+</div>
+<div class="entry-content">
+<h2>Preliminary</h2>
+<h3>Remote</h3>
+<p>If you have not cloned an existing repository and want to connect your repository to a remote server, you need to add it with</p>
+<pre><code>git remote add repo_path
+</code></pre>
+<p>repo_path can be something like <code>https://github.com/sunnycomes/okcoin_pc</code>.</p>
+<h3>branch</h3>
+<p>Branches are used to develop features isolated from each other. The master branch is the "default" branch when you create a repository. Use other branches for development and merge them back to the master branch upon completion.</p>
+<p>create a new branch named "branch_xx", </p>
+<pre><code>git branch branch_xx
+</code></pre>
+<p>and switch to it using 
+    git checkout branch_xx</p>
+<p>or,
+    git checkout -b branch_xx</p>
+<p>do the same work.</p>
+
+</div>
+</article>
+
+</div>
+</div>
+<footer class="footer">
+<div class="footer_powered_by">
+Powered by <a href="http://www.iovi.com">Sunnycomes</a>
+</div>
+</footer>
+</div>
+<a target="_blank" href="https://github.com/sunnycomes/IoVision"><img style="position: absolute; top: 0; right: 0; border: 0;" src="https://camo.githubusercontent.com/e7bbb0521b397edbd5fe43e7f760759336b5e05f/68747470733a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f72696768745f677265656e5f3030373230302e706e67" alt="Fork me on GitHub" data-canonical-src="https://s3.amazonaws.com/github/ribbons/forkme_right_green_007200.png"></a>
+</body>
+</html>
