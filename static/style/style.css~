@@ -5,7 +5,7 @@
 }
 
 body {
-	font: 14px Helvetica,"Hiragino Sans GB","Hiragino Sans GB W3",Arial,sans-serif;
+	font: 14px "Microsoft YaHei", "aria", sans-serif;
 	background-image: url(/static/img/bg.jpg);
 	background-attachment: fixed;
 }
@@ -79,7 +79,7 @@ article {
 }
 
 .sep {
-    background: url(http://ww3.sinaimg.cn/large/a74eed94jw1e0wrw80w4rj.jpg) 0 0 no-repeat;
+    display: inline-block;
 }
 
 .entry-meta {
