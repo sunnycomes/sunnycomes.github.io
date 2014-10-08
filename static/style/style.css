@@ -48,7 +48,7 @@ a {
 }
 
 article {
-	background: white;
+	background: rgba(255,255,255,0.3);
 	-webkit-border-radius: 3px;
 	-moz-border-radius:3px;
 	border-radius:3px;
@@ -79,9 +79,7 @@ article {
 }
 
 .sep {
-    padding-left: 28px;
     display: inline-block;
-    background: url(http://ww3.sinaimg.cn/large/a74eed94jw1e0wrw80w4rj.jpg) 0 0 no-repeat;
 }
 
 .entry-meta {
