@@ -184,7 +184,6 @@ article code {
 
 p>code {
 	padding: 3px;
-
 	border: 1px solid #ddd;
 	word-wrap: normal;
 	-moz-border-radius:6px;
