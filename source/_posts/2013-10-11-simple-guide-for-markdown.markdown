@@ -370,7 +370,7 @@ You can display a list of links to jump to headers in a document. Sub-headers wi
 
 Output:
 
-[TOC]
+[TOC]  
 
 # Section 1
 
@@ -379,15 +379,13 @@ Output:
 # Section 2
 
 
-sssssssssssssssssssss
+# Section 1
+
+## Sub-section 1
+
+# Section 2
 
 
-
-#Section 1
-
-##Sub-section 1
-
-#Section 2
 
 **Alternative** solution to achieve such function is using hyer links if the above does not work for your case.
 

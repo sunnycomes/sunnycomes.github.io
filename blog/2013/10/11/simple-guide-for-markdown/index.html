@@ -1,0 +1,767 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Simple Guide for Markdown - I/O VIsion</title>
+  <meta name="author" content="Sunny">
+
+  
+  <meta name="description" content="Markdown was created to be easy to read, easy to write, and still readable in plain text format. Links
+Reference Links
+Artifact Links
+Basic Text &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://www.iovi.com/blog/2013/10/11/simple-guide-for-markdown">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="I/O VIsion" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="./javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-43860851-1']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://' : 'http://') + 'stats.g.doubleclick.net/dc.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-43860851-1', 'iovi.com');
+  ga('send', 'pageview');
+
+</script>
+
+
+
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">I/O VIsion</a></h1>
+  
+    <h2>爱编码，爱思考，爱探索.</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:www.iovi.com" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+
+
+<li><a href="/">Home</a></li>
+
+<li><a href="/blog/archives">Archives</a></li>
+
+<li><a href="/blog/categories/stuff">Stuff</a></li>
+
+<li><a href="/bookshelf">Bookshelf</a></li>
+
+<!--
+	<li><a href="/blog/stuff">Stuff</a></li>
+
+	Commented out for present.
+<li><a href="/blog/categories/data-mining">Data Mining</a></li>
+
+<li><a href="/blog/bookrack ">Bookrack</a></li>
+
+-->
+<li><a href="/about ">About</a></li>
+
+
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">Simple Guide for Markdown</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-10-11T21:35:48+08:00" pubdate data-updated="true">Oct 11<span>th</span>, 2013</time>
+        
+           | <a href="#disqus_thread"
+             data-disqus-identifier="http://www.iovi.com">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><p>Markdown was created to be easy to read, easy to write, and still readable in plain text format.</p>
+
+<ol>
+<li><a href="#links">Links</a></li>
+<li><a href="#reference_links">Reference Links</a></li>
+<li><a href="#artifact_links">Artifact Links</a></li>
+<li><a href="#basic_text_formatting">Basic Text Formatting</a></li>
+<li><a href="#blockquotes">Blockquotes</a></li>
+<li><a href="#preformatted_text">Preformatted Text</a></li>
+<li><a href="#lists">Lists</a></li>
+<li><a href="#tables">Tables</a></li>
+<li><a href="#more_headers">More Headers</a></li>
+<li><a href="#horizontal_rules">Horizontal Rules</a></li>
+<li><a href="#images">Images</a></li>
+<li><a href="#escapes_and_html">Escapes and HTML</a></li>
+<li><a href="#table_of_contents">Table of Contents</a></li>
+</ol>
+
+
+<!-- more -->
+
+
+<hr />
+
+<h2><a name='links'></a>Links</h2>
+
+<p>Most URLs will automatically be turned into links. To be explicit, just write it like this:</p>
+
+<pre><code>&lt;http://www.iovi.com&gt;  
+&lt;somebbob@iovi.com&gt;
+</code></pre>
+
+<p>Output:</p>
+
+<blockquote><p><a href="http://www.iovi.com">http://www.iovi.com</a><br/>
+<a href="&#x6d;&#97;&#x69;&#x6c;&#116;&#111;&#x3a;&#115;&#x6f;&#x6d;&#101;&#98;&#98;&#x6f;&#98;&#x40;&#x69;&#111;&#118;&#x69;&#46;&#x63;&#x6f;&#109;">&#x73;&#x6f;&#x6d;&#101;&#x62;&#x62;&#x6f;&#98;&#64;&#105;&#111;&#118;&#105;&#x2e;&#99;&#x6f;&#109;</a></p></blockquote>
+
+<p>To use text for the link, write it:</p>
+
+<pre><code>[like this](http://www.iovi.com)
+</code></pre>
+
+<p>You can add a <em>title</em> (which shows up under the cursor):</p>
+
+<pre><code>[like this](http://www.iovi.com "this title shows up when you hover")
+</code></pre>
+
+<p>Output:</p>
+
+<blockquote><p><a href="http://www.iovi.com">like this</a></p>
+
+<p>You can add a <em>title</em> (which shows up under the cursor):</p>
+
+<p><a href="http://www.iovi.com" title="this title shows up when you hover">like that</a></p></blockquote>
+
+<hr />
+
+<h2><a name='reference_links'></a>Reference Links</h2>
+
+<pre><code>You can also put the [link URL][1] below the current paragraph like [this][2].  
+[1]: http://www.iovi.com  
+[2]: http://www.iovi.com "I/O VIsion"  
+</code></pre>
+
+<p>Output:</p>
+
+<blockquote><p>You can also put the <a href="http://www.iovi.com">link URL</a> below the current paragraph <a href="http://www.iovi.com" title="I/O VIsion">like</a> this.</p></blockquote>
+
+<p>Here the text &ldquo;link URL&rdquo; gets linked to <code>http://www.iovi.com</code>, and the lines showing <code>[1]: http://www.iovi.com</code> won&rsquo;t show anything.</p>
+
+<pre><code>Or you can use a [shortcut][] reference, which links the text "shortcut" to the link named "[shortcut]" on the next paragraph.
+[shortcut]: http://www.iovi.com/goes/with/the/link/name/text
+</code></pre>
+
+<p>Output:</p>
+
+<blockquote><p>Or you can use a <a href="http://www.iovi.com/goes/with/the/link/name/text">shortcut</a> reference, which links the text &ldquo;shortcut&rdquo; to the link named &ldquo;<a href="http://www.iovi.com/goes/with/the/link/name/text">shortcut</a>&rdquo; on the next paragraph.</p></blockquote>
+
+<hr />
+
+<h2><a name='artifact_links'></a>Artifact Links</h2>
+
+<p>Any forge resource (artifact) can be linked with surrounding square brackets, e.g. <code>[MyPage]</code> or <code>[#123]</code>. These artifact links can take several forms(However, some of them haven&rsquo;t been tested yet).</p>
+
+<h3>Simple Links</h3>
+
+<p>Most commonly, the artifact identifier can simply be surrounded with square brackets. Here are some examples:</p>
+
+<pre><code>[MyWikiPage]       # Wiki - name of wiki page  
+[#123]             # Tracker - ticket number  
+[r10721]           # SVN - revision number  
+[3b9d48]           # Git &amp; Mercurial - first 6 characters of revision hash  
+[2012/02/my-post]  # Blog - post slug, including YYYY/MM/ prefix  
+[a6d38f98]         # Discussion Thread - thread id  
+[a6d38f98#42f8]    # Discussion Post - thread_id#post_id  
+</code></pre>
+
+<h3>Two-part Links</h3>
+
+<p>To link to an artifact in a specific tool, use the form: <code>[tool:artifact]</code>, where <code>tool</code> is the name of the tool as it appears in the URL. Two-part links are useful when you have two tools of the same type installed. For example, let&rsquo;s say you have a &lsquo;bugs&rsquo; tracker and a &lsquo;features&rsquo; tracker installed, and you want to link to the first ticket in each:</p>
+
+<pre><code>[bugs:#1]  
+[features:#1]
+</code></pre>
+
+<h3>Three-part Links</h3>
+
+<p>To link to an artifact in another project, use the form: <code>[project:tool:artifact]</code>, where <code>project</code> is the name of the project as it appears in the URL. For example:</p>
+
+<pre><code>[allura:wiki:Home]
+</code></pre>
+
+<p>To link to an artifact in a subproject, use the form: <code>[project/subproject:tool:artifact]</code>, where <code>subproject</code> is the name of the subproject as it appears in the URL. For example:</p>
+
+<pre><code>[allura/sub:code:3b9d48]
+</code></pre>
+
+<hr />
+
+<h2><a name='basic_text_formatting'></a>Basic Text Formatting</h2>
+
+<p>Use * or _ to emphasize things:</p>
+
+<pre><code>*this is in italic*  and _so is this_  
+**this is in bold**  and __so is this__  
+***this is bold and italic***  and ___so is this___
+</code></pre>
+
+<p>Output:</p>
+
+<blockquote><p><em>this is in italic</em>  and <em>so is this</em><br/>
+<strong>this is in bold</strong>  and <strong>so is this</strong><br/>
+<strong><em>this is bold and italic</em></strong>  and <strong><em>so is this</em></strong></p></blockquote>
+
+<p>You can strike through text using HTML like this:</p>
+
+<pre><code>&lt;s&gt;this is strike through text&lt;/s&gt;
+</code></pre>
+
+<p>Output:</p>
+
+<blockquote><p><s>this is strike through text</s></p></blockquote>
+
+<p>Two blank spaces at the end of the line do the same work as <code>&lt;br/&gt;</code> in <em>html</em>, making a line break. <em>(A little bit different from the origin post)</em>.<br/>
+Two carriage returns make a new paragraph.</p>
+
+<hr />
+
+<h2><a name='blockquotes'></a>Blockquotes</h2>
+
+<p>Use the > character in front of a line, just like in email</p>
+
+<pre><code>&gt; Use it if you're quoting a person, a song or whatever.
+
+&gt; You can use *italic* or lists inside them also.
+And just like with other paragraphs, all of these lines are still part of the blockquote, even without the &gt; character in front.
+</code></pre>
+
+<p>To end the blockquote, just put a <strong>blank line</strong> before the following paragraph.</p>
+
+<p>Output:</p>
+
+<blockquote><p>Use it if you&rsquo;re quoting a person, a song or whatever.</p>
+
+<p>You can use italic or lists inside them also.<br/>
+And just like with other paragraphs, all of these lines are still part of the blockquote, even without the > character in front.</p></blockquote>
+
+<hr />
+
+<h2><a name='preformatted_text'></a>Preformatted Text</h2>
+
+<p>If you want some text to show up exactly as you write it, without Markdown doing anything to it, just indent every line by at least 4 spaces (or 1 tab). As an alternative to indenting, you can use 4 or more tildes before and after the text. See examples in the Code Highlighting section(<em>xxxxx</em> at the head of line is a placeholder for one tab):</p>
+
+<pre><code>This line won't *have any markdown* formatting applied.  
+I can even write &lt;b&gt;HTML&lt;/b&gt; and it will show up as text.  
+This is great for showing program source code, or HTML or even  
+Markdown. &lt;b&gt;this won't show up as HTML&lt;/b&gt; but  
+exactly &lt;i&gt;as you see it in this text file&lt;/i&gt;.  
+</code></pre>
+
+<p>Within a paragraph, you can use backquotes to do the same thing.</p>
+
+<pre><code>`This won't be *italic* or **bold** at all.`
+</code></pre>
+
+<p>Output:</p>
+
+<blockquote><p>This line won&rsquo;t <em>have any markdown</em> formatting applied.<br/>
+I can even write <b>HTML</b> and it will show up as text.<br/>
+This is great for showing program source code, or HTML or even<br/>
+Markdown. <b>this won&rsquo;t show up as HTML</b> but<br/>
+exactly <i>as you see it in this text file</i>.</p></blockquote>
+
+<p>Within a paragraph, you can use backquotes to do the same thing.
+<code>This won't be *italic* or **bold** at all.</code></p>
+
+<h2><a name='lists'></a>Lists</h2>
+
+<pre><code>* an asterisk starts an unordered list
+* and this is another item in the list
++ or you can also use the + character
+- or the - character
+</code></pre>
+
+<p>To start an ordered list, write this:</p>
+
+<pre><code>1. this starts a list *with* numbers
++  this will show as number "2"
+*  this will show as number "3."
+9. any number, +, -, or * will keep the list going.
+    * just indent by 4 spaces (or tab) to make a sub-list
+        1. keep indenting for more sub lists
+    * here i'm back to the second level
+</code></pre>
+
+<p>Output:</p>
+
+<blockquote><ul>
+<li>an asterisk starts an unordered list</li>
+<li>and this is another item in the list</li>
+<li>or you can also use the + character</li>
+<li>or the &ndash; character</li>
+</ul>
+</blockquote>
+
+<p>To start an ordered and multi-level list, write this:</p>
+
+<blockquote><ol>
+<li>this starts a list <em>with</em> numbers</li>
+<li>this will show as number &ldquo;2&rdquo;</li>
+<li>this will show as number &ldquo;3.&rdquo;</li>
+<li>any number, +, &ndash;, or * will keep the list going.
+
+<ul>
+<li>just indent by 4 spaces (or tab) to make a sub-list
+
+<ol>
+<li> keep indenting for more sub lists</li>
+</ol>
+</li>
+<li>here i&rsquo;m back to the second level</li>
+</ul>
+</li>
+</ol>
+</blockquote>
+
+<hr />
+
+<h2><a name='tables'></a>Tables</h2>
+
+<p>A little bit different from the origin one, alignment attribute added.</p>
+
+<pre><code>First Header        | Second Header     | Third Header  |Fourth Header
+-------------       | :-------------    | --------:     | :----------:
+Align Default       |Align Left         | Align Right   | Align Center
+**Bold**            |*Italic*           | _Italic_      | &lt;s&gt;Strike&lt;/s&gt;
+</code></pre>
+
+<p>Output:</p>
+
+<table>
+<thead>
+<tr>
+<th>First Header        </th>
+<th align="left"> Second Header     </th>
+<th align="right"> Third Header  </th>
+<th align="center">Fourth Header</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Align Default       </td>
+<td align="left">Align Left         </td>
+<td align="right"> Align Right   </td>
+<td align="center"> Align Center</td>
+</tr>
+<tr>
+<td><strong>Bold</strong>        </td>
+<td align="left"><em>Italic</em>       </td>
+<td align="right"> <em>Italic</em>  </td>
+<td align="center"> <s>Strike</s></td>
+</tr>
+</tbody>
+</table>
+
+
+<hr />
+
+<h2><a name='more_headers'></a>More Headers</h2>
+
+<p>More ways of doing headers:</p>
+
+<pre><code># this is a huge header #  
+## this is a smaller header ##  
+### this is even smaller ###  
+#### more small ####  
+##### even smaller #####  
+###### smallest still: `&lt;h6&gt;` header  
+</code></pre>
+
+<p>Output:</p>
+
+<blockquote><h1>this is a huge header</h1>
+
+<h2>this is a smaller header</h2>
+
+<h3>this is even smaller</h3>
+
+<h4>more small</h4>
+
+<h5>even smaller</h5>
+
+<h6>smallest still: <code>&lt;h6&gt;</code> header</h6></blockquote>
+
+<p>You can use up to 6 # characters at the beginning of the line.</p>
+
+<hr />
+
+<h2><a name='horizontal_rule'></a>Horizontal Rule</h2>
+
+<p>Just put three or more &ldquo;*&rdquo; or &ldquo;&ndash;&rdquo; on a line:</p>
+
+<pre><code>----------------
+</code></pre>
+
+<p>Output:</p>
+
+<blockquote><hr /></blockquote>
+
+<p>Or, you can use single spaces between them, like this:</p>
+
+<pre><code>* * *
+</code></pre>
+
+<p>Output:</p>
+
+<blockquote><hr /></blockquote>
+
+<p>Make sure you have a blank line above the dashes, though, or else:</p>
+
+<pre><code>you will get a header
+-------
+</code></pre>
+
+<p>Output:</p>
+
+<blockquote><h2>you will get a header</h2></blockquote>
+
+<hr />
+
+<h2><a name='images'></a>Images</h2>
+
+<p>To include an image, just put a &ldquo;!&rdquo; in front of a text link:</p>
+
+<pre><code>![alternate text](https://sourceforge.net/images/icon_linux.gif)
+</code></pre>
+
+<p>The &ldquo;alternate text&rdquo; will show up if the browser can&rsquo;t load the image.</p>
+
+<p>You can also use a title if you want, like this:</p>
+
+<pre><code>![tiny arrow](https://sourceforge.net/images/icon_linux.gif "tiny arrow")
+</code></pre>
+
+<p>Output:</p>
+
+<blockquote><p><img src="https://sourceforge.net/images/icon_linux.gif" alt="alternate text" /></p></blockquote>
+
+<p>You can also use a title if you want, like this:</p>
+
+<blockquote><p><img src="https://sourceforge.net/images/icon_linux.gif" title="tiny arrow" alt="tiny arrow" /></p></blockquote>
+
+<p>Some other features like macro is not covered here since not support in my lib.</p>
+
+<p>What if you want to just show asterisks, not italics?</p>
+
+<pre><code>* this shows up in italics: *a happy day*  
+* this shows the asterisks: \*a happy day\*
+</code></pre>
+
+<p>Output:</p>
+
+<blockquote><ul>
+<li>this shows up in italics: <em>a happy day</em></li>
+<li>this shows the asterisks: *a happy day*</li>
+</ul>
+</blockquote>
+
+<p>The backslashes will disappear and leave the asterisks. You can do the same with any of the characters that have a special meaning for Markdown.</p>
+
+<p>Many simple HTML tags are allowed, for example <code>&lt;b&gt;</code> And unknown tags will be dropped. To show a literal <code>&lt;b&gt;</code> or an unknown tag like <foobar> you need escape it with HTML entities:</p>
+
+<pre><code>&lt;b&gt;this will be bold.&lt;/b&gt;  
+you should escape &lt;unknown\&gt; tags with "\" by placing which on the left of the close bracket.  
+&amp;copy; special entities work.  
+\&amp;copy; if you want to escape it.
+</code></pre>
+
+<p>Output:</p>
+
+<blockquote><p><b>this will be bold.</b><br/>
+you should escape &lt;unknown> tags with &ldquo;\&rdquo; by placing which on the left of the close bracket.<br/>
+&copy; special entities work.<br/>
+&amp;copy; if you want to escape it.</p></blockquote>
+
+<p>HTML tags that are <strong>block-level</strong> like <code>&lt;div&gt;</code> can be used, but if there is markdown formatting <strong>within</strong> it, you must add a <code>markdown</code> attribute: <code>&lt;div markdown&gt;</code>.</p>
+
+<p>Some safe attributes are also allowed, permitting basic styling and layout: <code>&lt;div markdown style="float:left"&gt;</code>.</p>
+
+<p>Individual ampersands (&amp;) and less-than signs (&lt;) are fine, they will be shown as expected.</p>
+
+<hr />
+
+<h2><a name='table_of_contents'></a>Table of Contents</h2>
+
+<p>You can display a list of links to jump to headers in a document. Sub-headers will be nested. This function is quite like anchor, however more flexible and less labor. The following example is from the <a href="http://sourceforge.net/p/forge/documentation/markdown_syntax/">Markdown Syntax Guide</a>, however not functions well for me, more details about TOC <a href="http://pythonhosted.org/Markdown/extensions/toc.html">Table of Contents</a>.</p>
+
+<pre><code>[TOC]
+#Section 1  
+##Sub-section 1  
+#Section 2  
+
+#Section 1  
+
+##Sub-section 1  
+
+#Section 2  
+</code></pre>
+
+<p>Output:</p>
+
+<p>[TOC]</p>
+
+<h1>Section 1</h1>
+
+<h2>Sub-section 1</h2>
+
+<h1>Section 2</h1>
+
+<p>sssssssssssssssssssss</p>
+
+<h1>Section 1</h1>
+
+<h2>Sub-section 1</h2>
+
+<h1>Section 2</h1>
+
+<p><strong>Alternative</strong> solution to achieve such function is using hyer links if the above does not work for your case.</p>
+
+<pre><code>#[Section 1](#section1)
+##[Sub-section 1](#sub-section1)
+#[Section 2](#section2)
+
+#&lt;a name="section1"&gt;&lt;/a&gt;Section 1  
+
+##&lt;a name="sub-section1"&gt;&lt;/a&gt;Sub-section 1  
+
+#&lt;a name="section2"&gt;&lt;/a&gt;Section 2  
+</code></pre>
+
+<p>Output:</p>
+
+<blockquote><h1><a href="#section1">Section 1</a></h1>
+
+<h2><a href="#sub-section1">Sub-section 1</a></h2>
+
+<h1><a href="#section2">Section 2</a></h1></blockquote>
+
+<h1><a name="section1"></a>Section 1</h1>
+
+<h2><a name="sub-section1"></a>Sub-section 1</h2>
+
+<h1><a name="section2"></a>Section 2</h1>
+
+<hr />
+
+<p>References:</p>
+
+<ul>
+<li><a href="http://sourceforge.net/p/forge/documentation/markdown_syntax/">Markdown Syntax Guide</a></li>
+<li><a href="https://github.com/adam-p/markdown-here/wiki/Markdown-Cheatsheet">Markdown Cheatsheet</a></li>
+<li><a href="http://pythonhosted.org/Markdown/extensions/toc.html">Table of Contents</a></li>
+</ul>
+
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">Sunny</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-10-11T21:35:48+08:00" pubdate data-updated="true">Oct 11<span>th</span>, 2013</time>
+      
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2013/10/01/how-to-backup-or-restore-mysql-database/" title="Previous Post: How to Backup or Restore MySQL Database">&laquo; How to Backup or Restore MySQL Database</a>
+      
+      
+        <a class="basic-alignment right" href="/blog/2013/10/21/optimistic-and-pessimistic-locking/" title="Next Post: Optimistic and Pessimistic Locking">Optimistic and Pessimistic Locking &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+  <section>
+    <h1>Comments</h1>
+    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+  </section>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2014/07/07/talk-about-double-in-java/">聊一聊Java中double精度去哪了(1)</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2014/06/07/java-deep-learning-of-annotation/">打破沙锅问到底－－Java的@符号</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2014/04/01/flipping-coins-strategy-to-win/">抛硬币也能抛出人生大赢家</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2014/03/06/a-new-start/">脱离低级趣味的写作</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2014/03/01/talk-about-bitcoin-change/">聊一聊不一样的比特币找零机制</a>
+      </li>
+    
+  </ul>
+</section>
+<section>
+  <h1>Tags</h1>
+  <ul class="tag-cloud">
+    <a style="font-size: 90%" href="/tags/bitcoin/">Bitcoin</a>
+<a style="font-size: 150%" href="/tags/database/">Database</a>
+<a style="font-size: 90%" href="/tags/gamble/">Gamble</a>
+<a style="font-size: 90%" href="/tags/git/">Git</a>
+<a style="font-size: 210%" href="/tags/java/">Java</a>
+<a style="font-size: 150%" href="/tags/mysql/">MySQL</a>
+
+  </ul>
+</section>
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2014 - Sunny -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+<script type="text/javascript">
+      var disqus_shortname = 'sunnycomes';
+      
+        
+        // var disqus_developer = 1;
+        var disqus_identifier = 'http://www.iovi.com/blog/2013/10/11/simple-guide-for-markdown/';
+        var disqus_url = 'http://www.iovi.com/blog/2013/10/11/simple-guide-for-markdown/';
+        var disqus_script = 'embed.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = '//' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>

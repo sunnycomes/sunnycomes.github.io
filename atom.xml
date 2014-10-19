@@ -1,0 +1,1977 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[I/O VIsion]]></title>
+  <link href="http://www.iovi.com/atom.xml" rel="self"/>
+  <link href="http://www.iovi.com/"/>
+  <updated>2014-10-07T12:17:58+08:00</updated>
+  <id>http://www.iovi.com/</id>
+  <author>
+    <name><![CDATA[Sunny]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[聊一聊Java中double精度去哪了(1)]]></title>
+    <link href="http://www.iovi.com/blog/2014/07/07/talk-about-double-in-java/"/>
+    <updated>2014-07-07T21:30:11+08:00</updated>
+    <id>http://www.iovi.com/blog/2014/07/07/talk-about-double-in-java</id>
+    <content type="html"><![CDATA[<p>前段时间，因为要测试一个刚出炉的高频策略，放实盘去跑吧，怕出岔，所以写了个简单的回测系统，跑一遍历史数据。其中有一部分是关于撮合系统，简陋了点，还算能跑得起来，几个用例下来，也没什么问题，接着增加历史数据量，居然出现了负数，简直不可能发生的事情居然出现了，虽然都是小金额的偏差，但是毕竟跟钱打交道，必须谨慎，况且现在比特币那么贵，丝毫偏差都是不允许的！</p>
+
+<p>当然，后面就是苦逼的找bug，逻辑没问题，发狠的，把所有的数据都打印出来，日志一页一页没有尽头，心里发麻，硬着头皮一条条排查，人品不错，开头就发现一条异常数据，0.05+0.01＝0.060000000000000005，瞬间明白，google it，才发现Java的double原来精度那么蛋疼。网上推荐BigDecimal代替double，果然不错，那就用BigDecimal替换。等所有的double都换之后，狗血的事情发生了，BigDecimal是如此的慢，以至于跑一个用例花了之前N倍的时间，怎么办，只能用一个折中的办法，数值表示仍然用double，数值计算用BigDecimal，于是乎，有了如下的一个四则运算工具类MathUtil.java</p>
+
+<script src="https://gist.github.com/sunnycomes/294abb067fbd662c60f5.js"></script>
+
+
+<p>当然，这里我想做的，不仅仅只是找到解决方案，更多的事想理解为什么double会出现这样的问题，如果是其他语言，例如C，会不会也出现这样的问题，我试着用同一组数据，发现C对于这组数据是没有出现异常的，那么，Java为什么会这么与众不同呢？</p>
+
+<p>网上说其他语言也有类似的情况，那么我们该如何避免这些地雷呢？</p>
+
+<p>既然Java的double问题那么多，我当前系统用double表示数值，会不会出现偏差？</p>
+
+<p>如果Java中采用BigDecimal效率这么低，那些大型交易所，性能要求极高，如何控制延迟呢？或者还有其他更好的技术？</p>
+
+<p>各种疑问在脑中盘旋，打破沙锅问到底的瘾又翻了，后面将追加博文，彻底研究下，Java的double精度去哪了。</p>
+
+<!-- more -->
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[打破沙锅问到底－－Java的@符号]]></title>
+    <link href="http://www.iovi.com/blog/2014/06/07/java-deep-learning-of-annotation/"/>
+    <updated>2014-06-07T14:23:59+08:00</updated>
+    <id>http://www.iovi.com/blog/2014/06/07/java-deep-learning-of-annotation</id>
+    <content type="html"><![CDATA[<p>刚接触Java变成，就经常碰到“@”这个符号，所谓的Java中的annotation。很多时候它都是跟@Override，@Deprecated，@SuppressWarnings，或者更见多识广一些，还有@Retention，@Target，@Documented，@Inherieted，但是，大多数情况下，很少会有人去过问为什么这么去写，只知道这是一种理所当然的写法，在这里推荐一篇非常详细的关于Java注解的博文<a href="http://computerdragon.blog.51cto.com/6235984/1210969">Java注解annotation用法和自定义注解处理器</a>。</p>
+
+<p>读完上面那篇文章，相信大家应该对Java的注解有了比较初步的认识，当然，光看别人的不行，没有自己的总结体会，等于没有学到太多。</p>
+
+<p>原文中提到“<strong>自定义注解是以@interface为标志的</strong>”，那么，“注释”到底是不是一个interface呢？答案可以从<a href="http://docs.oracle.com/javase/tutorial/java/annotations/declaring.html">官方文档</a>中找到，“<code>Annotation types are a form of interface</code>”，如是写道。</p>
+
+<p>原文中定义了一个Constraints的Annotation，当其他Annotation引用它时，却有两种不同的用法，我从原文中复制了这样一段代码</p>
+
+<pre><code>@Target(ElementType.FIELD)
+@Retention(RetentionPolicy.RUNTIME)
+public @interface SQLString {
+    int value() default 0;
+    String name() default "";
+    Constraints constraints() default @Constraints;
+}
+</code></pre>
+
+<p>想必大家应该注意到了，<code>Constraints constraints() default @Constraints;
+</code>，这一行中，前一个Constraints是不加“@”，而后面加了，再回忆下最初我们接触到的Override，Deprecated，SupressWarnings，前面都有“@”，这是为什么？目前猜测不加表示“类型”，而加了之后，表示“实例”，有兴趣的读者可以深究下。</p>
+
+<p>看了这么多代码，从头到尾都觉得Annotation type element(官网原话)定义特别怪异，如<code>int value() default 0;</code>，自开始学习java编程以来，还从未接触过这种写法，有兴趣的读者可以试着把这段代码放到一个普通的类内部，会是什么效果，肯定报错！<a href="http://docs.oracle.com/javase/7/docs/technotes/guides/language/annotations.html">官网</a>有这样一段原话,</p>
+
+<pre><code>Annotation type declarations are similar to normal interface declarations. 
+
+An at-sign (@) precedes the interface keyword. Each method declaration defines an element of the annotation type. Method declarations must not have any parameters or a throws clause. 
+
+Return types are restricted to primitives, String, Class, enums, annotations, and arrays of the preceding types. Methods can have default values. 
+</code></pre>
+
+<p>相信已经解答大家的疑惑了。</p>
+
+<p>再啰嗦一句，在Annotation里面，有一个接口很少抛头露面，但有重要到不得不提的地步，它就是<code>java.lang.annotation.Annotation</code>，默认的，Override，Deprecated等annotation类型都继承于它，跟java.lang.Object类似。更多详细资料见官网<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/annotation/Annotation.html">Interface Annotation</a>. 值得注意的是，你要是自己写个接口Intf，实现<code>java.lang.annotation.Annotation</code>，并不能使Intf成为<code>java.lang.annotation.Annotation</code>类型。</p>
+
+<p>最后，可以尝试做下官网提供的小测验，巩固下知识，<a href="http://docs.oracle.com/javase/tutorial/java/annotations/QandE/questions.html">地址</a></p>
+
+<!-- more -->
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[抛硬币也能抛出人生大赢家]]></title>
+    <link href="http://www.iovi.com/blog/2014/04/01/flipping-coins-strategy-to-win/"/>
+    <updated>2014-04-01T23:25:39+08:00</updated>
+    <id>http://www.iovi.com/blog/2014/04/01/flipping-coins-strategy-to-win</id>
+    <content type="html"><![CDATA[<p>抛硬币，玩家庄家概率对半开，怎么赢，关键看下注策略。资金管理领域，有两种不得不提的策略，等价鞅与反等价鞅，从表现形式看，使用等价鞅制度的资金管理方式，在出现亏损以后，倾向于使用增加投入金额的方式进行后来的游戏。一旦获得盈利后，资金投入比例会再次回到起始水平；使用反等价鞅制度的资金管理方式，在出现亏损以后，会倾向于减少投入金额的比例进行后来的游戏；而伴随盈利的增加，也会不断增加投入资金，更多相关的内容见<a href="http://bluema75.blog.163.com/blog/static/386767082007101710422663/">等价鞅和反等价鞅</a>，写的很精彩，不做赘述。在这里，抛硬币属于古典概型，理解起来，相对简单直观。</p>
+
+<p>游戏开始，你有10000块钱，资金翻倍后离场，不然一直到次数上限</p>
+
+<p>等价鞅策略：</p>
+
+<pre><code>1:如果前一次赢了，本次下注金额为1元。
+2:如果前一次输了，本次下注金额为之前两倍，这样做到本次赢了，能把之前输的都回本。
+3:第一次玩时，认为前一次是赢的，因此，开局赌注为1元。
+</code></pre>
+
+<p>代码：</p>
+
+<pre><code>package com.iovi.flippingcoins;
+
+/**
+  * @author sunnycomes
+  *
+*/
+public class FlippingCoins {
+
+    public static final int INIT_FUNDS = 10000;
+    public static final int PREFERED_FUNDS = INIT_FUNDS * 2;
+
+    public static final int MAX_TEST_CASE_CNT = 100;
+
+    // This value is related to PREFERED_FUNDS if you think carefully.
+    public static final int MAX_FLIPPING_CNT_IN_ONE_TEST_CASE = 20000;
+
+    public static void main(String[] args) {
+
+        for(int testCnt = 0; testCnt &lt; MAX_TEST_CASE_CNT; testCnt++) {
+
+            int funds = INIT_FUNDS;
+            int lastResult = 1;
+            int lastChip = 1;
+            int flipCnt = 0;
+
+            while(funds &lt;= PREFERED_FUNDS) {
+
+                if(flipCnt &gt;= MAX_FLIPPING_CNT_IN_ONE_TEST_CASE) {
+                    //System.err.print("Max flipping count in one test case reached#");
+                    break;
+                }
+                flipCnt ++;
+
+                lastChip = lastResult == 1 ? 1 : lastChip * 2;
+                if(funds &lt; lastChip) {
+                    //System.err.print("No enough funds for next round#");
+                    break;
+                }
+
+                lastResult = getResult();
+                funds = lastResult == 1 ? funds + lastChip : funds - lastChip;
+            }
+
+            if(funds &gt; PREFERED_FUNDS) {
+                System.out.println("flipCnt=" + flipCnt + "#funds=" + funds);
+            }
+
+            //System.out.println("flipCnt=" + flipCnt + "#funds=" + funds);
+        }
+    }
+
+    /**
+     * The method is designed to create a random result simulating the coin flipping result.
+     * 
+     * @return a pseudorandom int either 1 or 0, 1 stands for win and vice versa.
+     */
+    public static int getResult() {
+        return (int) (Math.random() + 0.5);
+    }
+}
+</code></pre>
+
+<p>听网友反馈，测试结果不理想，最后产生了亏损，这其实是可能发生的，要体现策略的效果，首先，初始资金要充足，而后，测试的用例必须保证充足。要理解一个概念，产生了一列随机数，测试次数远远不够，要搞清楚一个概念。概率和运气：概率是你抛1w次硬币，正反面对半开，而关于运气，则是前5k次是正面，后5k次是反面。你只测了一列随机数，不具有代表性。</p>
+
+<p>另外，还推荐一篇比较不错的关于资金管理的文章<a href="http://blog.sina.com.cn/s/blog_4b9aa4250101k4q5.html">【干货】关于等价鞅、反等价鞅、剀利公式、赌徒输光定理</a></p>
+
+<!-- more -->
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[脱离低级趣味的写作]]></title>
+    <link href="http://www.iovi.com/blog/2014/03/06/a-new-start/"/>
+    <updated>2014-03-06T22:39:51+08:00</updated>
+    <id>http://www.iovi.com/blog/2014/03/06/a-new-start</id>
+    <content type="html"><![CDATA[<p>之前的大多博文，东抄西抄，完全体现不出个人的劳动成果，作为一个研究僧，的确应该写一些自己独立思考的文字，挖掘深层次的知识。</p>
+
+<p>其实现实当中可以书写的素材非常丰富，一篇博客，一纸论文，一本书，都能引出无数的话题，关键在于自己愿不愿挖掘，有没有探索的精神，这个非常重要，本科学习过程中，总能感觉自己遇到困难就撤退，很多事物浅尝辄止，泛泛而学，完全不应该是一个胸怀志向的年轻人的所作所为。</p>
+
+<p>早些年读书，读不好，很大程度是不会读书，做任何时候，都有套路，就像游戏攻略一样，如果自己沉下心去思考，肯定会有领悟。谈到读书，不能泛泛的读，一本书，狼吞虎咽的浏览，翻到最后一夜，可能前面的内容都一点就没有了印象。除非天资聪颖，不然，认真翻个几遍真的是很有必要的事情。古人说，读书百遍，其义自现，当然，百遍是夸张的，但是没有多次的回顾，其实也是很难有所收获的，回顾的意义在于发现过去所遗漏的，或者未尝试思考的，次数多了，深度也就有了，体会也便油然而生，这样才能真正有自己的产出，而不是完全书上的注解。</p>
+
+<p>对自己未来的承诺，文章一定自己写，别人的成果，坚决不重复引用，必须有自己思考的痕迹，并且能给出一定有价值的结论或者总结，做一个会思考的大脑，有思想的芦苇。</p>
+
+<!-- more -->
+
+
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[聊一聊不一样的比特币找零机制]]></title>
+    <link href="http://www.iovi.com/blog/2014/03/01/talk-about-bitcoin-change/"/>
+    <updated>2014-03-01T15:43:56+08:00</updated>
+    <id>http://www.iovi.com/blog/2014/03/01/talk-about-bitcoin-change</id>
+    <content type="html"><![CDATA[<p>刚开始接触比特币的时候，一定很多人困惑于比特币的找零，幸好资料很多，随手从网上找了一篇，很详尽<a href="http://jingyan.baidu.com/article/19192ad84bcd54e53e570729.html">《详解比特币的找零机制》</a>，大家可以做一个入门导读。</p>
+
+<p>好了，针对原文的一些概念，这里我做一些我的理解。</p>
+
+<p>原文中“<strong>比特币钱包交易100次以上时再次交易后要重新备份钱包</strong>”，值得一提的是，这里的交易指的是支出，而不包含接收。</p>
+
+<p>原文中举了一个买棒棒糖的例子，“<strong>新创建的货币金额与被销毁的货币金额是完全一样的</strong>”，这种说法其实不对，这里根本没有销毁和创建一说，无非是原地址比特币数字归零，余额赋值到新地址，正是因为原文中的说法，导致很多人以为比特币是完整不可分割。</p>
+
+<p>原文中，“<strong>同时为了防止双重支付和伪造，必须确保在任何时候，新创建的货币金额与被销毁的货币金额是完全一样的。</strong>”，“销毁”和“创建”金额相同，跟双重支付和伪造够不成因果关系，确认交易和防止双重支付主要是有PROOF-OF-WORK机制保证的，就是常说的PoW。</p>
+
+<!-- more -->
+
+
+<p>不知道大家有没有注意到，原文中始终没有提到为什么要创建新地址接收余额，为什么？理论上，新地址和旧地址(支付地址)接收余额性质是一样的，技术上实现也是没有问题的，聪明的你不知道有没有注意到一个问题，比特币是匿名币，非常注重<strong>隐私</strong>，匿名不止体现在比特币地址上，还体现在找零机制。这里不做赘述，读者自己思考。</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Simple Git Guide]]></title>
+    <link href="http://www.iovi.com/blog/2014/02/21/simple-git-guide/"/>
+    <updated>2014-02-21T15:46:05+08:00</updated>
+    <id>http://www.iovi.com/blog/2014/02/21/simple-git-guide</id>
+    <content type="html"><![CDATA[<h2>Preliminary</h2>
+
+<h3>Remote</h3>
+
+<p>If you have not cloned an existing repository and want to connect your repository to a remote server, you need to add it with</p>
+
+<pre><code>git remote add repo_path
+</code></pre>
+
+<p>repo_path can be something like <code>https://github.com/sunnycomes/okcoin_pc</code>.</p>
+
+<h3>branch</h3>
+
+<p>Branches are used to develop features isolated from each other. The master branch is the &ldquo;default&rdquo; branch when you create a repository. Use other branches for development and merge them back to the master branch upon completion.</p>
+
+<p>create a new branch named &ldquo;branch_xx&rdquo;,</p>
+
+<pre><code>git branch branch_xx
+</code></pre>
+
+<p>and switch to it using</p>
+
+<pre><code>git checkout branch_xx
+</code></pre>
+
+<p>or,</p>
+
+<pre><code>git checkout -b branch_xx
+</code></pre>
+
+<p>do the same work.</p>
+
+<!-- more -->
+
+
+<h3>Working Directory, Index, HEAD</h3>
+
+<p>your local repository consists of three &ldquo;trees&rdquo; maintained by git. the first one is your <code>Working Directory</code> which holds the actual files. the second one is the <code>Index</code> which acts as a staging area and finally the <code>HEAD</code> which points to the last commit you&rsquo;ve made.</p>
+
+<h2>Basic Workflow</h2>
+
+<h3>checkout a repository</h3>
+
+<p>create a working copy of a local repository by running the command</p>
+
+<pre><code>git clone /path/to/repository 
+</code></pre>
+
+<p>when using a remote server, your command will be</p>
+
+<pre><code>git clone username@host:/path/to/repository
+</code></pre>
+
+<h3>Fetch</h3>
+
+<p>Fetch the latest history from the server, use this command</p>
+
+<pre><code>git fetch repo_path
+</code></pre>
+
+<h3>Add</h3>
+
+<p>This is the first step in the basic git workflow. You can propose changes (add it to the Index) using</p>
+
+<pre><code>git add &lt;filename&gt;
+</code></pre>
+
+<p>or</p>
+
+<pre><code>git add *
+</code></pre>
+
+<p>to add all the untracked files.</p>
+
+<h3>Commit</h3>
+
+<p>To actually commit these changes use</p>
+
+<pre><code>git commit -m "Commit message, it's necessary for a detail description of the changes."
+</code></pre>
+
+<p>Now the file is committed to the HEAD, but not in your remote repository yet.</p>
+
+<h3>Merge &amp; Pull</h3>
+
+<p>To merge another branch into your active branch (e.g. master), use</p>
+
+<pre><code>git merge master
+</code></pre>
+
+<p>to update your local repository to the newest commit, execute</p>
+
+<pre><code>git pull repo_path branch_xx
+</code></pre>
+
+<p>in your working directory to fetch and merge remote changes, in both cases git tries to auto-merge changes.</p>
+
+<p>Unfortunately, this is not always possible and results in conflicts. You are responsible to merge those conflicts manually by editing the files shown by git. Show unmerged paths which contains conflicts and changes that uncommited,</p>
+
+<pre><code>git status
+</code></pre>
+
+<p>After changing, you need to mark them as merged with</p>
+
+<pre><code>git add &lt;filename&gt;
+</code></pre>
+
+<p>before merging changes, you can also preview them by using</p>
+
+<pre><code>git diff --cached
+</code></pre>
+
+<p>Then <strong>commit</strong> all the changes to keep the working  directory <strong>clean</strong>,</p>
+
+<pre><code>git commit -a -m "Conflicts fixed."
+</code></pre>
+
+<h3>Push changes</h3>
+
+<p>Your changes are now in the HEAD of your local working copy. To send those changes to your remote repository, execute</p>
+
+<pre><code>git push repo_path branch_xx
+</code></pre>
+
+<p>Change <code>branch_xx</code> to whatever branch you want to push your changes to.</p>
+
+<h3>Tagging</h3>
+
+<p>It&rsquo;s recommended to create tags for software releases. this is a known concept, which also exists in SVN. You can create a new tag named 1.0.0 by executing</p>
+
+<pre><code>git tag 1.0.0 1b2e1d63ff
+</code></pre>
+
+<p>the 1b2e1d63ff stands for the first 10 characters of the commit id you want to reference with your tag. You can get the commit id with</p>
+
+<pre><code>git log
+</code></pre>
+
+<p>you can also use fewer characters of the commit id, it just has to be unique.</p>
+
+<h3>Reseting</h3>
+
+<p>In case you did something wrong (which for sure never happens ;) you can replace local changes using the command</p>
+
+<pre><code>git checkout -- &lt;filename&gt;
+</code></pre>
+
+<p>this replaces the changes in your working tree with the last content in HEAD, if it&rsquo;s a new and already tracked file of <filename>, then will be changed to <strong>untracked</strong>. Changes already added to the index, as well as new files, <strong>will be kept</strong>.</p>
+
+<p>Actually this would not remove the newly added files, this is pretty much like the command line</p>
+
+<pre><code>git reset
+</code></pre>
+
+<p><strong>however</strong>, such command just make the newly tracked file untracked, the changed content is excluded.</p>
+
+<pre><code>git reset --hard
+</code></pre>
+
+<p>This command will purge the working directory to the last commits.</p>
+
+<p>If you instead want to drop all your changes or commits</p>
+
+<pre><code>git reset --hard HEAD_ID
+</code></pre>
+
+<p>this will remove all the commits after the commit with the <em>HEAD_ID</em>.</p>
+
+<p>Fetch the latest history from the server and point your local branch_xx branch at it like this</p>
+
+<pre><code>git reset --hard repo_path/branch_xx
+</code></pre>
+
+<h2>References</h2>
+
+<ol>
+<li><a href="http://en.wikipedia.org/wiki/Git_(software">WIKI Git</a>)</li>
+<li><a href="http://blog.csdn.net/kasagawa/article/details/6797812">Git for Small Development Group</a></li>
+<li><a href="http://viget.com/extend/getting-to-know-git">Getting to Know Git</a></li>
+<li><a href="http://rogerdudler.github.io/git-guide/">Simple Git Guide, No Deep Shit</a></li>
+</ol>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Java Performance Tuning Tips]]></title>
+    <link href="http://www.iovi.com/blog/2013/12/11/java-performance-tunning-tips/"/>
+    <updated>2013-12-11T20:59:44+08:00</updated>
+    <id>http://www.iovi.com/blog/2013/12/11/java-performance-tunning-tips</id>
+    <content type="html"><![CDATA[<p>The 1st version is completed on 2013.12.11, the main content is from <a href="http://www.exforsys.com/tutorials/j2ee/performance-tuning-of-java-applications.html">Performance Tuning of Java Applications</a>.</p>
+
+<p>Ever since the first version of Java Technology hit the streets, performance has been an important issue for Java developers. Java has improved dramatically and continually but, performance tuning is very essential to get the best results, especially when we think of J2EE applications.</p>
+
+<!-- more -->
+
+
+<h2>Introduction:</h2>
+
+<p>Java Performance Tuning (abbreviated as JPT), 2nd edition provides a comprehensive guide to eliminate all the types of performance problems. By considering real-life examples JPT shows how to get rid off all the types of performances problems. For example JPT shows tricks such as how to minimize object creation and replacing strings with arrays can really pay off in improving code performance.</p>
+
+<p>Few of important fundamentals and guidelines included in Java Performance Tuning are:</p>
+
+<ul>
+<li><a href="#ttfoc">Tuning tips for object creation</a></li>
+<li><a href="#ptij">Performance Tuning in JDBC</a></li>
+<li><a href="#wspt">Web services performance tips</a></li>
+<li><a href="#tfqosfws">Tips for Quality of services for Web Services</a></li>
+<li><a href="#pttfe">Performance Tuning tips for EJB</a></li>
+<li><a href="#jptt">J2EE Performance tuning tips</a></li>
+<li><a href="#ttfj">Tuning tips for JMS</a></li>
+<li><a href="#rtpt">RMI tuning performance tips</a></li>
+</ul>
+
+
+<p>Guidelines for tuning java code without destroying program&rsquo;s skeleton is efficiently presented in second edition of Java Performance Tuning. It includes how to use threads effectively, how to optimize the use of strings, minimizing the creation of objects in program, avoiding bottleneck operation by including all the important fundamentals of Software Engineering to re-pioneer the code, issues of speed of Servlets and JSPs etc. That provides very crucial guidelines in performance tuning for java developers.</p>
+
+<h2><a name="ttfoc"></a>Tuning Tips for Object Creation:</h2>
+
+<ol>
+<li><p>Object Creation is one of the most basic and essential thing while developing a Java Application, as such; object defines the physical reality of class. Pay proper attention while declaring class&#8217; methods and variables because careless work carried out at this stage, can cost you in terms of speed and performance because variables and methods unwontedly declared and initialize can create overhead in overall speed. Garbage collection and memory recycling cost more time and CPU effort. Object should always be created early when there is spare time in the application, object once created should be in hold position until it is required.</p></li>
+<li><p>Care should be taken while defining methods that can accept the <strong>reusable objects</strong> to be filled with the data rather than methods that return objects holding that data,  especially for those methods frequently invoked, immutable objects can also be used here. Object should be created only when class logically needs. Constructor of class should always be simple. Methods that alter objects directly should always be preferred. Use classes that handle primitive data types rather than wrapping the primitive data types. See more details for <strong><a href="http://www.oreilly.com/catalog/javapt/chapter/ch04.html">Object Creation</a></strong></p></li>
+</ol>
+
+
+<h2><a name="ptij"></a>Performance Tuning in JDBC:</h2>
+
+<p>Java Database Connectivity (JDBC) is mainly used in most of the Java application. To keep trace on performance tuning in JDBC becomes very crucial and prime issue when Java developer realizes that most of the processing time should not be wasted behind data processing over the network. For more details, check out  <strong><a href="http://www.iovi.com/blog/2013/10/31/basic-practical-usage-of-jdbc-api/">Best Practices to Improve Performance in JDBC</a></strong></p>
+
+<p>Here are few of the tuning tips for JDBC that can improve the over all performance in Java application.</p>
+
+<ul>
+<li>SQL statements should be tuned to minimize the data that is return from the database.</li>
+<li>Use of prepared statements and parameterized SQL statements can speed up the over all process in data processing.</li>
+<li>Transaction conflicts should always be avoided.</li>
+<li>Usage of stored procedures, connection pooling, selection of fastest JDBC driver should be encouraged.</li>
+<li>Any of the open resources that is not in use in Java application can keep processor engaged unwontedly, any of the resource that is open and not required to perform any of database activity should be closed like Connections, Statements, ResultSet etc.</li>
+</ul>
+
+
+<h2><a name="wspt"></a>Web Services performance tips:</h2>
+
+<p>Because of Java&rsquo;s outstanding performance in web services there are few of the performance tips that are to be considered while developing a web service application. Here are few of the tips given for improving the web services performance.</p>
+
+<ul>
+<li>Avoid using XML messaging, this helps to achieve fine-grained RPC.</li>
+<li>Frequency of the messaging should be taken into consideration with the replication of the data as necessary.</li>
+<li>Always try to retrieve data during off-hours this helps in course gained transactions.</li>
+<li>Overall system performance should never be neglected and optimized until we know where the bottlenecks are present.</li>
+<li>Asynchronous messaging model should always be taken into account when transport is slow or / and unreliable, or when processing is complex and long running.</li>
+</ul>
+
+
+<h2><a name="tfqosfws"></a>Tips for Quality of services for Web Services</h2>
+
+<p>The main requirements in quality of service for web services are:</p>
+
+<ul>
+<li>Availability and accessibility.</li>
+<li>Integrity and reliability. This ensures that weather program will crash or not while it is running, if so, how often can it crash.</li>
+<li>Number of simultaneous request that can be made to application by the user i.e. &ldquo;throughput&rdquo; and what will be the response time to process this request by application i.e. &ldquo;latency&rdquo;.</li>
+<li>Security issues.</li>
+<li>HTTP is a best-effort delivery service as far as web services issue is concerned. The main reason behind this is that request could simply be dropped. Messaging in web services should always be Asynchronous because Asynchronous messaging can improve throughput no matter at the cost of latency.</li>
+<li>DOM based parsers are slower than SAX based ones.</li>
+<li>Requests results should be cached whenever it is possible.</li>
+<li>Extreme care should be taken to make sure that resources are not locked for long periods of time to avoid serious scalability problems.</li>
+</ul>
+
+
+<p>Other factor that affects web service performance are:</p>
+
+<ul>
+<li>Response time of web server.</li>
+<li>Availability of web server.</li>
+<li>Execution time of web application.</li>
+<li>Backend database.</li>
+<li>Scaling web services Tips</li>
+</ul>
+
+
+<p>Use of faster communication protocol, like plain socket, should always be preferred. Whenever there is requirement of sending large number of documents over the network, basic load-balancing scheme should be achieved, all the documents to be sent should have different URL hosts i.e. binding addresses. For scalability of server better and speedy hardware should be preferred though there is limitation of scalability of server,  that most application performance does not scale linearly with increases in the hardware power. Most of the times in web related services cluster of more than one server is used.</p>
+
+<h2><a name="pttfe"></a>Performance Tuning tips for EJB:</h2>
+
+<p>While developing an EJB application if EJB services for an object is not required than plain Java object should be replaced in place of EJB object. Multiple remote method calls should be changed into one remote method call with all the data combined into a parameter object to enhance the overall process. There should be proper tuning in EJB Server thread count; Use Stateless session beans pool size to minimize the creation and destruction of the beans. When multiple EJB remote calls have to be changed into one session bean remote call and several local calls(SessionFacade), wrap multiple entity beans in a session bean. Transactional time-out should be set previously. Use HttpSession object rather than Stateful session bean to maintain client state. Bulk updating should be used to reduce the overall database calls to fetch and retrieving the data. When dealing with large amounts of data such as searching large database JDBC should be directly used rather than using entity beans.</p>
+
+<h2><a name="jptt"></a>J2EE Performance tuning tips:</h2>
+
+<p>Here few of the important tuning tips for J2EE in points.</p>
+
+<ul>
+<li>Entity beans from session beans should always be accessed.</li>
+<li>When you no longer need to use session call HttpSession.invalidate() to clean up a session.</li>
+<li>Save resources by turning off automatic session creation using <code>&lt; % @page session="false" % &gt;</code> for web pages that don&rsquo;t require session tracking.</li>
+<li>Use compile time directive <code>&lt; % @include file="copyleft.html" % &gt;</code> where possible.</li>
+<li>Whenever beans are co-located in the same JVM, use local entity beans.</li>
+<li>Proprietary stubs can be used for caching and batching data.</li>
+<li>To generate unique primary keys dedicated remote object should be used.</li>
+<li>Whenever possible use cache tagging.</li>
+<li>User JDBC directly instead of using an entity bean only for data access.</li>
+</ul>
+
+
+<h2><a name="ttfj"></a>Tuning tips for JMS:</h2>
+
+<p>For developing an efficient JMS application transient variables should be used to reduce serialization overheads. For receiving messages asynchronously implement MessageListener. To avoid persistency overhead choose non-durable (NON_PERSISTENT) messages wherever appropriate. It is practically efficient to use <code>DUPS_OK_ACKNOWLEDGE AND AUTO_ACKNOWLEDGE</code> than <code>CLIENT_ACKNOWLEDGE</code> as far as issue of performance is concerned. Separate transactional sessions and non-transactional sessions for transactional and non-transactional messages should be used separately. Because of the fact that &ldquo;a higher redelivery delay and lower redelivery limit reduces the overhead&rdquo; remember to tune the destination parameters. Open java resources can claim for more system resources never forget to close all the resources whenever they are not in use. The last point to be kept while developing a JMS application is that consumer should always start before we start the producer so that the initial messages do not need to be queued up.</p>
+
+<h2><a name="rtpt"></a>RMI tuning performance tips:</h2>
+
+<p>To improve the performance in RMI application always consider altering the Tcp WindowSize parameter. To measure the bandwidth of network netp erf should be used. By setting the properties sun.rmi.dgc.client.gcInterval and sun.rmi.dgc.server.gcInterval RMI garbage collection should be configured in a proper manner. Since sending the object over network may consume much of the time in a big application sending groups of objects together rather than one object at a time is advisable. To speed up the transfers, implement Externalize interface. To handle special cases such as singleton or reusable objects use special codes. To improve overall development quality never try to add the extra complications once the performance target have been met.</p>
+
+<h2>References:</h2>
+
+<ul>
+<li><a href="http://www.exforsys.com/tutorials/j2ee/performance-tuning-of-java-applications.html">Performance Tuning of Java Applications</a></li>
+<li><a href="http://www.javaworld.com/article/2071737/core-java/plug-memory-leaks-in-enterprise-java-applications.html">Plug memory leaks in enterprise Java applications</a></li>
+</ul>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Best Practices to Improve Performance in JDBC]]></title>
+    <link href="http://www.iovi.com/blog/2013/11/11/best-practices-to-improve-performance-in-JDBC/"/>
+    <updated>2013-11-11T14:54:53+08:00</updated>
+    <id>http://www.iovi.com/blog/2013/11/11/best-practices-to-improve-performance-in-JDBC</id>
+    <content type="html"><![CDATA[<p>The 1st version is completed on 2013.11.11 20:38.</p>
+
+<p>The 2nd version is completed on 2013.11.22, which modified completely, the main content is from <strong><em><a href="http://www.precisejava.com/javaperf/j2ee/JDBC.htm">Best practices to improve performance in JDBC</a></em></strong>, this is a great article about JDBC tuning.</p>
+
+<hr />
+
+<br/>
+
+
+<p>This post is dedicated to illustrate techniques for optimizing JDBC API-based calls from the Java platform. As a result of this presentation, you will:</p>
+
+<ul>
+<li>Design better JDBC implementations</li>
+<li>Recognize potential performance bottlenecks</li>
+<li>Reduce cost during development</li>
+</ul>
+
+
+<!-- more -->
+
+
+<h2>Agenda</h2>
+
+<ol>
+<li><a href="#why">Why optimize?</a></li>
+<li><a href="#steps">Basic Steps to Write a JDBC Program.</a>
+
+<ol>
+<li><a href="#driver">Choosing the right Driver</a></li>
+<li><a href="#connection">Optimization with Connection</a></li>
+<li><a href="#statement">Optimization with Statement</a></li>
+<li><a href="#result_set">Optimization with ResultSet</a></li>
+<li><a href="#sql_query">Optimization with SQL Query</a></li>
+</ol>
+</li>
+<li><a href="#other_means">Other Means of Optimization.</a></li>
+<li><a href="#key_points">Key Points</a></li>
+</ol>
+
+
+<h3><a name='why'></a>Why Optimize?</h3>
+
+<ul>
+<li>On average, a web request performs 4 database queries.</li>
+<li>Experience has shown that database calls are typical performance bottleneck.</li>
+<li>Bad JDBC can overwhelm the database.</li>
+</ul>
+
+
+<h3><a name="steps"></a>Basic Steps to Write a JDBC Program</h3>
+
+<p>The following are the basic steps to write a JDBC program</p>
+
+<ol>
+<li>Import java.sql and javax.sql packages</li>
+<li>Load JDBC driver</li>
+<li>Establish connection to the database using Connection interface</li>
+<li>Create a Statement by passing SQL query</li>
+<li>Execute the Statement</li>
+<li>Retrieve results by using ResultSet interface</li>
+<li>Close Statement and Connection</li>
+</ol>
+
+
+<p>We will look at these areas one by one, what type of driver you need to load, how to use Connection interface in the best manner, how to use different Statement interfaces, how to process results using ResultSet and finally how to optimize SQL queries to improve JDBC performance.</p>
+
+<hr />
+
+<h4><a name="driver"></a>Choosing the right Driver</h4>
+
+<table>
+<thead>
+<tr>
+<th align="center"><em>Type</em> </th>
+<th align="center"> <em>Tier</em> </th>
+<th align="left"> <em>Driver mechanism</em> </th>
+<th align="left"> <em>Description</em></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="center">1 </td>
+<td align="center">2  </td>
+<td align="left">JDBC-ODBC    </td>
+<td align="left">This driver converts JDBC calls to ODBC calls through JDBC-ODBC Bridge driver which in turn converts to database calls. Client requires ODBC libraries.</td>
+</tr>
+<tr>
+<td align="center">2 </td>
+<td align="center">2  </td>
+<td align="left">Native API &ndash; Partly &ndash; Java driver</td>
+<td align="left">This driver converts JDBC calls to database specific native calls. Client requires database specific libraries.</td>
+</tr>
+<tr>
+<td align="center">3 </td>
+<td align="center">3  </td>
+<td align="left">JDBC &ndash; Net -All Java driver</td>
+<td align="left">This driver passes calls to proxy server through network protocol which in turn converts to database calls and passes through database specific protocol. Client doesn&rsquo;t require any driver.</td>
+</tr>
+<tr>
+<td align="center">4 </td>
+<td align="center">2  </td>
+<td align="left">Native protocol &ndash; All &ndash; Java driver</td>
+<td align="left">This driver directly calls database. Client doesn&rsquo;t require any driver.</td>
+</tr>
+</tbody>
+</table>
+
+
+<p>Type 3 &amp; 4 drivers are faster than other drivers because Type 3 gives facility for optimization techniques provided by application server such as connection pooling, caching, load balancing etc and Type 4 driver need not translate database calls to ODBC or native connectivity interface. Type 1 drivers are slow because they have to convert JDBC calls to ODBC through JDBC-ODBC Bridge driver initially and then ODBC Driver converts them into database specific calls. Type 2 drivers give average performance when compared to Type 3 &amp; 4 drivers because the database calls have to be converted into database specific calls. Type 2 drivers give better performance than Type 1 drivers.</p>
+
+<h4><a name="connection"></a>Optimization with Connection</h4>
+
+<p>We have different approaches to establish a connection with the database, the <strong>first</strong> type of approach is :</p>
+
+<blockquote><ol>
+<li>DriverManager.getConnection(String url)</li>
+<li>DriverManager.getConnection(String url, Properties props)</li>
+<li>DriverManager.getConnection(String url, String user, String password)</li>
+<li>Driver.connect(String url, Properties props)</li>
+</ol>
+</blockquote>
+
+<p>When you use this approach, you can pass database specific information to the database by passing properties using Properties object. The following code snippet illustrates this approach for MySQL.</p>
+
+<pre><code>Properties props = new Properties();
+FileInputStream in = new FileInputStream("/external/configuration/dir/db.properties");
+props.load(in);
+in.close();
+Connection con = DriverManger.getConnection("jdbc:mysql://localhost:3306/test", props);
+</code></pre>
+
+<p>The db.properties is quite like this:</p>
+
+<blockquote><p>drivername=com.mysql.jdbc.Driver
+url=jdbc:mysql://127.0.0.1:3306/test
+username=root
+password=123456</p></blockquote>
+
+<p>You can add extra properties for better performance depending on application&rsquo;s requirement, of course, you need to figure out if the database support such configuration first.</p>
+
+<p>The <strong>second</strong> type of approach is to get connection from DataSource(not tested yet). You can get the connection using javax.sql.DataSource interface. The advantage of getting connection from this approach is that the DataSource works with JNDI. The implementation of DataSource is done by vendor, for example you can find this feature in weblogic, websphere etc. The vendor simply creates DataSource implementation class and binds it to the JNDI tree. The following code shows how a vendor creates implementation class and binds it to JNDI tree.</p>
+
+<pre><code>DataSourceImpl dsi = new DataSourceImpl();
+dsi.setServerName("oracle8i");
+dsi.setDatabaseName("Demo");
+Context ctx = new InitialContext();
+ctx.bind("jdbc/demoDB", dsi);
+</code></pre>
+
+<p>This code registers the DataSourceImpl object to the JNDI tree, then the programmer can get the DataSource reference from JNDI tree without knowledge of the underlying technology.</p>
+
+<pre><code>Context ctx = new InitialContext();
+DataSource ds = (DataSource)ctx.lookup("jdbc/demoDB");
+Connection con = ds.getConnection();
+</code></pre>
+
+<p>By using this approach we can improve performance. Nearly all major vendor application servers like weblogic, webshpere implement the DataSource by taking connection from connection pool rather than a single connection every time. The application server creates connection pool by default. We will discuss the advantage of connection pool to improve performance in the next section.</p>
+
+<h5>Use Connection Pool</h5>
+
+<p>Creating a connection to the database server is expensive. It is even more expensive if the server is located on another machine. Connection pool contains a number of open database connections with minimum and maximum connections, that means the connection pool has open connections between minimum and maximum number that you specify. The pool expands and shrinks between minimum and maximum size depending on incremental capacity. You need to give minimum, maximum and incremental sizes as properties to the pool in order to maintain that functionality. You get the connection from the pool rather directly .For example, if you give properties like min, max and incremental sizes as 3, 10 and 1 then pool is created with size 3 initially and if it reaches it&rsquo;s capacity 3 and if a client requests a connection concurrently, it increments its capacity by 1 till it reaches 10 and later on it puts all its clients in a queue.</p>
+
+<p>There are a few choices when using connection pool.</p>
+
+<ol>
+<li>You can depend on application server if it supports this feature, generally all the application servers support connection pools. Application server creates the connection pool on behalf of you when it starts. You need to give properties like min, max and incremental sizes to the application server.</li>
+<li>You  can use JDBC 2.0 interfaces, ConnectionPoolDataSource and PooledConnection if your driver implements these interfaces</li>
+<li>Or  you can create your own connection pool if you are not using any application server or JDBC 2.0  compatible driver.</li>
+</ol>
+
+
+<p>By using any of these options, you can increase performance significantly. You need to take care of properties like min, max and incremental sizes. The maximum number of connections to be given depends on your application&rsquo;s  requirement that means how many concurrent clients can access  your database and also it depends up on your database&rsquo;s capability to provide maximum number of connections.</p>
+
+<p>See more about the <strong><em><a href="http://jolbox.com/index.html?page=http://jolbox.com/benchmarks.html">JDBC connection pool benchmarks</a></em></strong></p>
+
+<h5>Control transaction</h5>
+
+<p>In general, transaction represents one unit of work or bunch of code in the program that executes in it&rsquo;s entirety or none at all. To be precise, it is all or no work. In JDBC, transaction is a set of one or more Statements that execute as a single unit.
+java.sql.Connection interface provides some methods to control transaction they are</p>
+
+<pre><code>public interface Connection {
+    boolean getAutoCommit();
+    void        setAutoCommit(boolean autocommit);
+    void        commit();
+    void        rollback();
+}
+</code></pre>
+
+<p>By default in JDBC transaction starts and commits after each statement&rsquo;s  execution on a connection. That is the AutoCommit mode is true. Programmer need not write a commit() method explicitly after each statement.Obviously this default mechanism gives good facility for programmers if they want to execute a single statement. But it gives poor performance when multiple statements on a connection are to be executed because commit is issued after each statement by default, that in turn reduces performance by issuing unnecessary commits. The remedy is to flip it back to AutoCommit mode as false and issue commit() method after a set of statements execute, this is called as <strong>batch transaction</strong>. Use rollback() in catch block to rollback the transaction whenever an exception occurs in your program. See more about <a href="http://www.tutorialspoint.com/jdbc/jdbc-transactions.htm">JDBC &ndash; Transactions</a></p>
+
+<h5>Choose optimal isolation level</h5>
+
+<p>Isolation level represent how a database maintains data integrity against the problems like dirty reads, phantom reads and non-repeatable reads which can occur due to concurrent transactions. java.sql.Connection interface provides  methods and constants to avoid the above mentioned problems by setting different isolation levels.</p>
+
+<pre><code>public interface Connection {
+    public static final int  TRANSACTION_NONE                 = 0
+    public static final int  TRANSACTION_READ_UNCOMMITTED     = 1
+    public static final int  TRANSACTION_READ_COMMITTED       = 2
+    public static final int  TRANSACTION_REPEATABLE_READ      = 4
+    public static final int  TRANSACTION_SERIALIZABLE         = 8
+    int    getTransactionIsolation();
+    void   setTransactionIsolation(int isolationlevelconstant);
+}
+</code></pre>
+
+<p>More details are covered in <strong><em><a href="http://www.iovi.com/blog/2013/10/11/optimal-isolation-level/">Optimal JDBC Transaction Isolation Level</a> and </em></strong><a href="http://www.iovi.com/blog/2013/10/21/optimistic-and-pessimistic-locking/">Optimistic and Pessimistic Locking</a>***</p>
+
+<h4>Optimization with Statement</h4>
+
+<p>Statement interface represents SQL query and execution and they provide number of methods and constants to work with queries. They also provide some methods to fine tune performance. Programmer may overlook these fine tuning methods that result in poor performance. The following are the tips to improve performance by using statement interfaces</p>
+
+<ol>
+<li>Choose the right Statement interface</li>
+<li>Do batch update</li>
+<li>Do batch retrieval using Statement</li>
+<li>Close Statement when finished</li>
+</ol>
+
+
+<h5>1. Choose right Statement interface</h5>
+
+<p>There are three types of Statement interfaces in JDBC to represent the SQL query and execute that query, they are Statement, PreparedStatement and CallableStatement.</p>
+
+<ol>
+<li><p>Statement is used for static SQL statement with no input and output parameters, PreparedStatement is used for dynamic SQL statement with input parameters and CallableStatement is used for dynamic SQL satement with both input and output parameters, but PreparedStatement and CallableStatement can be used for static SQL statements as well. CallableStatement is mainly meant for stored procedures.</p></li>
+<li><p>PreparedStatement gives better performance when compared to Statement because it is pre-parsed and pre-compiled by the database once for the first time and then onwards it reuses the parsed and compiled statement. Because of this feature, it significantly improves performance when a statement executes repeatedly, It reduces the overload incurred by parsing and compiling.</p></li>
+<li><p>CallableStatement gives better performance when compared to PreparedStatement and Statement when there is a requirement for single request to process multiple complex statements. It parses and stores the stored procedures in the database and does all the work at database itself that in turn improves performance. But we loose java portability and we have to depend up on database specific stored procedures.</p></li>
+</ol>
+
+
+<h5>2. Do batch update</h5>
+
+<p>You can send multiple queries to the database at a time using batch update feature of statement objects this reduces the number of JDBC calls and improves performance. Here is an example of how you can do batch update,</p>
+
+<pre><code>statement.addBatch( "sql query1");
+statement.addBatch(" sql query2");
+statement.addBatch(" sql query3");
+statement.executeBatch();
+</code></pre>
+
+<p><strong>All</strong> three types of statements have these methods to do batch update.</p>
+
+<h5>3. Do batch retrieval using Statement</h5>
+
+<p>You can get the default number of rows that is provided by the driver. You can improve performance by increasing number of rows to be fetched at a time from database using <code>setFetchSize()</code> method of the statement object.Initially find the default size by using <code>Statement.getFetchSize();</code>   and then set the size as per your requirement <code>Statement.setFetchSize(30);</code>Here it retrieves 30 rows at a time for all result sets of this statement.</p>
+
+<h5>4. Close Statement when finished</h5>
+
+<p>Close statement object as soon as you finish working with that, it explicitly gives a chance to garbage collector to recollect memory as early as possible which in turn effects performance. Statement.close();</p>
+
+<h4>Optimization with ResultSet</h4>
+
+<p>ResultSet interface represents data that contains the results of executing an SQL Query and it provides a number of methods and constants to work with that data. It also provides methods to fine tune retrieval of data to improve performance. The following are the fine tuning tips to improve performance by using ResultSet interface.
+1. Do batch retrieval using ResultSet
+2. Set up proper direction for processing the rows
+3. Use proper get methods
+4. Close ResultSet when finished</p>
+
+<h5>Do batch retrieval using ResultSet</h5>
+
+<p>ResultSet interface also provides batch retrieval facility like Statement as mentioned above. It overrides the Statement behaviour. Initially find the default size by using
+<code>ResultSet.getFetchSize();</code> and then set the size as per requirement <code>ResultSet.setFetchSize(50);</code> This feature significantly improves performance when you are dealing with retrieval of large number of rows like search functionality.</p>
+
+<h5>Setup proper direction of processing rows</h5>
+
+<p>ResultSet has the capability of setting the direction in which you want to process the results, it has three constants for this purpose, they are <code>FETCH_FORWARD</code>, <code>FETCH_REVERSE</code>, <code>FETCH_UNKNOWN</code>. Initially find the direction by using <code>ResultSet.getFetchDirection();</code> and then set the direction accordingly <code>ResultSet.setFetchDirection(FETCH_REVERSE);</code></p>
+
+<h5>Use proper <code>getxxx()</code> methods</h5>
+
+<p>ResultSet interface provides lot of getxxx() methods to get and convert database data types to java data types and is flexibile in converting non feasible data types. For example, <code>getString(String columnName)</code> returns java String object. <code>columnName</code> is recommended to be a <code>VARCHAR</code> or <code>CHAR</code> type of database but it can also be a <code>NUMERIC</code>, <code>DATE</code> etc.If you give non recommended parameters, it needs to cast it to proper java data type that is  expensive. For example consider that  you select  a product&rsquo;s id from huge database which returns millions of records from search functionality, it needs to convert all these records that is very expensive.
+So always use proper getxxx() methods according to JDBC recommendations.</p>
+
+<h5>Close ResultSet when finished</h5>
+
+<p>Close ResultSet object as soon as you finish working with ResultSet object even though Statement object closes the ResultSet object implicitly when it closes, closing ResultSet explicitly gives chance to garbage collector to recollect memory as early as possible because ResultSet object may occupy lot of memory depending on query.
+<code>ResultSet.close();</code></p>
+
+<p>See more details about <strong><em><a href="http://tutorials.jenkov.com/jdbc/resultset.html">JDBC: ResultSet</a></em></strong></p>
+
+<h4>Optimization with SQL Query</h4>
+
+<p>This is one of the area where programmers generally make a mistake. If you give a query like</p>
+
+<pre><code>Statement stmt = connection.createStatement();
+ResultSet rs = stmt.executeQuery("select * from employee where name=RR");
+</code></pre>
+
+<p>The returned result set contains all the columns data. you may not need all the column data and want <strong>only</strong> salary for RR.
+The better query is <code>"select salary from employee where name=RR"</code>
+It returns the required data  and reduces unnecessary data retrieval. Make your query specific.</p>
+
+<p>Another smart query ex: get employees in ENG dept
+Instead of:</p>
+
+<pre><code>SELECT * FROM employees;
+SELECT * FROM dept;
+</code></pre>
+
+<p>(and joining on Java application side)
+Use database join:</p>
+
+<pre><code>SELECT employees.* FROM employees E, 
+dept D WHERE E.DEPTNO = D.DEPTNO AND 
+D.DEPTTYPE = 'ENG';
+</code></pre>
+
+<h5>Smart Query Guidelines</h5>
+
+<ul>
+<li>Make queries as specific as possible</li>
+<li>Put more logic into SQL statements</li>
+<li>DB are designed to use SQL efficiently</li>
+<li>Use DB for filtering</li>
+<li>Use Java for business logic,DB business logic is poor(At least very inconsistent between database vendors.)</li>
+<li>DB does filtering very well</li>
+</ul>
+
+
+<h3><a name='other_means'></a>Other Means of Optimization.</h3>
+
+<p>There are also some other techniques you can rely on, for example, caching, iteratively fetching, stored procedures, database table sharding.</p>
+
+<h4>Cache the read-only and read-mostly data</h4>
+
+<p>Every database schema generally has read-only and read-mostly tables. These tables are called as lookup tables. Read-only tables contain static data that never changes in its life time. Read-mostly tables contain semi dynamic data that changes often. There will not be any sort of writing operations in these tables.
+If an application reads data from these tables for every client request, then it is redundant, unnecessary and expensive. The solution for this problem is to cache the read-only table data by reading the data from that table once and caching the read-mostly table data by reading and refreshing with time limit. This solution improves performance significantly.</p>
+
+<p>You can tweak this code as per application requirement. For read-only data, you need not refresh data in its life time. For read-mostly data, you need to refresh the data with time limit. It is better to set this refreshing time limit in properties file so that it can be changed at any time.</p>
+
+<h4>Fetch small amount of data iteratively instead of fetching whole data at once</h4>
+
+<p>Applications generally require to retrieve huge data from the database using JDBC in operations  like searching data. If the client request for a search, the application might return the whole result set at once. This process takes lot of time and has an impact on performance. The solution for the problem is</p>
+
+<ol>
+<li>Cache the search data at the server-side and return the data iteratively to the client. For example, the search returns 1000 records, return data to the client in 10 iterations where each iteration has 100 records.</li>
+<li>Use Stored procedures to return data iteratively. This does not use server-side caching rather server-side application uses Stored procedures to return small amount of data iteratively.</li>
+</ol>
+
+
+<p>Out of these solutions the second solution gives better performance because it need not keep the data in the cache (in-memory). The first procedure is useful when the total amount of data to be returned is not huge.</p>
+
+<h4>Keep operational data set small as possible</h4>
+
+<ul>
+<li>Move non-current data to other tables and do joins for rarer historical queries</li>
+<li>Otherwise, index and cluster so frequently used data is logically and physically localized</li>
+</ul>
+
+
+<h3><a name='key_points'></a>Key Points</h3>
+
+<ul>
+<li>Use Type two driver for two tiered applications to communicate from java client to database that gives better performance than Type1 driver.</li>
+<li>Use Type four driver for applet to database communication that is two tiered applications and three tiered applications when compared to other drivers.</li>
+<li>Use Type one driver if you don&rsquo;t have a driver for your database. This is a rare situation because all major databases support drivers or you will get a driver from third party vendors.</li>
+<li>Use Type three driver to communicate between client and proxy server ( weblogic, websphere etc) for three tiered applications that gives better performance when compared to Type 1&amp;2 drivers.</li>
+<li>Pass database specific properties like defaultPrefetch if your database supports any of them.</li>
+<li>Get database connection from connection pool rather than getting it directly</li>
+<li>Use batch transactions.</li>
+<li>Choose right isolation level as per your requirement. <code>TRANSACTION_READ_UNCOMMITED</code> gives best performance for concurrent transaction based applications. <code>TRANSACTION_NONE</code> gives best performance for non-concurrent transaction based applications. Also, Have a good understanding of optimistic and pessimistic locking since such techniques definitely improve the robustness of your program.</li>
+<li>Your database server may not support all isolation levels, be aware of your database server features.</li>
+<li>Use PreparedStatement when you execute the same statement more than once.</li>
+<li>Use CallableStatement when you want result from multiple and complex statements for a single request.</li>
+<li>Use batch update facility available in Statements.</li>
+<li>Use batch retrieval facility available in Statements or ResultSet.</li>
+<li>Set up proper direction for processing rows.</li>
+<li>Use proper getXXX() methods.</li>
+<li>Close ResultSet, Statement and Connection whenever you finish your work with them.</li>
+<li>Write precise SQL queries, let the DB do the logic since it&rsquo;s designed for those stuffs.</li>
+<li>Cache read-only and read-mostly tables data, split database tables for efficiency purposes.</li>
+<li>Fetch small amount of data iteratively rather than whole data at once when retrieving large amount of data like searching database etc.</li>
+</ul>
+
+
+<h2>References:</h2>
+
+<ul>
+<li><a href="http://alumnus.caltech.edu/~chamness/JDBC_Tuning.pdf">Performance Tuning for the JDBC API</a></li>
+<li><a href="http://www.precisejava.com/javaperf/j2ee/JDBC.htm">Best practices to improve performance in JDBC</a>(I love this most.)</li>
+<li><a href="http://www.tutorialspoint.com/jdbc/jdbc-driver-types.htm">Jdbc Driver Types</a></li>
+<li><a href="https://access.redhat.com/site/documentation/en-US/JBoss_Enterprise_Data_Services/5/html/Data_Services_Client_Developer_Guide/chap-JDBC_Transactions.html">JDBC Transactions</a></li>
+<li><a href="http://jolbox.com/index.html?page=http://jolbox.com/benchmarks.html">The JDBC Connection Pool Benchmarks</a></li>
+<li><a href="http://www.tutorialspoint.com/jdbc/jdbc-transactions.htm">JDBC &ndash; Transactions</a></li>
+<li><a href="http://www-01.ibm.com/software/webservers/appserv/ws_bestpractices.pdf">WebSphere Application Server Development Best Practices for Performance and Scalability</a></li>
+<li><a href="http://www.jguru.com/faq/view.jsp?EID=131579">What areas should I focus on for the best performance in a JDBC application?</a></li>
+<li><a href="http://www.javaworld.com/javaworld/jw-07-2001/jw-0720-cache.html">Develop a generic caching service to improve performance</a></li>
+</ul>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Optimal JDBC Transaction Isolation Level]]></title>
+    <link href="http://www.iovi.com/blog/2013/10/31/optimal-isolation-level/"/>
+    <updated>2013-10-31T16:09:47+08:00</updated>
+    <id>http://www.iovi.com/blog/2013/10/31/optimal-isolation-level</id>
+    <content type="html"><![CDATA[<h2>Choose optimal isolation level</h2>
+
+<p>Isolation level represent how a database maintains data integrity against the problems like dirty reads, phantom reads and non-repeatable reads which can occur due to concurrent transactions. java.sql.Connection interface provides  methods and constants to avoid the above mentioned problems by setting different isolation levels.</p>
+
+<pre><code>public interface Connection {
+    public static final int  TRANSACTION_NONE                 = 0
+    public static final int  TRANSACTION_READ_UNCOMMITTED     = 1
+    public static final int  TRANSACTION_READ_COMMITTED       = 2
+    public static final int  TRANSACTION_REPEATABLE_READ      = 4
+    public static final int  TRANSACTION_SERIALIZABLE         = 8
+    int    getTransactionIsolation();
+    void   setTransactionIsolation(int isolationlevelconstant);
+}
+</code></pre>
+
+<!-- more -->
+
+
+<p>You can get the existing isolation level with getTransactionIsolation() method and set the isolation level with setTransactionIsolation(int isolationlevelconstant) by passing above constants to this method.
+The following table describes isolation level against the problem that it prevents :</p>
+
+<table>
+<thead>
+<tr>
+<th align="center">Transaction Level       </th>
+<th align="center"> Dirty reads   </th>
+<th align="center">Non  Repeatable reads  </th>
+<th align="center"> Phantom reads </th>
+<th align="center">Performance impact</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="center">TRANSACTION_NONE        </td>
+<td align="center"> N/A       </td>
+<td align="center"> N/A           </td>
+<td align="center"> N/A       </td>
+<td align="center"> FASTEST</td>
+</tr>
+<tr>
+<td align="center">TRANSACTION_READ_UNCOMMITED </td>
+<td align="center"> YES       </td>
+<td align="center"> YES           </td>
+<td align="center"> YES       </td>
+<td align="center"> FASTEST</td>
+</tr>
+<tr>
+<td align="center">TRANSACTION_READ_COMMITED   </td>
+<td align="center"> NO        </td>
+<td align="center"> YES           </td>
+<td align="center"> YES       </td>
+<td align="center"> FAST</td>
+</tr>
+<tr>
+<td align="center">TRANSACTION_REPEATABLE_READ </td>
+<td align="center"> NO        </td>
+<td align="center"> NO            </td>
+<td align="center"> YES       </td>
+<td align="center"> MEDIUM</td>
+</tr>
+<tr>
+<td align="center">TRANSACTION_SERIALIZABLE    </td>
+<td align="center"> NO        </td>
+<td align="center"> NO            </td>
+<td align="center"> NO        </td>
+<td align="center"> SLOW</td>
+</tr>
+</tbody>
+</table>
+
+
+<br/>
+
+
+<ul>
+<li>YES means that the Isolation level does not prevent the problem</li>
+<li>NO means that the Isolation level prevents the problem</li>
+</ul>
+
+
+<p>By setting isolation levels, you are having an impact on the performance as mentioned in the above table. Database use read and write locks to control above isolation levels. Let us have a look at each of these problems and then look at the impact on the performance.</p>
+
+<h3>Dirty read problem :</h3>
+
+<p>The following figure illustrates Dirty read problem  :</p>
+
+<p> <img src="http://www.iovi.com/images/upload/dirty_read.gif" alt="dirty_read" /></p>
+
+<pre><code>Step 1:    Database row has PRODUCT = A001 and PRICE = 10
+Step 2:    Connection1 starts  Transaction1 (T1) .
+Step 3:    Connection2 starts  Transaction2 (T2) .
+Step 4:    T1 updates PRICE =20 for PRODUCT = A001
+Step 5:    Database has now PRICE = 20 for PRODUCT = A001
+Step 6:    T2 reads PRICE = 20 for PRODUCT = A001
+Step 7:    T2 commits transaction
+Step 8:    T1 rollbacks the transaction because of some problem
+</code></pre>
+
+<p>The problem is that T2 gets wrong PRICE=20 for PRODUCT = A001 instead of 10 because of uncommitted read.Obviously it is very dangerous in critical transactions if you read inconsistent data. If you  are sure about not accessing data concurrently  then you can allow this problem by setting TRANSACTION_READ_UNCOMMITED or TRANSACTION_NONE that in turn improves performance otherwise you have to use TRANSACTION_READ_COMMITED to avoid this problem.</p>
+
+<h3>Unrepeatable read problem :</h3>
+
+<p>The following figure illustrates Unrepeatable read problem  :</p>
+
+<p><img src="http://www.iovi.com/images/upload/unrepeatable_read.gif" alt="unrepeatable_read" /></p>
+
+<pre><code>Step 1:    Database row has PRODUCT = A001 and PRICE = 10
+Step 2:    Connection1 starts  Transaction1 (T1) .
+Step 3:    Connection2 starts  Transaction2 (T2) .
+Step 4:    T1 reads PRICE =10 for PRODUCT = A001
+Step 5:    T2 updates PRICE = 20 for PRODUCT = A001
+Step 6:    T2 commits transaction
+Step 7:    Database row has PRODUCT = A001 and PRICE = 20
+Step 8:    T1 reads PRICE = 20 for PRODUCT = A001
+Step 9:    T1 commits transaction
+</code></pre>
+
+<p>Here the problem is that Transaction1 reads 10 first time and reads 20 second time but it is supposed to be 10 always whenever it reads a record in that transaction. You can control this problem by setting isolation level as TRANSACTION_REPEATABLE_READ(setting for which one? Of course both).</p>
+
+<h3>Phantom read problem :</h3>
+
+<p>The following figure illustrates Phantom read problem  :</p>
+
+<p><img src="http://www.iovi.com/images/upload/phantom_read.gif" alt="phantom_read" /></p>
+
+<pre><code>Step 1:    Database has a row PRODUCT = A001 and COMPANY_ID = 10
+Step 2:    Connection1 starts  Transaction1 (T1) .
+Step 3:    Connection2 starts  Transaction2 (T2) .
+Step 4:    T1 selects a row with a condition SELECT PRODUCT WHERE COMPANY_ID = 10
+Step 5:    T2 inserts a row with a condition INSERT PRODUCT=A002  WHERE COMPANY_ID= 10
+Step 6:    T2 commits transaction
+Step 7:    Database has 2 rows with that condition
+Step 8:    T1 select again with a condition SELECT PRODUCT WHERE COMPANY_ID=10 and gets 2 rows instead of 1 row
+Step 9:    T1 commits transaction
+</code></pre>
+
+<p>Here the problem is that T1 gets 2 rows instead of 1 row up on selecting the same condition second time. You can control this problem by setting isolation level as <code>TRANSACTION_SERIALIZABLE</code></p>
+
+<h2>Choosing a right isolation level for your program:</h2>
+
+<p>Choosing a right isolation level for your program depends upon your application&rsquo;s requirement. In single application itself the requirement generally changes, suppose if you write a program for searching a product catalog from your database then you can easily choose <code>TRANSACTION_READ_UNCOMMITED</code> because you need not worry about the problems that are mentioned above, some other program can insert records at the same time, you don&rsquo;t have to bother much about that insertion. Obviously this improves performance significantly.</p>
+
+<p>If you write a critical program like bank or stocks analysis program where you want to control all of the above mentioned problems, you can choose TRANSACTION_SERIALIZABLE for maximum safety. Here it is the tradeoff between the safety and performance. Ultimately we need safety here.
+If you don&rsquo;t have to deal with concurrent transactions your application, then the best choice is <code>TRANSACTION_NONE</code> to improve performance.
+Other two isolation levels need good understanding of your requirement. If your application needs only committed records, then <code>TRANSACTION_READ_COMMITED</code> isolation is the good choice. If your application needs to read a row exclusively till you  finish your work, then <code>TRANSACTION_REPEATABLE_READ</code> is the best choice.
+Note: Be aware of your database server&rsquo;s support for these isolation levels. Database servers may not support all of these isolation levels. Oracle server supports only two isolation levels, <code>TRANSACTION_READ_COMMITED</code> and <code>TRANSACTION_SERIALIZABLE</code> isolation level, default isolation level is <code>TRANSACTION_READ_COMMITED</code>.</p>
+
+<h2>References</h2>
+
+<ul>
+<li><a href="http://www.precisejava.com/javaperf/j2ee/JDBC.htm#JDBC102">Best practices to improve performance in JDBC</a></li>
+<li><a href="http://www.codeproject.com/Articles/114262/6-ways-of-doing-locking-in-NET-Pessimistic-and-opt#Solution%20number%202:-%20Use%20timestamp%20data%20type">6 ways of doing locking in .NET (Pessimistic and optimistic)</a></li>
+</ul>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Optimistic and Pessimistic Locking]]></title>
+    <link href="http://www.iovi.com/blog/2013/10/21/optimistic-and-pessimistic-locking/"/>
+    <updated>2013-10-21T21:40:48+08:00</updated>
+    <id>http://www.iovi.com/blog/2013/10/21/optimistic-and-pessimistic-locking</id>
+    <content type="html"><![CDATA[<h2>Locking Introduction</h2>
+
+<p>This article talks about serveral ways of doing locking. It starts with concurrency problems and then discusses about 2 ways of doing optimistic locking. As optimistic locking does not solve the concurrency issues from roots, it introduces pessimistic locking. It then moves ahead to explain how isolation levels can help us implement pessimistic locking. Each isolation level is explained with sample demonstration to make concepts clearer.</p>
+
+<h2>Why do we need locking?</h2>
+
+<p>In multi-user environment it&rsquo;s possible that multiple users can update the same record at the same time causing confusion between users. This issue is termed as concurrency.</p>
+
+<!-- more -->
+
+
+<h2>How can we solve concurrency problems?</h2>
+
+<p>Concurrency problems can be solved by implementing proper &ldquo;Locking strategy&rdquo;. Locks prevent action on a resource to be performed when some other resource is already performing some action on it.</p>
+
+<h2>Optimistic Locking</h2>
+
+<p>As the name suggests &ldquo;optimistic&rdquo; it assumes that multiple transaction will work without affecting each other. In other words no locks are enforced while doing optimistic locking. The transaction just verifies that no other transaction has modified the data. In case of modification the transaction is rolled back.</p>
+
+<h3>How does optimistic lock work?</h3>
+
+<p>You can implement optimistic locking by numerous ways but the fundamental to implement optimistic locking remains same. It&rsquo;s a 4 step process as shown below:</p>
+
+<ol>
+<li>Record the current timestamp.</li>
+<li>Start changing the values.</li>
+<li>Before updating check whether anyone else has changed the values by checking the old time stamp and new time stamp or the old value and the current value in database.</li>
+<li>If it&rsquo;s not equal rollbacks or else commit.</li>
+</ol>
+
+
+<p><img src="http://www.iovi.com/images/upload/optimistic_locking.jpg" alt="optimistic_locking" /></p>
+
+<pre><code>update tbl_items set itemname='itemname' where CurrentTimestamp='OldTimeStamp'
+
+update tbl_items set itemname=@itemname where itemname=@OldItemNameValue
+</code></pre>
+
+<h2>Pessimistic Locking</h2>
+
+<p>But it looks like by using optimistic locking concurrency problems are not really solved?Yes, you said right. By using optimistic locking you only detect the concurrency problem. To solve concurrency issues from the roots itself we need to use pessimistic locking. Optimistic is like prevention while pessimistic locking is actually the cure.
+Pessimistic locking assumes that concurrency/collision issues will happen so a lock is placed on the records and then data is updated.</p>
+
+<h3>How can we do pessimistic locking?</h3>
+
+<p>We can do pessimistic locking by specifying &ldquo;IsolationLevel&rdquo; in SQL Server stored procedures, ADO.NET level or by using transaction scope object, in java the JDBC Connection.</p>
+
+<h3>What kind of locks can be acquired by using pessimistic locking?</h3>
+
+<p>There are 4 kinds of locks you can acquire Shared, Exclusive, Update and intent. The first two are actual locks while the other two are hybrid locks and marker. Correspondingly, in SQL there are 4 kinds of transaction isolation level, below is a simple table which shows when to use them and what locks they put.</p>
+
+<table>
+<thead>
+<tr>
+<th align="center">Isolation Level      </th>
+<th align="center">  Read                    </th>
+<th align="center">Update     </th>
+<th align="center">Insert</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="center">Read Uncommitted     </td>
+<td align="center">  Reads data which is yet not committed.  </td>
+<td align="center">Allowed    </td>
+<td align="center">Allowed</td>
+</tr>
+<tr>
+<td align="center">Read Committed ( Default)</td>
+<td align="center">  Reads data which is committed.      </td>
+<td align="center">Allowed    </td>
+<td align="center">Allowed</td>
+</tr>
+<tr>
+<td align="center">Repeatable Read      </td>
+<td align="center">  Reads data which is committed.      </td>
+<td align="center">Not Allowed    </td>
+<td align="center">Allowed</td>
+</tr>
+<tr>
+<td align="center">Serializable         </td>
+<td align="center">  Reads data which is committed.      </td>
+<td align="center">Not Allowed    </td>
+<td align="center">Not Allowed</td>
+</tr>
+</tbody>
+</table>
+
+
+<p>More details are covered in this post<a href="http://www.iovi.com/blog/2013/10/11/optimal-isolation-level/">Optimal Isolation Level</a>;</p>
+
+<h2>References:</h2>
+
+<p><a href="http://www.codeproject.com/Articles/114262/6-ways-of-doing-locking-in-NET-Pessimistic-and-opt#Solution%20number%202:-%20Use%20timestamp%20data%20type">6 ways of doing locking in .NET (Pessimistic and optimistic)</a></p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Simple Guide for Markdown]]></title>
+    <link href="http://www.iovi.com/blog/2013/10/11/simple-guide-for-markdown/"/>
+    <updated>2013-10-11T21:35:48+08:00</updated>
+    <id>http://www.iovi.com/blog/2013/10/11/simple-guide-for-markdown</id>
+    <content type="html"><![CDATA[<p>Markdown was created to be easy to read, easy to write, and still readable in plain text format.</p>
+
+<ol>
+<li><a href="#links">Links</a></li>
+<li><a href="#reference_links">Reference Links</a></li>
+<li><a href="#artifact_links">Artifact Links</a></li>
+<li><a href="#basic_text_formatting">Basic Text Formatting</a></li>
+<li><a href="#blockquotes">Blockquotes</a></li>
+<li><a href="#preformatted_text">Preformatted Text</a></li>
+<li><a href="#lists">Lists</a></li>
+<li><a href="#tables">Tables</a></li>
+<li><a href="#more_headers">More Headers</a></li>
+<li><a href="#horizontal_rules">Horizontal Rules</a></li>
+<li><a href="#images">Images</a></li>
+<li><a href="#escapes_and_html">Escapes and HTML</a></li>
+<li><a href="#table_of_contents">Table of Contents</a></li>
+</ol>
+
+
+<!-- more -->
+
+
+<hr />
+
+<h2><a name='links'></a>Links</h2>
+
+<p>Most URLs will automatically be turned into links. To be explicit, just write it like this:</p>
+
+<pre><code>&lt;http://www.iovi.com&gt;  
+&lt;somebbob@iovi.com&gt;
+</code></pre>
+
+<p>Output:</p>
+
+<blockquote><p><a href="http://www.iovi.com">http://www.iovi.com</a><br/>
+<a href="&#x6d;&#97;&#x69;&#x6c;&#116;&#111;&#x3a;&#115;&#x6f;&#x6d;&#101;&#98;&#98;&#x6f;&#98;&#x40;&#x69;&#111;&#118;&#x69;&#46;&#x63;&#x6f;&#109;">&#x73;&#x6f;&#x6d;&#101;&#x62;&#x62;&#x6f;&#98;&#64;&#105;&#111;&#118;&#105;&#x2e;&#99;&#x6f;&#109;</a></p></blockquote>
+
+<p>To use text for the link, write it:</p>
+
+<pre><code>[like this](http://www.iovi.com)
+</code></pre>
+
+<p>You can add a <em>title</em> (which shows up under the cursor):</p>
+
+<pre><code>[like this](http://www.iovi.com "this title shows up when you hover")
+</code></pre>
+
+<p>Output:</p>
+
+<blockquote><p><a href="http://www.iovi.com">like this</a></p>
+
+<p>You can add a <em>title</em> (which shows up under the cursor):</p>
+
+<p><a href="http://www.iovi.com" title="this title shows up when you hover">like that</a></p></blockquote>
+
+<hr />
+
+<h2><a name='reference_links'></a>Reference Links</h2>
+
+<pre><code>You can also put the [link URL][1] below the current paragraph like [this][2].  
+[1]: http://www.iovi.com  
+[2]: http://www.iovi.com "I/O VIsion"  
+</code></pre>
+
+<p>Output:</p>
+
+<blockquote><p>You can also put the <a href="http://www.iovi.com">link URL</a> below the current paragraph <a href="http://www.iovi.com" title="I/O VIsion">like</a> this.</p></blockquote>
+
+<p>Here the text &ldquo;link URL&rdquo; gets linked to <code>http://www.iovi.com</code>, and the lines showing <code>[1]: http://www.iovi.com</code> won&rsquo;t show anything.</p>
+
+<pre><code>Or you can use a [shortcut][] reference, which links the text "shortcut" to the link named "[shortcut]" on the next paragraph.
+[shortcut]: http://www.iovi.com/goes/with/the/link/name/text
+</code></pre>
+
+<p>Output:</p>
+
+<blockquote><p>Or you can use a <a href="http://www.iovi.com/goes/with/the/link/name/text">shortcut</a> reference, which links the text &ldquo;shortcut&rdquo; to the link named &ldquo;<a href="http://www.iovi.com/goes/with/the/link/name/text">shortcut</a>&rdquo; on the next paragraph.</p></blockquote>
+
+<hr />
+
+<h2><a name='artifact_links'></a>Artifact Links</h2>
+
+<p>Any forge resource (artifact) can be linked with surrounding square brackets, e.g. <code>[MyPage]</code> or <code>[#123]</code>. These artifact links can take several forms(However, some of them haven&rsquo;t been tested yet).</p>
+
+<h3>Simple Links</h3>
+
+<p>Most commonly, the artifact identifier can simply be surrounded with square brackets. Here are some examples:</p>
+
+<pre><code>[MyWikiPage]       # Wiki - name of wiki page  
+[#123]             # Tracker - ticket number  
+[r10721]           # SVN - revision number  
+[3b9d48]           # Git &amp; Mercurial - first 6 characters of revision hash  
+[2012/02/my-post]  # Blog - post slug, including YYYY/MM/ prefix  
+[a6d38f98]         # Discussion Thread - thread id  
+[a6d38f98#42f8]    # Discussion Post - thread_id#post_id  
+</code></pre>
+
+<h3>Two-part Links</h3>
+
+<p>To link to an artifact in a specific tool, use the form: <code>[tool:artifact]</code>, where <code>tool</code> is the name of the tool as it appears in the URL. Two-part links are useful when you have two tools of the same type installed. For example, let&rsquo;s say you have a &lsquo;bugs&rsquo; tracker and a &lsquo;features&rsquo; tracker installed, and you want to link to the first ticket in each:</p>
+
+<pre><code>[bugs:#1]  
+[features:#1]
+</code></pre>
+
+<h3>Three-part Links</h3>
+
+<p>To link to an artifact in another project, use the form: <code>[project:tool:artifact]</code>, where <code>project</code> is the name of the project as it appears in the URL. For example:</p>
+
+<pre><code>[allura:wiki:Home]
+</code></pre>
+
+<p>To link to an artifact in a subproject, use the form: <code>[project/subproject:tool:artifact]</code>, where <code>subproject</code> is the name of the subproject as it appears in the URL. For example:</p>
+
+<pre><code>[allura/sub:code:3b9d48]
+</code></pre>
+
+<hr />
+
+<h2><a name='basic_text_formatting'></a>Basic Text Formatting</h2>
+
+<p>Use * or _ to emphasize things:</p>
+
+<pre><code>*this is in italic*  and _so is this_  
+**this is in bold**  and __so is this__  
+***this is bold and italic***  and ___so is this___
+</code></pre>
+
+<p>Output:</p>
+
+<blockquote><p><em>this is in italic</em>  and <em>so is this</em><br/>
+<strong>this is in bold</strong>  and <strong>so is this</strong><br/>
+<strong><em>this is bold and italic</em></strong>  and <strong><em>so is this</em></strong></p></blockquote>
+
+<p>You can strike through text using HTML like this:</p>
+
+<pre><code>&lt;s&gt;this is strike through text&lt;/s&gt;
+</code></pre>
+
+<p>Output:</p>
+
+<blockquote><p><s>this is strike through text</s></p></blockquote>
+
+<p>Two blank spaces at the end of the line do the same work as <code>&lt;br/&gt;</code> in <em>html</em>, making a line break. <em>(A little bit different from the origin post)</em>.<br/>
+Two carriage returns make a new paragraph.</p>
+
+<hr />
+
+<h2><a name='blockquotes'></a>Blockquotes</h2>
+
+<p>Use the > character in front of a line, just like in email</p>
+
+<pre><code>&gt; Use it if you're quoting a person, a song or whatever.
+
+&gt; You can use *italic* or lists inside them also.
+And just like with other paragraphs, all of these lines are still part of the blockquote, even without the &gt; character in front.
+</code></pre>
+
+<p>To end the blockquote, just put a <strong>blank line</strong> before the following paragraph.</p>
+
+<p>Output:</p>
+
+<blockquote><p>Use it if you&rsquo;re quoting a person, a song or whatever.</p>
+
+<p>You can use italic or lists inside them also.<br/>
+And just like with other paragraphs, all of these lines are still part of the blockquote, even without the > character in front.</p></blockquote>
+
+<hr />
+
+<h2><a name='preformatted_text'></a>Preformatted Text</h2>
+
+<p>If you want some text to show up exactly as you write it, without Markdown doing anything to it, just indent every line by at least 4 spaces (or 1 tab). As an alternative to indenting, you can use 4 or more tildes before and after the text. See examples in the Code Highlighting section(<em>xxxxx</em> at the head of line is a placeholder for one tab):</p>
+
+<pre><code>This line won't *have any markdown* formatting applied.  
+I can even write &lt;b&gt;HTML&lt;/b&gt; and it will show up as text.  
+This is great for showing program source code, or HTML or even  
+Markdown. &lt;b&gt;this won't show up as HTML&lt;/b&gt; but  
+exactly &lt;i&gt;as you see it in this text file&lt;/i&gt;.  
+</code></pre>
+
+<p>Within a paragraph, you can use backquotes to do the same thing.</p>
+
+<pre><code>`This won't be *italic* or **bold** at all.`
+</code></pre>
+
+<p>Output:</p>
+
+<blockquote><p>This line won&rsquo;t <em>have any markdown</em> formatting applied.<br/>
+I can even write <b>HTML</b> and it will show up as text.<br/>
+This is great for showing program source code, or HTML or even<br/>
+Markdown. <b>this won&rsquo;t show up as HTML</b> but<br/>
+exactly <i>as you see it in this text file</i>.</p></blockquote>
+
+<p>Within a paragraph, you can use backquotes to do the same thing.
+<code>This won't be *italic* or **bold** at all.</code></p>
+
+<h2><a name='lists'></a>Lists</h2>
+
+<pre><code>* an asterisk starts an unordered list
+* and this is another item in the list
++ or you can also use the + character
+- or the - character
+</code></pre>
+
+<p>To start an ordered list, write this:</p>
+
+<pre><code>1. this starts a list *with* numbers
++  this will show as number "2"
+*  this will show as number "3."
+9. any number, +, -, or * will keep the list going.
+    * just indent by 4 spaces (or tab) to make a sub-list
+        1. keep indenting for more sub lists
+    * here i'm back to the second level
+</code></pre>
+
+<p>Output:</p>
+
+<blockquote><ul>
+<li>an asterisk starts an unordered list</li>
+<li>and this is another item in the list</li>
+<li>or you can also use the + character</li>
+<li>or the &ndash; character</li>
+</ul>
+</blockquote>
+
+<p>To start an ordered and multi-level list, write this:</p>
+
+<blockquote><ol>
+<li>this starts a list <em>with</em> numbers</li>
+<li>this will show as number &ldquo;2&rdquo;</li>
+<li>this will show as number &ldquo;3.&rdquo;</li>
+<li>any number, +, &ndash;, or * will keep the list going.
+
+<ul>
+<li>just indent by 4 spaces (or tab) to make a sub-list
+
+<ol>
+<li> keep indenting for more sub lists</li>
+</ol>
+</li>
+<li>here i&rsquo;m back to the second level</li>
+</ul>
+</li>
+</ol>
+</blockquote>
+
+<hr />
+
+<h2><a name='tables'></a>Tables</h2>
+
+<p>A little bit different from the origin one, alignment attribute added.</p>
+
+<pre><code>First Header        | Second Header     | Third Header  |Fourth Header
+-------------       | :-------------    | --------:     | :----------:
+Align Default       |Align Left         | Align Right   | Align Center
+**Bold**            |*Italic*           | _Italic_      | &lt;s&gt;Strike&lt;/s&gt;
+</code></pre>
+
+<p>Output:</p>
+
+<table>
+<thead>
+<tr>
+<th>First Header        </th>
+<th align="left"> Second Header     </th>
+<th align="right"> Third Header  </th>
+<th align="center">Fourth Header</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Align Default       </td>
+<td align="left">Align Left         </td>
+<td align="right"> Align Right   </td>
+<td align="center"> Align Center</td>
+</tr>
+<tr>
+<td><strong>Bold</strong>        </td>
+<td align="left"><em>Italic</em>       </td>
+<td align="right"> <em>Italic</em>  </td>
+<td align="center"> <s>Strike</s></td>
+</tr>
+</tbody>
+</table>
+
+
+<hr />
+
+<h2><a name='more_headers'></a>More Headers</h2>
+
+<p>More ways of doing headers:</p>
+
+<pre><code># this is a huge header #  
+## this is a smaller header ##  
+### this is even smaller ###  
+#### more small ####  
+##### even smaller #####  
+###### smallest still: `&lt;h6&gt;` header  
+</code></pre>
+
+<p>Output:</p>
+
+<blockquote><h1>this is a huge header</h1>
+
+<h2>this is a smaller header</h2>
+
+<h3>this is even smaller</h3>
+
+<h4>more small</h4>
+
+<h5>even smaller</h5>
+
+<h6>smallest still: <code>&lt;h6&gt;</code> header</h6></blockquote>
+
+<p>You can use up to 6 # characters at the beginning of the line.</p>
+
+<hr />
+
+<h2><a name='horizontal_rule'></a>Horizontal Rule</h2>
+
+<p>Just put three or more &ldquo;*&rdquo; or &ldquo;&ndash;&rdquo; on a line:</p>
+
+<pre><code>----------------
+</code></pre>
+
+<p>Output:</p>
+
+<blockquote><hr /></blockquote>
+
+<p>Or, you can use single spaces between them, like this:</p>
+
+<pre><code>* * *
+</code></pre>
+
+<p>Output:</p>
+
+<blockquote><hr /></blockquote>
+
+<p>Make sure you have a blank line above the dashes, though, or else:</p>
+
+<pre><code>you will get a header
+-------
+</code></pre>
+
+<p>Output:</p>
+
+<blockquote><h2>you will get a header</h2></blockquote>
+
+<hr />
+
+<h2><a name='images'></a>Images</h2>
+
+<p>To include an image, just put a &ldquo;!&rdquo; in front of a text link:</p>
+
+<pre><code>![alternate text](https://sourceforge.net/images/icon_linux.gif)
+</code></pre>
+
+<p>The &ldquo;alternate text&rdquo; will show up if the browser can&rsquo;t load the image.</p>
+
+<p>You can also use a title if you want, like this:</p>
+
+<pre><code>![tiny arrow](https://sourceforge.net/images/icon_linux.gif "tiny arrow")
+</code></pre>
+
+<p>Output:</p>
+
+<blockquote><p><img src="https://sourceforge.net/images/icon_linux.gif" alt="alternate text" /></p></blockquote>
+
+<p>You can also use a title if you want, like this:</p>
+
+<blockquote><p><img src="https://sourceforge.net/images/icon_linux.gif" title="tiny arrow" alt="tiny arrow" /></p></blockquote>
+
+<p>Some other features like macro is not covered here since not support in my lib.</p>
+
+<p>What if you want to just show asterisks, not italics?</p>
+
+<pre><code>* this shows up in italics: *a happy day*  
+* this shows the asterisks: \*a happy day\*
+</code></pre>
+
+<p>Output:</p>
+
+<blockquote><ul>
+<li>this shows up in italics: <em>a happy day</em></li>
+<li>this shows the asterisks: *a happy day*</li>
+</ul>
+</blockquote>
+
+<p>The backslashes will disappear and leave the asterisks. You can do the same with any of the characters that have a special meaning for Markdown.</p>
+
+<p>Many simple HTML tags are allowed, for example <code>&lt;b&gt;</code> And unknown tags will be dropped. To show a literal <code>&lt;b&gt;</code> or an unknown tag like <foobar> you need escape it with HTML entities:</p>
+
+<pre><code>&lt;b&gt;this will be bold.&lt;/b&gt;  
+you should escape &lt;unknown\&gt; tags with "\" by placing which on the left of the close bracket.  
+&amp;copy; special entities work.  
+\&amp;copy; if you want to escape it.
+</code></pre>
+
+<p>Output:</p>
+
+<blockquote><p><b>this will be bold.</b><br/>
+you should escape &lt;unknown> tags with &ldquo;\&rdquo; by placing which on the left of the close bracket.<br/>
+&copy; special entities work.<br/>
+&amp;copy; if you want to escape it.</p></blockquote>
+
+<p>HTML tags that are <strong>block-level</strong> like <code>&lt;div&gt;</code> can be used, but if there is markdown formatting <strong>within</strong> it, you must add a <code>markdown</code> attribute: <code>&lt;div markdown&gt;</code>.</p>
+
+<p>Some safe attributes are also allowed, permitting basic styling and layout: <code>&lt;div markdown style="float:left"&gt;</code>.</p>
+
+<p>Individual ampersands (&amp;) and less-than signs (&lt;) are fine, they will be shown as expected.</p>
+
+<hr />
+
+<h2><a name='table_of_contents'></a>Table of Contents</h2>
+
+<p>You can display a list of links to jump to headers in a document. Sub-headers will be nested. This function is quite like anchor, however more flexible and less labor. The following example is from the <a href="http://sourceforge.net/p/forge/documentation/markdown_syntax/">Markdown Syntax Guide</a>, however not functions well for me, more details about TOC <a href="http://pythonhosted.org/Markdown/extensions/toc.html">Table of Contents</a>.</p>
+
+<pre><code>[TOC]
+#Section 1  
+##Sub-section 1  
+#Section 2  
+
+#Section 1  
+
+##Sub-section 1  
+
+#Section 2  
+</code></pre>
+
+<p>Output:</p>
+
+<p>[TOC]</p>
+
+<h1>Section 1</h1>
+
+<h2>Sub-section 1</h2>
+
+<h1>Section 2</h1>
+
+<p>sssssssssssssssssssss</p>
+
+<h1>Section 1</h1>
+
+<h2>Sub-section 1</h2>
+
+<h1>Section 2</h1>
+
+<p><strong>Alternative</strong> solution to achieve such function is using hyer links if the above does not work for your case.</p>
+
+<pre><code>#[Section 1](#section1)
+##[Sub-section 1](#sub-section1)
+#[Section 2](#section2)
+
+#&lt;a name="section1"&gt;&lt;/a&gt;Section 1  
+
+##&lt;a name="sub-section1"&gt;&lt;/a&gt;Sub-section 1  
+
+#&lt;a name="section2"&gt;&lt;/a&gt;Section 2  
+</code></pre>
+
+<p>Output:</p>
+
+<blockquote><h1><a href="#section1">Section 1</a></h1>
+
+<h2><a href="#sub-section1">Sub-section 1</a></h2>
+
+<h1><a href="#section2">Section 2</a></h1></blockquote>
+
+<h1><a name="section1"></a>Section 1</h1>
+
+<h2><a name="sub-section1"></a>Sub-section 1</h2>
+
+<h1><a name="section2"></a>Section 2</h1>
+
+<hr />
+
+<p>References:</p>
+
+<ul>
+<li><a href="http://sourceforge.net/p/forge/documentation/markdown_syntax/">Markdown Syntax Guide</a></li>
+<li><a href="https://github.com/adam-p/markdown-here/wiki/Markdown-Cheatsheet">Markdown Cheatsheet</a></li>
+<li><a href="http://pythonhosted.org/Markdown/extensions/toc.html">Table of Contents</a></li>
+</ul>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[How to Backup or Restore MySQL Database]]></title>
+    <link href="http://www.iovi.com/blog/2013/10/01/how-to-backup-or-restore-mysql-database/"/>
+    <updated>2013-10-01T14:54:53+08:00</updated>
+    <id>http://www.iovi.com/blog/2013/10/01/how-to-backup-or-restore-mysql-database</id>
+    <content type="html"><![CDATA[<h2>The Way You Need to Know</h2>
+
+<ol>
+<li><a href="#buftcl">Back up From the Command Line</a></li>
+<li><a href="#oowwp">Operations over Web with PHPMyAdmin</a></li>
+</ol>
+
+
+<hr />
+
+<h3><a name='buftcl'></a>Back up From the Command Line (using mysqldump)</h3>
+
+<p>If you have shell or telnet access to your web server, you can backup your MySQL data by using the mysqldump command. This command connects to the MySQL server and creates an SQL dump file. The dump file contains the SQL statements necessary to re-create the database. Here is the proper syntax:</p>
+
+<ul>
+<li><p><code>mysqldump --opt -u [uname] -p[pass] [dbname] &gt; [backupfile.sql]</code><br/>
+This command will backup the &lsquo;Tutorials&rsquo; database into a file called tut_backup.sql which will contain all the SQL statements needed to re-create the database.</p></li>
+<li><p><code>mysqldump -u root -p Tutorials php_tutorials asp_tutorials &gt; tut_backup.sql</code><br/>
+With mysqldump command you can specify certain tables of your database you want to backup. For example, to back up only php_tutorials and asp_tutorials tables from the &lsquo;Tutorials&rsquo; database accomplish the command below. Each table name has to be separated by space.</p></li>
+<li><p><code>mysqldump -u root -p --databases Tutorials Articles Comments &gt; content_backup.sql</code><br/>
+Sometimes it is necessary to back up more that one database at once. In this case you can use the &mdash;database option followed by the list of databases you would like to backup. Each database name has to be separated by space.</p></li>
+<li><p><code>mysqldump -u root -p --all-databases &gt; alldb_backup.sql</code><br/>
+If you want to back up all the databases in the server at one time you should use the &mdash;all-databases option. It tells MySQL to dump all the databases it has in storage.</p></li>
+</ul>
+
+
+<p>The mysqldump command has also some other useful options:</p>
+
+<ol>
+<li><p><code>--add-drop-table</code>: Tells MySQL to add a <code>DROP TABLE</code> statement before each <code>CREATE TABLE</code> in the dump.</p></li>
+<li><p><code>--no-data</code>: Dumps only the database structure, not the contents.</p></li>
+<li><p><code>--add-locks</code>: Adds the <code>LOCK TABLES</code> and <code>UNLOCK TABLES</code> statements you can see in the dump file.</p></li>
+</ol>
+
+
+<p>The mysqldump command has advantages and disadvantages. The advantages of using mysqldump are that it is simple to use and it takes care of table locking issues for you. The disadvantage is that the command locks tables. If the size of your tables is very big mysqldump can lock out users for a long period of time.</p>
+
+<h3>Back up your MySQL Database with Compress</h3>
+
+<ul>
+<li><p><code>mysqldump -u [uname] -p[pass] [dbname] | gzip -9 &gt; [backupfile.sql.gz]</code><br/>
+If your mysql database is very big, you might want to compress the output of mysqldump. Just use the mysql backup command below and pipe the output to gzip, then you will get the output as gzip file.</p></li>
+<li><p><code>gunzip [backupfile.sql.gz]</code><br/>
+If you want to extract the .gz file, use the command above:</p></li>
+<li><p><code>Restoring your MySQL Database</code><br/>
+Above we backup the Tutorials database into tut_backup.sql file. To re-create the Tutorials database you should follow two steps:</p>
+
+<ol>
+<li> Create an appropriately named database on the target machine</li>
+<li> Load the file using the mysql command:</li>
+<li> <code>$ mysql -u [uname] -p[pass] [db_to_restore] &lt; [backupfile.sql]</code></li>
+</ol>
+</li>
+</ul>
+
+
+<p>Have a look how you can restore your tut_backup.sql file to the Tutorials database.</p>
+
+<ul>
+<li><p>To restore compressed backup files you can do the following:<br/>
+<code>gunzip &lt; [backupfile.sql.gz] | mysql -u [uname] -p[pass] [dbname]</code></p></li>
+<li><p>If you need to restore a database that already exists, you&rsquo;ll need to use mysqlimport command. The syntax for mysqlimport is as follows:<br/>
+<code>mysqlimport -u [uname] -p[pass] [dbname] [backupfile.sql]</code></p></li>
+</ul>
+
+
+<h2><a name='oowwp'></a>Operations over Web with PHPMyAdmin</h2>
+
+<ul>
+<li><p>It is assumed that you have phpMyAdmin installed since a lot of web service providers use it. To backup your MySQL database using PHPMyAdmin just follow a couple of steps:</p>
+
+<ol>
+<li> Open phpMyAdmin.</li>
+<li> Select your database by clicking the database name in the list on the left of the screen.</li>
+<li> Click the Export link. This should bring up a new screen that says View dump of database (or something similar).</li>
+<li> In the Export area, click the Select All link to choose all of the tables in your database.</li>
+<li> In the SQL options area, click the right options.</li>
+<li> Click on the Save as file option and the corresponding compression option and then click the <code>Go</code> button. A dialog box should appear prompting you to save the file locally.</li>
+</ol>
+</li>
+<li><p>Restoring your database is easy as well as backing it up. Make the following:</p>
+
+<ol>
+<li> Open phpMyAdmin.</li>
+<li> Create an appropriately named database and select it by clicking the database name in the list on the left of the screen. If you would like to rewrite the backup over an    1. existing database then click on the database name, select all the check boxes next to the table names and select Drop to delete all existing tables in the database.</li>
+<li> Click the SQL link. This should bring up a new screen where you can either type in SQL commands, or upload your SQL file.</li>
+<li> Use the browse button to find the database file.</li>
+<li> Click Go button. This will upload the backup, execute the SQL commands and re-create your database.</li>
+</ol>
+</li>
+</ul>
+
+
+<h2>References:</h2>
+
+<ul>
+<li><a href="http://webcheatsheet.com/sql/mysql_backup_restore.php">How to Back Up and Restore a MySQL Database</a></li>
+</ul>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Short List of MySQL Commands]]></title>
+    <link href="http://www.iovi.com/blog/2013/09/06/short-list-of-mysql-commands/"/>
+    <updated>2013-09-06T14:50:01+08:00</updated>
+    <id>http://www.iovi.com/blog/2013/09/06/short-list-of-mysql-commands</id>
+    <content type="html"><![CDATA[<h2>Conventions used here:</h2>
+
+<ul>
+<li>MySQL keywords are shown in CAPS</li>
+<li>User-specified names are in small letters</li>
+<li>Optional items are enclosed in square brackets [ ]</li>
+<li>Items in parentheses must appear in the command, along with the parentheses</li>
+<li>Items that can be repeated as often as desired are indicated by an ellipsis &hellip;</li>
+</ul>
+
+
+<!-- more -->
+
+
+<!--
+##Quoting in MySQL Statements##
+
+* Don't quote database, table, or column names
+* Don't quote column types or modifiers
+* Don't quote numerical values
+* Quote (single or double) non-numeric values
+* Quote file names and passwords
+* Usernames are NOT quoted in GRANT or REVOKE statements, but they are quoted in other statements.
+-->
+
+
+<h2>General Commands</h2>
+
+<ul>
+<li><p><code>USE database_name</code><br/>
+Change to specific database. You need to change to some database when you first connect to MySQL.</p></li>
+<li><p><code>SHOW DATABASES</code><br/>
+Lists all MySQL databases on the system.</p></li>
+<li><p><code>SHOW TABLES [FROM database_name]</code><br/>
+Lists all tables from the current database or from the database given in the command.</p></li>
+<li><p><code>DESCRIBE table_name</code>;<br/>
+<code>SHOW FIELDS FROM table_name</code>;<br/>
+<code>SHOW COLUMNS FROM table_name</code><br/>
+These commands all give a list of all columns (fields) from the given table, along with column type and other info.</p></li>
+<li><p><code>SHOW INDEX FROM table_name</code><br/>
+Lists all indexes from this tables.</p></li>
+</ul>
+
+
+<h2>Table Commands</h2>
+
+<ul>
+<li><p><code>CREATE TABLE table_name (create_clause1, create_clause2, ...)</code><br/>
+Creates a table with columns as indicated in the create clauses.</p>
+
+<ul>
+<li>create_clause: column name followed by column type, followed optionally by modifiers. For example, <code>gene_id INT AUTO_INCREMENT PRIMARY KEY</code> (without the quotes) creates a column of type integer with the modifiers described below.</li>
+<li>create_clause modifiers
+
+<ul>
+<li><code>AUTO_INCREMENT</code> : each data record is assigned the next sequential number when it is given a <code>NULL</code> value.</li>
+<li><code>PRIMARY KEY</code> : Items in this column have unique names, and the table is indexed automatically based on this column. One column must be the <code>PRIMARY KEY</code>, and only one column may be the <code>PRIMARY KEY</code>. This column should also be <code>NOT NULL</code>.</li>
+<li><code>NOT NULL</code> : <code>No NULL</code> values are allowed in this column: a <code>NULL</code> generates an error message as the data is inserted into the table.</li>
+<li><code>DEFAULT value</code> : If a <code>NULL</code> value is used in the data for this column, the default value is entered instead.</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p><code>DROP TABLE table_name</code><br/>
+Removes the table from the database. Permanently! So be careful with this command!</p></li>
+<li><p><code>ALTER TABLE table_name ADD (create_clause1, create_clause2, ...)</code><br/>
+Adds the listed columns to the table.</p></li>
+<li><p><code>ALTER TABLE table_name DROP column_name</code><br/>
+Drops the listed columns from the table.</p></li>
+<li><p><code>ALTER TABLE table_name MODIFY create_clause</code><br/>
+Changes the type or modifiers to a column. Using MODIFY means that the column keeps the same name even though its type is altered. MySQL attempts to convert the data to match the new type: <strong>this can cause problems</strong>.</p></li>
+<li><p><code>ALTER TABLE table_name CHANGE column_name create_clause</code>  <br/>
+Changes the name and type or modifiers of a column. Using CHANGE (instead of MODIFY) implies that the column is getting a new name.</p></li>
+<li><p><code>ALTER TABLE table_name ADD INDEX [index_name] (column_name1, column_name2, ...)</code> or
+<code>CREATE INDEX index_name ON table_name (column_name1, column_name2, ...)</code>  <br/>
+Adds an index to this table, based on the listed columns. Note that the order of the columns is important, because additional indexes are created from all subsets of the listed columns reading from left to write. The index name is optional if you use <code>ALTER TABLE</code>, but it is necesary if you use <code>CREATE INDEX</code>. Rarely is the name of an index useful (in my experience).</p></li>
+</ul>
+
+
+<h2>Data Commands</h2>
+
+<ul>
+<li><p><code>INSERT [INTO] table_name VALUES (value1, value2, ...)</code><br/>
+Insert a complete row of data, giving a value (or NULL) for every column in the proper order.</p></li>
+<li><p><code>INSERT [INTO] table_name (column_name1, column_name2, ...) VALUES (value1, value2, ...)</code> or<br/>
+<code>INSERT [INTO] table_name SET column_name1=value1, column_name2=value2, ...</code><br/>
+Insert data into the listed columns only. Alternate forms, with the SET form showing column assignments more explicitly.</p></li>
+<li><p><code>INSERT [INTO] table_name (column_name1, column_name2, ...) SELECT list_of_fields_from_another_table FROM other_table_name WHERE where_clause</code><br/>
+Inserts the data resulting from a <code>SELECT</code> statement into the listed columns. Be sure the number of items taken from the old table match the number of columns they are put into!</p></li>
+<li><p><code>DELETE FROM table_name WHERE where_clause</code><br/>
+Delete rows that meet the conditions of the where_clause. If the <code>WHERE</code> statement is omitted, the table is emptied, although its structure remains intact.</p></li>
+<li><p><code>UPDATE table_name SET column_name1=value1, column_name2=value2, ... [WHERE where_clause]</code><br/>
+Alters the data within a column based on the conditions in the where_clause.</p></li>
+<li><p><code>LOAD DATA LOCAL INFILE 'path_to_external_file' INTO TABLE table_name</code><br/>
+Loads data from the listed file into the table. The default assumption is that fields in the file are separated by tabs, and each data record is separated from the others by a newline. It also assumes that nothing is quoted: quote marks are considered to be part of the data. Also, it assumes that the number of data fields matches the number of table columns. Columns that are <code>AUTO_INCREMENT</code> should have <code>NULL</code> as their value in the file.</p></li>
+<li><p><code>LOAD DATA LOCAL INFILE 'path_to_external_file' [FIELDS TERMINATED BY 'termination_character'] [FIELDS ENCLOSED BY 'quoting character'] [LINES TERMINATED BY 'line termination character'] FROM table_name</code><br/>
+Loads data from the listed file into the table, using the field termination character listed (default is tab \t), and/or the listed quoting character (default is nothing), and/or the listed line termination chacracter (default is a newline \n).</p></li>
+<li><p><code>SOURCE path_to_external_backup_sql_file</code><br/>
+Restore data from the backuped file with extension of .sql, which should contain the SQL statements necessary to re-create the database.</p></li>
+<li><p><code>SELECT column_name1, column_name2, ...
+  INTO OUTFILE 'path_to_external_file' [FIELDS TERMINATED BY 'termination_character']
+      [FIELDS ENCLOSED BY 'quoting character'] [LINES TERMINATED BY 'line termination character']
+      FROM table_name [WHERE where_clause]</code></p></li>
+</ul>
+
+
+<p>Allows you to move data from a table into an external file. The field and line termination clauses are the same as for LOAD above. Several tricky features:</p>
+
+<pre><code>1. Note the positions of the table_name and where_clause, after the external file is given.
+1. You must use a **complete path**, not just a file name. Otherwise MySQL attempts to write to the directory where the database is stored, where you don't have permission to write.
+1. The user who is writing the file is 'mysql', not you! This means that user 'mysql' needs permission to write to the directory you specify. The best way to do that is to create a new directory under your home directory, then change the directory's permission to 777, then write to it. For example: mkdir mysql_output, chmod 777 mysql_output.
+</code></pre>
+
+<h2>Privilege Commands</h2>
+
+<p>Most of the commands below require MySQL root access</p>
+
+<ul>
+<li><p><code>GRANT USAGE ON *.* TO user_name@localhost [IDENTIFIED BY 'password']</code><br/>
+Creates a new user on MySQL, with no rights to do anything. The <code>IDENTIFED BY</code> clause creates or changes the MySQL password, which is not necessarily the same as the user&rsquo;s system password. The <code>@localhost</code> after the user name allows usage on the local system, which is usually what we do; leaving this off allows the user to access the database from another system. User name <code>NOT</code> in quotes.</p></li>
+<li><p><code>GRANT SELECT ON *.* TO user_name@localhost</code><br/>
+In general, unless data is supposed to be kept private, all users should be able to view it. A debatable point, and most databases will only grant SELECT privileges on particular databases. There is no way to grant privileges on all databses <strong>EXCEPT</strong> specifically enumerated ones.</p></li>
+<li><p><code>GRANT ALL ON database_name.* TO user_name@localhost</code><br/>
+Grants permissions on all tables for a specific database (database_name.*) to a user. Permissions are for: <code>ALTER</code>, <code>CREATE</code>, <code>DELETE</code>, <code>DROP</code>, <code>INDEX</code>, <code>INSERT</code>, <code>SELECT</code>, <code>UPDATE</code>.</p></li>
+<li><p><code>FLUSH PRIVILEGES</code><br/>
+Needed to get updated privileges to work immediately. You need <strong>RELOAD</strong> privileges to get this to work.</p></li>
+<li><p><code>CREATE USER user_specification[,user_specification]...</code><br/>
+The <code>CREATE USER</code> statement creates new MySQL accounts. To use it, you must have the global <code>CREATE USER</code> privilege or the <code>INSERT</code> privilege for the mysql database. For each account, <code>CREATE USER</code> creates a new row in the mysql.user table and assgins the account no privileges.</p>
+
+<ul>
+<li>user_specification:<br/>
+  For example, &lsquo;username&rsquo;@&lsquo;host&rsquo; [IDENTIFIED BY [PASSWORD] &lsquo;password&rsquo;], however, it&rsquo;s recommended that <code>PASSWORD</code> keyword should be ignored since it emphasizes the password should be hash value of the password, rather than the password. Otherwise, you probably get error:</li>
+</ul>
+</li>
+</ul>
+
+
+<blockquote><p>Password hash should be a 41-digit hexadecimal number</p></blockquote>
+
+<p>BTW, <code>host</code> of <code>'username'@'host'</code> is not a necessity, if it is removed or just replaced with <code>%</code>, you can log in with this username from any host, otherwise, only the specific host can do that.</p>
+
+<ul>
+<li><p><code>SET PASSWORD=PASSWORD('new_password')</code><br/>
+Allows the user to change his/her current password.</p></li>
+<li><p><code>REVOKE ALL ON [database_name.].* FROM user_name@localhost</code><br/>
+Revokes all permissions for the user, but leaves the user in the MySQL database. This can be done for all databases using <code>ON *</code>, or for all tables within a specific databse, using <code>ON database_name.*</code>.</p></li>
+<li><p><code>DELETE FROM mysql.user WHERE user='user_name@localhost'</code><br/>
+Removes the user from the database, which revokes all privileges. Note that the user name is in quotes here.</p></li>
+<li><p><code>UPDATE mysql.user SET password=PASSWORD('my_password') WHERE user='user_name'</code><br/>
+Sets the user&rsquo;s password. The <code>PASSWORD</code> function hashes it; otherwise it will be in plain text.</p></li>
+<li><p><code>SELECT user, host, password, select_priv, insert_priv, shutdown_priv, grant_priv FROM mysql.user</code><br/>
+A good view of all users and their approximate privileges. If there is a password, it will be an hashed string; if not, this field is blank. Select is a very general privlege; insert allows table manipulation within a database; shutdown allows major system changes, and should only be usable by root; the ability to grant permissions is separate from the others.</p></li>
+<li><p><code>SELECT user, host, db, select_priv, insert_priv, grant_priv FROM mysql.db</code><br/>
+View permissions for individual databases.</p></li>
+</ul>
+
+
+<h2>References:</h2>
+
+<ul>
+<li><a href="http://www.bios.niu.edu/johns/bioinform/mysql_commands.htm">Short List of MySQL Commands</a></li>
+<li><a href="http://dev.mysql.com/doc/refman/5.1/en/create-user.html">CREATE USER Syntax</a></li>
+<li><a href="http://stackoverflow.com/questions/9529651/mysql-user-creation-script">Mysql user creation script, error 1372</a></li>
+</ul>
+
+]]></content>
+  </entry>
+  
+</feed>

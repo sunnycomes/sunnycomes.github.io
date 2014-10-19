@@ -1,0 +1,848 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>I/O VIsion</title>
+  <meta name="author" content="Sunny">
+
+  
+  <meta name="description" content="前段时间，因为要测试一个刚出炉的高频策略，放实盘去跑吧，怕出岔，所以写了个简单的回测系统，跑一遍历史数据。其中有一部分是关于撮合系统，简陋了点，还算能跑得起来，几个用例下来，也没什么问题，接着增加历史数据量，居然出现了负数，简直不可能发生的事情居然出现了，虽然都是小金额的偏差，但是毕竟跟钱打交道， &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://www.iovi.com">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="I/O VIsion" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="./javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-43860851-1']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://' : 'http://') + 'stats.g.doubleclick.net/dc.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-43860851-1', 'iovi.com');
+  ga('send', 'pageview');
+
+</script>
+
+
+
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">I/O VIsion</a></h1>
+  
+    <h2>爱编码，爱思考，爱探索.</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:www.iovi.com" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+
+
+<li><a href="/">Home</a></li>
+
+<li><a href="/blog/archives">Archives</a></li>
+
+<li><a href="/blog/categories/stuff">Stuff</a></li>
+
+<li><a href="/bookshelf">Bookshelf</a></li>
+
+<!--
+	<li><a href="/blog/stuff">Stuff</a></li>
+
+	Commented out for present.
+<li><a href="/blog/categories/data-mining">Data Mining</a></li>
+
+<li><a href="/blog/bookrack ">Bookrack</a></li>
+
+-->
+<li><a href="/about ">About</a></li>
+
+
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div class="blog-index">
+  
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2014/07/07/talk-about-double-in-java/">聊一聊Java中double精度去哪了(1)</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-07-07T21:30:11+08:00" pubdate data-updated="true">Jul 7<span>th</span>, 2014</time>
+        
+           | <a href="/blog/2014/07/07/talk-about-double-in-java/#disqus_thread"
+             data-disqus-identifier="http://www.iovi.com/blog/2014/07/07/talk-about-double-in-java/">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>前段时间，因为要测试一个刚出炉的高频策略，放实盘去跑吧，怕出岔，所以写了个简单的回测系统，跑一遍历史数据。其中有一部分是关于撮合系统，简陋了点，还算能跑得起来，几个用例下来，也没什么问题，接着增加历史数据量，居然出现了负数，简直不可能发生的事情居然出现了，虽然都是小金额的偏差，但是毕竟跟钱打交道，必须谨慎，况且现在比特币那么贵，丝毫偏差都是不允许的！</p>
+
+<p>当然，后面就是苦逼的找bug，逻辑没问题，发狠的，把所有的数据都打印出来，日志一页一页没有尽头，心里发麻，硬着头皮一条条排查，人品不错，开头就发现一条异常数据，0.05+0.01＝0.060000000000000005，瞬间明白，google it，才发现Java的double原来精度那么蛋疼。网上推荐BigDecimal代替double，果然不错，那就用BigDecimal替换。等所有的double都换之后，狗血的事情发生了，BigDecimal是如此的慢，以至于跑一个用例花了之前N倍的时间，怎么办，只能用一个折中的办法，数值表示仍然用double，数值计算用BigDecimal，于是乎，有了如下的一个四则运算工具类MathUtil.java</p>
+
+<script src="https://gist.github.com/sunnycomes/294abb067fbd662c60f5.js"></script>
+
+
+<p>当然，这里我想做的，不仅仅只是找到解决方案，更多的事想理解为什么double会出现这样的问题，如果是其他语言，例如C，会不会也出现这样的问题，我试着用同一组数据，发现C对于这组数据是没有出现异常的，那么，Java为什么会这么与众不同呢？</p>
+
+<p>网上说其他语言也有类似的情况，那么我们该如何避免这些地雷呢？</p>
+
+<p>既然Java的double问题那么多，我当前系统用double表示数值，会不会出现偏差？</p>
+
+<p>如果Java中采用BigDecimal效率这么低，那些大型交易所，性能要求极高，如何控制延迟呢？或者还有其他更好的技术？</p>
+
+<p>各种疑问在脑中盘旋，打破沙锅问到底的瘾又翻了，后面将追加博文，彻底研究下，Java的double精度去哪了。</p>
+
+</div>
+  
+  
+    <footer>
+      <a rel="full-article" href="/blog/2014/07/07/talk-about-double-in-java/">Read on &rarr;</a>
+    </footer>
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2014/06/07/java-deep-learning-of-annotation/">打破沙锅问到底－－Java的@符号</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-06-07T14:23:59+08:00" pubdate data-updated="true">Jun 7<span>th</span>, 2014</time>
+        
+           | <a href="/blog/2014/06/07/java-deep-learning-of-annotation/#disqus_thread"
+             data-disqus-identifier="http://www.iovi.com/blog/2014/06/07/java-deep-learning-of-annotation/">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>刚接触Java变成，就经常碰到“@”这个符号，所谓的Java中的annotation。很多时候它都是跟@Override，@Deprecated，@SuppressWarnings，或者更见多识广一些，还有@Retention，@Target，@Documented，@Inherieted，但是，大多数情况下，很少会有人去过问为什么这么去写，只知道这是一种理所当然的写法，在这里推荐一篇非常详细的关于Java注解的博文<a href="http://computerdragon.blog.51cto.com/6235984/1210969">Java注解annotation用法和自定义注解处理器</a>。</p>
+
+<p>读完上面那篇文章，相信大家应该对Java的注解有了比较初步的认识，当然，光看别人的不行，没有自己的总结体会，等于没有学到太多。</p>
+
+<p>原文中提到“<strong>自定义注解是以@interface为标志的</strong>”，那么，“注释”到底是不是一个interface呢？答案可以从<a href="http://docs.oracle.com/javase/tutorial/java/annotations/declaring.html">官方文档</a>中找到，“<code>Annotation types are a form of interface</code>”，如是写道。</p>
+
+<p>原文中定义了一个Constraints的Annotation，当其他Annotation引用它时，却有两种不同的用法，我从原文中复制了这样一段代码</p>
+
+<pre><code>@Target(ElementType.FIELD)
+@Retention(RetentionPolicy.RUNTIME)
+public @interface SQLString {
+    int value() default 0;
+    String name() default "";
+    Constraints constraints() default @Constraints;
+}
+</code></pre>
+
+<p>想必大家应该注意到了，<code>Constraints constraints() default @Constraints;
+</code>，这一行中，前一个Constraints是不加“@”，而后面加了，再回忆下最初我们接触到的Override，Deprecated，SupressWarnings，前面都有“@”，这是为什么？目前猜测不加表示“类型”，而加了之后，表示“实例”，有兴趣的读者可以深究下。</p>
+
+<p>看了这么多代码，从头到尾都觉得Annotation type element(官网原话)定义特别怪异，如<code>int value() default 0;</code>，自开始学习java编程以来，还从未接触过这种写法，有兴趣的读者可以试着把这段代码放到一个普通的类内部，会是什么效果，肯定报错！<a href="http://docs.oracle.com/javase/7/docs/technotes/guides/language/annotations.html">官网</a>有这样一段原话,</p>
+
+<pre><code>Annotation type declarations are similar to normal interface declarations. 
+
+An at-sign (@) precedes the interface keyword. Each method declaration defines an element of the annotation type. Method declarations must not have any parameters or a throws clause. 
+
+Return types are restricted to primitives, String, Class, enums, annotations, and arrays of the preceding types. Methods can have default values. 
+</code></pre>
+
+<p>相信已经解答大家的疑惑了。</p>
+
+<p>再啰嗦一句，在Annotation里面，有一个接口很少抛头露面，但有重要到不得不提的地步，它就是<code>java.lang.annotation.Annotation</code>，默认的，Override，Deprecated等annotation类型都继承于它，跟java.lang.Object类似。更多详细资料见官网<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/annotation/Annotation.html">Interface Annotation</a>. 值得注意的是，你要是自己写个接口Intf，实现<code>java.lang.annotation.Annotation</code>，并不能使Intf成为<code>java.lang.annotation.Annotation</code>类型。</p>
+
+<p>最后，可以尝试做下官网提供的小测验，巩固下知识，<a href="http://docs.oracle.com/javase/tutorial/java/annotations/QandE/questions.html">地址</a></p>
+
+</div>
+  
+  
+    <footer>
+      <a rel="full-article" href="/blog/2014/06/07/java-deep-learning-of-annotation/">Read on &rarr;</a>
+    </footer>
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2014/04/01/flipping-coins-strategy-to-win/">抛硬币也能抛出人生大赢家</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-04-01T23:25:39+08:00" pubdate data-updated="true">Apr 1<span>st</span>, 2014</time>
+        
+           | <a href="/blog/2014/04/01/flipping-coins-strategy-to-win/#disqus_thread"
+             data-disqus-identifier="http://www.iovi.com/blog/2014/04/01/flipping-coins-strategy-to-win/">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>抛硬币，玩家庄家概率对半开，怎么赢，关键看下注策略。资金管理领域，有两种不得不提的策略，等价鞅与反等价鞅，从表现形式看，使用等价鞅制度的资金管理方式，在出现亏损以后，倾向于使用增加投入金额的方式进行后来的游戏。一旦获得盈利后，资金投入比例会再次回到起始水平；使用反等价鞅制度的资金管理方式，在出现亏损以后，会倾向于减少投入金额的比例进行后来的游戏；而伴随盈利的增加，也会不断增加投入资金，更多相关的内容见<a href="http://bluema75.blog.163.com/blog/static/386767082007101710422663/">等价鞅和反等价鞅</a>，写的很精彩，不做赘述。在这里，抛硬币属于古典概型，理解起来，相对简单直观。</p>
+
+<p>游戏开始，你有10000块钱，资金翻倍后离场，不然一直到次数上限</p>
+
+<p>等价鞅策略：</p>
+
+<pre><code>1:如果前一次赢了，本次下注金额为1元。
+2:如果前一次输了，本次下注金额为之前两倍，这样做到本次赢了，能把之前输的都回本。
+3:第一次玩时，认为前一次是赢的，因此，开局赌注为1元。
+</code></pre>
+
+<p>代码：</p>
+
+<pre><code>package com.iovi.flippingcoins;
+
+/**
+  * @author sunnycomes
+  *
+*/
+public class FlippingCoins {
+
+    public static final int INIT_FUNDS = 10000;
+    public static final int PREFERED_FUNDS = INIT_FUNDS * 2;
+
+    public static final int MAX_TEST_CASE_CNT = 100;
+
+    // This value is related to PREFERED_FUNDS if you think carefully.
+    public static final int MAX_FLIPPING_CNT_IN_ONE_TEST_CASE = 20000;
+
+    public static void main(String[] args) {
+
+        for(int testCnt = 0; testCnt &lt; MAX_TEST_CASE_CNT; testCnt++) {
+
+            int funds = INIT_FUNDS;
+            int lastResult = 1;
+            int lastChip = 1;
+            int flipCnt = 0;
+
+            while(funds &lt;= PREFERED_FUNDS) {
+
+                if(flipCnt &gt;= MAX_FLIPPING_CNT_IN_ONE_TEST_CASE) {
+                    //System.err.print("Max flipping count in one test case reached#");
+                    break;
+                }
+                flipCnt ++;
+
+                lastChip = lastResult == 1 ? 1 : lastChip * 2;
+                if(funds &lt; lastChip) {
+                    //System.err.print("No enough funds for next round#");
+                    break;
+                }
+
+                lastResult = getResult();
+                funds = lastResult == 1 ? funds + lastChip : funds - lastChip;
+            }
+
+            if(funds &gt; PREFERED_FUNDS) {
+                System.out.println("flipCnt=" + flipCnt + "#funds=" + funds);
+            }
+
+            //System.out.println("flipCnt=" + flipCnt + "#funds=" + funds);
+        }
+    }
+
+    /**
+     * The method is designed to create a random result simulating the coin flipping result.
+     * 
+     * @return a pseudorandom int either 1 or 0, 1 stands for win and vice versa.
+     */
+    public static int getResult() {
+        return (int) (Math.random() + 0.5);
+    }
+}
+</code></pre>
+
+<p>听网友反馈，测试结果不理想，最后产生了亏损，这其实是可能发生的，要体现策略的效果，首先，初始资金要充足，而后，测试的用例必须保证充足。要理解一个概念，产生了一列随机数，测试次数远远不够，要搞清楚一个概念。概率和运气：概率是你抛1w次硬币，正反面对半开，而关于运气，则是前5k次是正面，后5k次是反面。你只测了一列随机数，不具有代表性。</p>
+
+<p>另外，还推荐一篇比较不错的关于资金管理的文章<a href="http://blog.sina.com.cn/s/blog_4b9aa4250101k4q5.html">【干货】关于等价鞅、反等价鞅、剀利公式、赌徒输光定理</a></p>
+
+</div>
+  
+  
+    <footer>
+      <a rel="full-article" href="/blog/2014/04/01/flipping-coins-strategy-to-win/">Read on &rarr;</a>
+    </footer>
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2014/03/06/a-new-start/">脱离低级趣味的写作</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-03-06T22:39:51+08:00" pubdate data-updated="true">Mar 6<span>th</span>, 2014</time>
+        
+           | <a href="/blog/2014/03/06/a-new-start/#disqus_thread"
+             data-disqus-identifier="http://www.iovi.com/blog/2014/03/06/a-new-start/">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>之前的大多博文，东抄西抄，完全体现不出个人的劳动成果，作为一个研究僧，的确应该写一些自己独立思考的文字，挖掘深层次的知识。</p>
+
+<p>其实现实当中可以书写的素材非常丰富，一篇博客，一纸论文，一本书，都能引出无数的话题，关键在于自己愿不愿挖掘，有没有探索的精神，这个非常重要，本科学习过程中，总能感觉自己遇到困难就撤退，很多事物浅尝辄止，泛泛而学，完全不应该是一个胸怀志向的年轻人的所作所为。</p>
+
+<p>早些年读书，读不好，很大程度是不会读书，做任何时候，都有套路，就像游戏攻略一样，如果自己沉下心去思考，肯定会有领悟。谈到读书，不能泛泛的读，一本书，狼吞虎咽的浏览，翻到最后一夜，可能前面的内容都一点就没有了印象。除非天资聪颖，不然，认真翻个几遍真的是很有必要的事情。古人说，读书百遍，其义自现，当然，百遍是夸张的，但是没有多次的回顾，其实也是很难有所收获的，回顾的意义在于发现过去所遗漏的，或者未尝试思考的，次数多了，深度也就有了，体会也便油然而生，这样才能真正有自己的产出，而不是完全书上的注解。</p>
+
+<p>对自己未来的承诺，文章一定自己写，别人的成果，坚决不重复引用，必须有自己思考的痕迹，并且能给出一定有价值的结论或者总结，做一个会思考的大脑，有思想的芦苇。</p>
+
+</div>
+  
+  
+    <footer>
+      <a rel="full-article" href="/blog/2014/03/06/a-new-start/">Read on &rarr;</a>
+    </footer>
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2014/03/01/talk-about-bitcoin-change/">聊一聊不一样的比特币找零机制</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-03-01T15:43:56+08:00" pubdate data-updated="true">Mar 1<span>st</span>, 2014</time>
+        
+           | <a href="/blog/2014/03/01/talk-about-bitcoin-change/#disqus_thread"
+             data-disqus-identifier="http://www.iovi.com/blog/2014/03/01/talk-about-bitcoin-change/">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>刚开始接触比特币的时候，一定很多人困惑于比特币的找零，幸好资料很多，随手从网上找了一篇，很详尽<a href="http://jingyan.baidu.com/article/19192ad84bcd54e53e570729.html">《详解比特币的找零机制》</a>，大家可以做一个入门导读。</p>
+
+<p>好了，针对原文的一些概念，这里我做一些我的理解。</p>
+
+<p>原文中“<strong>比特币钱包交易100次以上时再次交易后要重新备份钱包</strong>”，值得一提的是，这里的交易指的是支出，而不包含接收。</p>
+
+<p>原文中举了一个买棒棒糖的例子，“<strong>新创建的货币金额与被销毁的货币金额是完全一样的</strong>”，这种说法其实不对，这里根本没有销毁和创建一说，无非是原地址比特币数字归零，余额赋值到新地址，正是因为原文中的说法，导致很多人以为比特币是完整不可分割。</p>
+
+<p>原文中，“<strong>同时为了防止双重支付和伪造，必须确保在任何时候，新创建的货币金额与被销毁的货币金额是完全一样的。</strong>”，“销毁”和“创建”金额相同，跟双重支付和伪造够不成因果关系，确认交易和防止双重支付主要是有PROOF-OF-WORK机制保证的，就是常说的PoW。</p>
+
+</div>
+  
+  
+    <footer>
+      <a rel="full-article" href="/blog/2014/03/01/talk-about-bitcoin-change/">Read on &rarr;</a>
+    </footer>
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2014/02/21/simple-git-guide/">Simple Git Guide</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-02-21T15:46:05+08:00" pubdate data-updated="true">Feb 21<span>st</span>, 2014</time>
+        
+           | <a href="/blog/2014/02/21/simple-git-guide/#disqus_thread"
+             data-disqus-identifier="http://www.iovi.com/blog/2014/02/21/simple-git-guide/">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><h2>Preliminary</h2>
+
+<h3>Remote</h3>
+
+<p>If you have not cloned an existing repository and want to connect your repository to a remote server, you need to add it with</p>
+
+<pre><code>git remote add repo_path
+</code></pre>
+
+<p>repo_path can be something like <code>https://github.com/sunnycomes/okcoin_pc</code>.</p>
+
+<h3>branch</h3>
+
+<p>Branches are used to develop features isolated from each other. The master branch is the &ldquo;default&rdquo; branch when you create a repository. Use other branches for development and merge them back to the master branch upon completion.</p>
+
+<p>create a new branch named &ldquo;branch_xx&rdquo;,</p>
+
+<pre><code>git branch branch_xx
+</code></pre>
+
+<p>and switch to it using</p>
+
+<pre><code>git checkout branch_xx
+</code></pre>
+
+<p>or,</p>
+
+<pre><code>git checkout -b branch_xx
+</code></pre>
+
+<p>do the same work.</p>
+
+</div>
+  
+  
+    <footer>
+      <a rel="full-article" href="/blog/2014/02/21/simple-git-guide/">Read on &rarr;</a>
+    </footer>
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2013/12/11/java-performance-tunning-tips/">Java Performance Tuning Tips</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-12-11T20:59:44+08:00" pubdate data-updated="true">Dec 11<span>th</span>, 2013</time>
+        
+           | <a href="/blog/2013/12/11/java-performance-tunning-tips/#disqus_thread"
+             data-disqus-identifier="http://www.iovi.com/blog/2013/12/11/java-performance-tunning-tips/">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>The 1st version is completed on 2013.12.11, the main content is from <a href="http://www.exforsys.com/tutorials/j2ee/performance-tuning-of-java-applications.html">Performance Tuning of Java Applications</a>.</p>
+
+<p>Ever since the first version of Java Technology hit the streets, performance has been an important issue for Java developers. Java has improved dramatically and continually but, performance tuning is very essential to get the best results, especially when we think of J2EE applications.</p>
+
+</div>
+  
+  
+    <footer>
+      <a rel="full-article" href="/blog/2013/12/11/java-performance-tunning-tips/">Read on &rarr;</a>
+    </footer>
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2013/11/11/best-practices-to-improve-performance-in-JDBC/">Best Practices to Improve Performance in JDBC</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-11-11T14:54:53+08:00" pubdate data-updated="true">Nov 11<span>th</span>, 2013</time>
+        
+           | <a href="/blog/2013/11/11/best-practices-to-improve-performance-in-JDBC/#disqus_thread"
+             data-disqus-identifier="http://www.iovi.com/blog/2013/11/11/best-practices-to-improve-performance-in-JDBC/">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>The 1st version is completed on 2013.11.11 20:38.</p>
+
+<p>The 2nd version is completed on 2013.11.22, which modified completely, the main content is from <strong><em><a href="http://www.precisejava.com/javaperf/j2ee/JDBC.htm">Best practices to improve performance in JDBC</a></em></strong>, this is a great article about JDBC tuning.</p>
+
+<hr />
+
+<br/>
+
+
+<p>This post is dedicated to illustrate techniques for optimizing JDBC API-based calls from the Java platform. As a result of this presentation, you will:</p>
+
+<ul>
+<li>Design better JDBC implementations</li>
+<li>Recognize potential performance bottlenecks</li>
+<li>Reduce cost during development</li>
+</ul>
+
+
+</div>
+  
+  
+    <footer>
+      <a rel="full-article" href="/blog/2013/11/11/best-practices-to-improve-performance-in-JDBC/">Read on &rarr;</a>
+    </footer>
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2013/10/31/optimal-isolation-level/">Optimal JDBC Transaction Isolation Level</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-10-31T16:09:47+08:00" pubdate data-updated="true">Oct 31<span>st</span>, 2013</time>
+        
+           | <a href="/blog/2013/10/31/optimal-isolation-level/#disqus_thread"
+             data-disqus-identifier="http://www.iovi.com/blog/2013/10/31/optimal-isolation-level/">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><h2>Choose optimal isolation level</h2>
+
+<p>Isolation level represent how a database maintains data integrity against the problems like dirty reads, phantom reads and non-repeatable reads which can occur due to concurrent transactions. java.sql.Connection interface provides  methods and constants to avoid the above mentioned problems by setting different isolation levels.</p>
+
+<pre><code>public interface Connection {
+    public static final int  TRANSACTION_NONE                 = 0
+    public static final int  TRANSACTION_READ_UNCOMMITTED     = 1
+    public static final int  TRANSACTION_READ_COMMITTED       = 2
+    public static final int  TRANSACTION_REPEATABLE_READ      = 4
+    public static final int  TRANSACTION_SERIALIZABLE         = 8
+    int    getTransactionIsolation();
+    void   setTransactionIsolation(int isolationlevelconstant);
+}
+</code></pre>
+
+</div>
+  
+  
+    <footer>
+      <a rel="full-article" href="/blog/2013/10/31/optimal-isolation-level/">Read on &rarr;</a>
+    </footer>
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2013/10/21/optimistic-and-pessimistic-locking/">Optimistic and Pessimistic Locking</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-10-21T21:40:48+08:00" pubdate data-updated="true">Oct 21<span>st</span>, 2013</time>
+        
+           | <a href="/blog/2013/10/21/optimistic-and-pessimistic-locking/#disqus_thread"
+             data-disqus-identifier="http://www.iovi.com/blog/2013/10/21/optimistic-and-pessimistic-locking/">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><h2>Locking Introduction</h2>
+
+<p>This article talks about serveral ways of doing locking. It starts with concurrency problems and then discusses about 2 ways of doing optimistic locking. As optimistic locking does not solve the concurrency issues from roots, it introduces pessimistic locking. It then moves ahead to explain how isolation levels can help us implement pessimistic locking. Each isolation level is explained with sample demonstration to make concepts clearer.</p>
+
+<h2>Why do we need locking?</h2>
+
+<p>In multi-user environment it&rsquo;s possible that multiple users can update the same record at the same time causing confusion between users. This issue is termed as concurrency.</p>
+
+</div>
+  
+  
+    <footer>
+      <a rel="full-article" href="/blog/2013/10/21/optimistic-and-pessimistic-locking/">Read on &rarr;</a>
+    </footer>
+  
+
+
+    </article>
+  
+  <div class="pagination">
+    
+      <a class="prev" href="/blog/page/2/">&larr; Older</a>
+    
+    <a href="/blog/archives">Blog Archives</a>
+    
+  </div>
+</div>
+<aside class="sidebar">
+  
+    <section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2014/07/07/talk-about-double-in-java/">聊一聊Java中double精度去哪了(1)</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2014/06/07/java-deep-learning-of-annotation/">打破沙锅问到底－－Java的@符号</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2014/04/01/flipping-coins-strategy-to-win/">抛硬币也能抛出人生大赢家</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2014/03/06/a-new-start/">脱离低级趣味的写作</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2014/03/01/talk-about-bitcoin-change/">聊一聊不一样的比特币找零机制</a>
+      </li>
+    
+  </ul>
+</section>
+<section>
+  <h1>Tags</h1>
+  <ul class="tag-cloud">
+    <a style="font-size: 90%" href="/tags/bitcoin/">Bitcoin</a>
+<a style="font-size: 150%" href="/tags/database/">Database</a>
+<a style="font-size: 90%" href="/tags/gamble/">Gamble</a>
+<a style="font-size: 90%" href="/tags/git/">Git</a>
+<a style="font-size: 210%" href="/tags/java/">Java</a>
+<a style="font-size: 150%" href="/tags/mysql/">MySQL</a>
+
+  </ul>
+</section>
+
+
+
+
+  
+</aside>
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2014 - Sunny -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+<script type="text/javascript">
+      var disqus_shortname = 'sunnycomes';
+      
+        
+        var disqus_script = 'count.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = '//' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>
