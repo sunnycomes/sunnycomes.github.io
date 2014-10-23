@@ -1,0 +1,115 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<title>IoVision</title>
+<link rel="shortcut icon" href="/static/img/favicon.ico"/>
+<link rel="stylesheet" href="/static/style/style.css" type="text/css">
+</head>
+<body>
+<div id="content">
+<header id="header_index">
+<hgroup>
+<h2 class="site-nav"><a href="/">首页</a></h2>
+<h2 class="site-nav"><a href="/about">About</a></h2>
+</hgroup>
+</header>
+<div id="main">
+<div class="article_wrapper">
+<article>
+<div class="entry-header">
+<h1 class="entry-title">聊一聊Java中double精度去哪了(2)</h1>
+<div class="entry-meta">
+<span class="sep"><time>2014-7-13 14:41:2</time></span>
+</div>
+</div>
+<div class="entry-content">
+<p>继续先前的话题，double奇葩的精度。试完了C，为何不看看其他的语言，如python，毕竟基本上现在的编程语言基本采用IEEE754标准，存储方式相同，计算由CPU完成，结果为什么会不同？果然使用python得出的结论也是0.060000000000000005，不免怀疑之前C的结果。C的语句是这样的：</p>
+<pre><code>printf("%lf", 0.01 + 0.05);  #输出结果为0.060000。
+</code></pre>
+<p>码农的直觉告诉我，似乎有些东西少了。是精度，保留的精度不对，于是设定保留小数点后18位，因为java的输出小数点后有18位：</p>
+<pre><code>printf("%.18lf", 0.01 + 0.05);  #输出结果为0.060000000000000005。
+</code></pre>
+<p>这才是真相，线索越来越多，0.01+0.05这道题，可能跟语言无关，而是跟IEEE754标准有关？</p>
+<p>这个实验当中，结果比预期的多，那么有没有比预期的少？</p>
+<pre><code>System.out.println(0.09 + 0.01);  #输出结果为0.09999999999999999。
+</code></pre>
+<p>但是，如果取小数点后10位以内，结果还是好的，而且一般现实也不需要那么高的精度，但是，倘若每次计算都做一次round，势必性能大打折扣！然而不做round，的确是不严谨的作法，如果是支付场景，0.09+0.01&lt;0.1，那么这次交易就完成不了，这是绝对不能容忍的错误！</p>
+<p>谈了现象，再谈谈原因，其实很简单，10进制的世界，对于0，1的世界的计算机来说，有点悬。</p>
+<!-- more -->
+
+<p>这里我们回顾一下小数转二进制的计算规则：乘2取整法，以0.05为例：</p>
+<blockquote>
+<ol>
+<li>0.05 * 2 % 1 = 0.1(0)</li>
+<li>0.1 * 2 % 1 = 0.2(0)</li>
+<li>0.2 * 2 % 1 = 0.4(0)</li>
+<li>0.4 * 2 % 1 = 0.8(0)</li>
+<li>0.8 * 2 % 1 = 0.6(1)</li>
+<li>0.6 * 2 % 1 = 0.2(1) 到达这里的时候，又回到先前第2步状态</li>
+</ol>
+</blockquote>
+<p>如果一直算下去，结果会是：0.00(0011*n)，0011*n表示n次重复，用科学技术法表示：1.100(1100*n) * 2^-5
+用IEEE754表示，则：</p>
+<blockquote>
+<p>s=0(正数)<br />
+exp=01111111010(=1023+(-5))<br />
+frac=1001100110011001100110011001100110011001100110011010(科学计数法整数1去掉，小数第53位做round)<br />
+binary=0 01111111010 1001100110011001100110011001100110011001100110011010<br />
+hex=3fa999999999999a  </p>
+</blockquote>
+<p>用相同的方式对0.01做转换，可以发现也只能用近似的值表示，上一篇提到的<code>既然Java的double问题那么多，我当前系统用double表示数值，会不会出现偏差？</code>，很明显，偏差肯定有，具体情况具体分析！</p>
+<p>尾数小数部分能表示最大值是2^53-1，即当你的整数部分大于2^53-1时，如果有小数，则小数精度丢失非常严重。这里可以得出一个结论，在整数部分不太大的情况下，double可以保证精度丢失微乎其微；而当整数部分过大时，则小数会做非常粗暴省略。
+这里对数据格式做规定，假设整数部分最长x位，小数点做多保留y位：</p>
+<ol>
+<li>如果y远小于len长度，则做相应精度的round即可，up或者down皆可，后面会接着写一篇关于精度取舍的博客。</li>
+<li>如果y刚好len附近徘徊，或者远大于len长度，结果肯定是有问题的，推荐使用BigDecimal</li>
+</ol>
+<p>这里举一个比特币交易所的例子，关于balance，price，amount的问题，price整数最大长度a，小数精确到x位，amount整数最大长度b，小数精确到y位，那么理论上price * amount，整数最多a+b位，小数最多位x+y位：</p>
+<pre><code>令x=2,y=4;
+令amount&lt;200，000，则200，000(10)=30D40(16)，二进制长度为20位，小数部分33位，2^33=8,589,934,592，则保守取值，小数点后8位是最大极限。
+令price&lt;100,000，则10,0000(10)=186A0(16)，二进制长度20位，小数部分33位，2^33=8,589,934,592，则保守取值，小数点后8位是最大极限
+令balance&lt;10,000,000,000，则10,000,000,000(10)=2540BE400(16)，二进制长度36位，小数部分17位，2^17=131072，则保守取值，4位，其实这里已经要产生误差了。
+</code></pre>
+<p>从上面的计算也可以看出，使用double，保留小数最多不超过4位，勉勉强强应付10~100个亿，那对于金融，科学计算领域，可以想见，double已经不能满足需求了！因此，采用Java BigDecimail是非常有必要的.</p>
+<p>申明：这里提到的double都是采用IEEE754规范的64位浮点数。</p>
+<h5>To be continued.</h5>
+</div>
+</article>
+<div id="disqus_thread"></div>
+<script type="text/javascript">
+    /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+    var disqus_shortname = 'iovision'; // required: replace example with your forum shortname
+
+    /* * * DON'T EDIT BELOW THIS LINE * * */
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+</div>
+</div>
+
+<footer class="footer">
+<div class="footer_powered_by">
+Powered by <a href='http://www.iovi.com'>Sunnycomes</a>
+</div>
+</footer>
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-43860851-1', 'auto');
+  ga('send', 'pageview');
+
+</script>
+<a target="_blank" href="https://github.com/sunnycomes/IoVision"><img style="position: absolute; top: 0; right: 0; border: 0;" src="https://camo.githubusercontent.com/e7bbb0521b397edbd5fe43e7f760759336b5e05f/68747470733a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f72696768745f677265656e5f3030373230302e706e67" alt="Fork me on GitHub" data-canonical-src="https://s3.amazonaws.com/github/ribbons/forkme_right_green_007200.png"></a>
+</div>
+</body>
+</html>

@@ -20,6 +20,30 @@
 
 <article>
 <div class="entry-header">
+<h1 class="entry-title"><a href='/post/2014-7-13-talk-about-double-in-java-2.html'>聊一聊Java中double精度去哪了(2)</a></h1>
+<div class="entry-meta">
+<span class="sep"><time>2014-7-13 14:41:2</time></span>
+</div>
+</div>
+<div class="entry-content">
+<p>继续先前的话题，double奇葩的精度。试完了C，为何不看看其他的语言，如python，毕竟基本上现在的编程语言基本采用IEEE754标准，存储方式相同，计算由CPU完成，结果为什么会不同？果然使用python得出的结论也是0.060000000000000005，不免怀疑之前C的结果。C的语句是这样的：</p>
+<pre><code>printf("%lf", 0.01 + 0.05);  #输出结果为0.060000。
+</code></pre>
+<p>码农的直觉告诉我，似乎有些东西少了。是精度，保留的精度不对，于是设定保留小数点后18位，因为java的输出小数点后有18位：</p>
+<pre><code>printf("%.18lf", 0.01 + 0.05);  #输出结果为0.060000000000000005。
+</code></pre>
+<p>这才是真相，线索越来越多，0.01+0.05这道题，可能跟语言无关，而是跟IEEE754标准有关？</p>
+<p>这个实验当中，结果比预期的多，那么有没有比预期的少？</p>
+<pre><code>System.out.println(0.09 + 0.01);  #输出结果为0.09999999999999999。
+</code></pre>
+<p>但是，如果取小数点后10位以内，结果还是好的，而且一般现实也不需要那么高的精度，但是，倘若每次计算都做一次round，势必性能大打折扣！然而不做round，的确是不严谨的作法，如果是支付场景，0.09+0.01&lt;0.1，那么这次交易就完成不了，这是绝对不能容忍的错误！</p>
+<p>谈了现象，再谈谈原因，其实很简单，10进制的世界，对于0，1的世界的计算机来说，有点悬。</p>
+
+</div>
+</article>
+
+<article>
+<div class="entry-header">
 <h1 class="entry-title"><a href='/post/2014-07-07-talk-about-double-in-java.html'>聊一聊Java中double精度去哪了(1)</a></h1>
 <div class="entry-meta">
 <span class="sep"><time>2014-07-07 21:30:1</time></span>
