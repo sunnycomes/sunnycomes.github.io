@@ -1,0 +1,92 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<title>IoVision</title>
+<link rel="shortcut icon" href="/static/img/favicon.ico"/>
+<link rel="stylesheet" href="/static/style/style.css" type="text/css">
+</head>
+<body>
+<div id="content">
+<header id="header_index">
+<hgroup>
+<h2 class="site-nav"><a href="/">首页</a></h2>
+<h2 class="site-nav"><a href="/about">About</a></h2>
+</hgroup>
+</header>
+<div id="main">
+<div class="article_wrapper">
+<article>
+<div class="entry-header">
+<h1 class="entry-title">聊一聊Java中double精度去哪了(3)</h1>
+<div class="entry-meta">
+<span class="sep"><time>2014-07-16 14:18:18 +080</time></span>
+</div>
+</div>
+<div class="entry-content">
+<p>接下来聊一聊精度取舍的原则，然后判断是否适合自身项目的需求。</p>
+<p>double之所以会产生精度的丢失，最根本的因素是用于表示小数的二进制位数不够，然后做round，造成丢失。</p>
+<p>这里我们假设小数剩余的二进制位长度为x，那么，在存储的时候，如果x位后面还有内容，将做round处理，那么到底损失或者增加了多少？这里验证下：</p>
+<ol>
+<li>如果x+1二进制位为1，进位，则比原数要放大一些，假设增量t，那么t &lt; 1/2^x，以下是证明：</li>
+</ol>
+<blockquote>
+<p>tmax = 1/2^(x+1) + 1/2^(x+2) + 1/2^(x+3) + ... + 1/2^(x+n)<br />
+tmax - 1/2^x = 1/2^x(1-1/2-1/4-1/8...) &gt; ，因：1/2 + 1/4 + 1/8 + ... + 1/2^n &lt; 1 </p>
+</blockquote>
+<ol>
+<li>如果x+1二进制位为0，不进位，则比原数字小一些，假设减量d, 那么t &lt; 1/2^(x+1)，证明同上。</li>
+</ol>
+<p>其实，在计算过程中，只要考虑的1/2^x影响有多大即可！因为1/2^x都不会影响结果，1/2^(x+1)更不会了。</p>
+<!-- more -->
+
+<p>假设存储的浮点数小数最长10进制位为L，我们可以通过增加t = 1/2^x，来判断是否产生精度影响。这里举个例子，令L = 4，A = ?.0004，假设最坏的情况，A在转化为二进制后，存储时发生了截断，做了round，那么：</p>
+<ol>
+<li>
+<p>如果是增加，最多增加t = 1/2^x。x = 14时，t = 1/2^x = 0.000061037，A + t = ?.000461037，如果从内存里读取，然后保留4位10进制小数，变成了?.0005，误差产生了；x = 15时，t = 1/2^x = 0.00030518，变成了?.0004，与实际相符。</p>
+</li>
+<li>
+<p>如果是减少，最多减少d = 1/2^(x+1)。x = 14时，d = 1/2^(x+1) = 0.000030518，A - d = ?.000360482，如果从内存里读取，然后保留4位10进制小数，变成了?.0004，与实际相符。</p>
+</li>
+</ol>
+<p>那么，可认为，L=4的情况下，需要二进制小数位至少x=15，才能保证符合要求。</p>
+<p>从上面的例子可以看到，当十进制小数位L+1上的加减值大于5时，会是结果产生偏差。这里，可以推出一般的规律，如果1/2^x &lt; 0.5 * 10^(-L)，则能保证精度满足要求。</p>
+</div>
+</article>
+<div id="disqus_thread"></div>
+<script type="text/javascript">
+    /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+    var disqus_shortname = 'iovision'; // required: replace example with your forum shortname
+
+    /* * * DON'T EDIT BELOW THIS LINE * * */
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+</div>
+</div>
+
+<footer class="footer">
+<div class="footer_powered_by">
+Powered by <a href='http://www.iovi.com'>Sunnycomes</a>
+</div>
+</footer>
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-43860851-1', 'auto');
+  ga('send', 'pageview');
+
+</script>
+<a target="_blank" href="https://github.com/sunnycomes/IoVision"><img style="position: absolute; top: 0; right: 0; border: 0;" src="https://camo.githubusercontent.com/e7bbb0521b397edbd5fe43e7f760759336b5e05f/68747470733a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f72696768745f677265656e5f3030373230302e706e67" alt="Fork me on GitHub" data-canonical-src="https://s3.amazonaws.com/github/ribbons/forkme_right_green_007200.png"></a>
+</div>
+</body>
+</html>
