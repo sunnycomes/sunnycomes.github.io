@@ -34,6 +34,27 @@
 
 <article>
 <div class="entry-header">
+<h1 class="entry-title"><a href='/post/2014-09-16-mysql-proxy-and-rw-splitting.html'>MySQL Proxy和读写分离</a></h1>
+<div class="entry-meta">
+<span class="sep"><time>2014-09-16 22:42:29 +08</time></span>
+</div>
+</div>
+<div class="entry-content">
+<h4>主从同步</h4>
+<p>在讲Mysql-Proxy之前，首先了解下，MySQL的主从同步问题。MySQL支持单向、异步复制，复制过程中一个服务器充当主服务器，而一个或多个其它服务器充当从服务器。整个复制过程实际上就是Slave从Master端获取该日志然后再在自己身上完全顺序的执行日志中所记录的各种操作。因此，要实现 MySQL的Replication，首先必须打开 Master 端的Binary Log功能，否则无法实现。谈到Binary Log，如果你有MySQL数据误删除的经历，一定用过Binary Log来恢复数据。</p>
+<p>关于如何主从备份，网上资料很多，不做赘述，修改完配置记得重启服务。值得注意的是，对slave服务器配置的时候，不要将master_host等参数写进去，否则无法启动，因为MySQL5.1.7之后的版本已经不支持了，解决方案，登陆slave服务器，执行以下两条命令：</p>
+<pre><code>mysql&gt;change master to master_host='master_ip',master_user='username', master_password='password';
+mysql&gt;slave start;
+</code></pre>
+<p>提示：一般应用程序都会有日志，可以通过错误日志找到错误原因，日志条目虽多，但是通过几个关键词检索，如：error，fail，crash，invalid，明显加快排错速度。</p>
+<h4>读写分离</h4>
+<p>MySQL-Proxy是MySQL自家的一个反向代理器，同类产品还有Amoeba，不过逊色很多。同Web反向代理服务器类似，MySQL-Proxy可以将SQL语句转发到后端的MySQL服务器，并且通过启动时的选项参数来指定后端的MySQL服务器，从而达到服务器的负载均衡。</p>
+
+</div>
+</article>
+
+<article>
+<div class="entry-header">
 <h1 class="entry-title"><a href='/post/2014-07-16-talk-about-double-in-java-3.html'>聊一聊Java中double精度去哪了(3)</a></h1>
 <div class="entry-meta">
 <span class="sep"><time>2014-07-16 14:18:18 +080</time></span>
