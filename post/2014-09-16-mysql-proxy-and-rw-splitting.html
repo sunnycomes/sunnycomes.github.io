@@ -19,14 +19,14 @@
 <div class="article_wrapper">
 <article>
 <div class="entry-header">
-<h1 class="entry-title">MySQL Proxy和读写分离</h1>
+<h1 class="entry-title">MySQL Proxy、MySQL Cluster</h1>
 <div class="entry-meta">
 <span class="sep"><time>2014-09-16 22:42:29 +08</time></span>
 </div>
 </div>
 <div class="entry-content">
 <h4>主从同步</h4>
-<p>在讲Mysql-Proxy之前，首先了解下，MySQL的主从同步问题。MySQL支持单向、异步复制，复制过程中一个服务器充当主服务器，而一个或多个其它服务器充当从服务器。整个复制过程实际上就是Slave从Master端获取该日志然后再在自己身上完全顺序的执行日志中所记录的各种操作。因此，要实现 MySQL的Replication，首先必须打开 Master 端的Binary Log功能，否则无法实现。谈到Binary Log，如果你有MySQL数据误删除的经历，一定用过Binary Log来恢复数据。</p>
+<p>在讲Mysql-Proxy之前，首先了解下，MySQL的主从同步问题。MySQL支持单向、异步复制，复制过程中一个服务器充当主服务器，而一个或多个其它服务器充当从服务器，然而，异步的缺点也是显而易见，即数据复制的延时性。整个复制过程实际上就是Slave从Master端获取该日志然后再在自己身上完全顺序的执行日志中所记录的各种操作。因此，要实现 MySQL的复制，首先必须打开 Master 端的Binary Log功能，否则无法实现。谈到Binary Log，如果你有MySQL数据误删除的经历，一定用过Binary Log来恢复数据。</p>
 <p>关于如何主从备份，网上资料很多，不做赘述，修改完配置记得重启服务。值得注意的是，对slave服务器配置的时候，不要将master_host等参数写进去，否则无法启动，因为MySQL5.1.7之后的版本已经不支持了，解决方案，登陆slave服务器，执行以下两条命令：</p>
 <pre><code>mysql&gt;change master to master_host='master_ip',master_user='username', master_password='password';
 mysql&gt;slave start;
@@ -37,15 +37,17 @@ mysql&gt;slave start;
 <!-- more -->
 
 <p>我将启动命令写入到脚本proxy.sh：</p>
-<p><code>mysql-proxy --admin-username=root --admin-password=123456 --proxy-read-only-backend-addresses=10.108.113.95:3306 --proxy-backend-addresses=10.108.114.222:3306 --proxy-lua-script=share/mysql-proxy/rw-splitting.lua --admin-lua-script=/lib/mysql-proxy/lua/admin.lua</code></p>
-<p>当然，这里有必要分析一下，什么场景下比较适合读写分离？
-随着一个网站的业务不断扩展，数据不断增加，数据库的压力也会越来越大，对数据库或者SQL的基本优化可能达不到最终的效果，我们可以采用读写分离的策略来改变现状。</p>
-<ol>
-<li>写操作一般</li>
-<li>当出现大量的写操作的时候，其实主服务器压力是很大的，这时，如果从服务器请求同步，势必加重主服务器的负担。</li>
-<li>对于这类读大于写并且数据量增加不是很明显的数据库，推荐采用读写分离+缓存的模式，试想一下一个用户注册、修改用户信息、记录用户登录时间、记录用户登录IP、修改登录密码，这些是写操作。但是以上这些操作次数都是很小的，所以整个数据库的写压力是很小的。唯一一个比较大的就是记录用户登录时间、记录用户登录IP这类信息，只要把这些经常变动的信息排除在外，那么写操作可以忽略不计。所以读写分离首要解决的就是经常变化的数据的拆分，比如：用户登录时间、记录用户登录IP。这类信息可以单独独立出来，记录在持久化类的缓存中（可靠性要求并不高，登陆时间、IP丢了就丢了，下次来了就又来了）</li>
-</ol>
-<p>当然对于于像交易所性质的应用，写的操作是非常频繁地，因此不能简单的应用读写分离来达到高效率，需要进行优化，如基于内存的数据库，redis或者memcache之类。</p>
+<pre><code>mysql-proxy --admin-username=root 
+--admin-password=123456 
+--proxy-read-only-backend-addresses=10.108.113.95:3306 
+--proxy-backend-addresses=10.108.114.222:3306 
+--proxy-lua-script=share/mysql-proxy/rw-splitting.lua 
+--admin-lua-script=/lib/mysql-proxy/lua/admin.lua
+</code></pre>
+<p>随着一个网站的业务不断扩展，数据不断增加，数据库的压力也会日益增加，对数据库或者SQL的基本优化可能达不到最终的效果，我们可以采用读写分离的策略来改变现状。而在读写分离之前，首先需要对数据库进行规划、拆分，对于频繁改动的字段，单独成表，这样才能有的放矢。</p>
+<p>另外，还可以考虑读写分离+缓存的模式。对于于像交易所性质的应用，写的操作是非常频繁地，因此不能简单的应用读写分离来达到高效率，需要进行优化，如基于内存的数据库，redis或者memcache之类。</p>
+<h4>高可用集群</h4>
+<p>对于读写分离而言，我们不得不考虑单点故障，数据延时等问题，这些因素都影响着整个系统的工作效率。</p>
 <p>有兴趣也可深入了解下，各家数据库读写性能的benchmark。</p>
 <p>数据库读写分离：http://www.cnblogs.com/qlee/archive/2011/04/08/2009738.html</p>
 <p>事务发布订阅机制：http://www.jb51.net/article/23982.htm</p>
