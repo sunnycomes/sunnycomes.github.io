@@ -47,8 +47,9 @@ mysql&gt;slave start;
 <p>随着一个网站的业务不断扩展，数据不断增加，数据库的压力也会日益增加，对数据库或者SQL的基本优化可能达不到最终的效果，我们可以采用读写分离的策略来改变现状。而在读写分离之前，首先需要对数据库进行规划、拆分，对于频繁改动的字段，单独成表，这样才能有的放矢。</p>
 <p>另外，还可以考虑读写分离+缓存的模式。对于于像交易所性质的应用，写的操作是非常频繁地，因此不能简单的应用读写分离来达到高效率，需要进行优化，如基于内存的数据库，redis或者memcache之类。</p>
 <h4>高可用集群</h4>
-<p>对于读写分离而言，我们不得不考虑单点故障，数据延时等问题，这些因素都影响着整个系统的工作效率。</p>
-<p>有兴趣也可深入了解下，各家数据库读写性能的benchmark。</p>
+<p>对于读写分离而言，我们不得不考虑单点故障(Keepalived+双主)，数据延时等问题，这些因素都影响着整个系统的工作效率。</p>
+<p>有兴趣也可深入了解下，各家数据库读写性能的benchmark，super smark, mysql++，sysbench。</p>
+<p>使用MySQL主备复制（MySQL replication）作为MySQL高可用的解决方案:https://www.cnhzz.com/mysql-replication/</p>
 <p>数据库读写分离：http://www.cnblogs.com/qlee/archive/2011/04/08/2009738.html</p>
 <p>事务发布订阅机制：http://www.jb51.net/article/23982.htm</p>
 <p>构建高性能web之路------web服务器长连接：http://blog.csdn.net/truong/article/details/25098123</p>
