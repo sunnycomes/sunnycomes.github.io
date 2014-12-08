@@ -35,6 +35,39 @@
 
 <article>
 <div class="entry-header">
+<h1 class="entry-title"><a href='/post/2014-10-07-gitlab-manual.html'>Gitlab使用手册</a></h1>
+<div class="entry-meta">
+<span class="sep"><time>2014-10-07 21:12:39 +08</time></span>
+</div>
+</div>
+<div class="entry-content">
+<h3>Groups还是Users</h3>
+<p>对于项目namespace，一般来说，团队项目，Groups更好一些，一个组内可以添加很多项目，更符合一般团队的开发习惯，而Users更适合私人的一些项目。当然，美中不足的是，Groups中成员权限一旦确定，就不能在项目中进行修改。</p>
+<h3>分支模型</h3>
+<p>一个中心库至少包含两个分支，即master，dev分支，作为<strong>基础分支</strong>，另外还有一些<strong>辅助分支</strong>的概念，常见的有feature、hotfix、release等，另外还有tag，一般也可替代release分支。</p>
+<ul>
+<li>
+<h4>基础分支</h4>
+<ul>
+<li>master：隔夜代码，定期将dev的代码合并到master</li>
+<li>dev：开发主战场，一般任何修改都要合并进来</li>
+</ul>
+</li>
+<li>
+<h4>辅助分支</h4>
+<ul>
+<li>feature：用于开发独立的模块，一旦跟dev合并，一般就删除</li>
+<li>hotfix：一般是用于修改bug的临时分支，命运和feature类似</li>
+<li>release：用于发布稳定版本</li>
+</ul>
+</li>
+</ul>
+
+</div>
+</article>
+
+<article>
+<div class="entry-header">
 <h1 class="entry-title"><a href='/post/2014-09-16-mysql-proxy-and-rw-splitting.html'>MySQL Proxy、MySQL Cluster</a></h1>
 <div class="entry-meta">
 <span class="sep"><time>2014-09-16 22:42:29 +08</time></span>
