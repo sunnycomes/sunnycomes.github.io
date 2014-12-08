@@ -26,7 +26,7 @@
 </div>
 <div class="entry-content">
 <h4>主从同步</h4>
-<p>在讲Mysql-Proxy之前，首先了解下，MySQL的主从同步问题。MySQL支持单向、异步复制，复制过程中一个服务器充当主服务器，而一个或多个其它服务器充当从服务器，然而，异步的缺点也是显而易见，即数据复制的延时性。整个复制过程实际上就是Slave从Master端获取该日志然后再在自己身上完全顺序的执行日志中所记录的各种操作。因此，要实现 MySQL的复制，首先必须打开 Master 端的Binary Log功能，否则无法实现。谈到Binary Log，如果你有MySQL数据误删除的经历，一定用过Binary Log来恢复数据。</p>
+<p>在讲Mysql-Proxy之前，首先了解下，MySQL的主从同步问题。MySQL支持单向、异步复制，复制过程中一个服务器充当主服务器，而一个或多个其它服务器充当从服务器，然而，异步的缺点也是显而易见，即数据复制的延时性，但未必没有中情形都要求较高时效性。整个复制过程实际上就是Slave从Master端获取该日志然后再在自己身上完全顺序的执行日志中所记录的各种操作。因此，要实现 MySQL的复制，首先必须打开 Master 端的Binary Log功能，否则无法实现。谈到Binary Log，如果你有MySQL数据误删除的经历，一定用过Binary Log来恢复数据。</p>
 <p>关于如何主从备份，网上资料很多，不做赘述，修改完配置记得重启服务。值得注意的是，对slave服务器配置的时候，不要将master_host等参数写进去，否则无法启动，因为MySQL5.1.7之后的版本已经不支持了，解决方案，登陆slave服务器，执行以下两条命令：</p>
 <pre><code>mysql&gt;change master to master_host='master_ip',master_user='username', master_password='password';
 mysql&gt;slave start;
