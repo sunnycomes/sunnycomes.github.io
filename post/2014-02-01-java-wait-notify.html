@@ -89,7 +89,27 @@
 </code></pre>
 <p>这样做还能避免一开始死锁的情况。</p>
 <h3>如何有节奏地打印</h3>
-<h4>后面继续写</h4>
+<p>T10位置添加：</p>
+<pre><code>Thread.sleep(1000);
+</code></pre>
+<p>创建线程使用以下语句：</p>
+<pre><code>MyThreadPrinter pa = new MyThreadPrinter("A", lockb, locka);
+MyThreadPrinter pb = new MyThreadPrinter("B", lockc, lockb);
+MyThreadPrinter pc = new MyThreadPrinter("C", locka, lockc);
+</code></pre>
+<p>对原函数做了些许调整:</p>
+<blockquote>
+<p>private MyThreadPrinter(String name, Object prev, Object self) </p>
+</blockquote>
+<p>改为</p>
+<blockquote>
+<p>private MyThreadPrinter(String name, Object next, Object self)</p>
+</blockquote>
+<p>即prev--&gt;next，其实也很好理解，A要先于B打印，A要先获得B的锁，那么B就肯定落后于A，对于C，B要先获得C的锁，那么顺序就确定下来了。这里我们要不要考虑CPU多核？CPU多核影响的是第一轮第二个打印字母，有没有可能第二个是C，而不是B？其实在T10添加休眠语句后，pb肯定先于pc获得lockc，那么第二个打印的字母肯定是B了。</p>
+<p>不知道读者心中有没有疑问，为什么要在T10位置休眠，如果语句放在T11或者T12，其实效果是<strong>一样</strong>的，但这里有一个概念需要额外注意：</p>
+<blockquote>
+<p>notify()调用后，并不是马上就释放对象锁的，而是在相应的synchronized(){}语句块执行结束，自动释放锁后</p>
+</blockquote>
 </div>
 </article>
 <div id="disqus_thread"></div>
