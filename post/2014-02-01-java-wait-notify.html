@@ -110,6 +110,12 @@ MyThreadPrinter pc = new MyThreadPrinter("C", locka, lockc);
 <blockquote>
 <p>notify()调用后，并不是马上就释放对象锁的，而是在相应的synchronized(){}语句块执行结束，自动释放锁后</p>
 </blockquote>
+<h3>题外</h3>
+<p>wait是释放锁，不用等synchronized语句块执行完毕，阻塞，之后等待被重新notify</p>
+<p>notify是释放锁，但释放锁是在synchronized语句块执行完毕后，不阻塞，继续执行下去。</p>
+<p>yield不释放锁，阻塞，但释放cpu资源</p>
+<p>sleep不释放锁，阻塞，同时占用cpu资源</p>
+<p>谈到线程阻塞，可以参考<a href="http://www.open-open.com/lib/view/open1371741636171.html">Java Thread.join()</a></p>
 </div>
 </article>
 <div id="disqus_thread"></div>
