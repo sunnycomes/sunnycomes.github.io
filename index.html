@@ -126,34 +126,6 @@
 
 <article>
 <div class="entry-header">
-<h1 class="entry-title"><a href='/post/2014-07-16-talk-about-double-in-java-3.html'>聊一聊Java中double精度去哪了(3)</a></h1>
-<div class="entry-meta">
-<span class="sep"><time>2014-07-16 14:18:18 +080</time></span>
-</div>
-</div>
-<div class="entry-content">
-<p>接下来聊一聊精度取舍的原则，然后判断是否适合自身项目的需求。</p>
-<p>double之所以会产生精度的丢失，最根本的因素是用于表示小数的二进制位数不够，然后做round，造成丢失。</p>
-<p>这里我们假设小数剩余的二进制位长度为x，那么，在存储的时候，如果x位后面还有内容，将做round处理，那么到底损失或者增加了多少？这里验证下：</p>
-<blockquote>
-<ol>
-<li>
-<p>如果x+1二进制位为1，进位，则比原数要放大一些，假设增量t，那么t &lt; 1/2^x，以下是证明：<br />
- tmax = 1/2^(x+1) + 1/2^(x+2) + 1/2^(x+3) + ... + 1/2^(x+n)<br />
- tmax - 1/2^x = 1/2^x(1-1/2-1/4-1/8...) &gt; 0，因：1/2 + 1/4 + 1/8 + ... + 1/2^n &lt; 1 </p>
-</li>
-<li>
-<p>如果x+1二进制位为0，不进位，则比原数字小一些，假设减量d, 那么t &lt; 1/2^(x+1)，证明同上。</p>
-</li>
-</ol>
-</blockquote>
-<p>其实，在计算过程中，只要考虑的1/2^x影响有多大即可！因为1/2^x都不会影响结果，1/2^(x+1)更不会了。</p>
-
-</div>
-</article>
-
-<article>
-<div class="entry-header">
 <h1 class="entry-title"><a href='/post/2014-07-13-talk-about-double-in-java-2.html'>聊一聊Java中double精度去哪了(2)</a></h1>
 <div class="entry-meta">
 <span class="sep"><time>2014-07-13 14:41:02 +080</time></span>
@@ -163,10 +135,11 @@
 <p>继续先前的话题，double奇葩的精度。试完了C，为何不看看其他的语言，如python，毕竟基本上现在的编程语言基本采用IEEE754标准，存储方式相同，计算由CPU完成，结果为什么会不同？果然使用python得出的结论也是0.060000000000000005，不免怀疑之前C的结果。C的语句是这样的：</p>
 <pre><code>printf("%lf", 0.01 + 0.05);  #输出结果为0.060000。
 </code></pre>
-<p>码农的直觉告诉我，似乎有些东西少了。是精度，保留的精度不对，于是设定保留小数点后18位，因为java的输出小数点后有18位：</p>
+<p>是精度，保留的精度不对，于是设定保留小数点后18位，因为java的输出小数点后有18位：</p>
 <pre><code>printf("%.18lf", 0.01 + 0.05);  #输出结果为0.060000000000000005。
 </code></pre>
-<p>这才是真相，线索越来越多，0.01+0.05这道题，可能跟语言无关，而是跟IEEE754标准有关？</p>
+<p>这才是真相，线索越来越多，0.01+0.05这道题，跟语言无关，而是跟IEEE754标准有关？</p>
+<p><img alt="IEEE754 Double" src="http://img3.douban.com/view/photo/photo/public/p2228667130.jpg" /></p>
 <p>这个实验当中，结果比预期的多，那么有没有比预期的少？</p>
 <pre><code>System.out.println(0.09 + 0.01);  #输出结果为0.09999999999999999。
 </code></pre>
