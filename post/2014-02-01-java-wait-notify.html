@@ -13,11 +13,11 @@
 <div id="content">
 <header id="header_index">
 <hgroup>
-<h2 class="site-nav"><a href="/">Home</a></h2>
-<h2 class="site-nav"><a href="/#">Movies</a></h2>
-<h2 class="site-nav"><a href="/#">Books</a></h2>
-<h2 class="site-nav"><a href="/#">Album</a></h2>
-<h2 class="site-nav"><a href="/about">About</a></h2>
+<h2 class="site-nav"><a href="/">HOME</a></h2>
+<h2 class="site-nav"><a href="/#">ALBUM</a></h2>
+<h2 class="site-nav"><a href="/#">BOOKS</a></h2>
+<h2 class="site-nav"><a href="/#">MOVIES</a></h2>
+<h2 class="site-nav"><a href="/about">ABOUT</a></h2>
 </hgroup>
 </header>
 <div class="go">
@@ -25,6 +25,7 @@
 <a title="Leave me feedback" class="feedback" href=mailto:sunnycomes@gmail.com target="_blank"></a>
 <a title="Go Bottom" class="bottom" ></a>
 </div>
+
 <div id="main">
 <div class="article_wrapper">
 <article>
@@ -35,13 +36,21 @@
 </div>
 </div>
 <div class="entry-content">
-<p>最近看到一篇<a href="http://blog.csdn.net/zyplus/article/details/6672775">《 JAVA wait(), notify(),sleep详解》</a>，看着无聊，写一写自己的看法，对他的第一段代码，在变量上稍微做了一些调整a-&gt;locka，b-&gt;lockb，c-&gt;lockc，其他的基本没改动。</p>
-<p><img alt="死锁" src="https://dn-iovi.qbox.me/p2228608469.jpg" /></p>
+<p>最近看到一篇Java多线程中wait(), notify()用法的文章，觉得写的略微还欠深入，就写一写自己的看法，对他的第一段代码，在变量上稍微做了一些调整a-&gt;locka，b-&gt;lockb，c-&gt;lockc，其他的基本没改动。</p>
+<h5>预备知识</h5>
+<ol>
+<li>wait是释放锁，不用等synchronized语句块执行完毕，阻塞，之后等待被重新notify</li>
+<li>notify是释放锁，但释放锁是在synchronized语句块执行完毕后，不阻塞，继续执行下去。</li>
+<li>yield不释放锁，阻塞，但释放cpu资源</li>
+<li>sleep不释放锁，阻塞，同时占用cpu资源</li>
+</ol>
+<p>谈到线程阻塞，还可以参考<a href="http://www.open-open.com/lib/view/open1371741636171.html">Java Thread.join()</a></p>
 <!-- more -->
 
+<p><img alt="死锁" src="https://dn-iovi.qbox.me/p2228608469.jpg" /></p>
 <script src="https://code.csdn.net/snippets/606210.js"></script>
 
-<h3>有死锁？</h3>
+<h5>有死锁？</h5>
 <p>程序刚开始运行时，到T3时，Tpa2，Tpb2，Tpc2都执行了，则死锁。在T2位置加一行<code>Thead.sleep(1000)</code>，基本就死锁了。</p>
 <p>另外，在程序结束时也会产生死锁，下面是最后一轮打印：</p>
 <ol>
@@ -56,12 +65,12 @@
 </li>
 </ol>
 <p>因此，结果可想而知，pb永远处于死锁状态，而pa，pc谁先跳出循环，应该是随机的，不一定是pa先。因此，更加合理的做法是T13改成<code>prev.wait(1000)</code>。</p>
-<h3>打印顺序有什么规律？</h3>
+<h5>打印顺序有什么规律？</h5>
 <p>我们先讨论下第一轮打印的顺序，通常是ACB、也有可能是ABC，当然，非A开头也不是没有可能，一般第一轮确定后，后面顺序基本确定，但也不是一定的，只是可能性非常大，后面会详细分析为什么顺序可能会变，这里这讨论顺序的规律。</p>
 <p>我们这里<code>获得锁</code>，指的是程序语句<code>synchronized(lock)</code>执行完毕。不考虑死锁的情况下、使用<strong>多核CPU</strong>，第一轮顺序通常是ACB，这里分析下原因：</p>
 <p>pa占有lockc，locka时，不影响pc占有lockb，pc要执行，先获得lockb，再获得lockc，很大概率上，pc已获得lockb，只需要lockc；而pb执行先要获得locka，再获得lockb，而locka需要等pa释放，且pb需要先于pc抢占lockb。基于上面的分析，很可能pc是第二个打印，这里有一个前提，<strong>CPU多核</strong>。</p>
 <p>但并不是说，pa打印完后，pc一定占有lockb，也可能pa打印完后，pb获得locka，并且先于pc获得lockb，那么这个顺序就变成了pb第二个打印，<strong>CPU单核</strong>情况下，很可能发生。一旦这个顺序确定后，后面就基本不太可能变化。</p>
-<h3>顺序一旦确定，不再改变?</h3>
+<h5>顺序一旦确定，不再改变?</h5>
 <p>从每次运行结果来看，顺序似乎按照三个顺序下来，即头三个ACB，则后面都是重复这个顺序，先搞清楚下面的一些概念：</p>
 <ul>
 <li>pa执行lockc.wait()后，需要pc执行lockc.notify()才能继续执行，否则处于休眠状态</li>
@@ -90,7 +99,7 @@
 <p>我们假设已经打印了ACBA，那么lockb.notify()先于locka.notify()执行，很大可能，pc是先于pb获得lockb，那么很大程度上，C要先于B打印，即第二轮第二个很可能是C.</p>
 <p>至于第二轮第三个，按照相同的思路，可以得出是B，后面循环按照这个思路进行即可。</p>
 <p><em>由此，可以推断出一旦第一轮顺序确定，后面也就确定了，但不是绝对的。</em></p>
-<h3>如何顺序打印</h3>
+<h5>如何顺序打印</h5>
 <p>从上面的结论来看，要顺序打印，只要第一轮顺序即可，那么其实也很简单，只要做到第一轮第二个是B，就可以顺序执行，只要将线程启动语句改成：</p>
 <pre><code>    new Thread(pa).start();
     Thread.sleep(10);
@@ -99,7 +108,7 @@
     new Thread(pc).start();
 </code></pre>
 <p>这样做还能避免一开始死锁的情况。</p>
-<h3>如何有节奏地打印</h3>
+<h5>如何有节奏地打印</h5>
 <p>T10位置添加：</p>
 <pre><code>Thread.sleep(1000);
 </code></pre>
@@ -121,12 +130,7 @@ MyThreadPrinter pc = new MyThreadPrinter("C", locka, lockc);
 <blockquote>
 <p>notify()调用后，并不是马上就释放对象锁的，而是在相应的synchronized(){}语句块执行结束，自动释放锁后</p>
 </blockquote>
-<h3>题外</h3>
-<p>wait是释放锁，不用等synchronized语句块执行完毕，阻塞，之后等待被重新notify</p>
-<p>notify是释放锁，但释放锁是在synchronized语句块执行完毕后，不阻塞，继续执行下去。</p>
-<p>yield不释放锁，阻塞，但释放cpu资源</p>
-<p>sleep不释放锁，阻塞，同时占用cpu资源</p>
-<p>谈到线程阻塞，可以参考<a href="http://www.open-open.com/lib/view/open1371741636171.html">Java Thread.join()</a></p>
+<p><a href="http://blog.csdn.net/zyplus/article/details/6672775">《 JAVA wait(), notify(),sleep详解》</a></p>
 </div>
 </article>
 <div id="disqus_thread"></div>
@@ -151,7 +155,8 @@ MyThreadPrinter pc = new MyThreadPrinter("C", locka, lockc);
 Sunnycomes的小伙伴们：
 <a href="http://www.ckecy.comk" target="blank">ckecy /</a>
 <a href="http://www.yimeijun.com" target="blank">艺美君 /</a>
-<a href="http://www.mubing01.cn" target="blank">木柄</a>
+<a href="http://www.mubing01.cn" target="blank">木柄 /</a>
+<a href="http://www.guoziqing.com" target="blank">雪狼</a>
 </div>
 <div class="footer_powered_by">
 Powered by <a href='http://www.iovi.com'>Sunnycomes</a>
@@ -167,7 +172,8 @@ Powered by <a href='http://www.iovi.com'>Sunnycomes</a>
   ga('send', 'pageview');
 
 </script>
-<a target="_blank" href="https://github.com/sunnycomes/IoVision"><img style="position: absolute; top: 0; right: 0; border: 0;" src="https://camo.githubusercontent.com/e7bbb0521b397edbd5fe43e7f760759336b5e05f/68747470733a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f72696768745f677265656e5f3030373230302e706e67" alt="Fork me on GitHub" data-canonical-src="https://s3.amazonaws.com/github/ribbons/forkme_right_green_007200.png"></a>
+
+
 </div>
 </body>
 </html>

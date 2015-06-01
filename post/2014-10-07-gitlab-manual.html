@@ -13,11 +13,11 @@
 <div id="content">
 <header id="header_index">
 <hgroup>
-<h2 class="site-nav"><a href="/">Home</a></h2>
-<h2 class="site-nav"><a href="/#">Movies</a></h2>
-<h2 class="site-nav"><a href="/#">Books</a></h2>
-<h2 class="site-nav"><a href="/#">Album</a></h2>
-<h2 class="site-nav"><a href="/about">About</a></h2>
+<h2 class="site-nav"><a href="/">HOME</a></h2>
+<h2 class="site-nav"><a href="/#">ALBUM</a></h2>
+<h2 class="site-nav"><a href="/#">BOOKS</a></h2>
+<h2 class="site-nav"><a href="/#">MOVIES</a></h2>
+<h2 class="site-nav"><a href="/about">ABOUT</a></h2>
 </hgroup>
 </header>
 <div class="go">
@@ -25,6 +25,7 @@
 <a title="Leave me feedback" class="feedback" href=mailto:sunnycomes@gmail.com target="_blank"></a>
 <a title="Go Bottom" class="bottom" ></a>
 </div>
+
 <div id="main">
 <div class="article_wrapper">
 <article>
@@ -35,20 +36,20 @@
 </div>
 </div>
 <div class="entry-content">
-<h3>Groups还是Users</h3>
+<h5>Groups还是Users</h5>
 <p>对于项目namespace，一般来说，团队项目，Groups更好一些，一个组内可以添加很多项目，更符合一般团队的开发习惯，而Users更适合私人的一些项目。当然，美中不足的是，Groups中成员权限一旦确定，就不能在项目中进行修改。</p>
-<h3>分支模型</h3>
+<h5>分支模型</h5>
 <p>一个中心库至少包含两个分支，即master，dev分支，作为<strong>基础分支</strong>，另外还有一些<strong>辅助分支</strong>的概念，常见的有feature、hotfix、release等，另外还有tag，一般也可替代release分支。</p>
 <ul>
 <li>
-<h4>基础分支</h4>
+<h6>基础分支</h6>
 <ul>
 <li>master：隔夜代码，定期将dev的代码合并到master</li>
 <li>dev：开发主战场，一般任何修改都要合并进来</li>
 </ul>
 </li>
 <li>
-<h4>辅助分支</h4>
+<h6>辅助分支</h6>
 <ul>
 <li>feature：用于开发独立的模块，一旦跟dev合并，一般就删除</li>
 <li>hotfix：一般是用于修改bug的临时分支，命运和feature类似</li>
@@ -58,7 +59,7 @@
 </ul>
 <!-- more -->
 
-<h3>代码贡献者</h3>
+<h5>代码贡献者</h5>
 <p>如果开发一个新功能，应该在独立分支上，命名feature_id，当然，也可以是hotfix_id、，一般这种分支生命周期为新功能的开发时间，完毕后可删除。为保证开发过程基于最新代码，执行:</p>
 <pre><code>1. git fetch origin dev:feature_id；# 将origin/dev抓取下来，在本地重命名为feature_id
 </code></pre>
@@ -76,17 +77,17 @@
 <li>如果合并并且功能开发完毕，则可删除feature_id分支：  <code>git branch -D feature_id</code></li>
 <li>没有合并，则回到第3步继续修改。</li>
 </ul>
-<h3>代码审核者</h3>
+<h5>代码审核者</h5>
 <p>审核者一旦收到merge request，先查看分支对不对，是不是合并到dev，然后查看贡献者所做的修改：</p>
 <ul>
 <li>如果不能直接合并，一般close merge request，并要求改正后再提交。  </li>
 <li>如果能直接合并，考虑到贡献者能力不一，有时需要谨慎，还需将其代码pull到本地仓库进行合并，运行结果满意，则merge，并在留言注明：LGTM, look good to me；反之close merge request，给出理由。</li>
 </ul>
-<h3>Commit Message规范</h3>
+<h5>Commit Message规范</h5>
 <p>格式：[分支名称]+message<br />
 例如：[feature_id]添加logo。</p>
 <p>一般稍做修改即可在本地做一次提交，一旦功能完善，则使用rebase对先前多次提交进行合并。</p>
-<h3>SSH Key配置</h3>
+<h5>SSH Key配置</h5>
 <p>网上相关资料很多，如果有多个密钥，可新建~/.ssh/config文件，添加多个host:</p>
 <pre><code>host gitlab
 hostname 10.108.123.211
@@ -98,14 +99,14 @@ hostname 10.108.113.14
 user git
 identityfile ~/.ssh/admin
 </code></pre>
-<h3>额外：Git文件状态</h3>
-<h4>三种文件状态</h4>
+<h5>额外：Git文件状态</h5>
+<h5>三种文件状态</h5>
 <ol>
 <li>状态1. untracked files：需要git add后才能提交</li>
 <li>状态2. changes not staged for commit：commit时需要指定文件，否则不做提交，是一个文件修改之后产生的状态</li>
 <li>状态3. changes to be committed：即使不指定，也会提交</li>
 </ol>
-<h4>状态转换</h4>
+<h5>状态转换</h5>
 <ul>
 <li>
 <p>新建的文件：</p>
@@ -147,7 +148,8 @@ identityfile ~/.ssh/admin
 Sunnycomes的小伙伴们：
 <a href="http://www.ckecy.comk" target="blank">ckecy /</a>
 <a href="http://www.yimeijun.com" target="blank">艺美君 /</a>
-<a href="http://www.mubing01.cn" target="blank">木柄</a>
+<a href="http://www.mubing01.cn" target="blank">木柄 /</a>
+<a href="http://www.guoziqing.com" target="blank">雪狼</a>
 </div>
 <div class="footer_powered_by">
 Powered by <a href='http://www.iovi.com'>Sunnycomes</a>
@@ -163,7 +165,8 @@ Powered by <a href='http://www.iovi.com'>Sunnycomes</a>
   ga('send', 'pageview');
 
 </script>
-<a target="_blank" href="https://github.com/sunnycomes/IoVision"><img style="position: absolute; top: 0; right: 0; border: 0;" src="https://camo.githubusercontent.com/e7bbb0521b397edbd5fe43e7f760759336b5e05f/68747470733a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f72696768745f677265656e5f3030373230302e706e67" alt="Fork me on GitHub" data-canonical-src="https://s3.amazonaws.com/github/ribbons/forkme_right_green_007200.png"></a>
+
+
 </div>
 </body>
 </html>
