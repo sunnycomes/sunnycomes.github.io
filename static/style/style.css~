@@ -34,7 +34,7 @@ a {
 .site-nav {
 	margin: 0px 0px 15px;
 	font-size: 14px;
-	text-align: left;
+	text-align: right;
 	font-weight: normal;
 }
 
@@ -120,8 +120,10 @@ article, #pager_bar {
 }
 
 article p {
-	margin: 0 0 24px 0;
-	line-height: 1.8em;
+	margin: 0 0 12px 0;
+	line-height: 2em;
+	letter-spacing: 0.01em;
+	text-align: justify;
 }
 
 h1, h2, h3, h4, h5, h6 {
@@ -148,8 +150,12 @@ article h6 {
 }
 article blockquote {
 	margin: 1em 3em 1em 0em;
-	padding: 1.5em 1em 0.2em 2em;
+	padding: 0.5em 1em 0.2em 2em;
 	border-left: 5px solid #fce27c;
+	background-color: #e5ecf9;
+}
+article blockquote p{
+	margin: 4px 0px;
 }
 article ul, article ol {
 	margin: 10px 0 24px 12px;
@@ -170,13 +176,17 @@ article pre {
 	margin: 10px 0px;
 	font: 12px Monaco,monospace;
 	overflow-x: auto;
-	padding: 20px 37px;
+	padding: 10px 20px;
 	white-space: pre;
 	word-wrap: normal;
-	-moz-border-radius:6px;
-	-webkit-border-radius:6px;
-	border-radius:6px;
-	background: #f8f8f8;
+	-moz-border-radius:3px;
+	-webkit-border-radius:3px;
+	border-radius:3px;
+	background: #ebf6fa;
+}
+
+div>pre>code {
+	color: #424040;
 }
 
 article>.entry-content>pre {
@@ -192,12 +202,14 @@ article code {
 }
 
 p>code {
-	padding: 3px;
+	padding: 3px 5px;
 	border: 1px solid #ddd;
 	word-wrap: normal;
-	-moz-border-radius:6px;
-	-webkit-border-radius:6px;
-	border-radius:6px;
+	-moz-border-radius:3px;
+	-webkit-border-radius:3px;
+	border-radius:3px;
+	margin: 0px 3px;
+	background-color: #F7F8F1;
 }
 
 strong {

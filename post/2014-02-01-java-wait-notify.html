@@ -37,6 +37,7 @@
 </div>
 <div class="entry-content">
 <p>最近看到一篇Java多线程中wait(), notify()用法的文章，觉得写的略微还欠深入，就写一写自己的看法，对他的第一段代码，在变量上稍微做了一些调整a-&gt;locka，b-&gt;lockb，c-&gt;lockc，其他的基本没改动。</p>
+<p>更多想深入理解Java多线程, 可翻阅"Java Concurrency in Practice".</p>
 <h5>预备知识</h5>
 <ol>
 <li>wait是释放锁，不用等synchronized语句块执行完毕，阻塞，之后等待被重新notify</li>
@@ -47,7 +48,6 @@
 <p>谈到线程阻塞，还可以参考<a href="http://www.open-open.com/lib/view/open1371741636171.html">Java Thread.join()</a></p>
 <!-- more -->
 
-<p><img alt="死锁" src="https://dn-iovi.qbox.me/p2228608469.jpg" /></p>
 <script src="https://code.csdn.net/snippets/606210.js"></script>
 
 <h5>有死锁？</h5>

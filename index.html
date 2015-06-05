@@ -171,8 +171,12 @@
 </div>
 </div>
 <div class="entry-content">
-<p>刚接触Java变成，就经常碰到“@”这个符号，所谓的Java中的annotation。很多时候它都是跟@Override，@Deprecated，@SuppressWarnings，或者更见多识广一些，还有@Retention，@Target，@Documented，@Inherieted，但是，大多数情况下，很少会有人去过问为什么这么去写，只知道这是一种理所当然的写法，在这里推荐一篇非常详细的关于Java注解的博文<a href="http://computerdragon.blog.51cto.com/6235984/1210969">Java注解annotation用法和自定义注解处理器</a>。</p>
-<p><img alt="java" src="https://dn-iovi.qbox.me/p2228615704.jpg" /></p>
+<p>Java中, 经常碰到"@"这个符号, 用于表示Java中的annotation, 我们通常用于修饰<code>java.lang.Class</code>, <code>java.lang.reflect.Method</code>, <code>java.lang.reflect.Field</code>以及<code>java.lang.annotation.Annotation</code>, 很多时候, 我们会将Java的反射机制跟annotation一起使用。</p>
+<p>编程过程中, 常见的有@Override, @Deprecated, @SuppressWarnings, 或者更见多识广一些, 还有@Retention, @Target, @Documented, @Inherieted, 但是, 大多数情况下, 很少会有人去过问为什么这么去写, 只知道这是一种理所当然的写法. 在这里推荐一篇非常详细的关于Java注解的博文<a href="http://computerdragon.blog.51cto.com/6235984/1210969">Java注解annotation用法和自定义注解处理器</a>。</p>
+<p>如果你使用过一些Java框架, 如Spring, 编程过程中会用到很多annotation, @Autowired, @Configuration, @Component, @Repository, @Service这些都经常用到. 这里我们探讨下, Spring是如何实现IoC, 其实原理很浅显, <code>annotation + reflection</code>, 我们在使用Spring的时候, 通常会指定bean所在的包名, 如下:</p>
+<pre><code>&lt;context:component-scan base-package="com.iovi.ioc.controller"/&gt;
+</code></pre>
+<p>这样做是为了告诉Spring容器, bean的路径, 通过遍历路径, 就能找到所有bean的具体位置, 通过反射机制, 做进一步的操作, 这个时候, annotation的作用就体现了, Spring容器通过获得bean的annotation, 然后遍历, 确定bean的类型, 然后实例化, 并且添加到BeanFactory. 一旦某些类中有@Autowire标记, 就从BeanFactory中查找, 然后注入. </p>
 
 </div>
 </article>
@@ -186,7 +190,9 @@
 </div>
 <div class="entry-content">
 <p>抛硬币，玩家庄家概率对半开，怎么赢，关键看下注策略。资金管理领域，有两种不得不提的策略，等价鞅与反等价鞅，从表现形式看，使用等价鞅制度的资金管理方式，在出现亏损以后，倾向于使用增加投入金额的方式进行后来的游戏。一旦获得盈利后，资金投入比例会再次回到起始水平；使用反等价鞅制度的资金管理方式，在出现亏损以后，会倾向于减少投入金额的比例进行后来的游戏；而伴随盈利的增加，也会不断增加投入资金，更多相关的内容见<a href="http://bluema75.blog.163.com/blog/static/386767082007101710422663/">等价鞅和反等价鞅</a>，写的很精彩，不做赘述。在这里，抛硬币属于古典概型，理解起来，相对简单直观。</p>
-<p><img alt="抛硬币" src="https://dn-iovi.qbox.me/p2228615183.jpg" /></p>
+<p>凯利公式推导</p>
+<p>比特币在线的凯利公式套利模型</p>
+<p>肥尾效应</p>
 
 </div>
 </article>
@@ -200,8 +206,8 @@
 </div>
 <div class="entry-content">
 <p>之前也写过一些博客，但内容终究是粘贴复制居多，几乎体现不出个人的成果，似乎是拿别人的口水吞咽了一遍，学知识，是要把知识学懂，学活，提炼出自己的观点，变成自己的积累。</p>
-<p><img alt="写作" src="https://dn-iovi.qbox.me/p2228612608.jpg" /></p>
 <p>看过很多，也学过很多，但真正经得起时间冲刷，能长存记忆的，不多；学了那么久的技术，看的都是别人的观点，学的都是别人的想法，很多时候，都忘了回头看一看，自己到底学到了什么。作为一个研究生，的确应该写一些自己独立思考的文字，挖掘深层次的知识。</p>
+<p>其实现实当中可以书写的素材非常丰富，一篇博客，一纸论文，一本书，都能引出无数的话题，关键在于自己愿不愿挖掘，有没有探索的精神，这个非常重要。回忆之前的学习过程中，总能感觉自己遇到难题就撤退，很多事物浅尝辄止，泛泛而学，终究只能触及些皮毛，深度的东西，无从谈起。</p>
 
 </div>
 </article>
@@ -214,9 +220,14 @@
 </div>
 </div>
 <div class="entry-content">
-<p>刚开始接触比特币的时候，一定很多人困惑于比特币的找零，幸好资料很多，随手从网上找了一篇，很详尽<a href="http://jingyan.baidu.com/article/19192ad84bcd54e53e570729.html">《详解比特币的找零机制》</a>，大家可以做一个入门导读。
-当然,要更加详细比特币的技术原理,推荐一本书<a href="http://files.brendafernandez.com/Mastering%20Bitcoin/Mastering%20Bitcoin.pdf">《Master Bitcoin》</a>,这本书从技术人员的角度,探讨比特币究竟是什么,通俗易懂,适合想进一步了解比特币技术实现的人员.当然,要深入挖掘,还是推荐阅读比特币源码.</p>
-<p>好了，针对原文的一些概念，这里我做一些我的理解。</p>
+<p>刚开始接触比特币的时候, 一定很多人困惑于比特币的找零, 幸好资料很多, 随手从网上找了一篇, 很详尽<a href="http://jingyan.baidu.com/article/19192ad84bcd54e53e570729. html">《详解比特币的找零机制》</a>, 大家可以做一个入门导读. 
+当然, 要更加详细比特币的技术原理, 推荐一本书<a href="http://files.brendafernandez.com/Mastering%20Bitcoin/Mastering%20Bitcoin.pdf">《Mastering Bitcoin》</a>, 这本书从技术人员的角度, 探讨比特币究竟是什么, 通俗易懂, 适合想进一步了解比特币技术实现的人员. 当然, 要深入挖掘, 还是推荐阅读比特币源码. </p>
+<p>好了, 针对原文的一些概念, 这里我做一些我的理解. </p>
+<p>原文中, </p>
+<blockquote>
+<p>比特币钱包交易100次以上时再次交易后要重新备份钱包. </p>
+</blockquote>
+<p>值得一提的是, 这里的交易指的是支出, 而不包含接收. 其实, 这只是客户端的技术实现问题, 因为客户端将找零的比特币发送到了私钥池中的某一个相关公钥地址, 而私钥池大小只有一百个, 因此, 一旦多于100个, 就可能产生问题. 其实, 客户端也可以设计成将找零的比特币发送回原来的地址. 如blockchain. info网站的钱包, 就是将找零的货币原路返回, 这样做的好处就是交易过程清晰明朗. </p>
 
 </div>
 </article>
@@ -230,6 +241,7 @@
 </div>
 <div class="entry-content">
 <p>最近看到一篇Java多线程中wait(), notify()用法的文章，觉得写的略微还欠深入，就写一写自己的看法，对他的第一段代码，在变量上稍微做了一些调整a-&gt;locka，b-&gt;lockb，c-&gt;lockc，其他的基本没改动。</p>
+<p>更多想深入理解Java多线程, 可翻阅"Java Concurrency in Practice".</p>
 <h5>预备知识</h5>
 <ol>
 <li>wait是释放锁，不用等synchronized语句块执行完毕，阻塞，之后等待被重新notify</li>
