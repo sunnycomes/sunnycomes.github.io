@@ -1,0 +1,179 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<title>IoVision</title>
+<link rel="shortcut icon" href="/static/img/favicon.ico">
+<link rel="stylesheet" href="/static/style/style.css" type="text/css">
+<script type="text/javascript" src="https://dn-iovi.qbox.me/jquery.js"></script>
+<script type="text/javascript" src="/static/js/script.js"></script>
+</head>
+<body>
+<div id="content">
+<header id="header_index">
+<hgroup>
+<h2 class="site-nav"><a href="/">HOME</a></h2>
+<h2 class="site-nav"><a href="/#">ALBUM</a></h2>
+<h2 class="site-nav"><a href="/#">BOOKS</a></h2>
+<h2 class="site-nav"><a href="/#">MOVIES</a></h2>
+<h2 class="site-nav"><a href="/about">ABOUT</a></h2>
+</hgroup>
+</header>
+<div class="go">
+<a title="Go Top" class="top"></a>
+<a title="Leave me feedback" class="feedback" href=mailto:sunnycomes@gmail.com target="_blank"></a>
+<a title="Go Bottom" class="bottom" ></a>
+</div>
+
+<div id="main">
+<div class="article_wrapper">
+<article>
+<div class="entry-header">
+<h1 class="entry-title">Java wait(),notify()的一些看法</h1>
+<div class="entry-meta">
+<span class="sep"><time>2014-02-01 21:42:29 +08</time></span>
+</div>
+</div>
+<div class="entry-content">
+<p>最近看到一篇Java多线程中wait(), notify()用法的文章，觉得写的略微还欠深入，就写一写自己的看法，对他的第一段代码，在变量上稍微做了一些调整a-&gt;locka，b-&gt;lockb，c-&gt;lockc，其他的基本没改动。</p>
+<h5>预备知识</h5>
+<ol>
+<li>wait是释放锁，不用等synchronized语句块执行完毕，阻塞，之后等待被重新notify</li>
+<li>notify是释放锁，但释放锁是在synchronized语句块执行完毕后，不阻塞，继续执行下去。</li>
+<li>yield不释放锁，阻塞，但释放cpu资源</li>
+<li>sleep不释放锁，阻塞，同时占用cpu资源</li>
+</ol>
+<p>谈到线程阻塞，还可以参考<a href="http://www.open-open.com/lib/view/open1371741636171.html">Java Thread.join()</a></p>
+<!-- more -->
+
+<p><img alt="死锁" src="https://dn-iovi.qbox.me/p2228608469.jpg" /></p>
+<script src="https://code.csdn.net/snippets/606210.js"></script>
+
+<h5>有死锁？</h5>
+<p>程序刚开始运行时，到T3时，Tpa2，Tpb2，Tpc2都执行了，则死锁。在T2位置加一行<code>Thead.sleep(1000)</code>，基本就死锁了。</p>
+<p>另外，在程序结束时也会产生死锁，下面是最后一轮打印：</p>
+<ol>
+<li>
+<p>pa打印A，countpa=0时，pa卡在lockc.wait()，等待pc执行lockc.notify()；</p>
+</li>
+<li>
+<p>pc打印C，countpc=0，lockc.notify()，pa被唤醒，pc卡在lockb.wait()；</p>
+</li>
+<li>
+<p>pb打印B，countpb=0，lockb.notify()，pc被唤醒，卡在locka.wait()；</p>
+</li>
+</ol>
+<p>因此，结果可想而知，pb永远处于死锁状态，而pa，pc谁先跳出循环，应该是随机的，不一定是pa先。因此，更加合理的做法是T13改成<code>prev.wait(1000)</code>。</p>
+<h5>打印顺序有什么规律？</h5>
+<p>我们先讨论下第一轮打印的顺序，通常是ACB、也有可能是ABC，当然，非A开头也不是没有可能，一般第一轮确定后，后面顺序基本确定，但也不是一定的，只是可能性非常大，后面会详细分析为什么顺序可能会变，这里这讨论顺序的规律。</p>
+<p>我们这里<code>获得锁</code>，指的是程序语句<code>synchronized(lock)</code>执行完毕。不考虑死锁的情况下、使用<strong>多核CPU</strong>，第一轮顺序通常是ACB，这里分析下原因：</p>
+<p>pa占有lockc，locka时，不影响pc占有lockb，pc要执行，先获得lockb，再获得lockc，很大概率上，pc已获得lockb，只需要lockc；而pb执行先要获得locka，再获得lockb，而locka需要等pa释放，且pb需要先于pc抢占lockb。基于上面的分析，很可能pc是第二个打印，这里有一个前提，<strong>CPU多核</strong>。</p>
+<p>但并不是说，pa打印完后，pc一定占有lockb，也可能pa打印完后，pb获得locka，并且先于pc获得lockb，那么这个顺序就变成了pb第二个打印，<strong>CPU单核</strong>情况下，很可能发生。一旦这个顺序确定后，后面就基本不太可能变化。</p>
+<h5>顺序一旦确定，不再改变?</h5>
+<p>从每次运行结果来看，顺序似乎按照三个顺序下来，即头三个ACB，则后面都是重复这个顺序，先搞清楚下面的一些概念：</p>
+<ul>
+<li>pa执行lockc.wait()后，需要pc执行lockc.notify()才能继续执行，否则处于休眠状态</li>
+<li>pb执行locka.wait()后，需要pa执行locka.notify()才能继续执行，否则处于休眠状态</li>
+<li>pc执行lockb.wait()后，需要pb执行lockb.notify()才能继续执行，否则处于休眠状态</li>
+</ul>
+<p>假设A第一个打印，C第二个打印，B第三个打印，那么第二趟开头的可能是A，也可能是C，但不可能是B:</p>
+<ol>
+<li>
+<p>A要先打印，则需要等pc执行lockc.notify()，这一条没问题，然后先后获得lockc、locka，这条也没问题，pb执行locka.wait()时已经满足；</p>
+</li>
+<li>
+<p>C要先打印，则需要等pb执行lockb.notify()，这一条没问题，然后获得lockb，且先于pa获得lockc;</p>
+</li>
+</ol>
+<p>我们假设的第一轮打印顺序是ACB，那么lockc.notify()先于lockb.notify()执行，很大可能，pa是先于pc获得lockc，那么很大程度上，pa先于pc打印，即第二轮第一个很可能是A。</p>
+<p>好了，再思考下第二轮第二个会是什么，其实跟上面的类似：</p>
+<ol>
+<li>
+<p>C要先打印，则需要等pb执行lockb.notify()，这一条没问题，然后先后获得lockb、lockc，这条没问题，pa执行lockc.wait()时已经满足;</p>
+</li>
+<li>
+<p>B要先打印，则需要等pa执行locka.notify(),这一条没问题，然后获得locka，且先于pc获得lockb;</p>
+</li>
+</ol>
+<p>我们假设已经打印了ACBA，那么lockb.notify()先于locka.notify()执行，很大可能，pc是先于pb获得lockb，那么很大程度上，C要先于B打印，即第二轮第二个很可能是C.</p>
+<p>至于第二轮第三个，按照相同的思路，可以得出是B，后面循环按照这个思路进行即可。</p>
+<p><em>由此，可以推断出一旦第一轮顺序确定，后面也就确定了，但不是绝对的。</em></p>
+<h5>如何顺序打印</h5>
+<p>从上面的结论来看，要顺序打印，只要第一轮顺序即可，那么其实也很简单，只要做到第一轮第二个是B，就可以顺序执行，只要将线程启动语句改成：</p>
+<pre><code>    new Thread(pa).start();
+    Thread.sleep(10);
+    new Thread(pb).start();
+    Thread.sleep(10);
+    new Thread(pc).start();
+</code></pre>
+<p>这样做还能避免一开始死锁的情况。</p>
+<h5>如何有节奏地打印</h5>
+<p>T10位置添加：</p>
+<pre><code>Thread.sleep(1000);
+</code></pre>
+<p>创建线程使用以下语句：</p>
+<pre><code>MyThreadPrinter pa = new MyThreadPrinter("A", lockb, locka);
+MyThreadPrinter pb = new MyThreadPrinter("B", lockc, lockb);
+MyThreadPrinter pc = new MyThreadPrinter("C", locka, lockc);
+</code></pre>
+<p>对原函数做了些许调整:</p>
+<blockquote>
+<p>private MyThreadPrinter(String name, Object prev, Object self) </p>
+</blockquote>
+<p>改为</p>
+<blockquote>
+<p>private MyThreadPrinter(String name, Object next, Object self)</p>
+</blockquote>
+<p>即prev--&gt;next，其实也很好理解，A要先于B打印，A要先获得B的锁，那么B就肯定落后于A，对于C，B要先获得C的锁，那么顺序就确定下来了。这里我们要不要考虑CPU多核？CPU多核影响的是第一轮第二个打印字母，有没有可能第二个是C，而不是B？其实在T10添加休眠语句后，pb肯定先于pc获得lockc，那么第二个打印的字母肯定是B了。</p>
+<p>不知道读者心中有没有疑问，为什么要在T10位置休眠，如果语句放在T11或者T12，其实效果是<strong>一样</strong>的，但这里有一个概念需要额外注意：</p>
+<blockquote>
+<p>notify()调用后，并不是马上就释放对象锁的，而是在相应的synchronized(){}语句块执行结束，自动释放锁后</p>
+</blockquote>
+<p><a href="http://blog.csdn.net/zyplus/article/details/6672775">《 JAVA wait(), notify(),sleep详解》</a></p>
+</div>
+</article>
+<div id="disqus_thread"></div>
+<script type="text/javascript">
+    /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+    var disqus_shortname = 'iovision'; // required: replace example with your forum shortname
+
+    /* * * DON'T EDIT BELOW THIS LINE * * */
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+</div>
+</div>
+
+<footer class="footer">
+<div class="footer_links">
+Sunnycomes的小伙伴们：
+<a href="http://www.ckecy.comk" target="blank">ckecy /</a>
+<a href="http://www.yimeijun.com" target="blank">艺美君 /</a>
+<a href="http://www.mubing01.cn" target="blank">木柄 /</a>
+<a href="http://www.guoziqing.com" target="blank">雪狼</a>
+</div>
+<div class="footer_powered_by">
+Powered by <a href='http://www.iovi.com'>Sunnycomes</a>
+</div>
+</footer>
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-43860851-1', 'auto');
+  ga('send', 'pageview');
+
+</script>
+
+
+</div>
+</body>
+</html>

@@ -1,0 +1,163 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<title>IoVision</title>
+<link rel="shortcut icon" href="/static/img/favicon.ico">
+<link rel="stylesheet" href="/static/style/style.css" type="text/css">
+<script type="text/javascript" src="https://dn-iovi.qbox.me/jquery.js"></script>
+<script type="text/javascript" src="/static/js/script.js"></script>
+</head>
+<body>
+<div id="content">
+<header id="header_index">
+<hgroup>
+<h2 class="site-nav"><a href="/">HOME</a></h2>
+<h2 class="site-nav"><a href="/#">ALBUM</a></h2>
+<h2 class="site-nav"><a href="/#">BOOKS</a></h2>
+<h2 class="site-nav"><a href="/#">MOVIES</a></h2>
+<h2 class="site-nav"><a href="/about">ABOUT</a></h2>
+</hgroup>
+</header>
+<div class="go">
+<a title="Go Top" class="top"></a>
+<a title="Leave me feedback" class="feedback" href=mailto:sunnycomes@gmail.com target="_blank"></a>
+<a title="Go Bottom" class="bottom" ></a>
+</div>
+
+<div id="main">
+<div class="article_wrapper">
+<article>
+<div class="entry-header">
+<h1 class="entry-title">聊一聊Java中double精度去哪了(2)</h1>
+<div class="entry-meta">
+<span class="sep"><time>2014-07-13 14:41:02 +080</time></span>
+</div>
+</div>
+<div class="entry-content">
+<p>继续先前的话题，double奇葩的精度。试完了C，为何不看看其他的语言，如python，毕竟基本上现在的编程语言基本采用IEEE754标准，存储方式相同，计算由CPU完成，结果为什么会不同？果然使用python得出的结论也是0.060000000000000005，不免怀疑之前C的结果。C的语句是这样的：</p>
+<pre><code>printf("%lf", 0.01 + 0.05);  #输出结果为0.060000。
+</code></pre>
+<p>是精度，保留的精度不对，于是设定保留小数点后18位，因为java的输出小数点后有18位：</p>
+<pre><code>printf("%.18lf", 0.01 + 0.05);  #输出结果为0.060000000000000005。
+</code></pre>
+<p>这才是真相，线索越来越多，0.01+0.05这道题，跟语言无关，而是跟IEEE754标准有关？</p>
+<p><img alt="IEEE754 Double" src="https://dn-iovi.qbox.me/p2228667130.jpg" /></p>
+<p>这个实验当中，结果比预期的多，那么有没有比预期的少？</p>
+<pre><code>System.out.println(0.09 + 0.01);  #输出结果为0.09999999999999999。
+</code></pre>
+<p>但是，如果取小数点后10位以内，结果还是好的，而且一般现实也不需要那么高的精度，但是，倘若每次计算都做一次round，势必性能大打折扣！然而不做round，的确是不严谨的作法，如果是支付场景，0.09+0.01&lt;0.1，那么这次交易就完成不了，这是绝对不能容忍的错误！</p>
+<p>谈了现象，再谈谈原因，其实很简单，10进制的世界，对于0，1的世界的计算机来说，有点悬。</p>
+<!-- more -->
+
+<p>这里我们回顾一下小数转二进制的计算规则：乘2取整法，以0.05为例：</p>
+<blockquote>
+<ol>
+<li>0.05 * 2 % 1 = 0.1(0)</li>
+<li>0.1 * 2 % 1 = 0.2(0)</li>
+<li>0.2 * 2 % 1 = 0.4(0)</li>
+<li>0.4 * 2 % 1 = 0.8(0)</li>
+<li>0.8 * 2 % 1 = 0.6(1)</li>
+<li>0.6 * 2 % 1 = 0.2(1) // 到达这里的时候，又回到先前第2步状态</li>
+</ol>
+</blockquote>
+<p>如果一直算下去，结果会是：0.00(0011*n)，0011*n表示n次重复，用科学技术法表示：1.100(1100*n) * 2^-5,
+用IEEE754表示,exp=1023+(-5)=1018, fraction部分，整数1去掉，二进制小数第53位做0舍1入操作，则：</p>
+<blockquote>
+<p>s=0(正数)<br />
+exp==01111111010 <br />
+frac=1001100110011001100110011001100110011001100110011010<br />
+binary=0 01111111010 1001100110011001100110011001100110011001100110011010<br />
+hex=3fa999999999999a</p>
+</blockquote>
+<p>用相同的方式对0.01做转换，可以发现也只能用近似的值表示，上一篇提到的<code>既然Java的double问题那么多，我当前系统用double表示数值，会不会出现偏差？</code>，很明显，偏差肯定有，具体情况具体分析！</p>
+<p>尾数整数能表示最大值是2^54-1，即当你的整数部分大于或接近2^54-1时，如果有小数，则小数精度丢失非常严重。这里可以得出一个初步结论:</p>
+<blockquote>
+<p>在整数部分不太大的情况下，double可以保证精度丢失微乎其微；而当整数部分过大时，小数部分会做非常粗暴省略。</p>
+</blockquote>
+<p>接下来聊一聊精度取舍的原则，然后判断是否适合自身项目的需求。</p>
+<p>double之所以会产生精度的丢失，最根本的因素是用于表示小数的二进制位数不够，然后做round，造成丢失。</p>
+<p>这里我们假设能表示小数的二进制位长度为x，那么，在存储的时候，如果x位后面还有内容，将做round处理，那么到底损失或者增加了多少？这里验证下：</p>
+<ol>
+<li>
+<p>如果x+1二进制位为1，进位，则比原数要放大一些，假设增量t，那么t &lt; 1/2^x，以下是证明：<br />
+ tmax = 1/2^(x+1) + 1/2^(x+2) + 1/2^(x+3) + ... + 1/2^(x+n)<br />
+ 1/2^x - tmax = 1/2^x(1-1/2-1/4-1/8...) &gt; 0，因：1/2 + 1/4 + 1/8 + ... + 1/2^n &lt; 1 </p>
+</li>
+<li>
+<p>如果x+1二进制位为0，不进位，则比原数字小一些，假设减量d, 那么d &lt; 1/2^(x+1)，证明同上。</p>
+</li>
+</ol>
+<blockquote>
+<p>其实，在计算过程中，只要考虑的1/2^x影响有多大即可！因为1/2^x都不会影响结果，1/2^(x+1)更不会了。</p>
+</blockquote>
+<p>假设存储的浮点数小数的最长10进制位长度为L，我们可以通过改变量，来判断是否产生精度影响。 <br />
+这里举个例子，令L = 4，A = ?.0004，假设最坏的情况，A在转化为二进制后，存储时发生了截断，做了round，那么：</p>
+<blockquote>
+<ol>
+<li>
+<p>如果是增加，最多增加t = 1/2^x。x = 14时，t = 1/2^x = 0.000061035，A + t = ?.000461035，如果从内存里读取，然后保留4位10进制小数，变成了?.0005，误差产生了；x = 15时，t = 1/2^x = 0.000030518，变成了?.0004，与实际相符。</p>
+</li>
+<li>
+<p>如果是减少，最多减少d = 1/2^(x+1)。x = 14时，d = 1/2^(x+1) = 0.000030518，A - d = ?.000360482，如果从内存里读取，然后保留4位10进制小数，变成了?.0004，与实际相符。</p>
+</li>
+</ol>
+</blockquote>
+<p>那么，可认为，L=4的情况下，需要二进制小数位至少x=15，才能保证符合要求。</p>
+<p>从上面的例子可以看到，当十进制小数位L+1上的加减值大于5时，会是结果产生偏差。这里，可以推出一般的规律:</p>
+<blockquote>
+<p>如果1/2^x &lt; 5 * 10^(-L-1)，则能保证精度满足要求。</p>
+</blockquote>
+<p>这里举一个比特币交易所的例子，关于balance，price，amount的问题，price整数最大长度a，小数精确到x位，amount整数最大长度b，小数精确到y位，那么理论上price * amount，整数最多a+b位，小数最多位x+y位，令x=2,y=4,看是否满足实际生产，</p>
+<p>amount&lt;200，000个，则200，000(10)=30D40(16)，二进制长度为20位，小数部分34位，1/2^(34)=5.82077*10^(-11)，则小数点后9位是最大极限，满足要求。  </p>
+<p>一般price&lt;100,000，则10,0000(10)=186A0(16)，二进制长度20位，小数部分34位，同上，小数点后9位是最大极限，满足要求。  </p>
+<p>那么，对于balance，a+b=40，则小数部分14位二进制，1/2^(14)=6.1035*10^(-5)，则保守取值，3位，小数已经不能满足x+y=6的需求，要产生误差了。</p>
+<p>从上面的计算也可以看出，使用double，保留小数最多不超过3位，勉勉强强应付几百个亿，那对于金融，科学计算领域，可以想见，double已经不能满足需求了！因此，采用Java BigDecimail是非常有必要的.</p>
+<p>申明：这里提到的double都是采用IEEE754规范的64位浮点数。</p>
+</div>
+</article>
+<div id="disqus_thread"></div>
+<script type="text/javascript">
+    /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+    var disqus_shortname = 'iovision'; // required: replace example with your forum shortname
+
+    /* * * DON'T EDIT BELOW THIS LINE * * */
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+</div>
+</div>
+
+<footer class="footer">
+<div class="footer_links">
+Sunnycomes的小伙伴们：
+<a href="http://www.ckecy.comk" target="blank">ckecy /</a>
+<a href="http://www.yimeijun.com" target="blank">艺美君 /</a>
+<a href="http://www.mubing01.cn" target="blank">木柄 /</a>
+<a href="http://www.guoziqing.com" target="blank">雪狼</a>
+</div>
+<div class="footer_powered_by">
+Powered by <a href='http://www.iovi.com'>Sunnycomes</a>
+</div>
+</footer>
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-43860851-1', 'auto');
+  ga('send', 'pageview');
+
+</script>
+
+
+</div>
+</body>
+</html>

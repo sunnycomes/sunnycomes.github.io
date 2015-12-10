@@ -1,0 +1,204 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<title>IoVision</title>
+<link rel="shortcut icon" href="/static/img/favicon.ico"/>
+<link rel="stylesheet" href="/static/style/style.css" type="text/css">
+<script type="text/javascript" src="https://dn-iovi.qbox.me/jquery.js"></script>
+<script type="text/javascript" src="/static/js/script.js"></script>
+</head>
+<body>
+<div id="content">
+<header id="header_index">
+<hgroup>
+<h2 class="site-nav"><a href="/">HOME</a></h2>
+<h2 class="site-nav"><a href="/#">ALBUM</a></h2>
+<h2 class="site-nav"><a href="/#">BOOKS</a></h2>
+<h2 class="site-nav"><a href="/#">MOVIES</a></h2>
+<h2 class="site-nav"><a href="/about">ABOUT</a></h2>
+</hgroup>
+</header>
+<div class="go">
+<a title="Go Top" class="top"></a>
+<a title="Leave me feedback" class="feedback" href=mailto:sunnycomes@gmail.com target="_blank"></a>
+<a title="Go Bottom" class="bottom" ></a>
+</div>
+
+<div id="main">
+<div id="blog_index">
+
+<article>
+<div class="entry-header">
+<h1 class="entry-title"><a href='/post/2015-01-01-bitcoin.html'>民主货币比特币</a></h1>
+<div class="entry-meta">
+<span class="sep"><time>2015-01-01 21:42:29 +08</time></span>
+</div>
+</div>
+<div class="entry-content">
+<p>比特币，2013之前还默默无闻，只是小众圈内流传，而到2013.11.19那天，价格一度飙升到8千左右，比特币就那么火了。后面央妈发大招，出台《关于防范比特币风险的通知》，价格更是坐了过山车，从6千多暴跌至2千，后又反弹到6千，多少无知小散接盘的接盘，割肉的割肉，我有幸亲身经历那段跌宕，真有一种末日来临的感觉，很多人谈币色变。</p>
+<p>玩比特币玩了这么久，我自己归类自己应该是即是投机客，也是比特币信仰者。最初接触比特币也是师兄介绍，大概是在13年12月份左右，后面就开始自己写交易机器人，当然，效果不甚理想。陆陆续续也赚了一些钱，不过都是玩期货赚的，现货浮动太小，通过小资金进行原始资本积累过程过于缓慢。</p>
+<p>很多人觉得现在入场玩比特币是不是太晚，这种观点很荒谬，就像有人想买股票，你告诉他，他应该在最低点买入，最高点抛出，鬼才知道什么时候是高点或低点。比特币刚出现的时候，你敢买吗，一块钱一个给你你都不一定敢要，因为你根本就不知道后面会怎么发展，你可能觉得一块钱已经是涨到顶了。很多持有比特币到现在的大户，不是忘记自己买币了，就是真心不差钱玩玩的。</p>
+
+</div>
+</article>
+
+<article>
+<div class="entry-header">
+<h1 class="entry-title"><a href='/post/2014-11-16-want-to-travel.html'>渴望旅行，到处走走</a></h1>
+<div class="entry-meta">
+<span class="sep"><time>2014-11-16 22:38:10 +08</time></span>
+</div>
+</div>
+<div class="entry-content">
+<p>如果不是室友安排的活动，恐怕很难接触到微旅行这种活动，宅久了，惰性就来了，懒得动！已经不记得多久没跟朋友一起出去玩了，那种全身心放松的感觉，最觉得可回忆的，其实还是一起跟朋友在杭州的那段时光，美好的人，美好的景，尤其是考上研之后的那种心情。</p>
+<p>其实心里一直都渴望出去走走，看看世界的美好，很多时候缺的不是想法，而是说走就走的勇气。每天，看这个城市，行色匆匆，一张张陌生的面孔，孤独、思乡的感情油然而生，为什么此时此刻，我会出现在这个陌生的城市，行走在陌生的街，老家熟悉的小巷，屋后的树，午后门前的阳光还好吗？</p>
+<p><img alt="旅行" src="https://dn-iovi.qbox.me/p2228619046.jpg" /></p>
+<p>这个城市到处充斥着嘈杂的引擎声，恐怕已经很难听见内心声音了；雾霾的天空，蓝天白云显得那么可爱；奔波在这个钢筋混凝土的城市，青山绿水已经变得有些遥远。大城市呆久了，厌倦了，向往平和、与世无争的世界，看看巍巍的山川，面对宁静的湖面，梳理自己复杂的内心，认识一个全新的自己。</p>
+
+</div>
+</article>
+
+<article>
+<div class="entry-header">
+<h1 class="entry-title"><a href='/post/2014-07-13-talk-about-double-in-java-2.html'>聊一聊Java中double精度去哪了(2)</a></h1>
+<div class="entry-meta">
+<span class="sep"><time>2014-07-13 14:41:02 +080</time></span>
+</div>
+</div>
+<div class="entry-content">
+<p>继续先前的话题，double奇葩的精度。试完了C，为何不看看其他的语言，如python，毕竟基本上现在的编程语言基本采用IEEE754标准，存储方式相同，计算由CPU完成，结果为什么会不同？果然使用python得出的结论也是0.060000000000000005，不免怀疑之前C的结果。C的语句是这样的：</p>
+<pre><code>printf("%lf", 0.01 + 0.05);  #输出结果为0.060000。
+</code></pre>
+<p>是精度，保留的精度不对，于是设定保留小数点后18位，因为java的输出小数点后有18位：</p>
+<pre><code>printf("%.18lf", 0.01 + 0.05);  #输出结果为0.060000000000000005。
+</code></pre>
+<p>这才是真相，线索越来越多，0.01+0.05这道题，跟语言无关，而是跟IEEE754标准有关？</p>
+<p><img alt="IEEE754 Double" src="https://dn-iovi.qbox.me/p2228667130.jpg" /></p>
+<p>这个实验当中，结果比预期的多，那么有没有比预期的少？</p>
+<pre><code>System.out.println(0.09 + 0.01);  #输出结果为0.09999999999999999。
+</code></pre>
+<p>但是，如果取小数点后10位以内，结果还是好的，而且一般现实也不需要那么高的精度，但是，倘若每次计算都做一次round，势必性能大打折扣！然而不做round，的确是不严谨的作法，如果是支付场景，0.09+0.01&lt;0.1，那么这次交易就完成不了，这是绝对不能容忍的错误！</p>
+<p>谈了现象，再谈谈原因，其实很简单，10进制的世界，对于0，1的世界的计算机来说，有点悬。</p>
+
+</div>
+</article>
+
+<article>
+<div class="entry-header">
+<h1 class="entry-title"><a href='/post/2014-07-07-talk-about-double-in-java.html'>聊一聊Java中double精度去哪了(1)</a></h1>
+<div class="entry-meta">
+<span class="sep"><time>2014-07-07 21:30:11 +080</time></span>
+</div>
+</div>
+<div class="entry-content">
+<p>前段时间，因为要测试一个刚出炉的高频策略，放实盘去跑吧，怕出岔，所以写了个简单的回测系统，跑一遍历史数据。其中有一部分是关于撮合系统，简陋了点，还算能跑得起来，几个用例下来，也没什么问题，接着增加历史数据量，居然出现了负数，简直不可能发生的事情居然出现了，虽然都是小金额的偏差，但是毕竟跟钱打交道，必须谨慎，况且现在比特币那么贵，丝毫偏差都是不允许的！</p>
+<p><img alt="lost" src="https://dn-iovi.qbox.me/p2228629212.jpg" /></p>
+<p>当然，后面就是苦逼的找bug，逻辑没问题，发狠的，把所有的数据都打印出来，日志一页一页没有尽头，心里发麻，硬着头皮一条条排查，人品不错，开头就发现一条异常数据，0.05+0.01＝0.060000000000000005，瞬间明白，google it，才发现Java的double原来精度那么蛋疼。网上推荐BigDecimal代替double，果然不错，那就用BigDecimal替换。等所有的double都换之后，狗血的事情发生了，BigDecimal是如此的慢，以至于跑一个用例花了之前N倍的时间，怎么办，只能用一个折中的办法，数值表示仍然用double，数值计算用BigDecimal，于是乎，有了如下的一个四则运算工具类MathUtil.java</p>
+
+</div>
+</article>
+
+<article>
+<div class="entry-header">
+<h1 class="entry-title"><a href='/post/2014-06-07-java-deep-learning-of-annotation.html'>Java的@符号</a></h1>
+<div class="entry-meta">
+<span class="sep"><time>2014-06-07 14:23:59 +080</time></span>
+</div>
+</div>
+<div class="entry-content">
+<p>刚接触Java变成，就经常碰到“@”这个符号，所谓的Java中的annotation。很多时候它都是跟@Override，@Deprecated，@SuppressWarnings，或者更见多识广一些，还有@Retention，@Target，@Documented，@Inherieted，但是，大多数情况下，很少会有人去过问为什么这么去写，只知道这是一种理所当然的写法，在这里推荐一篇非常详细的关于Java注解的博文<a href="http://computerdragon.blog.51cto.com/6235984/1210969">Java注解annotation用法和自定义注解处理器</a>。</p>
+<p><img alt="java" src="https://dn-iovi.qbox.me/p2228615704.jpg" /></p>
+
+</div>
+</article>
+
+<article>
+<div class="entry-header">
+<h1 class="entry-title"><a href='/post/2014-03-06-a-new-start.html'>脱离低级趣味的写作</a></h1>
+<div class="entry-meta">
+<span class="sep"><time>2014-03-06 22:39:51 +080</time></span>
+</div>
+</div>
+<div class="entry-content">
+<p>国内博客乱象，可谓是拿来主义横行，抄袭成风，很多文章甚至是不加排版，显得毫无节操。好的东西，的确应该拿出来宣扬和传播，但是不加思辨的拿来即用，却弊远大于利。做技术的都对国内现状深有感慨，往往一篇技术文章，一个文章帖子，百度一搜(当然，有条件尽量还是谷歌吧，不禁让我想起了某大牛的话，身为IT人，使用百度是自甘堕落)，往往有成百上千的翻版，而且雷同程度几乎100%，毫无羞耻可言。一个问题解决方案，第一个讲错了，后面的人不加验证，目测说的非常在理，转之，结果十传百，百传千，遭殃了一大帮人。作为一名IT从业者，写文章总结知识是十分有必要，然而，内容更多的应该是一些自己挖掘的，当然，引用经典值得提倡，但也尽量避免大段落的抄来抄去。业内很多大牛都开博客，写文章，有深度和高度是一大特点，一个话题，可以做深入的挖掘，一个概念，写出自己独特的注解。 相比于早些年自己的部分文章，东拼西凑，大部分来自别人的文字，后面也就不了了之，不经细致推敲，即编造成章，漏洞频出，实在羞愧难当。</p>
+
+</div>
+</article>
+
+<article>
+<div class="entry-header">
+<h1 class="entry-title"><a href='/post/2014-03-01-talk-about-bitcoin-change.html'>聊一聊不一样的比特币找零机制</a></h1>
+<div class="entry-meta">
+<span class="sep"><time>2014-03-01 15:43:56 +080</time></span>
+</div>
+</div>
+<div class="entry-content">
+<p>刚开始接触比特币的时候，一定很多人困惑于比特币的找零，幸好资料很多，随手从网上找了一篇，很详尽<a href="http://jingyan.baidu.com/article/19192ad84bcd54e53e570729.html">《详解比特币的找零机制》</a>，大家可以做一个入门导读。
+当然,要更加详细比特币的技术原理,推荐一本书<a href="http://files.brendafernandez.com/Mastering%20Bitcoin/Mastering%20Bitcoin.pdf">《Master Bitcoin》</a>,这本书从技术人员的角度,探讨比特币究竟是什么,通俗易懂,适合想进一步了解比特币技术实现的人员.当然,要深入挖掘,还是推荐阅读比特币源码.</p>
+<p>好了, 针对原文的一些概念, 这里我做一些我的理解. </p>
+<p>原文中, </p>
+<blockquote>
+<p>比特币钱包交易100次以上时再次交易后要重新备份钱包. </p>
+</blockquote>
+<p>值得一提的是, 这里的交易指的是支出, 而不包含接收. 其实, 这只是客户端的技术实现问题, 因为客户端将找零的比特币发送到了私钥池中的某一个相关公钥地址, 而私钥池大小只有一百个, 因此, 一旦多于100个, 就可能产生问题. 其实, 客户端也可以设计成将找零的比特币发送回原来的地址. 如blockchain. info网站的钱包, 就是将找零的货币原路返回, 这样做的好处就是交易过程清晰明朗. </p>
+
+</div>
+</article>
+
+<article>
+<div class="entry-header">
+<h1 class="entry-title"><a href='/post/2014-02-01-java-wait-notify.html'>Java wait(),notify()的一些看法</a></h1>
+<div class="entry-meta">
+<span class="sep"><time>2014-02-01 21:42:29 +08</time></span>
+</div>
+</div>
+<div class="entry-content">
+<p>最近看到一篇Java多线程中wait(), notify()用法的文章，觉得写的略微还欠深入，就写一写自己的看法，对他的第一段代码，在变量上稍微做了一些调整a-&gt;locka，b-&gt;lockb，c-&gt;lockc，其他的基本没改动。</p>
+<h5>预备知识</h5>
+<ol>
+<li>wait是释放锁，不用等synchronized语句块执行完毕，阻塞，之后等待被重新notify</li>
+<li>notify是释放锁，但释放锁是在synchronized语句块执行完毕后，不阻塞，继续执行下去。</li>
+<li>yield不释放锁，阻塞，但释放cpu资源</li>
+<li>sleep不释放锁，阻塞，同时占用cpu资源</li>
+</ol>
+<p>谈到线程阻塞，还可以参考<a href="http://www.open-open.com/lib/view/open1371741636171.html">Java Thread.join()</a></p>
+
+</div>
+</article>
+
+<div id="pager_bar" class="entry-header">
+<a href="#" id="prev_page">Previous</a>
+<a href="#" id="next_page">Next</a>
+</div>
+</div>
+</div>
+
+<footer class="footer">
+<div class="footer_links">
+Sunnycomes的小伙伴们：
+<a href="http://www.ckecy.comk" target="blank">ckecy /</a>
+<a href="http://www.yimeijun.com" target="blank">艺美君 /</a>
+<a href="http://www.mubing01.cn" target="blank">木柄 /</a>
+<a href="http://www.guoziqing.com" target="blank">雪狼</a>
+</div>
+<div class="footer_powered_by">
+Powered by <a href='http://www.iovi.com'>Sunnycomes</a>
+</div>
+</footer>
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-43860851-1', 'auto');
+  ga('send', 'pageview');
+
+</script>
+
+
+</div>
+</body>
+</html>

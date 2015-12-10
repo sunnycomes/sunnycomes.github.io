@@ -1,0 +1,96 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<title>IoVision</title>
+<link rel="shortcut icon" href="/static/img/favicon.ico">
+<link rel="stylesheet" href="/static/style/style.css" type="text/css">
+<script type="text/javascript" src="https://dn-iovi.qbox.me/jquery.js"></script>
+<script type="text/javascript" src="/static/js/script.js"></script>
+</head>
+<body>
+<div id="content">
+<header id="header_index">
+<hgroup>
+<h2 class="site-nav"><a href="/">HOME</a></h2>
+<h2 class="site-nav"><a href="/#">ALBUM</a></h2>
+<h2 class="site-nav"><a href="/#">BOOKS</a></h2>
+<h2 class="site-nav"><a href="/#">MOVIES</a></h2>
+<h2 class="site-nav"><a href="/about">ABOUT</a></h2>
+</hgroup>
+</header>
+<div class="go">
+<a title="Go Top" class="top"></a>
+<a title="Leave me feedback" class="feedback" href=mailto:sunnycomes@gmail.com target="_blank"></a>
+<a title="Go Bottom" class="bottom" ></a>
+</div>
+
+<div id="main">
+<div class="article_wrapper">
+<article>
+<div class="entry-header">
+<h1 class="entry-title">聊一聊Java中double精度去哪了(1)</h1>
+<div class="entry-meta">
+<span class="sep"><time>2014-07-07 21:30:11 +080</time></span>
+</div>
+</div>
+<div class="entry-content">
+<p>前段时间，因为要测试一个刚出炉的高频策略，放实盘去跑吧，怕出岔，所以写了个简单的回测系统，跑一遍历史数据。其中有一部分是关于撮合系统，简陋了点，还算能跑得起来，几个用例下来，也没什么问题，接着增加历史数据量，居然出现了负数，简直不可能发生的事情居然出现了，虽然都是小金额的偏差，但是毕竟跟钱打交道，必须谨慎，况且现在比特币那么贵，丝毫偏差都是不允许的！</p>
+<p><img alt="lost" src="https://dn-iovi.qbox.me/p2228629212.jpg" /></p>
+<p>当然，后面就是苦逼的找bug，逻辑没问题，发狠的，把所有的数据都打印出来，日志一页一页没有尽头，心里发麻，硬着头皮一条条排查，人品不错，开头就发现一条异常数据，0.05+0.01＝0.060000000000000005，瞬间明白，google it，才发现Java的double原来精度那么蛋疼。网上推荐BigDecimal代替double，果然不错，那就用BigDecimal替换。等所有的double都换之后，狗血的事情发生了，BigDecimal是如此的慢，以至于跑一个用例花了之前N倍的时间，怎么办，只能用一个折中的办法，数值表示仍然用double，数值计算用BigDecimal，于是乎，有了如下的一个四则运算工具类MathUtil.java</p>
+<!-- more -->
+
+<script src="https://code.csdn.net/snippets/606212.js"></script>
+
+<p>当然，这里我想做的，不仅仅只是找到解决方案，更多的事想理解为什么double会出现这样的问题，如果是其他语言，例如C，会不会也出现这样的问题，我试着用同一组数据，发现C对于这组数据是没有出现异常的，那么，Java为什么会这么与众不同呢？</p>
+<p>网上说其他语言也有类似的情况，那么我们该如何避免这些地雷呢？</p>
+<p>既然Java的double问题那么多，我当前系统用double表示数值，会不会出现偏差？</p>
+<p>如果Java中采用BigDecimal效率这么低，那些大型交易所，性能要求极高，如何控制延迟呢？或者还有其他更好的技术？</p>
+<p>各种疑问在脑中盘旋，打破沙锅问到底的瘾又翻了，后面将追加博文，彻底研究下，Java的double精度去哪了。</p>
+</div>
+</article>
+<div id="disqus_thread"></div>
+<script type="text/javascript">
+    /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+    var disqus_shortname = 'iovision'; // required: replace example with your forum shortname
+
+    /* * * DON'T EDIT BELOW THIS LINE * * */
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+</div>
+</div>
+
+<footer class="footer">
+<div class="footer_links">
+Sunnycomes的小伙伴们：
+<a href="http://www.ckecy.comk" target="blank">ckecy /</a>
+<a href="http://www.yimeijun.com" target="blank">艺美君 /</a>
+<a href="http://www.mubing01.cn" target="blank">木柄 /</a>
+<a href="http://www.guoziqing.com" target="blank">雪狼</a>
+</div>
+<div class="footer_powered_by">
+Powered by <a href='http://www.iovi.com'>Sunnycomes</a>
+</div>
+</footer>
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-43860851-1', 'auto');
+  ga('send', 'pageview');
+
+</script>
+
+
+</div>
+</body>
+</html>
