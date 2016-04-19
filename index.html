@@ -3,7 +3,9 @@
 <html>
 <head>
 <meta http-equiv="content-type" content="text/html; charset=utf-8">
-<title>IoVision</title>
+<title>IoVision | Caijun Sun</title>
+<meta name="description" content="I am Caijun Sun and this is my blog, IoVision. All the things here are about Machine Learning, Social Media Mining, Math, Algorithms and my Daily Life.">
+<meta name="keywords" content="IoVision,Caijun Sun,Machine Learning,Social Media Mining,Math,Algorithms,Programming">
 <link rel="shortcut icon" href="/static/img/favicon.ico"/>
 <link rel="stylesheet" href="/static/style/style.css" type="text/css">
 <script type="text/javascript" src="https://dn-iovi.qbox.me/jquery.js"></script>
@@ -17,7 +19,7 @@
 <h2 class="site-nav"><a href="/#">ALBUM</a></h2>
 <h2 class="site-nav"><a href="/#">BOOKS</a></h2>
 <h2 class="site-nav"><a href="/#">MOVIES</a></h2>
-<h2 class="site-nav"><a href="/about">ABOUT</a></h2>
+<h2 class="site-nav"><a href="/about/index.html">ABOUT</a></h2>
 </hgroup>
 </header>
 <div class="go">
@@ -31,9 +33,53 @@
 
 <article>
 <div class="entry-header">
+<h1 class="entry-title"><a href='/post/2016-04-04-simple-neural-network.html'>Simple Neural Network</a></h1>
+<div class="entry-meta">
+<span class="sep"><time>2016-04-04 20:30:11 +0800</time></span>
+</div>
+</div>
+<div class="entry-content">
+<p>This is a draft document when I’m learning neural network. It will be polished in several days.
+<a href="/post/2016-04-04-simple-neural-network.pdf" target="_blank">PDF version at https://www.iovi.com/post/2016-04-04-simple-neural-network.pdf</a>
+<object data="/post/2016-04-04-simple-neural-network.pdf" type="application/pdf" width="100%" height="1000px"></p>
+<p></object></p
+</div>
+</article>
+
+<article>
+<div class="entry-header">
+<h1 class="entry-title"><a href='/post/2016-03-19-gradient-descent-example-code.html'>Gradient Descent Example Code</a></h1>
+<div class="entry-meta">
+<span class="sep"><time>2016-03-19 21:30:11 +0800</time></span>
+</div>
+</div>
+<div class="entry-content">
+<p>This post is not done yet and will be updated in several days.
+<a href="/post/2016-03-19-gradient-descent-example-code.pdf" target="_blank">PDF version at https://www.iovi.com/post/2016-03-19-gradient-descent-example-code.pdf</a>
+<object data="/post/2016-03-19-gradient-descent-example-code.pdf" type="application/pdf" width="100%" height="1000px"></p>
+<p></object></p
+</div>
+</article>
+
+<article>
+<div class="entry-header">
+<h1 class="entry-title"><a href='/post/2016-01-07-social-media-mining-note.html'>Social Media Mining Note</a></h1>
+<div class="entry-meta">
+<span class="sep"><time>2016-01-07 13:30:11 +0800</time></span>
+</div>
+</div>
+<div class="entry-content">
+<p><a href="/post/2016-01-07-social-media-mining-note.pdf" target="_blank">PDF version at https://www.iovi.com/post/2016-01-07-social-media-mining-note.pdf</a>
+<object data="/post/2016-01-07-social-media-mining-note.pdf" type="application/pdf" width="100%" height="1000px"></p>
+<p></object></p
+</div>
+</article>
+
+<article>
+<div class="entry-header">
 <h1 class="entry-title"><a href='/post/2015-01-01-bitcoin.html'>民主货币比特币</a></h1>
 <div class="entry-meta">
-<span class="sep"><time>2015-01-01 21:42:29 +08</time></span>
+<span class="sep"><time>2015-01-01 21:42:29 +080</time></span>
 </div>
 </div>
 <div class="entry-content">
@@ -48,7 +94,7 @@
 <div class="entry-header">
 <h1 class="entry-title"><a href='/post/2014-11-16-want-to-travel.html'>渴望旅行，到处走走</a></h1>
 <div class="entry-meta">
-<span class="sep"><time>2014-11-16 22:38:10 +08</time></span>
+<span class="sep"><time>2014-11-16 22:38:10 +080</time></span>
 </div>
 </div>
 <div class="entry-content">
@@ -62,54 +108,15 @@
 
 <article>
 <div class="entry-header">
-<h1 class="entry-title"><a href='/post/2014-07-13-talk-about-double-in-java-2.html'>聊一聊Java中double精度去哪了(2)</a></h1>
+<h1 class="entry-title"><a href='/post/2014-07-07-talk-about-double-in-java.html'>聊一聊Java中double精度去哪了</a></h1>
 <div class="entry-meta">
-<span class="sep"><time>2014-07-13 14:41:02 +080</time></span>
+<span class="sep"><time>2014-07-07 21:30:11 +0800</time></span>
 </div>
 </div>
 <div class="entry-content">
-<p>继续先前的话题，double奇葩的精度。试完了C，为何不看看其他的语言，如python，毕竟基本上现在的编程语言基本采用IEEE754标准，存储方式相同，计算由CPU完成，结果为什么会不同？果然使用python得出的结论也是0.060000000000000005，不免怀疑之前C的结果。C的语句是这样的：</p>
-<pre><code>printf("%lf", 0.01 + 0.05);  #输出结果为0.060000。
-</code></pre>
-<p>是精度，保留的精度不对，于是设定保留小数点后18位，因为java的输出小数点后有18位：</p>
-<pre><code>printf("%.18lf", 0.01 + 0.05);  #输出结果为0.060000000000000005。
-</code></pre>
-<p>这才是真相，线索越来越多，0.01+0.05这道题，跟语言无关，而是跟IEEE754标准有关？</p>
-<p><img alt="IEEE754 Double" src="https://dn-iovi.qbox.me/p2228667130.jpg" /></p>
-<p>这个实验当中，结果比预期的多，那么有没有比预期的少？</p>
-<pre><code>System.out.println(0.09 + 0.01);  #输出结果为0.09999999999999999。
-</code></pre>
-<p>但是，如果取小数点后10位以内，结果还是好的，而且一般现实也不需要那么高的精度，但是，倘若每次计算都做一次round，势必性能大打折扣！然而不做round，的确是不严谨的作法，如果是支付场景，0.09+0.01&lt;0.1，那么这次交易就完成不了，这是绝对不能容忍的错误！</p>
-<p>谈了现象，再谈谈原因，其实很简单，10进制的世界，对于0，1的世界的计算机来说，有点悬。</p>
-
-</div>
-</article>
-
-<article>
-<div class="entry-header">
-<h1 class="entry-title"><a href='/post/2014-07-07-talk-about-double-in-java.html'>聊一聊Java中double精度去哪了(1)</a></h1>
-<div class="entry-meta">
-<span class="sep"><time>2014-07-07 21:30:11 +080</time></span>
-</div>
-</div>
-<div class="entry-content">
-<p>前段时间，因为要测试一个刚出炉的高频策略，放实盘去跑吧，怕出岔，所以写了个简单的回测系统，跑一遍历史数据。其中有一部分是关于撮合系统，简陋了点，还算能跑得起来，几个用例下来，也没什么问题，接着增加历史数据量，居然出现了负数，简直不可能发生的事情居然出现了，虽然都是小金额的偏差，但是毕竟跟钱打交道，必须谨慎，况且现在比特币那么贵，丝毫偏差都是不允许的！</p>
+<p>前段时间, 因为要测试一个刚出炉的高频策略, 放实盘去跑吧, 怕出岔, 所以写了个简单的回测系统, 跑一遍历史数据. 其中有一部分是关于撮合系统, 简陋了点, 还算能跑得起来, 几个用例下来, 也没什么问题, 接着增加历史数据量, 居然出现了负数, 简直不可能发生的事情居然出现了, 虽然都是小金额的偏差, 但是毕竟跟钱打交道, 必须谨慎, 况且现在比特币那么贵, 丝毫偏差都是不允许的！</p>
 <p><img alt="lost" src="https://dn-iovi.qbox.me/p2228629212.jpg" /></p>
-<p>当然，后面就是苦逼的找bug，逻辑没问题，发狠的，把所有的数据都打印出来，日志一页一页没有尽头，心里发麻，硬着头皮一条条排查，人品不错，开头就发现一条异常数据，0.05+0.01＝0.060000000000000005，瞬间明白，google it，才发现Java的double原来精度那么蛋疼。网上推荐BigDecimal代替double，果然不错，那就用BigDecimal替换。等所有的double都换之后，狗血的事情发生了，BigDecimal是如此的慢，以至于跑一个用例花了之前N倍的时间，怎么办，只能用一个折中的办法，数值表示仍然用double，数值计算用BigDecimal，于是乎，有了如下的一个四则运算工具类MathUtil.java</p>
-
-</div>
-</article>
-
-<article>
-<div class="entry-header">
-<h1 class="entry-title"><a href='/post/2014-06-07-java-deep-learning-of-annotation.html'>Java的@符号</a></h1>
-<div class="entry-meta">
-<span class="sep"><time>2014-06-07 14:23:59 +080</time></span>
-</div>
-</div>
-<div class="entry-content">
-<p>刚接触Java变成，就经常碰到“@”这个符号，所谓的Java中的annotation。很多时候它都是跟@Override，@Deprecated，@SuppressWarnings，或者更见多识广一些，还有@Retention，@Target，@Documented，@Inherieted，但是，大多数情况下，很少会有人去过问为什么这么去写，只知道这是一种理所当然的写法，在这里推荐一篇非常详细的关于Java注解的博文<a href="http://computerdragon.blog.51cto.com/6235984/1210969">Java注解annotation用法和自定义注解处理器</a>。</p>
-<p><img alt="java" src="https://dn-iovi.qbox.me/p2228615704.jpg" /></p>
+<p>当然, 后面就是苦逼的找bug, 逻辑没问题, 发狠的, 把所有的数据都打印出来, 日志一页一页没有尽头, 心里发麻, 硬着头皮一条条排查, 人品不错, 开头就发现一条异常数据, 0.05+0.01＝0.060000000000000005, 瞬间明白, google it, 才发现Java的double原来精度那么蛋疼. 网上推荐BigDecimal代替double, 果然不错, 那就用BigDecimal替换. 等所有的double都换之后, 狗血的事情发生了, BigDecimal是如此的慢, 以至于跑一个用例花了之前N倍的时间, 怎么办, 只能用一个折中的办法, 数值表示仍然用double, 数值计算用BigDecimal, 于是乎, 有了如下的一个四则运算工具类<a href="https://code.csdn.net/snippets/606212.js">MathUtil.java</a></p>
 
 </div>
 </article>
@@ -118,7 +125,7 @@
 <div class="entry-header">
 <h1 class="entry-title"><a href='/post/2014-03-06-a-new-start.html'>脱离低级趣味的写作</a></h1>
 <div class="entry-meta">
-<span class="sep"><time>2014-03-06 22:39:51 +080</time></span>
+<span class="sep"><time>2014-03-06 22:39:51 +0800</time></span>
 </div>
 </div>
 <div class="entry-content">
@@ -129,33 +136,35 @@
 
 <article>
 <div class="entry-header">
-<h1 class="entry-title"><a href='/post/2014-03-01-talk-about-bitcoin-change.html'>聊一聊不一样的比特币找零机制</a></h1>
+<h1 class="entry-title"><a href='/post/2014-03-01-talk-about-bitcoin-change.html'>聊一聊比特币找零</a></h1>
 <div class="entry-meta">
-<span class="sep"><time>2014-03-01 15:43:56 +080</time></span>
+<span class="sep"><time>2014-03-01 15:43:56 +0800</time></span>
 </div>
 </div>
 <div class="entry-content">
-<p>刚开始接触比特币的时候，一定很多人困惑于比特币的找零，幸好资料很多，随手从网上找了一篇，很详尽<a href="http://jingyan.baidu.com/article/19192ad84bcd54e53e570729.html">《详解比特币的找零机制》</a>，大家可以做一个入门导读。
-当然,要更加详细比特币的技术原理,推荐一本书<a href="http://files.brendafernandez.com/Mastering%20Bitcoin/Mastering%20Bitcoin.pdf">《Master Bitcoin》</a>,这本书从技术人员的角度,探讨比特币究竟是什么,通俗易懂,适合想进一步了解比特币技术实现的人员.当然,要深入挖掘,还是推荐阅读比特币源码.</p>
-<p>好了, 针对原文的一些概念, 这里我做一些我的理解. </p>
-<p>原文中, </p>
+<p>刚开始接触比特币的时候，一定很多人困惑于比特币的找零，幸好资料很多，随手从网上找了一篇，很详尽<a href="http://jingyan.baidu.com/article/19192ad84bcd54e53e570729.html">《详解比特币的找零机制》</a>，大家可以做一个入门导读. 当然,要更加详细比特币的技术原理,推荐一本书<a href="http://files.brendafernandez.com/Mastering%20Bitcoin/Mastering%20Bitcoin.pdf">《Master Bitcoin》</a>,这本书从技术人员的角度,探讨比特币究竟是什么,通俗易懂,适合想进一步了解比特币技术实现的人员.当然,要深入挖掘,还是推荐阅读比特币源码.</p>
+<p>好了, 针对原文的一些概念, 这里我做一些我的理解.</p>
+<p>原文中,</p>
 <blockquote>
-<p>比特币钱包交易100次以上时再次交易后要重新备份钱包. </p>
+<p>比特币钱包交易100次以上时再次交易后要重新备份钱包.</p>
 </blockquote>
-<p>值得一提的是, 这里的交易指的是支出, 而不包含接收. 其实, 这只是客户端的技术实现问题, 因为客户端将找零的比特币发送到了私钥池中的某一个相关公钥地址, 而私钥池大小只有一百个, 因此, 一旦多于100个, 就可能产生问题. 其实, 客户端也可以设计成将找零的比特币发送回原来的地址. 如blockchain. info网站的钱包, 就是将找零的货币原路返回, 这样做的好处就是交易过程清晰明朗. </p>
+<p>值得一提的是, 这里的交易指的是支出, 而不包含接收. 其实, 这只是客户端的技术实现问题, 因为客户端将找零的比特币发送到了私钥池中的某一个相关公钥地址, 而私钥池大小只有一百个, 因此, 一旦多于100个, 就可能产生问题. 其实, 客户端也可以设计成将找零的比特币发送回原来的地址. 如blockchain. info网站的钱包, 就是将找零的货币原路返回, 这样做的好处就是交易过程清晰明朗. 不知道大家有没有注意到，原文中始终没有提到为什么要创建新地址接收余额，为什么？理论上，新地址和旧地址(支付地址)接收余额性质是一样的，技术上实现也是没有问题的，聪明的你不知道有没有注意到一个问题，比特币是匿名币，非常注重<strong>隐私</strong>，匿名不止体现在比特币地址上，还体现在找零机制,引用比特币<a href="https://en.bitcoin.it/wiki/Securing_your_wallet">官网</a>上的一段话:</p>
+<blockquote>
+<p>This is an anonymity feature – it makes tracking Bitcoin transactions much more difficult.</p>
+</blockquote>
 
 </div>
 </article>
 
 <article>
 <div class="entry-header">
-<h1 class="entry-title"><a href='/post/2014-02-01-java-wait-notify.html'>Java wait(),notify()的一些看法</a></h1>
+<h1 class="entry-title"><a href='/post/2014-02-01-java-multi-threads-running-in-sequence.html'>Java Multi-Threads Running in Sequence</a></h1>
 <div class="entry-meta">
-<span class="sep"><time>2014-02-01 21:42:29 +08</time></span>
+<span class="sep"><time>2014-02-01 21:42:29 +080</time></span>
 </div>
 </div>
 <div class="entry-content">
-<p>最近看到一篇Java多线程中wait(), notify()用法的文章，觉得写的略微还欠深入，就写一写自己的看法，对他的第一段代码，在变量上稍微做了一些调整a-&gt;locka，b-&gt;lockb，c-&gt;lockc，其他的基本没改动。</p>
+<p>最近看到一篇Java多线程顺序打印ABC的文章，用到了wait(), notify(), 感觉写的比较粗糙，这里写一写自己的看法，对他的第一段代码，在变量上稍微做了一些调整a-&gt;locka，b-&gt;lockb，c-&gt;lockc，其他的基本没改动。</p>
 <h5>预备知识</h5>
 <ol>
 <li>wait是释放锁，不用等synchronized语句块执行完毕，阻塞，之后等待被重新notify</li>
@@ -177,14 +186,14 @@
 
 <footer class="footer">
 <div class="footer_links">
-Sunnycomes的小伙伴们：
-<a href="http://www.ckecy.comk" target="blank">ckecy /</a>
-<a href="http://www.yimeijun.com" target="blank">艺美君 /</a>
-<a href="http://www.mubing01.cn" target="blank">木柄 /</a>
-<a href="http://www.guoziqing.com" target="blank">雪狼</a>
+Caijun Sun's friends：
+<a href="http://www.menglan-chen.com" target="_blank">陈沫沫 /</a>
+<a href="http://blog.csdn.net/u012176591" target="_blank">金良山庄 /</a>
+<a href="http://www.zhihu.com/people/mu-bing-70" target="_blank">木柄 /</a>
+<a href="http://www.zhengyangl.com/" target="_blank">zhengyangl</a>
 </div>
 <div class="footer_powered_by">
-Powered by <a href='http://www.iovi.com'>Sunnycomes</a>
+Powered by <a href='https://www.iovi.com'>Caijun Sun</a>
 </div>
 </footer>
 <script>
@@ -196,6 +205,22 @@ Powered by <a href='http://www.iovi.com'>Sunnycomes</a>
   ga('create', 'UA-43860851-1', 'auto');
   ga('send', 'pageview');
 
+</script>
+
+<script>
+(function(){
+    var bp = document.createElement('script');
+    bp.src = '//push.zhanzhang.baidu.com/push.js';
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+})();
+</script>
+
+<script>
+(function(){
+   var src = document.location.protocol +'//js.passport.qihucdn.com/11.0.1.js?5fee9a17d84a559ac8acc48cde40bcec';
+   document.write('<script src="' + src + '" id="sozz"><\/script>');
+})();
 </script>
 
 

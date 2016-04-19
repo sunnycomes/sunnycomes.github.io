@@ -1,12 +1,12 @@
 * {
 	margin: 0;
 	padding: 0;
-	vertical-align: baseline; 
+	vertical-align: baseline;
 }
 
 body {
 	line-height: 1.6em;
-	font: 13px "Source Sans Pro", "stheiti", "microsoft yahei", sans-serif; 
+	font: 13px "Georgia","Source Sans Pro", "stheiti", "microsoft yahei", sans-serif;
 	background-image: url(https://dn-iovi.qbox.me/bg.jpg);
 	background-attachment: fixed;
 }
@@ -18,7 +18,7 @@ a {
 
 #content {
 	margin: 2em auto;
-	max-width: 90%; 
+	max-width: 90%;
 }
 
 #main, .footer {
@@ -66,6 +66,14 @@ article, #pager_bar {
 	width: 90%;
 }
 
+.article_wrapper>.comment_allowed_false {
+        display: none;
+}
+
+.article_wrapper>.comment_allowed_, .article_wrapper>.comment_allowed_true {
+        width: 100%;
+}
+
 .entry-header {
 	padding: 1.625em 7.6% 0px;
 }
@@ -76,6 +84,10 @@ article, #pager_bar {
 	line-height: 1.5em;
     	font-family: "Lato", 'Xin Gothic', 'Hiragino Sans GB', 'Microsoft YaHei', 'WenQuanYi Micro Hei', 'Helvetica Neue', "aria", sans-serif;
     	font-weight: 300;
+}
+
+.entry-title .cv {
+        color:blue;
 }
 
 .entry-title a:hover {
@@ -188,7 +200,6 @@ article>.entry-content>pre {
 	box-shadow: inset 0 0 1px rgb(50,50,50);
 }
 
-
 article code {
 	font-size: 13px;
 	line-height: 1.8em;
@@ -209,6 +220,7 @@ p>code {
 
 strong {
 	color: #333;
+        font-size:1.1em;
 }
 
 .go {
@@ -216,8 +228,8 @@ strong {
 	height:106px;
 	position:fixed;
 	right:12px;
-	bottom:50%; 
-	background-image:url("https://dn-iovi.qbox.me/tobg.png"); 
+	bottom:50%;
+	background-image:url("https://dn-iovi.qbox.me/tobg.png");
 	background-repeat:no-repeat;
 }
 
@@ -229,7 +241,7 @@ strong {
 	margin:5px;
 	border:0;
 	overflow:hidden;
-	float:left; 
+	float:left;
 	cursor:pointer;
 }
 
