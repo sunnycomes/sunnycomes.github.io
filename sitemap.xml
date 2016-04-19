@@ -6,175 +6,175 @@
             http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd">
         
         <url>
-                <loc>https://www.iovi.com/post/2016-04-19-a-private-server-only-costs-2.5-dollars-per-year-so-cheap.html</loc>
+                <loc>http://www.iovi.com/post/2016-04-19-a-private-server-only-costs-2.5-dollars-per-year-so-cheap.html</loc>
                 <lastmod>2016-04-19T22:10:19+08:00</lastmod>
                 <changefreq>monthly</changefreq>
                 <priority>1</priority>
         </url>
         
         <url>
-                <loc>https://www.iovi.com/post/2016-04-11-implement-word2vec-from-scratch.html</loc>
+                <loc>http://www.iovi.com/post/2016-04-11-implement-word2vec-from-scratch.html</loc>
+                <lastmod>2016-04-19T22:21:30+08:00</lastmod>
+                <changefreq>monthly</changefreq>
+                <priority>1</priority>
+        </url>
+        
+        <url>
+                <loc>http://www.iovi.com/post/2016-04-04-simple-neural-network.pdf</loc>
                 <lastmod>2016-04-18T17:08:11+08:00</lastmod>
                 <changefreq>monthly</changefreq>
                 <priority>1</priority>
         </url>
         
         <url>
-                <loc>https://www.iovi.com/post/2016-04-04-simple-neural-network.pdf</loc>
+                <loc>http://www.iovi.com/post/2016-04-04-simple-neural-network.html</loc>
+                <lastmod>2016-04-19T22:21:17+08:00</lastmod>
+                <changefreq>monthly</changefreq>
+                <priority>1</priority>
+        </url>
+        
+        <url>
+                <loc>http://www.iovi.com/post/2016-03-19-gradient-descent-example-code.pdf</loc>
                 <lastmod>2016-04-18T17:08:11+08:00</lastmod>
                 <changefreq>monthly</changefreq>
                 <priority>1</priority>
         </url>
         
         <url>
-                <loc>https://www.iovi.com/post/2016-04-04-simple-neural-network.html</loc>
+                <loc>http://www.iovi.com/post/2016-03-19-gradient-descent-example-code.html</loc>
+                <lastmod>2016-04-19T22:21:00+08:00</lastmod>
+                <changefreq>monthly</changefreq>
+                <priority>1</priority>
+        </url>
+        
+        <url>
+                <loc>http://www.iovi.com/post/2016-01-07-social-media-mining-note.pdf</loc>
                 <lastmod>2016-04-18T17:08:11+08:00</lastmod>
                 <changefreq>monthly</changefreq>
                 <priority>1</priority>
         </url>
         
         <url>
-                <loc>https://www.iovi.com/post/2016-03-19-gradient-descent-example-code.pdf</loc>
+                <loc>http://www.iovi.com/post/2016-01-07-social-media-mining-note.html</loc>
+                <lastmod>2016-04-19T22:20:43+08:00</lastmod>
+                <changefreq>monthly</changefreq>
+                <priority>1</priority>
+        </url>
+        
+        <url>
+                <loc>http://www.iovi.com/post/2015-01-01-bitcoin.html</loc>
                 <lastmod>2016-04-18T17:08:11+08:00</lastmod>
                 <changefreq>monthly</changefreq>
                 <priority>1</priority>
         </url>
         
         <url>
-                <loc>https://www.iovi.com/post/2016-03-19-gradient-descent-example-code.html</loc>
+                <loc>http://www.iovi.com/post/2014-11-16-want-to-travel.html</loc>
                 <lastmod>2016-04-18T17:08:11+08:00</lastmod>
                 <changefreq>monthly</changefreq>
                 <priority>1</priority>
         </url>
         
         <url>
-                <loc>https://www.iovi.com/post/2016-01-07-social-media-mining-note.pdf</loc>
-                <lastmod>2016-04-18T17:08:11+08:00</lastmod>
-                <changefreq>monthly</changefreq>
-                <priority>1</priority>
-        </url>
-        
-        <url>
-                <loc>https://www.iovi.com/post/2016-01-07-social-media-mining-note.html</loc>
-                <lastmod>2016-04-18T17:08:11+08:00</lastmod>
-                <changefreq>monthly</changefreq>
-                <priority>1</priority>
-        </url>
-        
-        <url>
-                <loc>https://www.iovi.com/post/2015-01-01-bitcoin.html</loc>
-                <lastmod>2016-04-18T17:08:11+08:00</lastmod>
-                <changefreq>monthly</changefreq>
-                <priority>1</priority>
-        </url>
-        
-        <url>
-                <loc>https://www.iovi.com/post/2014-11-16-want-to-travel.html</loc>
-                <lastmod>2016-04-18T17:08:11+08:00</lastmod>
-                <changefreq>monthly</changefreq>
-                <priority>1</priority>
-        </url>
-        
-        <url>
-                <loc>https://www.iovi.com/post/2014-11-01-git-tips.html</loc>
+                <loc>http://www.iovi.com/post/2014-11-01-git-tips.html</loc>
                 <lastmod>2016-04-18T17:21:42+08:00</lastmod>
                 <changefreq>monthly</changefreq>
                 <priority>1</priority>
         </url>
         
         <url>
-                <loc>https://www.iovi.com/post/2014-10-07-gitlab-manual.html</loc>
+                <loc>http://www.iovi.com/post/2014-10-07-gitlab-manual.html</loc>
                 <lastmod>2016-04-18T17:21:32+08:00</lastmod>
                 <changefreq>monthly</changefreq>
                 <priority>1</priority>
         </url>
         
         <url>
-                <loc>https://www.iovi.com/post/2014-08-11-write-your-own-blog.html</loc>
+                <loc>http://www.iovi.com/post/2014-08-11-write-your-own-blog.html</loc>
                 <lastmod>2016-04-18T17:21:25+08:00</lastmod>
                 <changefreq>monthly</changefreq>
                 <priority>1</priority>
         </url>
         
         <url>
-                <loc>https://www.iovi.com/post/2014-07-13-talk-about-double-in-java-2.html</loc>
+                <loc>http://www.iovi.com/post/2014-07-13-talk-about-double-in-java-2.html</loc>
                 <lastmod>2016-04-18T17:21:18+08:00</lastmod>
                 <changefreq>monthly</changefreq>
                 <priority>1</priority>
         </url>
         
         <url>
-                <loc>https://www.iovi.com/post/2014-07-07-talk-about-double-in-java.html</loc>
+                <loc>http://www.iovi.com/post/2014-07-07-talk-about-double-in-java.html</loc>
                 <lastmod>2016-04-18T17:08:11+08:00</lastmod>
                 <changefreq>monthly</changefreq>
                 <priority>1</priority>
         </url>
         
         <url>
-                <loc>https://www.iovi.com/post/2014-06-07-java-deep-learning-of-annotation.html</loc>
+                <loc>http://www.iovi.com/post/2014-06-07-java-deep-learning-of-annotation.html</loc>
                 <lastmod>2016-04-18T17:08:11+08:00</lastmod>
                 <changefreq>monthly</changefreq>
                 <priority>1</priority>
         </url>
         
         <url>
-                <loc>https://www.iovi.com/post/2014-03-06-a-new-start.html</loc>
+                <loc>http://www.iovi.com/post/2014-03-06-a-new-start.html</loc>
                 <lastmod>2016-04-18T17:08:11+08:00</lastmod>
                 <changefreq>monthly</changefreq>
                 <priority>1</priority>
         </url>
         
         <url>
-                <loc>https://www.iovi.com/post/2014-03-01-talk-about-bitcoin-change.html</loc>
+                <loc>http://www.iovi.com/post/2014-03-01-talk-about-bitcoin-change.html</loc>
                 <lastmod>2016-04-18T17:08:11+08:00</lastmod>
                 <changefreq>monthly</changefreq>
                 <priority>1</priority>
         </url>
         
         <url>
-                <loc>https://www.iovi.com/post/2014-02-01-java-multi-threads-running-in-sequence.html</loc>
+                <loc>http://www.iovi.com/post/2014-02-01-java-multi-threads-running-in-sequence.html</loc>
                 <lastmod>2016-04-18T17:08:11+08:00</lastmod>
                 <changefreq>monthly</changefreq>
                 <priority>1</priority>
         </url>
         
         <url>
-                <loc>https://www.iovi.com/post/.gitignore</loc>
+                <loc>http://www.iovi.com/post/.gitignore</loc>
                 <lastmod>2016-04-18T17:08:11+08:00</lastmod>
                 <changefreq>monthly</changefreq>
                 <priority>1</priority>
         </url>
         
         <url>
-                <loc>https://www.iovi.com/post/.git</loc>
+                <loc>http://www.iovi.com/post/.git</loc>
                 <lastmod>2016-04-19T22:07:59+08:00</lastmod>
                 <changefreq>monthly</changefreq>
                 <priority>1</priority>
         </url>
         
         <url>
-                <loc>https://www.iovi.com/post/.DS_Store</loc>
+                <loc>http://www.iovi.com/post/.DS_Store</loc>
                 <lastmod>2015-03-22T23:19:32+08:00</lastmod>
                 <changefreq>monthly</changefreq>
                 <priority>1</priority>
         </url>
         
         <url>
-                <loc>https://www.iovi.com/about/index.html</loc>
+                <loc>http://www.iovi.com/about/index.html</loc>
                 <lastmod>2016-04-18T16:53:24+08:00</lastmod>
                 <changefreq>weekly</changefreq>
                 <priority>1</priority>
         </url>
         
         <url>
-                <loc>https://www.iovi.com/about/cv.pdf</loc>
+                <loc>http://www.iovi.com/about/cv.pdf</loc>
                 <lastmod>2016-04-18T16:51:26+08:00</lastmod>
                 <changefreq>weekly</changefreq>
                 <priority>1</priority>
         </url>
         
         <url>
-                <loc>https://www.iovi.com/index.html</loc>
+                <loc>http://www.iovi.com/index.html</loc>
                 <lastmod>2016-04-18T16:53:24+08:00</lastmod>
                 <changefreq>weekly</changefreq>
                 <priority>1</priority>
